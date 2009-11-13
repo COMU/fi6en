@@ -1,0 +1,42 @@
+<library>
+	<include href="connect.lzx"/>
+	<class name="chatview" extends="view">
+		<!--when runtime="swf9" we add these lines to import the flash.net libraries-->
+		<connect id="conn" />
+		<switch>
+			<when property="$as3">
+				<passthrough>
+					import flash.net.*;
+				</passthrough>
+			</when>
+		</switch>	
+		
+		<simplelayout axis="y" spacing="10"/>
+		<edittext id="message" width="300" height="40" multiline="true" resizable="false"  bgcolor="0XAAAAAA"/>
+		<text id="messageArea" width="300" height="200" multiline="true" bgcolor="0XCCCC66">
+			<vscrollbar />
+		</text>		
+		<view name="buttonView" layout="axis:x;spacing:5" align="center">
+			<button name="sendButton">Send
+				<handler name="onclick">
+					Debug.write("Message sent!");
+					messageArea.addText(message.text+"\n");
+					classroot.sendMessage(messageArea.text);//sending the message in the text to "sendMessage" method															
+				</handler>
+			</button>
+			<button name="clearButton">Clear
+				<handler name="onclick">
+					Debug.write("Clear button clicked");
+					message.setAttribute("text","");
+				</handler>
+			</button>
+		</view>
+		
+		<method name="sendMessage" args="message">
+			Debug.write("sendMessage method");
+			conn.writeSharedObject(message); /*sending the given parameter to the "writeMessage" function which belongs to the
+														"_sharedObject" object*/	 		
+		</method>		
+	</class>	
+	
+</library>
