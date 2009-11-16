@@ -21,14 +21,16 @@
 			conn.onStatus = function(info) {
 				Debug.write("connection status: " + info.code);
 			};
-			
+			if ($swf8) {
+				Debug.write("as2 env.");
+			}
 			if ($swf9) {
 				Debug.write("as3 env.");
 			}
 			
 			//connecting to the shared object
-			sharedObject = SharedObject.getRemote("chat", this.conn.uri, false);
-			sharedObject.connect(conn);
+			this.sharedObject = SharedObject.getRemote("chat", this.conn.uri, false);
+			this.sharedObject.connect(conn);
 			
 			this.sharedObject.writeMessage = function (msg) {
 				Debug.debug(msg); //this is the message that will be shown to all clients
