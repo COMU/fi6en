@@ -19,9 +19,11 @@
 		<view name="buttonView" layout="axis:x;spacing:5" align="center">
 			<button name="sendButton">Send
 				<handler name="onclick">
-					Debug.write("Message sent!");
-					messageArea.addText(message.text+"\n");
-					classroot.sendMessage(messageArea.text);//sending the message in the text to "sendMessage" method															
+					if (message.text!="") {
+						Debug.write("Message sent!");
+						messageArea.addText(message.text+"\n");
+						classroot.sendMessage(messageArea.text);//sending the message in the text to "sendMessage" method
+					}																				
 				</handler>
 			</button>
 			<button name="clearButton">Clear

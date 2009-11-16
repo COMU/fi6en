@@ -4,25 +4,33 @@
 			<when property="$as3">
 				<passthrough>
 					import flash.net.*;
+					import flash.events.*;
 				</passthrough>
 			</when>
 
 		</switch>
 			
-		<attribute name="_sharedObject"/>
-		<attribute name="_conn"/>
+		<attribute name="sharedObject"/>
+		<attribute name="conn"/>
 		
 		<method name="initConnection"><![CDATA[	
 			//creating rtmpconnection 
-			this._conn = new NetConnection();
-			this._conn.connect("rtmp://192.168.1.4/Red5SharedObject/");
-			Debug.write("connected : "+this._conn.uri);
-			//connecting to the shared object
-			this._sharedObject = SharedObject.getRemote("chat", this._conn.uri, false);
-			this._sharedObject.connect(this._conn);
-			this._conn.client=this._sharedObject;
+			this.conn = new NetConnection();
+			this.conn.connect("rtmp://localhost/Red5SharedObject/");
 			
-			this._sharedObject.writeMessage = function (msg) {
+			conn.onStatus = function(info) {
+				Debug.write("connection status: " + info.code);
+			};
+			
+			if ($swf9) {
+				Debug.write("as3 env.");
+			}
+			
+			//connecting to the shared object
+			sharedObject = SharedObject.getRemote("chat", this.conn.uri, false);
+			sharedObject.connect(conn);
+			
+			this.sharedObject.writeMessage = function (msg) {
 				Debug.debug(msg); //this is the message that will be shown to all clients
 			}
 			
