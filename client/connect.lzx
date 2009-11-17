@@ -1,4 +1,5 @@
 <library>
+	<include href="sharedObject.lzx" />
 	<class name="connect" extends="node" oninit="initConnection()">
 		<switch>
 			<when property="$as3">
@@ -7,42 +8,36 @@
 					import flash.events.*;
 				</passthrough>
 			</when>
-
-		</switch>
-			
-		<attribute name="sharedObject"/>
-		<attribute name="conn"/>
+		</switch>			
+		
+		<attribute name="_conn"/>
+		<attribute name="_sharedObject"/>
 		
 		<method name="initConnection"><![CDATA[	
 			//creating rtmpconnection 
-			this.conn = new NetConnection();
-			this.conn.connect("rtmp://localhost/Red5SharedObject/");
+			this._conn = new NetConnection();
+			this._conn.connect("rtmp://localhost/Red5SharedObject/");
+			this._conn.client=this;
+			this._sharedObject= new lz.sharedObject();
+			/*_conn.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
+			_conn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, onAsyncError);
+			_conn.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);*/
 			
-			conn.onStatus = function(info) {
-				Debug.write("connection status: " + info.code);
-			};
 			if ($swf8) {
 				Debug.write("as2 env.");
 			}
-			if ($swf9) {
-				Debug.write("as3 env.");
+			
+			else {
+				Debug.write("as3 env.");				
 			}
 			
-			//connecting to the shared object
-			this.sharedObject = SharedObject.getRemote("chat", this.conn.uri, false);
-			this.sharedObject.connect(conn);
+			this._sharedObject.connect("chat", this._conn, false);
 			
-			this.sharedObject.writeMessage = function (msg) {
-				Debug.debug(msg); //this is the message that will be shown to all clients
-			}
 			
 		]]></method>
-		
 		<method name="writeSharedObject" args="message">
 			Debug.write("sending to the shared object");
 			this._sharedObject.send("writeMessage",message);
 		</method>
-
-	</class>
-	
+	</class>	
 </library>

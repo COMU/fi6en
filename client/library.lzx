@@ -1,4 +1,6 @@
 <library>
 	<include href="connect.lzx" />
 	<include href="chatview.lzx" />
+	<include href="sharedObject.lzx" />
+	
 </library>
