@@ -10,34 +10,53 @@
 				</passthrough>
 			</when>
 		</switch>	
-		
+		<command name="enterKey" key="['Enter']">
+			<handler name="onselect">
+				//Debug.write('Enter key was pressed');
+				parent.buttonView.buttonViewInside1.sendButton.sendClicked();
+			</handler>  
+		</command>	
 		<simplelayout axis="y" spacing="10"/>
-		<edittext id="message" width="300" height="40" multiline="true" resizable="false"  bgcolor="0XAAAAAA"/>
-		<text id="messageArea" width="300" height="200" multiline="true" bgcolor="0XCCCC66">
+		<edittext id="message" width="300" height="20" resizable="true" />
+		<text id="messageArea" width="300" height="200" multiline="true" bgcolor="0XCCCC66" selectable="true">
 			<vscrollbar />
 		</text>		
-		<view name="buttonView" layout="axis:x;spacing:5" align="center">
-			<button name="sendButton">Send
-				<handler name="onclick">
-					if (message.text!="") {
-						Debug.write("Message sent!");
-						messageArea.addText(message.text+"\n");
-						classroot.sendMessage(messageArea.text);//sending the message in the text to "sendMessage" method
-					}																				
-				</handler>
-			</button>
-			<button name="clearButton">Clear
-				<handler name="onclick">
-					Debug.write("Clear button clicked");
-					message.setAttribute("text","");
-				</handler>
-			</button>
+		<!--chat view-->
+		<view name="buttonView" align="center">
+			<simplelayout spacing="20"/>
+			<view name="buttonViewInside1" layout="axis:x; spacing:5" >
+				<button name="sendButton">Send
+					<handler name="onclick" method="sendClicked" />
+					<method name="sendClicked" args="v=0">
+						if (message.text!="") {
+							//Debug.write("Message sent!");
+							classroot.sendMessage(message.text);
+							message.clearText();
+							message.setAttribute("text_y",0);
+						}
+					</method>
+				</button>
+				<button name="clearButton">Clear
+					<handler name="onclick">
+						//Debug.write("Clear button clicked");
+						message.clearText();
+					</handler>
+				</button>
+			</view>
+			<view>
+				<button name="clearTextArea">Clear Message History
+					<handler name="onclick">
+						//Debug.write("Clear Text Area button clicked");
+						messageArea.clearText();
+					</handler>
+				</button>
+			</view>
 		</view>
-		
+		<!--sending the given parameter to the "writeSharedObject" function which belongs to the
+			"_sharedObject" object-->
 		<method name="sendMessage" args="message">
-			Debug.write("sendMessage method");
-			conn.writeSharedObject(message); /*sending the given parameter to the "writeMessage" function which belongs to the
-														"_sharedObject" object*/	 		
+			//Debug.write("sendMessage method");
+			conn.writeSharedObject(message); 	 		
 		</method>		
 	</class>	
 	

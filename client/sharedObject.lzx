@@ -1,4 +1,5 @@
 <library>
+	<include href="chatview.lzx"/>
 	<class name="sharedObject" extends="node">
 		<switch>
 			<when property="$as3">
@@ -24,19 +25,17 @@
 				if (t.onStatus)t.onStatus.sendEvent(evtObj);
 				//_root.Debug.write.write("Shared Object onSync",evtObj,arguments);
 				}
-			
 				this.so.writeMessage= function (msg) {
 				Debug.debug(msg);
 				}
-			}
-			
-			
+			}			
 			this.so.connect(nc);
 			
 		</method>
 		
 		<method name="writeMessage" args="msg">
-			Debug.debug(msg);
+			//Debug.debug(msg);
+			messageArea.addText(msg+"\n");
 		</method>
 		
 	    <method name="getRemote" args="so_Name,nc,persistant">
@@ -80,9 +79,9 @@
 	            return this.so.data["key"];
 	        }
 	    </method>
-		
-		<method name="send" args="funcName,parameter">
-			return this.so.send(funcName,parameter);
+		<!--call the "send" method of flash.net.SharedObject method with given funcname and parameters-->
+		<method name="send" args="funcName,param">
+			return this.so.send(funcName,param);
 		</method>
 	</class>
 
