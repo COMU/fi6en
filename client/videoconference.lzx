@@ -1,6 +1,5 @@
 <canvas width="100%" height="500" title="Shared Object Application">
 	<include href="library.lzx"/>
 	<debug x="50" width="400"/>
-	<connect name="red5connection" />
 	<chatView name="myview" y="50" align="center" />
 </canvas>

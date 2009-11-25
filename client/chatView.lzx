@@ -18,9 +18,18 @@
 				sendButton.sendClicked();
 			</handler>  
 		</command>
-		<!--chat view-->
+		<!--audio, video, chat view-->
 		<view layout="axis:x; spacing:20">
-			
+		<view name="videoViewBroadcast" layout="axis:y; spacing:10">
+			<button name="showMyCam" align="right">Publish my cam
+			    <handler name="onclick">
+			    	//Debug.write("publish button");
+			    	conn.publishVideo();
+			    </handler>
+			</button>
+			<videoview id="broadcasting" width="180" height="180" autoplay="true" type="rtmp"/>	
+		</view>
+		
 		<view name="chat" layout="axis:y;spacing:10" >
 			<edittext id="message" width="300" height="20" resizable="true" />
 			<text id="messageArea" width="300" height="200" multiline="true" bgcolor="0XCCCC66" selectable="true">
@@ -28,7 +37,7 @@
 			</text>		
 			<view name="buttonView">
 				<simplelayout spacing="20"/>
-				<view name="buttonViewInside1" layout="axis:x; spacing:5" >
+				<view name="buttonViewInside1" layout="axis:x; spacing:5" align="center">
 					<button id="sendButton">Send
 						<handler name="onclick" method="sendClicked" />
 						<method name="sendClicked" args="v=0">
@@ -57,17 +66,12 @@
 				</view>
 			</view>
 		</view>
-		<view name="videoView" layout="axis:y; spacing:10">
+		
+		<view name="videoViewPlay" layout="axis:y; spacing:10">
 			<!--<camera id="camm" capturing="true"/>--> 
 		    <!--<microphone id="micc" capturing="true"/>-->
-		    <button name="showMyCam">Show my cam
-		    	<handler name="onclick">
-		    		//Debug.write("publish button");
-		    		conn.publishVideo();
-		    	</handler>
-		    </button>
-		    <videoview id="broadcasting" width="180" height="180" autoplay="true" type="rtmp"/>
-			<button name="showUserCam">Show user's cam
+		    
+			<button name="showUserCam" align="left">Show user's cam
 				<handler name="onclick">
 					//Debug.write("play button");
 					conn.playVideo();
