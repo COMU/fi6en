@@ -1,6 +1,6 @@
 <library>
 	<include href="sharedObject.lzx" />
-	<include href="chatview.lzx"/>
+	<include href="chatView.lzx"/>
 	
 	<!--server connection initialization class-->
 	<class name="connect" extends="node" oninit="initConnection()">
@@ -24,15 +24,11 @@
 		
 		<method name="initConnection"><![CDATA[	
 			//creating rtmpconnection 
-			this._conn = new NetConnection();
-			//this.stream1= new NetStream(this._conn);
-			
-			this._conn.connect("rtmp://localhost/Red5SharedObject/");
+			this._conn = new NetConnection();			
+			this._conn.connect("rtmp://192.168.1.94/Red5SharedObject/");
 			this._conn.client=this;
 			this._sharedObject= new lz.sharedObject();
-			
-			//this.broadcastVideo();
-			/*add the listeners accroding to the runtime */	
+			/*add the listeners according to the runtime */	
 			if ($swf8) {
 				Debug.write("as2 env.");
 				_conn.onStatus= function (info) {
@@ -46,22 +42,18 @@
 				Debug.write("as3 env.");
 				this._conn.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
 				this._conn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, errorHandler);
-				//this.stream1.addEventListener(NetStatusEvent.NET_STATUS, streamHandler);
 			}			
 			this._sharedObject.connect("chat", this._conn, true);			
 		]]></method>
-		
+		<!--here is handling the flash.Net.NetConnection object and creating the NetStream objects-->
 		<method name="netStatusHandler" args="event">
 			switch (event.info.code) {
                 case "NetConnection.Connect.Success":
                     Debug.write("The connection attempt succeeded.");
-                    stream1= new NetStream(this._conn);
-                    stream2= new NetStream(this._conn);
-                    stream1.attachCamera(Camera.getCamera());
-                    broadcasting._attachStream(stream1);
-                    live._attachStream(stream2);
-                    stream1.publish("broadcastVideo","live");
-                    stream2.play("broadcastVideo");
+                    stream1= new NetStream(_conn);
+                    stream2= new NetStream(_conn);
+                    stream1.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
+                    stream2.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
                     break;
                  
                 case "NetConnection.Connect.Failed":
@@ -70,19 +62,61 @@
                 case "NetConnection.Connect.Rejected":
                     Debug.write("The connection attempt did not have permission to access the application.");
                     break;
-                case "NetStream.Publish.BadName":
+                case "NetConnection.Connect.AppShutdown":
+                	Debug.write("Application is shutting down." );
+                	break;
+                }
+		</method>
+		<!--here is handling the flash.Net.NetStream object's status-->
+		<method name="netStreamHandler" args="event">
+			switch (event.info.code) {
+				case "NetStream.Publish.Start":
+	                Debug.write("Stream publish started");
+	                //broadcasting._attachStream(this.stream1);
+	                break;
+	            case "NetStream.Failed":
+	            	Debug.write("NetStream Failed");
+	            	break;
+	            case "NetStream.Play.Start":
+	            	Debug.write("NetStream playing started");
+	            	break;
+	            case "NetStream.Play.Stop":
+	            	Debug.write("NetStream play stopped");
+	            	break;
+	            case "NetStream.Play.Failed":
+	            	Debug.write("NetStream play failed");
+	            	break;
+            	case "NetStream.Play.StreamNotFound":
+	            	Debug.write("No stream found");
+	            	break;
+	            case "NetStream.Publish.BadName":
                 	Debug.write("Please check the name of the publishing stream" );
                 	break;
-
-            }
-		</method>
+			}
+	    </method>
 		
 		<method name="errorHandler" args="error">
 			Debug.write(error.error);
 		</method>
+		<!--publishing the stream object-->
+		<method name="publishVideo">
+			//Debug.write("publishVideo button clicked");
+			stream1.attachCamera(Camera.getCamera());
+            stream1.publish("broadcastVideo","live");
+		</method>
 		
-		<method name="streamHandler" args="event">
-			Debug.write(event.info.code);
+		<!--playing the stream object on the videoview-->
+		<method name="playVideo">
+			//Debug.write("playVideo button clicked");
+			stream2.play("broadcastVideo");
+	        live._getflashvideo().attachNetStream(stream2);
+		</method>
+		
+		<!--closing the open streams successfully-->
+		<method name="closeStream">
+			stream1.close();
+            stream2.play(false);
+            stream2.close();
 		</method>
 		
 		<method name="writeSharedObject" args="message">
@@ -90,22 +124,5 @@
 			this._sharedObject.send("writeMessage",message);
 		</method>
 		
-		<!--<method name="broadcastVideo">
-			live.setAttribute('stream',stream1);
-			if (cam.show == false) {
-				Debug.write("broadcasting camera");
-				cam.setAttribute('show', true);
-				//live.stream.setAttribute('rtmp',this._conn);
-				//live.stream.attachCamera(cam);
-				//live.stream.play('url', 'room1');
-				//live.stream.setAttribute('cam',cam);
-				//live.stream.setAttribute('broadcasting',true);
-				//live.stream.broadcast();
-			} 
-			else {
-			live.stream.stop();
-			cam.setAttribute('show', false);
-			}
-		</method>-->		
 	</class>	
 </library>

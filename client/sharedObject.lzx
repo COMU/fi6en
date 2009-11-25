@@ -1,5 +1,5 @@
 <library>
-	<include href="chatview.lzx"/>
+	<include href="chatView.lzx"/>
 	<class name="sharedObject" extends="node">
 		<switch>
 			<when property="$as3">
