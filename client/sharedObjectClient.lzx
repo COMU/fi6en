@@ -1,4 +1,4 @@
-<canvas debug="true" width="100%" height="400" title="Shared Object Application">
+<canvas debug="true" width="100%" height="500" title="Shared Object Application">
 	<include href="library.lzx"/>
 	<debug x="50" width="400"/>
 	<!--<connect name="red5connection" /> -->

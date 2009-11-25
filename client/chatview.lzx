@@ -1,56 +1,70 @@
 <library>
 	<include href="connect.lzx"/>
-	<class name="chatview" extends="view">
+	<class name="chatview" extends="view" align="center">
 		<!--when runtime="swf9" we add these lines to import the flash.net libraries-->
 		<connect id="conn" />
+		
 		<switch>
 			<when property="$as3">
 				<passthrough>
 					import flash.net.*;
 				</passthrough>
 			</when>
-		</switch>	
+		</switch>
+			
 		<command name="enterKey" key="['Enter']">
 			<handler name="onselect">
 				//Debug.write('Enter key was pressed');
-				parent.buttonView.buttonViewInside1.sendButton.sendClicked();
+				sendButton.sendClicked();
 			</handler>  
-		</command>	
-		<simplelayout axis="y" spacing="10"/>
-		<edittext id="message" width="300" height="20" resizable="true" />
-		<text id="messageArea" width="300" height="200" multiline="true" bgcolor="0XCCCC66" selectable="true">
-			<vscrollbar />
-		</text>		
+		</command>
 		<!--chat view-->
-		<view name="buttonView" align="center">
-			<simplelayout spacing="20"/>
-			<view name="buttonViewInside1" layout="axis:x; spacing:5" >
-				<button name="sendButton">Send
-					<handler name="onclick" method="sendClicked" />
-					<method name="sendClicked" args="v=0">
-						if (message.text!="") {
-							//Debug.write("Message sent!");
-							classroot.sendMessage(message.text);
+		<view layout="axis:x; spacing:20">
+			
+		<view name="chat" layout="axis:y;spacing:10" >
+			<edittext id="message" width="300" height="20" resizable="true" />
+			<text id="messageArea" width="300" height="200" multiline="true" bgcolor="0XCCCC66" selectable="true">
+				<vscrollbar />
+			</text>		
+			<view name="buttonView">
+				<simplelayout spacing="20"/>
+				<view name="buttonViewInside1" layout="axis:x; spacing:5" >
+					<button id="sendButton">Send
+						<handler name="onclick" method="sendClicked" />
+						<method name="sendClicked" args="v=0">
+							if (message.text!="") {
+								//Debug.write("Message sent!");
+								classroot.sendMessage(message.text);
+								message.clearText();
+								message.setAttribute("text_y",0);
+							}
+						</method>
+					</button>
+					<button name="clearButton">Clear
+						<handler name="onclick">
+							//Debug.write("Clear button clicked");
 							message.clearText();
-							message.setAttribute("text_y",0);
-						}
-					</method>
-				</button>
-				<button name="clearButton">Clear
-					<handler name="onclick">
-						//Debug.write("Clear button clicked");
-						message.clearText();
-					</handler>
-				</button>
+						</handler>
+					</button>
+				</view>
+				<view>
+					<button name="clearTextArea">Clear Message History
+						<handler name="onclick">
+							//Debug.write("Clear Text Area button clicked");
+							messageArea.clearText();
+						</handler>
+					</button>
+				</view>
 			</view>
-			<view>
-				<button name="clearTextArea">Clear Message History
-					<handler name="onclick">
-						//Debug.write("Clear Text Area button clicked");
-						messageArea.clearText();
-					</handler>
-				</button>
-			</view>
+		</view>
+		<view name="videoView" layout="axis:y; spacing:10">
+			<camera id="camm" capturing="true"/> 
+		    <microphone id="micc" capturing="true"/>
+		    <button id="showMyCam">Show my cam</button>
+			<videoview id="live" width="180" height="180" type="rtmp" />
+			<button id="showUserCam">Show user's cam</button>
+	   		<videoview id="broadcasting" width="180" height="180" autoplay="true" type="rtmp"/>
+		</view>
 		</view>
 		<!--sending the given parameter to the "writeSharedObject" function which belongs to the
 			"_sharedObject" object-->
