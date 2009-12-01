@@ -18,6 +18,7 @@
 				sendButton.sendClicked();
 			</handler>  
 		</command>
+		
 		<!--audio, video, chat view-->
 		<view layout="axis:x; spacing:20">
 		<view name="videoViewBroadcast" layout="axis:y; spacing:10">
@@ -32,9 +33,12 @@
 		
 		<view name="chat" layout="axis:y;spacing:10" >
 			<edittext id="message" width="300" height="20" resizable="true" />
-			<text id="messageArea" width="300" height="200" multiline="true" bgcolor="0XCCCC66" selectable="true">
-				<vscrollbar />
-			</text>		
+			
+			<view bgcolor="0XCCCC66" width="300" height="200" clip="true">
+                  <text id="messageArea" multiline="true" />
+                  <vscrollbar/>
+            </view>
+					
 			<view name="buttonView">
 				<simplelayout spacing="20"/>
 				<view name="buttonViewInside1" layout="axis:x; spacing:5" align="center">
