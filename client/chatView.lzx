@@ -40,7 +40,7 @@
             </view>
 					
 			<view name="buttonView">
-				<simplelayout spacing="20"/>
+				<simplelayout spacing="20" />
 				<view name="buttonViewInside1" layout="axis:x; spacing:5" align="center">
 					<button id="sendButton">Send
 						<handler name="onclick" method="sendClicked" />
