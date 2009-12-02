@@ -1,0 +1,25 @@
+<library>
+	<class name="loginWindow" extends="window">
+		<dataset name="logindDs" ></dataset>
+		<attribute name="allowdrag" type="boolean" value="false"/>
+		
+		<simplelayout spacing="10"/>
+		<view >			
+			<text text="Username" x="10" y="20"></text>
+			<edittext name="username" x="100" y="20" width="150">fi6en</edittext>
+		</view>
+		<view >
+			<text text="Password" x="10" y="20"></text>
+			<edittext name="password" x="100" y="20" password="true" width="150">fi6en</edittext>
+		</view>
+		<button name="loginButton" align="center">Login
+			aa<handler name="onclick">
+				classroot.animate("opacity","0","700");
+			</handler>
+			<method name="destroyWindow">
+				classroot.destroy();
+			</method>
+		</button>
+		<!--<text text="Email"><edittext name="email"></edittext>-->		
+	</class>
+</library>
