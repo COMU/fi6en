@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>test</name>
+	<name>testtt</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -33,11 +33,4 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>deneme</name>
-			<type>2</type>
-			<location>/opt/lps-4.7.x/Server/lps-4.7.x/my-apps</location>
-		</link>
-	</linkedResources>
 </projectDescription>
