@@ -21,6 +21,24 @@
 		
 		<!--audio, video, chat view-->
 		<view layout="axis:x; spacing:20">
+			<window x="10" y="10" >
+    
+      
+      <statictext fontstyle="bold" >
+        My new name is ...
+      </statictext>
+      <combobox id="cbox" width="175" editable="false" 
+                defaulttext="test" >
+        <textlistitem text="Oda1" />
+        <textlistitem text="Oda2"/>
+        <textlistitem text="Oda3" />
+      </combobox>
+      <button onclick="conn.initConnection(cbox.value)">
+    Katıl
+  </button>
+
+      
+  </window>
 		<view name="videoViewBroadcast" layout="axis:y; spacing:10">
 			<button name="showMyCam" align="right">Publish my cam
 			    <handler name="onclick">

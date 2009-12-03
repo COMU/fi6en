@@ -3,7 +3,8 @@
 	<include href="chatView.lzx"/>
 	
 	<!--server connection initialization class-->
-	<class name="connect" extends="node" oninit="initConnection()">
+	<!-- <class name="connect" extends="node" oninit="initConnection()"> -->
+	 <class name="connect" extends="node">
 		<!--for swf10 runtime-->
 		<switch>
 			<when property="$as3">
@@ -22,10 +23,10 @@
 		<attribute name="stream1" />
 		<attribute name="stream2" />
 		
-		<method name="initConnection"><![CDATA[	
+		<method name="initConnection" args="roomname"><![CDATA[	
 			//creating rtmpconnection 
 			this._conn = new NetConnection();			
-			this._conn.connect("rtmp://127.0.0.1/Red5WebApplication/"+"test/");
+			this._conn.connect("rtmp://127.0.0.1/Red5WebApplication/"+roomname);
 			this._conn.client=this;
 			this._sharedObject= new lz.sharedObject();
 			/*add the listeners according to the runtime */	
