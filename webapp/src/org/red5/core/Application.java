@@ -25,6 +25,7 @@ public class Application extends ApplicationAdapter{
 		System.out.println(so.getName());
 		System.out.println(so.getPath());
 		System.out.println(so.getClass());
+		
 		return true;
 	}
 	
@@ -49,6 +50,7 @@ public class Application extends ApplicationAdapter{
 		  createSharedObject(scope, "chat", true);
 		  ISharedObject so = getSharedObject(scope, "chat");
 		  
+		  System.out.println("Oda oluşturuldu"+scope.getContextPath());
 		  System.out.println(so.getName());
 		  System.out.println("shared object");
 
