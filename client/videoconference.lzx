@@ -1,5 +1,6 @@
 <canvas width="100%" height="500" title="Videoconference Application">
 	<include href="library.lzx"/>
 	<debug x="50" width="400"/>
-	<chatView name="myview" y="50" align="center" />
+	<loginWindow name="loginScreen" align="center" valign="middle" />
+	<chatView id="myview" y="50" align="center" opacity="0"/>
 </canvas>
