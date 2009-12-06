@@ -20,8 +20,9 @@
 		</command>
 		
 		<!--audio, video, chat view-->
+		
 		<view layout="axis:x; spacing:20">
-			<window x="10" y="10" >
+			<!--<window x="10" y="10" >
     
       
       <statictext fontstyle="bold" >
@@ -33,27 +34,32 @@
         <textlistitem text="Oda2"/>
         <textlistitem text="Oda3" />
       </combobox>
-      <button onclick="conn.initConnection(cbox.value)">
-    Katıl
-  </button>
+      <button onclick="conn.initConnection(cbox.value)">Katıl
+      </button>
 
       
-  </window>
-		<view name="videoViewBroadcast" layout="axis:y; spacing:10">
-			<button name="showMyCam" align="right">Publish my cam
+  </window>-->
+		<view name="videoViewBroadcast">
+			<simplelayout axis="y" spacing="10" />
+			<button name="showMyCam" >Publish my cam
 			    <handler name="onclick">
 			    	//Debug.write("publish button");
 			    	conn.publishVideo();
+			    	camm.setAttribute("show",true);
 			    </handler>
 			</button>
-			<videoview id="broadcasting" width="180" height="180" autoplay="true" type="rtmp"/>	
+			 
+			<videoview id="broadcasting" width="180" height="180" autoplay="true" type="rtmp">
+				<camera id="camm" capturing="true"/>
+		    	<!--<microphone id="micc" capturing="true"/> -->
+			</videoview>	
 		</view>
 		
 		<view name="chat" layout="axis:y;spacing:10" >
 			<edittext id="message" width="300" height="20" resizable="true" />
 			
 			<view bgcolor="0XCCCC66" width="300" height="200" clip="true">
-                  <text id="messageArea" multiline="true" />
+                  <text id="messageArea" multiline="true" selectable="true"/>
                   <vscrollbar/>
             </view>
 					
@@ -90,9 +96,6 @@
 		</view>
 		
 		<view name="videoViewPlay" layout="axis:y; spacing:10">
-			<!--<camera id="camm" capturing="true"/>--> 
-		    <!--<microphone id="micc" capturing="true"/>-->
-		    
 			<button name="showUserCam" align="left">Show user's cam
 				<handler name="onclick">
 					//Debug.write("play button");
@@ -107,7 +110,8 @@
 		<method name="sendMessage" args="message">
 			//Debug.write("sendMessage method");
 			conn.writeSharedObject(message); 	 		
-		</method>		
+		</method>
+				
 	</class>	
 	
 </library>

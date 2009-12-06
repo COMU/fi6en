@@ -33,9 +33,9 @@
 			
 		</method>
 		
-		<method name="writeMessage" args="msg">
+		<method name="writeMessage" args="username, msg">
 			//Debug.debug(msg);
-			messageArea.addText(msg+"\n");
+			messageArea.addText(username+ " : "+msg+"\n");
 		</method>
 		
 	    <method name="getRemote" args="so_Name,nc,persistant">
@@ -80,9 +80,10 @@
 	        }
 	    </method>
 		<!--call the "send" method of flash.net.SharedObject method with given funcname and parameters-->
-		<method name="send" args="funcName,param">
-			return this.so.send(funcName,param);
+		<method name="send" args="funcName,param1,param2">
+			return this.so.send(funcName,param1,param2);
 		</method>
+				
 	</class>
 
 </library>

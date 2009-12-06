@@ -26,7 +26,7 @@
 		<method name="initConnection" ><![CDATA[	
 			//creating rtmpconnection 
 			this._conn = new NetConnection();			
-			this._conn.connect("rtmp://127.0.0.1/Red5WebApplication");
+			this._conn.connect("rtmp://192.168.1.4/Red5WebApplication");
 			this._conn.client=this;
 			this._sharedObject= new lz.sharedObject();
 			/*add the listeners according to the runtime */	
@@ -103,13 +103,14 @@
 		<method name="publishVideo">
 			//Debug.write("publishVideo button clicked");
 			stream1.attachCamera(Camera.getCamera());
-            stream1.publish("broadcastVideo","live");
+			Debug.info("publishVideo=>%w",loginScreen.getUsername());
+            stream1.publish(loginScreen.getUsername(),"live");
 		</method>
 		
 		<!--playing the stream object on the videoview-->
 		<method name="playVideo">
 			//Debug.write("playVideo button clicked");
-			stream2.play("broadcastVideo");
+			stream2.play("fi6en");
 	        live._getflashvideo().attachNetStream(stream2);
 		</method>
 		
@@ -122,7 +123,7 @@
 		
 		<method name="writeSharedObject" args="message">
 			//Debug.write("sending to the shared object");
-			this._sharedObject.send("writeMessage",message);
+			this._sharedObject.send("writeMessage",loginScreen.getUsername(),message);
 		</method>
 		
 	</class>	
