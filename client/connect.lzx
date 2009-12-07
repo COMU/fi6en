@@ -23,10 +23,12 @@
 		<attribute name="stream1" />
 		<attribute name="stream2" />
 		
+		<attribute name="responder" />
+		
 		<method name="initConnection" ><![CDATA[	
 			//creating rtmpconnection 
 			this._conn = new NetConnection();			
-			this._conn.connect("rtmp://192.168.1.4/Red5WebApplication");
+			this._conn.connect("rtmp://127.0.0.1/Red5WebApplication");
 			this._conn.client=this;
 			this._sharedObject= new lz.sharedObject();
 			/*add the listeners according to the runtime */	
@@ -53,6 +55,7 @@
                     Debug.write("The connection attempt succeeded.");
                     stream1= new NetStream(_conn);
                     stream2= new NetStream(_conn);
+                    responder = new Responder(this.onResult, this.onStatus);
                     stream1.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
                     stream2.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
                     break;
@@ -105,6 +108,7 @@
 			stream1.attachCamera(Camera.getCamera());
 			Debug.info("publishVideo=>%w",loginScreen.getUsername());
             stream1.publish(loginScreen.getUsername(),"live");
+            _conn.call("showStreamNames",responder,"");
 		</method>
 		
 		<!--playing the stream object on the videoview-->
@@ -126,5 +130,11 @@
 			this._sharedObject.send("writeMessage",loginScreen.getUsername(),message);
 		</method>
 		
+		<method name="onResult" args="returnvalue">
+			Debug.info("onResult: %w",returnvalue);
+		</method>
+		<method name="onStatus" args="returnvalue">
+			Debug.info("onStatus: %w",returnvalue);
+		</method>
 	</class>	
 </library>

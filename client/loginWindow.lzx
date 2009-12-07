@@ -23,6 +23,10 @@
 				classroot.animate("opacity","0","700");
 				myview.animate("opacity", myview.opacity == 0 ? 1 : 0, 700);
 				var dp= classroot.datapointerLogin;
+				dp.addNode("person");
+				dp.selectChild();
+				dp.addNode("username",username.getText());
+				datasetLogin.doRequest();
 				if ($debug) {
 					Debug.info("dataset => %w",dp.serialize());
 				}

@@ -1,11 +1,11 @@
 <!--main application-->
 <canvas width="100%" height="500" title="Videoconference Application">
 	<include href="library.lzx"/>
-	<dataset name="datasetLogin"> 
-		<person>
+	<dataset name="datasetLogin" src="./userlist.xml"> 
+		<!--<person>
 			<firstname>cem</firstname>
 			<lastname>sonmez</lastname>
-		</person>
+		</pe<rson>-->
 	</dataset>
 	<debug x="50" width="400"/>
 	<loginWindow name="loginScreen" align="center" valign="middle" />
