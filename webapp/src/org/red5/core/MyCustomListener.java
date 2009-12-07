@@ -12,7 +12,7 @@ import org.red5.server.api.so.ISharedObjectListener;
 public class MyCustomListener implements ISharedObjectListener {
 	
 	public void onSharedObjectConnect(ISharedObjectBase so) {
-		System.out.println("shared object connect");
+		System.out.println("videoconference shared object connect");
 	}
 
 	/**
@@ -22,7 +22,7 @@ public class MyCustomListener implements ISharedObjectListener {
 	 *            the shared object
 	 */
 	public void onSharedObjectDisconnect(ISharedObjectBase so) {
-		System.out.println("shared object disconnect");
+		System.out.println("videoconference shared object disconnect");
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class MyCustomListener implements ISharedObjectListener {
 	 *            the value of the attribute
 	 */
 	public void onSharedObjectUpdate(ISharedObjectBase so, String key, Object value) {
-		System.out.println("shared object update");
+		System.out.println("videoconference shared object update");
 	}
 
 	@Override
