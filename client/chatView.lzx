@@ -23,88 +23,100 @@
 		
 		<view layout="axis:x; spacing:20">
 			<!--<window x="10" y="10" >
-    
-      
-      <statictext fontstyle="bold" >
-        My new name is ...
-      </statictext>
-      <combobox id="cbox" width="175" editable="false" 
-                defaulttext="test" >
-        <textlistitem text="Oda1" />
-        <textlistitem text="Oda2"/>
-        <textlistitem text="Oda3" />
-      </combobox>
-      <button onclick="conn.initConnection(cbox.value)">Katıl
-      </button>
-
-      
-  </window>-->
-		<view name="videoViewBroadcast">
-			<simplelayout axis="y" spacing="10" />
-			<button name="showMyCam" >Publish my cam
-			    <handler name="onclick">
-			    	//Debug.write("publish button");
-			    	conn.publishVideo();
-			    	camm.setAttribute("show",true);
-			    </handler>
-			</button>
-			 
-			<videoview id="broadcasting" width="180" height="180" autoplay="true" type="rtmp">
-				<camera id="camm" capturing="true"/>
-		    	<!--<microphone id="micc" capturing="true"/> -->
-			</videoview>	
-		</view>
-		
-		<view name="chat" layout="axis:y;spacing:10" >
-			<edittext id="message" width="300" height="20" resizable="true" />
+			      <statictext fontstyle="bold" >
+			        My new name is ...
+			      </statictext>
+			      <combobox id="cbox" width="175" editable="false" 
+			                defaulttext="test" >
+			        <textlistitem text="Oda1" />
+			        <textlistitem text="Oda2"/>
+			        <textlistitem text="Oda3" />
+			      </combobox>
+			      <button onclick="conn.initConnection(cbox.value)">Katıl
+			      </button>
+			      </window>-->
 			
-			<view bgcolor="0XCCCC66" width="300" height="200" clip="true">
-                  <text id="messageArea" multiline="true" selectable="true"/>
-                  <vscrollbar/>
-            </view>
-					
-			<view name="buttonView">
-				<simplelayout spacing="20" />
-				<view name="buttonViewInside1" layout="axis:x; spacing:5" align="center">
-					<button id="sendButton">Send
-						<handler name="onclick" method="sendClicked" />
-						<method name="sendClicked" args="v=0">
-							if (message.text!="") {
-								//Debug.write("Message sent!");
-								classroot.sendMessage(message.text);
+			<!--view for user1 (you)-->
+			<view name="videoViewBroadcast">
+				<simplelayout axis="y" spacing="10" />
+				<button name="showMyCam">Show My Cam
+					<attribute name="publish" type="boolean" value="false"/>
+				    <handler name="onclick">
+				    	//Debug.write("publish button");
+				    	if (publish==false) {
+				    		//Debug.write("publish operation");
+				    		conn.publishVideo(loginScreen.getUsername());
+				    		this.setAttribute('text', "Stop My Cam");
+				    		camm.setAttribute("show",true);
+				    		publish=true;
+				    	}
+				    	else {
+				    		//Debug.write("publish close operation");
+				    		this.setAttribute('text', "Show My Cam");
+				    		conn.closeStream();
+				    		publish=false;
+				    	}
+				    </handler>
+				</button>
+				<!--<microphone id="micc" capturing="true"/> --> 
+				<videoview id="broadcasting" width="180" height="180" type="rtmp">
+					<camera id="camm" capturing="true"/>	
+				</videoview>	
+			</view>
+			
+			<!--chat area-->
+			<view name="chat" layout="axis:y;spacing:10" >
+				<edittext id="message" width="300" height="20" resizable="true" />
+				
+				<view bgcolor="0XCCCC66" width="300" height="200" clip="true">
+	                  <text id="messageArea" multiline="true" selectable="true"/>
+	                  <vscrollbar/>
+	            </view>
+						
+				<view name="buttonView">
+					<simplelayout spacing="20" />
+					<view name="buttonViewInside1" layout="axis:x; spacing:5" align="center">
+						<button id="sendButton">Send
+							<handler name="onclick" method="sendClicked" />
+							<method name="sendClicked" args="v=0">
+								if (message.text!="") {
+									//Debug.write("Message sent!");
+									classroot.sendMessage(message.text);
+									message.clearText();
+									message.setAttribute("text_y",0);
+								}
+							</method>
+						</button>
+						<button name="clearButton">Clear
+							<handler name="onclick">
+								//Debug.write("Clear button clicked");
 								message.clearText();
-								message.setAttribute("text_y",0);
-							}
-						</method>
-					</button>
-					<button name="clearButton">Clear
-						<handler name="onclick">
-							//Debug.write("Clear button clicked");
-							message.clearText();
-						</handler>
-					</button>
+							</handler>
+						</button>
+					</view>
+					<view>
+						<button name="clearTextArea">Clear Message History
+							<handler name="onclick">
+								//Debug.write("Clear Text Area button clicked");
+								messageArea.clearText();
+							</handler>
+						</button>
+					</view>
 				</view>
-				<view>
-					<button name="clearTextArea">Clear Message History
-						<handler name="onclick">
-							//Debug.write("Clear Text Area button clicked");
-							messageArea.clearText();
-						</handler>
-					</button>
-				</view>
+			</view>
+			
+			<!--view for user1 (other user)-->
+			<view name="videoViewPlay" layout="axis:y; spacing:10">
+				<button name="showUserCam" align="left">Show user's cam
+					<handler name="onclick">
+						//Debug.write("play button");
+						conn.playVideo(loginScreen.getUsername());
+					</handler>
+				</button>
+		   		<videoview id="live" width="180" height="180" type="rtmp" />
 			</view>
 		</view>
 		
-		<view name="videoViewPlay" layout="axis:y; spacing:10">
-			<button name="showUserCam" align="left">Show user's cam
-				<handler name="onclick">
-					//Debug.write("play button");
-					conn.playVideo();
-				</handler>
-			</button>
-	   		<videoview id="live" width="180" height="180" type="rtmp" />
-		</view>
-		</view>
 		<!--sending the given parameter to the "writeSharedObject" function which belongs to the
 			"_sharedObject" object-->
 		<method name="sendMessage" args="message">

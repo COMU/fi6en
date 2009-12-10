@@ -10,10 +10,19 @@
 			</when>
 		</switch>	
 	
-		<attribute name="so" value="null" />
-		<attribute name="onStatus" value="null" />
+		<attribute name="so" value="null" /> <!--shared object object-->
+		<attribute name="onStatus" value="null" /> 
+		<attribute name="usernameList" value="null"/> <!--array for usernames-->
 		
-	
+		<handler name="oninit">
+			usernameList= [];
+		</handler>
+		
+		<!--getting Shared Object from server
+		@param so_Name : shared Object name  
+		@param nc : connection which has the chared object
+		@persistant : persistency <true | flase>
+		-->
 		<method name="connect" args="so_Name,nc,persistant">
 	
 			//Debug.write("connect SharedObject: ",nc.uri);
@@ -30,9 +39,9 @@
 				}
 			}			
 			this.so.connect(nc);
-			
 		</method>
 		
+		<!--will be shown to all clients who got the chat shared object -->
 		<method name="writeMessage" args="username, msg">
 			//Debug.debug(msg);
 			messageArea.addText(username+ " : "+msg+"\n");
@@ -59,8 +68,7 @@
 	        this.so.onSync = function (evtObj){
 	            if (t.onStatus)t.onStatus.sendEvent(evtObj);
 	            //_root.Debug.write.write("Shared Object onSync",evtObj,arguments);
-	        }
-	        
+	        }	        
 	    </method>
 	    
 	    <!--- 
@@ -79,11 +87,22 @@
 	            return this.so.data["key"];
 	        }
 	    </method>
+	        
 		<!--call the "send" method of flash.net.SharedObject method with given funcname and parameters-->
 		<method name="send" args="funcName,param1,param2">
 			return this.so.send(funcName,param1,param2);
 		</method>
-				
+		
+		<!--gets the incoming usernames from the serverside method-->
+		<method name="receiveUsername" args="username1,username2=null,username3=null">
+			<![CDATA[
+			usernameList= [username1,username2,username3];
+			for (var i=0; i<usernameList.length; i++) {
+				Debug.info("username [%w] is  : %w",i+1,usernameList[i]);
+			}
+			]]>
+		</method>
+						
 	</class>
 
 </library>

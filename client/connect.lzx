@@ -19,18 +19,19 @@
 		
 		<attribute name="_conn"/>
 		<attribute name="_sharedObject"/>
+		<!--<attribute name="_sharedObjectStream"/> -->
 		
-		<attribute name="stream1" />
-		<attribute name="stream2" />
-		
-		<attribute name="responder" />
+		<attribute name="stream1" /> <!--stream for the publish-->
+		<attribute name="stream2" /> <!--stream for the play-->
+
+		<attribute name="responder" /><!--responder for the server side-->
 		
 		<method name="initConnection" ><![CDATA[	
-			//creating rtmpconnection 
-			this._conn = new NetConnection();			
-			this._conn.connect("rtmp://127.0.0.1/Red5WebApplication");
-			this._conn.client=this;
-			this._sharedObject= new lz.sharedObject();
+			//creating rtmpconnection and shared object 
+			_conn = new NetConnection();			
+			_conn.connect("rtmp://127.0.0.1/Red5WebApplication");
+			_conn.client=this;
+			_sharedObject= new lz.sharedObject();
 			/*add the listeners according to the runtime */	
 			if ($swf8) {
 				Debug.write("as2 env.");
@@ -46,8 +47,9 @@
 				this._conn.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
 				this._conn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, errorHandler);
 			}			
-			this._sharedObject.connect("chat", this._conn, true);			
+			this._sharedObject.connect("chat", this._conn, true);
 		]]></method>
+		
 		<!--here is handling the flash.Net.NetConnection object and creating the NetStream objects-->
 		<method name="netStatusHandler" args="event">
 			switch (event.info.code) {
@@ -103,26 +105,41 @@
 			Debug.write(error.error);
 		</method>
 		<!--publishing the stream object-->
-		<method name="publishVideo">
-			//Debug.write("publishVideo button clicked");
+		<method name="publishVideo" args="username">
+			Debug.info("loginscreen.getUsername () => %w",username);
 			stream1.attachCamera(Camera.getCamera());
-			Debug.info("publishVideo=>%w",loginScreen.getUsername());
-            stream1.publish(loginScreen.getUsername(),"live");
-            _conn.call("showStreamNames",responder,"");
+            stream1.publish(username,"live");
+            this._conn.call("sendUsername",responder,username);
+		</method>
+		<!--playing the stream object on the videoview
+			@param username : username which is coming from the login window -->
+		<method name="playVideo" args="username">
+			//Debug.write("playVideo button clicked");
+			var streamToPlay= getOtherUsername(username);
+			this.stream2.play(streamToPlay);
+	        live._attachStream(stream2);
 		</method>
 		
-		<!--playing the stream object on the videoview-->
-		<method name="playVideo">
-			//Debug.write("playVideo button clicked");
-			stream2.play("fi6en");
-	        live._getflashvideo().attachNetStream(stream2);
+		<!--method to determine the usernames which is publishing video-->
+		<method name="getOtherUsername" args="myUsername">
+			<![CDATA[
+			var otherUsername;
+			for (var i=0; i<_sharedObject.usernameList.length; i++) {
+				if (myUsername!=_sharedObject.usernameList[i]) {
+					otherUsername= _sharedObject.usernameList[i];
+					Debug.inspect(otherUsername);
+					return otherUsername;
+				}
+			}
+			]]>
 		</method>
 		
 		<!--closing the open streams successfully-->
 		<method name="closeStream">
+			Debug.write("closing the stream");
 			stream1.close();
-            stream2.play(false);
-            stream2.close();
+			stream2.close();
+			camm.setAttribute("show",false);
 		</method>
 		
 		<method name="writeSharedObject" args="message">
@@ -136,5 +153,6 @@
 		<method name="onStatus" args="returnvalue">
 			Debug.info("onStatus: %w",returnvalue);
 		</method>
+	    
 	</class>	
 </library>

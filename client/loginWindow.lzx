@@ -27,9 +27,9 @@
 				dp.selectChild();
 				dp.addNode("username",username.getText());
 				datasetLogin.doRequest();
-				if ($debug) {
+				/*if ($debug) {
 					Debug.info("dataset => %w",dp.serialize());
-				}
+				}*/
 			</handler>
 		</button>
 		<!--when the opacity=0 the loginWindow object is being destroyed-->
