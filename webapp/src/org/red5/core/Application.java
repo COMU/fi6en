@@ -38,6 +38,8 @@ public class Application extends ApplicationAdapter{
 	}
 	public void disconnect (IConnection conn, IScope scope) {
 		System.out.println("Application disconnect"+conn.getRemoteAddress());
+		ISharedObject so = getSharedObject(appScope,"chat");
+		so.clear();
 		super.disconnect(conn, scope);
 	}
 	
