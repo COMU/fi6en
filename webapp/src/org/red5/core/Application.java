@@ -1,6 +1,5 @@
 package org.red5.core;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.red5.server.adapter.ApplicationAdapter;
@@ -9,17 +8,15 @@ import org.red5.server.api.IScope;
 import org.red5.server.api.Red5;
 import org.red5.server.api.so.ISharedObject;
 import org.red5.server.api.so.ISharedObjectListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Application extends ApplicationAdapter{
-		/*Arraylist to store the connected client's usernames's*/
-		ArrayList<String> usernameArraylist= new ArrayList<String>();
 		String message="";
 		IScope appScope;
+		UserService userService;
 
 	public boolean appStart (IScope scope) {
 		System.out.println("Videoconference application started");
+		//scope.registerServiceHandler("writeMessage", this);
 		return true;
 	}
 	
@@ -30,6 +27,9 @@ public class Application extends ApplicationAdapter{
 	public boolean connect (IConnection conn, IScope scope, Object []params) {
 		System.out.println("Connected to server application - Client : "+ conn.getRemoteAddress());
 		appScope= scope;
+		/*userService= new UserService();
+		appScope.registerServiceHandler("sendUsername", userService);
+		appScope.registerServiceHandler("deleteUsername",userService);*/
 		createSharedObject(appScope, "chat", true);
 		ISharedObject so = getSharedObject(appScope, "chat");
 		ISharedObjectListener listener = new MyCustomListener();
@@ -38,23 +38,20 @@ public class Application extends ApplicationAdapter{
 	}
 	public void disconnect (IConnection conn, IScope scope) {
 		System.out.println("Application disconnect"+conn.getRemoteAddress());
-		ISharedObject so = getSharedObject(appScope,"chat");
-		so.clear();
-		super.disconnect(conn, scope);
+		//ISharedObject so = getSharedObject(appScope,"chat");
+		//so.clear();
+		super.disconnect(conn, appScope);
 	}
 	
-	/*sends the connected usernames to the client method*/
-	public void sendUsername(String param) {
-		usernameArraylist.add(param);
-    	ISharedObject so = getSharedObject(appScope, "chat");
-    	so.sendMessage("receiveUsername",usernameArraylist);
-    	Iterator<String> iterator= usernameArraylist.iterator();
-    	while( iterator. hasNext() ) {
-    		System.out.println("param : "+iterator.next());
-    	}
-    }
+	public void writeMessage() {
+		System.out.println("message");
+	}
 	
-	public boolean roomStart(IScope scope) {
+	public IScope getScope() {
+		return this.appScope;
+	}
+	
+ 	public boolean roomStart(IScope scope) {
 		  if (!super.roomStart(scope))
 		      return false;
 

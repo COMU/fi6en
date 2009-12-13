@@ -34,5 +34,9 @@
 	<bean id="web.handler" 
 	    class="org.red5.core.Application" 
 		singleton="true" />
+		
+	<bean id="user.service" 
+	    class="org.red5.core.UserService" 
+		singleton="true" />
  
 </beans>
