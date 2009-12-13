@@ -65,12 +65,18 @@
                 case "NetConnection.Connect.Failed":
                 	Debug.write("The connection attempt failed.");
                     break;
+                
+                case "NetConnection.Connect.Closed":
+                	Debug.write("Disconnected successfully." );
+                	break;
+                	
                 case "NetConnection.Connect.Rejected":
                     Debug.write("The connection attempt did not have permission to access the application.");
                     break;
                 case "NetConnection.Connect.AppShutdown":
                 	Debug.write("Application is shutting down." );
                 	break;
+                	
                 }
 		</method>
 		<!--here is handling the flash.Net.NetStream object's status-->
@@ -106,10 +112,13 @@
 		</method>
 		<!--publishing the stream object-->
 		<method name="publishVideo" args="username">
-			Debug.info("loginscreen.getUsername () => %w",username);
-			stream1.attachCamera(Camera.getCamera());
+			Debug.info("loginscreen.getUsername () => %w",username);	
+			var camera= Camera.getCamera();
+			camera.setMode(220, 200, 15);
+			camera.setQuality(0,80);
+			stream1.attachCamera(camera);
             stream1.publish(username,"live");
-            this._conn.call("sendUsername",responder,username);
+            _conn.call("user.sendUsername",responder,username);
 		</method>
 		<!--playing the stream object on the videoview
 			@param username : username which is coming from the login window -->
@@ -152,6 +161,11 @@
 		</method>
 		<method name="onStatus" args="returnvalue">
 			Debug.info("onStatus: %w",returnvalue);
+		</method>
+		
+		<method name="closeConnection">
+			_conn.call("deleteUsername",responder,loginScreen.getUsername());
+			_conn.close	();	
 		</method>
 	    
 	</class>	

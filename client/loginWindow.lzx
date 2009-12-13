@@ -42,10 +42,11 @@
 		<!--<text text="Email"><edittext name="email"></edittext>-->	
 		
 		<method name="getUsername">
-			return username.getText();
+			Debug.inspect(username.text);
+			return username.text;
 		</method>
 		<method name="getPassword">
-			return password.getText();
+			return password.text;
 		</method>	
 	</class>
 </library>

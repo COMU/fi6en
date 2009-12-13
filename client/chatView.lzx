@@ -3,15 +3,7 @@
 	<class name="chatView" extends="view" align="center">
 		<!--when runtime="swf9" we add these lines to import the flash.net libraries-->
 		<connect id="conn" />
-		
-		<switch>
-			<when property="$as3">
-				<passthrough>
-					import flash.net.*;
-				</passthrough>
-			</when>
-		</switch>
-			
+
 		<command name="enterKey" key="['Enter']">
 			<handler name="onselect">
 				//Debug.write('Enter key was pressed');
@@ -59,7 +51,7 @@
 				    </handler>
 				</button>
 				<!--<microphone id="micc" capturing="true"/> --> 
-				<videoview id="broadcasting" width="180" height="180" type="rtmp">
+				<videoview id="broadcasting" width="220" height="200" type="rtmp">
 					<camera id="camm" capturing="true"/>	
 				</videoview>	
 			</view>
@@ -113,8 +105,11 @@
 						conn.playVideo(loginScreen.getUsername());
 					</handler>
 				</button>
-		   		<videoview id="live" width="180" height="180" type="rtmp" />
+		   		<videoview id="live" width="220" height="200" type="rtmp" />
 			</view>
+			
+			<button id="disconnectButton" onclick="conn.closeConnection()">Disconnect</button>
+			
 		</view>
 		
 		<!--sending the given parameter to the "writeSharedObject" function which belongs to the
