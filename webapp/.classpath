@@ -14,7 +14,8 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/opt/jdk1.6.0_12"/>
-	<classpathentry kind="lib" path="/mnt/sda5/yedek2/vidconf/libraries/slf4j-1.5.10/slf4j-api-1.5.10.jar" sourcepath="/mnt/sda5/yedek2/vidconf/libraries/slf4j-1.5.10"/>
-	<classpathentry kind="lib" path="/opt/red5-0.9.RC1/lib/spring-core-2.5.6.jar"/>
+	<classpathentry kind="lib" path="/opt/red5-0.9.RC1/webapps/Red5WebApplication/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/opt/red5-0.9.RC1/webapps/Red5WebApplication/WEB-INF/lib/spring-core-2.5.6.jar"/>
+	<classpathentry kind="lib" path="/opt/red5-0.9.RC1/webapps/Red5WebApplication/WEB-INF/lib/slf4j-api-1.5.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
