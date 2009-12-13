@@ -14,38 +14,34 @@ import org.slf4j.Logger;
 public class Application extends ApplicationAdapter{
 		String message="";
 		IScope appScope;
+		ISharedObject sharedObjectChat, sharedObjectUserlist;
+		ArrayList<String> arraylistUsers= new ArrayList<String>();
 		private static Logger log = Red5LoggerFactory.getLogger(Application.class,"fi6en");
 		
 	public boolean appStart (IScope scope) {
 		log.info("Videoconference application started");
-		//System.out.println("Videoconference application started");
 		return true;
 	}
-	//org.red5.server.service.Installer
+
 	public void appStop (IScope scope) {
-		log.info("Videoconference Application stopped");
-		//System.out.println("Videoconference Application stopped");
-		
+		log.info("Videoconference Application stopped");		
 	}
 	public boolean connect (IConnection conn, IScope scope, Object []params) {
 		log.info("Connected to server application - Client : "+ conn.getRemoteAddress());
-		//System.out.println("Connected to server application - Client : "+ conn.getRemoteAddress());
 		appScope= scope;
 		createSharedObject(appScope, "chat", true);
-		ISharedObject so = getSharedObject(appScope, "chat");
+		createSharedObject(appScope, "userlist", true);
+		sharedObjectChat = getSharedObject(appScope, "chat");
 		ISharedObjectListener listener = new MyCustomListener();
-		so.addSharedObjectListener(listener);
+		sharedObjectChat.addSharedObjectListener(listener);
+		sharedObjectUserlist.addSharedObjectListener(listener);		
 		return true;
 	}
 	public void disconnect (IConnection conn, IScope scope) {
 		log.info("Application disconnect "+conn.getRemoteAddress());
-		//ISharedObject so = getSharedObject(appScope,"chat");
-		//so.clear();
+		sharedObjectChat.clear();
+		sharedObjectUserlist.clear();
 		super.disconnect(conn, appScope);
-	}
-	
-	public void writeMessage() {
-		System.out.println("message");
 	}
 	
 	public IScope getScope() {

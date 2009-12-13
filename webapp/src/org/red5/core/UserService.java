@@ -2,6 +2,7 @@ package org.red5.core;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.adapter.ApplicationAdapter;
@@ -16,6 +17,7 @@ public class UserService extends ApplicationAdapter {
 	Logger log= Red5LoggerFactory.getLogger(UserService.class);
 	ArrayList<String> usernameArraylist;
 	IScope appScope;
+	ISharedObject sharedObjectUserlist;
 	public UserService() {
 		/*Arraylist to store the connected client's usernames's*/
 		usernameArraylist= new ArrayList<String>();
@@ -45,4 +47,21 @@ public class UserService extends ApplicationAdapter {
     		return ;
     	}
 	}
+	
+	public void updateUserlist(List<String> user) {
+		try {
+			IConnection conn= Red5.getConnectionLocal();
+			appScope= conn.getScope();
+			sharedObjectUserlist= getSharedObject(appScope, "userlist");
+			log.info(user.toString());
+			log.info("writing"+user.toString()+"to the user list");
+			sharedObjectUserlist.sendMessage("updateUsers", user);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			log.error("exception : "+e);
+		}
+		
+	}
+	
 }
