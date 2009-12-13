@@ -89,8 +89,13 @@
 	    </method>
 	        
 		<!--call the "send" method of flash.net.SharedObject method with given funcname and parameters-->
-		<method name="send" args="funcName,param1,param2">
-			return this.so.send(funcName,param1,param2);
+		<method name="send" args="funcName,param1,param2=null">
+			if (param2==null) {
+				return this.so.send(funcName,param1);
+			} else {
+				return this.so.send(funcName,param1,param2);	
+			}
+			
 		</method>
 		
 		<!--gets the incoming usernames from the serverside method-->
@@ -101,6 +106,14 @@
 				Debug.info("username [%w] is  : %w",i+1,usernameList[i]);
 			}
 			]]>
+		</method>
+		
+		<method name="updateUsers" args="username">
+			if($debug) {
+				Debug.info("adding username to the username list.. =>%w",username);
+			}			
+			var userListRef=myview.getUserListReference();
+			userListRef.addItem(username, "3"); 
 		</method>
 						
 	</class>

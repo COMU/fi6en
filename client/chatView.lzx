@@ -108,8 +108,14 @@
 		   		<videoview id="live" width="220" height="200" type="rtmp" />
 			</view>
 			
-			<button id="disconnectButton" onclick="conn.closeConnection()">Disconnect</button>
-			
+			<view>
+				<simplelayout spacing="20"/>
+				<button id="disconnectButton" onclick="conn.closeConnection()">Disconnect</button>
+				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center">USERS</text>
+				<list id="userList">
+					<textlistitem visible="false" /> 
+				</list>
+			</view>
 		</view>
 		
 		<!--sending the given parameter to the "writeSharedObject" function which belongs to the
@@ -117,6 +123,10 @@
 		<method name="sendMessage" args="message">
 			//Debug.write("sendMessage method");
 			conn.writeSharedObject(message); 	 		
+		</method>
+		
+		<method name="getUserListReference">
+			return userList;
 		</method>
 				
 	</class>	

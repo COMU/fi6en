@@ -19,7 +19,7 @@
 		
 		<attribute name="_conn"/>
 		<attribute name="_sharedObject"/>
-		<!--<attribute name="_sharedObjectStream"/> -->
+		<attribute name="_sharedObjectUserlist"/>
 		
 		<attribute name="stream1" /> <!--stream for the publish-->
 		<attribute name="stream2" /> <!--stream for the play-->
@@ -32,6 +32,7 @@
 			_conn.connect("rtmp://127.0.0.1/Red5WebApplication");
 			_conn.client=this;
 			_sharedObject= new lz.sharedObject();
+			_sharedObjectUserlist= new lz.sharedObject();
 			/*add the listeners according to the runtime */	
 			if ($swf8) {
 				Debug.write("as2 env.");
@@ -44,10 +45,11 @@
 			
 			else {
 				Debug.write("as3 env.");
-				this._conn.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
-				this._conn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, errorHandler);
-			}			
-			this._sharedObject.connect("chat", this._conn, true);
+				_conn.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+				_conn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, errorHandler);
+			}
+			_sharedObject.connect("chat", _conn, true);
+			_sharedObjectUserlist.connect("userlist", _conn, true);
 		]]></method>
 		
 		<!--here is handling the flash.Net.NetConnection object and creating the NetStream objects-->
@@ -57,7 +59,7 @@
                     Debug.write("The connection attempt succeeded.");
                     stream1= new NetStream(_conn);
                     stream2= new NetStream(_conn);
-                    responder = new Responder(this.onResult, this.onStatus);
+                    responder = new Responder(this.onResult, this.onStatus);             
                     stream1.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
                     stream2.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
                     break;
@@ -167,6 +169,10 @@
 			_conn.call("deleteUsername",responder,loginScreen.getUsername());
 			_conn.close	();	
 		</method>
+	    
+	    <method name="getSharedObjectUser">
+	    	return _sharedObjectUserlist;
+	    </method>
 	    
 	</class>	
 </library>

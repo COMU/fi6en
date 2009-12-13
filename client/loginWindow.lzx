@@ -27,6 +27,8 @@
 				dp.selectChild();
 				dp.addNode("username",username.getText());
 				datasetLogin.doRequest();
+				var sharedObjectUser= conn.getSharedObjectUser();
+				sharedObjectUser.send("updateUsers",classroot.getUsername());
 				/*if ($debug) {
 					Debug.info("dataset => %w",dp.serialize());
 				}*/
@@ -47,6 +49,9 @@
 		</method>
 		<method name="getPassword">
 			return password.text;
-		</method>	
+		</method>
+		
+		
+			
 	</class>
 </library>
