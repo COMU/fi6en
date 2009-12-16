@@ -6,7 +6,7 @@
 	Defines a properties file for dereferencing variables
 	-->
 	<bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	    <property name="location" value="/WEB-INF/red5-web.properties" />
+	    <property name="location" value="WEB-INF/red5-web.properties" />
 	</bean>
 	
 	<!--
@@ -32,11 +32,7 @@
 	Defines the web handler which acts as an applications endpoint
 	-->
 	<bean id="web.handler" 
-	    class="org.red5.core.Application"
+	    class="org.red5.Application"
 		singleton="true" />
-	
-	<bean id="user.service"
-       class="org.red5.core.UserService"
-       singleton="true" />
         
 </beans>
