@@ -70,6 +70,7 @@
                 
                 case "NetConnection.Connect.Closed":
                 	Debug.write("Disconnected server application." );
+                	this.setAttribute("connected",false);
                 	break;
                 	
                 case "NetConnection.Connect.Rejected":

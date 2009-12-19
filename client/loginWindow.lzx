@@ -19,19 +19,27 @@
 			<edittext id="password" x="100" y="20" password="true" width="150">fi6en</edittext>
 		</view>
 		<button name="loginButton" align="center">Login
-			<handler name="onclick">
+			<handler name="onclick"><![CDATA[
+				if (chatScreen.visible==false && conn.connected==false) {
+					chatScreen.setAttribute('visible',true);
+					conn.connect("rtmp://127.0.0.1/fi6en");
+					soChat.connect("chat", conn._conn, true);
+					
+				}
 				classroot.animate("opacity","0","700");
-				chatScreen.animate("opacity", chatScreen.opacity == 0 ? 1 : 0, 700);
+				chatScreen.animate("opacity", "1", "700");
 				var dp= classroot.datapointerLogin;
 				dp.addNode("person");
 				dp.selectChild();
 				dp.addNode("username",username.getText());
 				datasetLogin.doRequest();
+				soChat.send("writeInfo",classroot.getUsername()+" logged in");
 				//var sharedObjectUser= conn.getSharedObjectUser();
 				//sharedObjectUser.send("updateUsers",classroot.getUsername());
 				/*if ($debug) {
 					Debug.info("dataset => %w",dp.serialize());
 				}*/
+				]]>
 			</handler>
 		</button>
 		<!--when the opacity=0 the loginWindow object is being destroyed-->
@@ -44,7 +52,7 @@
 		<!--<text text="Email"><edittext name="email"></edittext>-->	
 		
 		<method name="getUsername">
-			Debug.inspect(username.text);
+			//Debug.inspect(username.text);
 			return username.text;
 		</method>
 		<method name="getPassword">

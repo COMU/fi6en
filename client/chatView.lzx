@@ -5,9 +5,8 @@
 		<!--shared object for chat-->
 		<sharedObjectChat id="soChat"> 
 			<handler name="onconnected" reference="conn">
-				Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
+				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected==true) {
-					//this.setAttribute("createSharedObject",true);
 					this.connect("chat", conn._conn, true);
 					this.so.client=this;
 				}
@@ -141,7 +140,14 @@
 			
 			<view>
 				<simplelayout spacing="20"/>
-				<button id="disconnectButton" onclick="conn.closeConnection()">Disconnect</button>
+				<button id="disconnectButton">Disconnect
+					<handler name="onclick">
+						soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
+						classroot.setAttribute('visible',false);
+						loginScreen.setAttribute('opacity',"1");
+						conn.closeConnection();
+					</handler>
+				</button>
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center">USERS</text>
 				<list id="userList">
 					<textlistitem visible="false" /> 
