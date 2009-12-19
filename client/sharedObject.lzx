@@ -1,5 +1,4 @@
 <library>
-	<include href="chatView.lzx"/>
 	<class name="sharedObject" extends="node">
 		<switch>
 			<when property="$as3">
@@ -12,22 +11,16 @@
 	
 		<attribute name="so" value="null" /> <!--shared object object-->
 		<attribute name="onStatus" value="null" /> 
-		<attribute name="usernameList" value="null"/> <!--array for usernames-->
-		
-		<handler name="oninit">
-			usernameList= [];
-		</handler>
-		
+		<attribute name="createSharedObject" type="boolean" value="false"/>		
+				
 		<!--getting Shared Object from server
 		@param so_Name : shared Object name  
-		@param nc : connection which has the chared object
-		@persistant : persistency <true | flase>
-		-->
+		@param nc : connection which has the shared object
+		@persistant : persistency <true | flase>		-->
+		
 		<method name="connect" args="so_Name,nc,persistant">
-	
-			//Debug.write("connect SharedObject: ",nc.uri);
 			this.so = SharedObject.getRemote(so_Name,nc.uri,persistant); 
-			this.so.client=this;
+			//this.so.client=this;
 			var t = this;
 			if ($swf8){
 				this.so.onSync = function (evtObj){
@@ -37,31 +30,33 @@
 				this.so.writeMessage= function (msg) {
 				Debug.debug(msg);
 				}
-			}			
+			}
+			else {
+				this.so.addEventListener(NetStatusEvent.NET_STATUS, sharedObjectHandler);
+			}
 			this.so.connect(nc);
 		</method>
 		
-		<!--will be shown to all clients who got the chat shared object -->
-		<method name="writeMessage" args="username, msg">
-			//Debug.debug(msg);
-			messageArea.addText(username+ " : "+msg+"\n");
-		</method>
+		<method name="sharedObjectHandler" args="event"><![CDATA[
+			switch(event.info.code) {
+				case "SharedObject.Flush.Success" : 
+					Debug.info("SharedObject.flush() call succeeded.");
+					break;
+				case "SharedObject.Flush.Failed" : 
+					Debug.error("SharedObject.flush() failed.");
+					break;
+				case "SharedObject.BadPersistence" :
+					Debug.warn("Shared object has already been created with different flags");
+					break;	
+				case "SharedObject.UriMismatch" :
+					Debug.error("mismatch with the URI while connecting to the shared object on the application");
+					break;	
+			}
+			
+		]]></method>
 		
-	    <method name="getRemote" args="so_Name,nc,persistant">
-	
-	        //Debug.write("connect SharedObject: ",nc.uri);
-	        this.so = SharedObject.getRemote(so_Name,nc.uri,persistant); 
-	
-	        var t = this;
-	        this.so.onSync = function (evtObj){
-	            if (t.onStatus)t.onStatus.sendEvent(evtObj);
-	            //_root.Debug.write.write("Shared Object onSync",evtObj,arguments);
-	        }
-	    </method>
-	    
-	    <!--- create Object if not existing  -->
+		<!--- create Object if not existing  -->
 	    <method name="getLocal" args="name">
-	
 	        this.so = SharedObject.getLocal(name); 
 	
 	        var t = this;
@@ -71,15 +66,30 @@
 	        }	        
 	    </method>
 	    
-	    <!--- 
+		<!--sets the client of the shared object with the given class parameter-->
+		<method name="setClient" args="className">
+			this.so.client=className;
+		</method>
+		
+		<!--- 
 	        force write to disk
 	        @return true(success) false(User has forbidden to store data local)
 	      -->
 	    <method name="flush">
 	        return this.so.flush();
 	    </method>
-	
-	    <method name="getData" args="key">
+	    
+	    <!--Closes the connection between a remote shared object and the server.-->
+	    <method name="close">
+	    	this.so.close();
+	    </method>
+	    
+	    <!--deletes the local shared object from the disc-->
+	    <method name="clear">
+	    	this.so.clear();
+	    </method>
+		
+		<method name="getDataSO" args="key">
 	        if (this.so.data["key"] == undefined){
 	            return null;
 	           //_root.Debug.write.write("key undefined",key);
@@ -87,35 +97,12 @@
 	            return this.so.data["key"];
 	        }
 	    </method>
-	        
-		<!--call the "send" method of flash.net.SharedObject method with given funcname and parameters-->
-		<method name="send" args="funcName,param1,param2=null">
-			if (param2==null) {
-				return this.so.send(funcName,param1);
-			} else {
-				return this.so.send(funcName,param1,param2);	
-			}
-			
-		</method>
-		
-		<!--gets the incoming usernames from the serverside method-->
-		<method name="receiveUsername" args="username1,username2=null,username3=null">
-			<![CDATA[
-			usernameList= [username1,username2,username3];
-			for (var i=0; i<usernameList.length; i++) {
-				Debug.info("username [%w] is  : %w",i+1,usernameList[i]);
-			}
-			]]>
-		</method>
-		
-		<method name="updateUsers" args="username">
-			if($debug) {
-				Debug.info("adding username to the username list.. =>%w",username);
-			}			
-			var userListRef=myview.getUserListReference();
-			userListRef.addItem(username, "3"); 
-		</method>
-						
+	    
+	    <method name="setDataSO" args="key, val">
+	    	//Debug.write("this...... so: ",this.so);
+	        this.so.data["key"] = val;
+    	</method>
+	    	    						
 	</class>
 
 </library>

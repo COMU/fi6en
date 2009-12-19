@@ -1,0 +1,75 @@
+<library>
+	<class name="netStream" extends="node">
+		<switch>
+			<when property="$as3">
+				<passthrough>
+					import flash.net.*;
+					import flash.events.*;
+					import flash.media.Camera;
+                    import flash.media.Microphone;
+				</passthrough>
+			</when>
+		</switch>
+		
+		<attribute name="stream" value="null"/>
+		<attribute name="publish" type="boolean" value="false"/>
+		<attribute name="play" type="boolean" value="false"/>
+		
+		<method name="createStream" args="conn">
+			this.stream= new NetStream(conn);
+			this.stream.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
+		</method>
+		
+		<method name="netStreamHandler" args="event">
+	        switch (event.info.code) {
+		        case "NetStream.Publish.Start":
+					Debug.info("Stream publish started");
+					//broadcasting._attachStream(this.stream1);
+					break;
+		        case "NetStream.Failed":
+			        Debug.error("NetStream Failed");
+			        break;
+		        case "NetStream.Play.Start":
+			        Debug.info("NetStream playing started");
+			        break;
+		        case "NetStream.Play.Stop":
+			        Debug.info("NetStream play stopped");
+			        break;
+		        case "NetStream.Play.Failed":
+			        Debug.error("NetStream playing failed");
+			        break;
+		        case "NetStream.Play.StreamNotFound":
+			        Debug.warn("No stream to play");
+			        break;
+		        case "NetStream.Publish.BadName":
+			        Debug.error("Please check the name of the publishing stream" );
+			        break;
+	        }
+		</method>
+		
+		<method name="closeStream">
+	        Debug.write("closing the stream");
+	        this.stream.close();
+	        camm.setAttribute("show",false);
+        </method>
+        
+        <!--publishing the stream object-->
+        <method name="publishVideo" args="streamName">	
+	        var camera= Camera.getCamera();
+	        camera.setMode(220, 200, 15);
+	        camera.setQuality(0,80);
+	        this.stream.attachCamera(camera);
+			this.stream.publish(streamName,"live");
+			//_conn.call("user.sendUsername",responder,username);
+        </method>
+        
+        <!--playing the stream object on the videoview-->
+        <method name="playVideo" args="streamName">
+	        //Debug.write("playVideo button clicked");
+	        //var streamToPlay= getOtherUsername(username);
+	        this.stream.play(streamName);
+	        //live._attachStream(stream2);
+        </method>
+		
+	</class>	
+</library>

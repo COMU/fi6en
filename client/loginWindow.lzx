@@ -1,9 +1,9 @@
 <library>
 	<!--login window view-->
-	
 	<class name="loginWindow" extends="window">
 		<!--this is the temporary dataset user parameters--> 
-		<!--datapointer for management of the dataset--> 
+		<!--datapointer for management of the dataset-->
+		
 		<datapointer name="datapointerLogin" xpath="datasetLogin:/"/>
 		
 		<attribute name="allowdrag" type="boolean" value="false"/>
@@ -21,14 +21,14 @@
 		<button name="loginButton" align="center">Login
 			<handler name="onclick">
 				classroot.animate("opacity","0","700");
-				myview.animate("opacity", myview.opacity == 0 ? 1 : 0, 700);
+				chatScreen.animate("opacity", chatScreen.opacity == 0 ? 1 : 0, 700);
 				var dp= classroot.datapointerLogin;
 				dp.addNode("person");
 				dp.selectChild();
 				dp.addNode("username",username.getText());
 				datasetLogin.doRequest();
-				var sharedObjectUser= conn.getSharedObjectUser();
-				sharedObjectUser.send("updateUsers",classroot.getUsername());
+				//var sharedObjectUser= conn.getSharedObjectUser();
+				//sharedObjectUser.send("updateUsers",classroot.getUsername());
 				/*if ($debug) {
 					Debug.info("dataset => %w",dp.serialize());
 				}*/

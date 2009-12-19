@@ -1,8 +1,36 @@
 <library>
-	<include href="connect.lzx"/>
+	<include href="netStream.lzx" />
+		
 	<class name="chatView" extends="view" align="center">
-		<!--when runtime="swf9" we add these lines to import the flash.net libraries-->
-		<connect id="conn" />
+		<!--shared object for chat-->
+		<sharedObjectChat id="soChat"> 
+			<handler name="onconnectionOK" reference="conn">
+				Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
+				if (conn.connectionOK==true) {
+					//this.setAttribute("createSharedObject",true);
+					this.connect("chat", conn._conn, true);
+					this.so.client=this;
+				}
+			</handler>
+		</sharedObjectChat>
+		<!--netStream object for publish operation-->
+		<netStream id="streamPublish"> 
+			<handler name="onconnectionOK" reference="conn">
+				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
+				if (conn.connectionOK==true) {
+					this.createStream(conn._conn);
+				}
+			</handler>
+		</netStream>
+		<!--netStream object for play operation-->
+		<netStream id="streamPlay"> 
+			<handler name="onconnectionOK" reference="conn">
+				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
+				if (conn.connectionOK==true) {
+					this.createStream(conn._conn);
+				}
+			</handler>
+		</netStream>
 
 		<command name="enterKey" key="['Enter']">
 			<handler name="onselect">
@@ -35,18 +63,19 @@
 					<attribute name="publish" type="boolean" value="false"/>
 				    <handler name="onclick">
 				    	//Debug.write("publish button");
-				    	if (publish==false) {
+				    	if (streamPublish.publish==false) {
 				    		//Debug.write("publish operation");
-				    		conn.publishVideo(loginScreen.getUsername());
+				    		streamPublish.publishVideo(loginScreen.getUsername())
+				    		//conn.publishVideo(loginScreen.getUsername());
 				    		this.setAttribute('text', "Stop My Cam");
 				    		camm.setAttribute("show",true);
-				    		publish=true;
+				    		streamPublish.publish=true;
 				    	}
 				    	else {
 				    		//Debug.write("publish close operation");
 				    		this.setAttribute('text', "Show My Cam");
-				    		conn.closeStream();
-				    		publish=false;
+				    		streamPublish.closeStream();
+				    		streamPublish.publish=false;
 				    	}
 				    </handler>
 				</button>
@@ -102,10 +131,11 @@
 				<button name="showUserCam" align="left">Show user's cam
 					<handler name="onclick">
 						//Debug.write("play button");
-						conn.playVideo(loginScreen.getUsername());
+						streamPlay.playVideo("fi6en");
+	        			live._attachStream(streamPlay.stream);
 					</handler>
 				</button>
-		   		<videoview id="live" width="220" height="200" type="rtmp" />
+		   		<videoview id="live" width="220" height="200" type="rtmp"/>
 			</view>
 			
 			<view>
@@ -118,16 +148,15 @@
 			</view>
 		</view>
 		
-		<!--sending the given parameter to the "writeSharedObject" function which belongs to the
-			"_sharedObject" object-->
+		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">
 			//Debug.write("sendMessage method");
-			conn.writeSharedObject(message); 	 		
+			soChat.writeSharedObject(message); 	 		
 		</method>
 		
-		<method name="getUserListReference">
+		<!--<method name="getUserListReference">
 			return userList;
-		</method>
+		</method>-->
 				
 	</class>	
 	

@@ -3,39 +3,39 @@
 	<include href="chatView.lzx"/>
 	
 	<!--server connection initialization class-->
-	<class name="connect" extends="node" oninit="initConnection()">
-	 <!--<class name="connect" extends="node">-->
+	<class name="connection" extends="node">
 		<!--for swf10 runtime-->
 		<switch>
 			<when property="$as3">
 				<passthrough>
 					import flash.net.*;
 					import flash.events.*;
-					import flash.media.Camera;
-					import flash.media.Microphone;
 				</passthrough>
 			</when>
 		</switch>			
 		
 		<attribute name="_conn"/>
-		<attribute name="_sharedObject"/>
-		<attribute name="_sharedObjectUserlist"/>
-		
-		<attribute name="stream1" /> <!--stream for the publish-->
-		<attribute name="stream2" /> <!--stream for the play-->
-
+		<!--attribute to be sure whether connection is successful-->
+		<attribute name="connectionOK" value="false" type="boolean"/> 
 		<attribute name="responder" /><!--responder for the server side-->
 		
-		<method name="initConnection" ><![CDATA[	
+		<method name="connect" args="URL"><![CDATA[
 			//creating rtmpconnection and shared object 
-			_conn = new NetConnection();			
-			_conn.connect("rtmp://127.0.0.1/Red5WebApplication");
-			_conn.client=this;
-			_sharedObject= new lz.sharedObject();
-			_sharedObjectUserlist= new lz.sharedObject();
+			_conn = new NetConnection();
+			
+			if (URL=="undefined" || URL==null) {
+				Debug.error("Check the URL");
+			}
+			else {
+				_conn.connect(URL);
+				_conn.client=this;	
+			}
+			
+			//_sharedObject= new lz.sharedObject();
+			//_sharedObjectUserlist= new lz.sharedObject();
 			/*add the listeners according to the runtime */	
 			if ($swf8) {
-				Debug.write("as2 env.");
+				Debug.write("swf8 env.");
 				_conn.onStatus= function (info) {
 					if (info.code=="NetConnection.Connect.Success") {
 						Debug.write("The connection attempt succeeded.");
@@ -44,12 +44,10 @@
 			}			
 			
 			else {
-				Debug.write("as3 env.");
+				Debug.write("swf10 env.");
 				_conn.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
 				_conn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, errorHandler);
 			}
-			_sharedObject.connect("chat", _conn, true);
-			_sharedObjectUserlist.connect("userlist", _conn, true);
 		]]></method>
 		
 		<!--here is handling the flash.Net.NetConnection object and creating the NetStream objects-->
@@ -57,11 +55,13 @@
 			switch (event.info.code) {
                 case "NetConnection.Connect.Success":
                     Debug.write("The connection attempt succeeded.");
-                    stream1= new NetStream(_conn);
-                    stream2= new NetStream(_conn);
-                    responder = new Responder(this.onResult, this.onStatus);             
+                    responder = new Responder(this.onResult, this.onStatus);
+                    this.setAttribute("connectionOK",true);
+                    //Debug.info("connected ? : %w",this.connectionOK);
+                    /*stream1= new NetStream(_conn);
+                    stream2= new NetStream(_conn);                                 
                     stream1.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
-                    stream2.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
+                    stream2.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);*/
                     break;
                  
                 case "NetConnection.Connect.Failed":
@@ -69,20 +69,27 @@
                     break;
                 
                 case "NetConnection.Connect.Closed":
-                	Debug.write("Disconnected successfully." );
+                	Debug.write("Disconnected server application." );
                 	break;
                 	
                 case "NetConnection.Connect.Rejected":
                     Debug.write("The connection attempt did not have permission to access the application.");
                     break;
                 case "NetConnection.Connect.AppShutdown":
-                	Debug.write("Application is shutting down." );
+                	Debug.write("Application is shutting down.." );
                 	break;
                 	
                 }
 		</method>
+		
+		
+		<method name="closeConnection">
+			//_conn.call("deleteUsername",responder,loginScreen.getUsername());
+			this._conn.close();	
+		</method>
+		
 		<!--here is handling the flash.Net.NetStream object's status-->
-		<method name="netStreamHandler" args="event">
+		<!--<method name="netStreamHandler" args="event">
 			switch (event.info.code) {
 				case "NetStream.Publish.Start":
 	                Debug.write("Stream publish started");
@@ -107,13 +114,14 @@
                 	Debug.write("Please check the name of the publishing stream" );
                 	break;
 			}
-	    </method>
+	    </method>-->
 		
 		<method name="errorHandler" args="error">
 			Debug.write(error.error);
 		</method>
+		
 		<!--publishing the stream object-->
-		<method name="publishVideo" args="username">
+		<!--<method name="publishVideo" args="username">
 			Debug.info("loginscreen.getUsername () => %w",username);	
 			var camera= Camera.getCamera();
 			camera.setMode(220, 200, 15);
@@ -121,18 +129,19 @@
 			stream1.attachCamera(camera);
             stream1.publish(username,"live");
             _conn.call("user.sendUsername",responder,username);
-		</method>
+		</method>-->
+		
 		<!--playing the stream object on the videoview
 			@param username : username which is coming from the login window -->
-		<method name="playVideo" args="username">
+		<!--<method name="playVideo" args="username">
 			//Debug.write("playVideo button clicked");
 			var streamToPlay= getOtherUsername(username);
 			this.stream2.play(streamToPlay);
 	        live._attachStream(stream2);
-		</method>
+		</method>-->
 		
 		<!--method to determine the usernames which is publishing video-->
-		<method name="getOtherUsername" args="myUsername">
+		<!--<method name="getOtherUsername" args="myUsername">
 			<![CDATA[
 			var otherUsername;
 			for (var i=0; i<_sharedObject.usernameList.length; i++) {
@@ -143,17 +152,17 @@
 				}
 			}
 			]]>
-		</method>
+		</method>-->
 		
 		<!--closing the open streams successfully-->
-		<method name="closeStream">
+		<!--<method name="closeStream">
 			Debug.write("closing the stream");
 			stream1.close();
 			stream2.close();
 			camm.setAttribute("show",false);
-		</method>
+		</method>-->
 		
-		<method name="writeSharedObject" args="message">
+		<!--<method name="writeSharedObject" args="message">
 			//Debug.write("sending to the shared object");
 			this._sharedObject.send("writeMessage",loginScreen.getUsername(),message);
 		</method>
@@ -164,15 +173,10 @@
 		<method name="onStatus" args="returnvalue">
 			Debug.info("onStatus: %w",returnvalue);
 		</method>
-		
-		<method name="closeConnection">
-			_conn.call("deleteUsername",responder,loginScreen.getUsername());
-			_conn.close	();	
-		</method>
 	    
 	    <method name="getSharedObjectUser">
 	    	return _sharedObjectUserlist;
-	    </method>
+	    </method> -->
 	    
 	</class>	
 </library>
