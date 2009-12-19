@@ -4,9 +4,9 @@
 	<class name="chatView" extends="view" align="center">
 		<!--shared object for chat-->
 		<sharedObjectChat id="soChat"> 
-			<handler name="onconnectionOK" reference="conn">
+			<handler name="onconnected" reference="conn">
 				Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
-				if (conn.connectionOK==true) {
+				if (conn.connected==true) {
 					//this.setAttribute("createSharedObject",true);
 					this.connect("chat", conn._conn, true);
 					this.so.client=this;
@@ -15,18 +15,19 @@
 		</sharedObjectChat>
 		<!--netStream object for publish operation-->
 		<netStream id="streamPublish"> 
-			<handler name="onconnectionOK" reference="conn">
+			<handler name="onconnected" reference="conn">
 				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
-				if (conn.connectionOK==true) {
+				if (conn.connected==true) {
 					this.createStream(conn._conn);
 				}
 			</handler>
 		</netStream>
+		
 		<!--netStream object for play operation-->
 		<netStream id="streamPlay"> 
-			<handler name="onconnectionOK" reference="conn">
+			<handler name="onconnected" reference="conn">
 				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
-				if (conn.connectionOK==true) {
+				if (conn.connected==true) {
 					this.createStream(conn._conn);
 				}
 			</handler>
@@ -65,7 +66,7 @@
 				    	//Debug.write("publish button");
 				    	if (streamPublish.publish==false) {
 				    		//Debug.write("publish operation");
-				    		streamPublish.publishVideo(loginScreen.getUsername())
+				    		streamPublish.publishVideo(loginScreen.getUsername());
 				    		//conn.publishVideo(loginScreen.getUsername());
 				    		this.setAttribute('text', "Stop My Cam");
 				    		camm.setAttribute("show",true);

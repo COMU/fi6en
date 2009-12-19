@@ -16,7 +16,7 @@
 		
 		<attribute name="_conn"/>
 		<!--attribute to be sure whether connection is successful-->
-		<attribute name="connectionOK" value="false" type="boolean"/> 
+		<attribute name="connected" value="false" type="boolean"/> 
 		<attribute name="responder" /><!--responder for the server side-->
 		
 		<method name="connect" args="URL"><![CDATA[
@@ -56,7 +56,7 @@
                 case "NetConnection.Connect.Success":
                     Debug.write("The connection attempt succeeded.");
                     responder = new Responder(this.onResult, this.onStatus);
-                    this.setAttribute("connectionOK",true);
+                    this.setAttribute("connected",true);
                     //Debug.info("connected ? : %w",this.connectionOK);
                     /*stream1= new NetStream(_conn);
                     stream2= new NetStream(_conn);                                 
