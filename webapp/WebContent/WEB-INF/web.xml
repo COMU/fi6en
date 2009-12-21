@@ -10,6 +10,12 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 	
+	<context-param> 
+	    <param-name>webAppRootKey</param-name> 
+	    <param-value>/fi6en</param-value> 
+	</context-param> 
+
+	
 	<listener>
     	<listener-class>org.red5.logging.ContextLoggingListener</listener-class>
 	</listener>

@@ -15,7 +15,7 @@ public class Application extends ApplicationAdapter{
 		String message="";
 		IScope appScope;
 		ISharedObject sharedObjectChat;
-		ArrayList<String> arraylistUsers= new ArrayList<String>();
+		//UserService userservice;
 		private static Logger log = Red5LoggerFactory.getLogger(Application.class,"fi6en");
 		
 	public boolean appStart (IScope scope) {
@@ -26,14 +26,14 @@ public class Application extends ApplicationAdapter{
 	public void appStop (IScope scope) {
 		log.info("Videoconference Application stopped");		
 	}
+	
 	public boolean connect (IConnection conn, IScope scope, Object []params) {
 		log.info("Connected to server application - Client : "+ conn.getRemoteAddress());
 		appScope= scope;
 		createSharedObject(appScope, "chat", true);
-		createSharedObject(appScope, "userlist", true);
 		sharedObjectChat = getSharedObject(appScope, "chat");
 		ISharedObjectListener listener = new MyCustomListener();
-		sharedObjectChat.addSharedObjectListener(listener);		
+		sharedObjectChat.addSharedObjectListener(listener);
 		return true;
 	}
 	public void disconnect (IConnection conn, IScope scope) {
@@ -70,7 +70,7 @@ public class Application extends ApplicationAdapter{
 		//log.debug("Connection closed by ...", conn.getRemoteAddress());
 		super.roomDisconnect(conn);
 	}
-	
+	/*
 	public String getStreamName(String stream) {
 		System.out.println("server side method "+stream);
 		//log.info("info mesajı");
@@ -90,9 +90,8 @@ public class Application extends ApplicationAdapter{
 			}
 			catch (Exception e) {
 				// TODO: handle exception
-				//log.error("error with the stream",e);
+				log.error("error with the stream",e);
 			}
 		}
-		return "";
-	}
+	} */
 }
