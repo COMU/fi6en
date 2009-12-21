@@ -55,6 +55,14 @@
 			
 		]]></method>
 		
+		<method name="send" args="funcName,param1,param2=null">
+			if (param2==null) {	
+				return this.so.send(funcName,param1);
+			} else {
+				return this.so.send(funcName,param1,param2);	
+			}			
+		</method>		
+		
 		<!--- create Object if not existing  -->
 	    <method name="getLocal" args="name">
 	        this.so = SharedObject.getLocal(name); 
@@ -104,5 +112,4 @@
     	</method>
 	    	    						
 	</class>
-
 </library>

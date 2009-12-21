@@ -3,6 +3,7 @@
 	<include href="chatView.lzx" />
 	<include href="sharedObject.lzx" />	
 	<include href="loginWindow.lzx" />
-	<include href="sharedObjectChat.lzx"/>	
+	<include href="sharedObjectChat.lzx"/>
+	<include href="sharedObjectUserlist.lzx"/>	
 	<include href="netStream.lzx" />
 </library>

@@ -10,14 +10,6 @@
 			messageArea.addText(username+ " : "+msg+"\n");
 		</method>
 		
-		<method name="send" args="funcName,param1,param2=null">
-			if (param2==null) {	
-				return this.so.send(funcName,param1);
-			} else {
-				return this.so.send(funcName,param1,param2);	
-			}			
-		</method>
-		
 		<method name="writeSharedObject" args="message">
 			this.send("writeMessage",loginScreen.getUsername(),message);
 		</method>

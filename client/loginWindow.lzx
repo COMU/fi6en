@@ -28,12 +28,15 @@
 				}
 				classroot.animate("opacity","0","700");
 				chatScreen.animate("opacity", "1", "700");
-				var dp= classroot.datapointerLogin;
+				soChat.send("writeInfo",classroot.getUsername()+" logged in");
+				conn._conn.call("user.writeMessage", conn.responder, classroot.getUsername());
+				//soUsers.send("addToUserlist",classroot.getUsername());
+				
+				/*var dp= classroot.datapointerLogin;
 				dp.addNode("person");
 				dp.selectChild();
 				dp.addNode("username",username.getText());
-				datasetLogin.doRequest();
-				soChat.send("writeInfo",classroot.getUsername()+" logged in");
+				datasetLogin.doRequest();*/
 				//var sharedObjectUser= conn.getSharedObjectUser();
 				//sharedObjectUser.send("updateUsers",classroot.getUsername());
 				/*if ($debug) {
@@ -57,9 +60,7 @@
 		</method>
 		<method name="getPassword">
 			return password.text;
-		</method>
-		
-		
+		</method>	
 			
 	</class>
 </library>

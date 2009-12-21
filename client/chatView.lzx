@@ -6,17 +6,30 @@
 		<sharedObjectChat id="soChat"> 
 			<handler name="onconnected" reference="conn">
 				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
-				if (conn.connected==true) {
+				if (conn.connected) {
 					this.connect("chat", conn._conn, true);
 					this.so.client=this;
 				}
 			</handler>
 		</sharedObjectChat>
+		<!--shared object for the usersList(List)
+		@param usersList : name of the shared object at the server side
+		-->
+		<sharedObjectUserlist id="soUsers"> 
+			<handler name="onconnected" reference="conn">
+				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
+				if (conn.connected) {
+					this.connect("usersList", conn._conn, true);
+					this.so.client=this;
+				}
+			</handler>
+		</sharedObjectUserlist>
+		
 		<!--netStream object for publish operation-->
 		<netStream id="streamPublish"> 
 			<handler name="onconnected" reference="conn">
 				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
-				if (conn.connected==true) {
+				if (conn.connected) {
 					this.createStream(conn._conn);
 				}
 			</handler>
@@ -149,7 +162,7 @@
 					</handler>
 				</button>
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center">USERS</text>
-				<list id="userList">
+				<list id="usersList">
 					<textlistitem visible="false" /> 
 				</list>
 			</view>

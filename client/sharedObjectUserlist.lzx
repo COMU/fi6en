@@ -1,0 +1,13 @@
+<library>
+	<include href="sharedObject.lzx" />
+	<class name="sharedObjectUserlist" extends="sharedObject">
+		
+		<!--adds the username to the usernameList-->
+		<method name="addToUserlist" args="username">
+			//Debug.write("username : "+username);
+			usersList.addItem(username, "1");
+		</method>
+	</class>
+	
+	
+</library>
