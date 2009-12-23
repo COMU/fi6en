@@ -11,8 +11,7 @@
 	
 		<attribute name="so" value="null" /> <!--shared object object-->
 		<attribute name="onStatus" value="null" /> 
-		<attribute name="createSharedObject" type="boolean" value="false"/>		
-				
+		<attribute name="createSharedObject" type="boolean" value="false"/>			
 		<!--getting Shared Object from server
 		@param so_Name : shared Object name  
 		@param nc : connection which has the shared object
@@ -98,17 +97,22 @@
 	    </method>
 		
 		<method name="getDataSO" args="key">
-	        if (this.so.data["key"] == undefined){
+			return this.so.data[key];
+	        /*if (this.so.data['key'] == undefined){
 	            return null;
 	           //_root.Debug.write.write("key undefined",key);
 	        } else {
-	            return this.so.data["key"];
-	        }
+	            return this.so.data['key'];
+	        }*/
 	    </method>
 	    
 	    <method name="setDataSO" args="key, val">
 	    	//Debug.write("this...... so: ",this.so);
 	        this.so.data["key"] = val;
+    	</method>
+    	
+    	<method name="write" args="msg">
+    		Debug.write("mesaj : "+msg);
     	</method>
 	    	    						
 	</class>

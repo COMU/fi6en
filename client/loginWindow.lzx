@@ -20,16 +20,32 @@
 		</view>
 		<button name="loginButton" align="center">Login
 			<handler name="onclick"><![CDATA[
-				if (chatScreen.visible==false && conn.connected==false) {
+				if (!chatScreen.visible && !conn.connected) {
 					chatScreen.setAttribute('visible',true);
 					conn.connect("rtmp://127.0.0.1/fi6en");
 					soChat.connect("chat", conn._conn, true);
-					
 				}
 				classroot.animate("opacity","0","700");
 				chatScreen.animate("opacity", "1", "700");
 				soChat.send("writeInfo",classroot.getUsername()+" logged in");
-				conn._conn.call("user.writeMessage", conn.responder, classroot.getUsername());
+				
+				conn._conn.call("user.writeUsername", conn.responder, classroot.getUsername());
+				var arrayUserlist= soUsers.so.data['arrayUserlist'];
+				soUsers.addToUserlist(arrayUserlist);
+				soUsers.send("updateUserlist",classroot.getUsername());
+				//var arrayUserlist= [];
+				//arrayUserlist= soUsers.getDataSO("arrayUserlist");
+				/*for (var i=0; i<arrayUserlist.length; i++) {
+					Debug.info("usernamelist : %w",arrayUserlist[i]);
+				}*/
+				//Debug.info("arrayUserlist legth : %w",arrayUserlist.length);
+				//Debug.info("arrayUserlist : %w",arrayUserlist);
+				//var arrayUserlist=["cem","fi6en"];
+				//Debug.info("usernamelist : %w",arrayUserlist[0]);
+				//Debug.info("usernamelist : %w",arrayUserlist[1]);				
+								
+				//soUsers.addToUserlist(arrayUserlist);
+			
 				//soUsers.send("addToUserlist",classroot.getUsername());
 				
 				/*var dp= classroot.datapointerLogin;

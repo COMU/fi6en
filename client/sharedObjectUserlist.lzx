@@ -1,12 +1,20 @@
 <library>
 	<include href="sharedObject.lzx" />
 	<class name="sharedObjectUserlist" extends="sharedObject">
-		
+
 		<!--adds the username to the usernameList-->
-		<method name="addToUserlist" args="username">
-			//Debug.write("username : "+username);
-			usersList.addItem(username, "1");
+		<method name="addToUserlist" args="userlist"><![CDATA[
+			for (var i=0; i<userlist.length; i++) {
+				usersList.addItem(userlist[i], userlist[i]);
+			}
+			//Debug.info("username : "+username);
+			//Debug.write("length : "+username.length);
+			]]>					
 		</method>
+		
+		<method name="updateUserlist" args="username">
+			usersList.addItem(username, username);	
+		</method>		
 	</class>
 	
 	
