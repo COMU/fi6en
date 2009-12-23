@@ -1,7 +1,9 @@
 package org.red5.core;
 
+
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
+
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.adapter.ApplicationAdapter;
 import org.red5.server.api.IConnection;
@@ -11,11 +13,17 @@ import org.red5.server.api.so.ISharedObject;
 import org.red5.server.api.so.ISharedObjectListener;
 import org.slf4j.Logger;
 
+/**
+ * fi6en application main class
+ * 
+ * @author cem (cemosonmez@gmail.com)
+ * 
+ * @version $Revision$ $Date$
+ */
+
 public class Application extends ApplicationAdapter{
-		String message="";
 		IScope appScope;
 		ISharedObject sharedObjectChat;
-		//UserService userservice;
 		private static Logger log = Red5LoggerFactory.getLogger(Application.class,"fi6en");
 		
 	public boolean appStart (IScope scope) {
@@ -29,21 +37,17 @@ public class Application extends ApplicationAdapter{
 	
 	public boolean connect (IConnection conn, IScope scope, Object []params) {
 		log.info("Connected to server application - Client : "+ conn.getRemoteAddress());
-		appScope= scope;
-		createSharedObject(appScope, "chat", true);
-		sharedObjectChat = getSharedObject(appScope, "chat");
-		ISharedObjectListener listener = new MyCustomListener();
-		sharedObjectChat.addSharedObjectListener(listener);
+		appScope= scope;	
+		createSharedObject(appScope, "chat", true);		
+		sharedObjectChat = getSharedObject(appScope, "chat");		
+		ISharedObjectListener listenerSOChat = new SharedObjectListener();
+		sharedObjectChat.addSharedObjectListener(listenerSOChat);		
 		return true;
 	}
 	public void disconnect (IConnection conn, IScope scope) {
 		log.info("Application disconnect "+conn.getRemoteAddress());
 		sharedObjectChat.clear();
-		super.disconnect(conn, appScope);
-	}
-	
-	public IScope getScope() {
-		return this.appScope;
+		super.disconnect(conn, scope);
 	}
 	
  	public boolean roomStart(IScope scope) {
@@ -70,28 +74,5 @@ public class Application extends ApplicationAdapter{
 		//log.debug("Connection closed by ...", conn.getRemoteAddress());
 		super.roomDisconnect(conn);
 	}
-	/*
-	public String getStreamName(String stream) {
-		System.out.println("server side method "+stream);
-		//log.info("info mesajı");
-		IConnection conn= Red5.getConnectionLocal();
-		//log.debug("Stream for : " +conn.getScope().getContextPath());
-		ArrayList<String> streamList = new ArrayList<String>();
-		streamList= (ArrayList<String>)this.getBroadcastStreamNames(conn.getScope());
-		Iterator iterator= streamList.iterator();
-		while(iterator.hasNext()) {
-			try {
-				String streamName= iterator.next().toString();
-				//System.out.println(streamName);
-				if (streamName!=stream) {
-					System.out.println(streamName);
-					return streamName;
-				}
-			}
-			catch (Exception e) {
-				// TODO: handle exception
-				log.error("error with the stream",e);
-			}
-		}
-	} */
+	
 }

@@ -2,123 +2,120 @@ package org.red5.core;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
+import org.red5.components.ClientManager;
 import org.red5.logging.Red5LoggerFactory;
-import org.red5.server.adapter.ApplicationAdapter;
-import org.red5.server.adapter.MultiThreadedApplicationAdapter;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
 import org.red5.server.api.Red5;
+import org.red5.server.api.ScopeUtils;
 import org.red5.server.api.so.ISharedObject;
 import org.red5.server.api.so.ISharedObjectListener;
+import org.red5.server.api.so.ISharedObjectService;
 import org.slf4j.Logger;
 
-public class UserService extends MultiThreadedApplicationAdapter{
+/**
+ * class that does the user operations 
+ * 
+ * @author cem (cemosonmez@gmail.com)
+ * @version $Revision$ $Date$
+ */
+
+public class UserService {
 	
 	Logger log= Red5LoggerFactory.getLogger(UserService.class,"fi6en");
-	ArrayList<String> usernameArraylist;
-	IConnection conn;
+	ClientManager clientMgr= new ClientManager("clientlist", true);
+	
+	ArrayList<String> arraylistUsers;
 	IScope appScope;
 	ISharedObject sharedObjectUserslist;
+	ISharedObjectListener listenerSOUsers;
 	public UserService() {
-		try {
 			/*Arraylist to store the connected client's usernames's*/
-			usernameArraylist= new ArrayList<String>();
-			conn= Red5.getConnectionLocal();
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			log.error("Exception in "+UserService.class.getName()+e);
-		}
+			arraylistUsers= new ArrayList<String>();
+			listenerSOUsers= new SharedObjectListener();
 	}
 	
-	public void writeMessage(String message) {
-		try {
+	
+	/** add the given username to the arraylist and send it to the shared object
+	 * @param 
+	 *     username parameter will be added to the arraylist
+	 */
+	
+	
+	public void writeUsername(String username) {
+		log.info("writeUsername method :"+username);
+		
+		IConnection conn= Red5.getConnectionLocal();
 		appScope= conn.getScope();
+		this.createSharedObject(appScope,"userlist",false);
+		sharedObjectUserslist = this.getSharedObject(appScope,"userlist");
+		sharedObjectUserslist.addSharedObjectListener(listenerSOUsers);
+		sharedObjectUserslist.clear();
 		
-		ISharedObjectListener userListener= new MyCustomListener();
-		createSharedObject(appScope, "usersList", true);
-		sharedObjectUserslist= getSharedObject(appScope, "usersList");
+		String uname= username;
+		String uid= conn.getClient().getId();
+		clientMgr.addClient(appScope, uname, uid);
+		arraylistUsers.add(uname);
 		
-		log.info("userlist message : "+message);
+		Iterator<String> iterator= arraylistUsers.iterator();
+		while (iterator.hasNext()) {
+			log.info("username :"+ iterator.next());
 		}
-		catch (Exception e) {
-			// TODO: handle exception
-			log.error("exception in "+UserService.class.getName(),e);
-		}
+		
+		log.info("array : "+arraylistUsers.toString());
+		log.info("shared object arraylist :"+sharedObjectUserslist.getAttribute("arrayUserlist"));	
+		
+		sharedObjectUserslist.setAttribute("arrayUserlist", arraylistUsers);
 	}
 	
-/*public class UserService extends MultiThreadedApplicationAdapter{
-	
-	Logger log= Red5LoggerFactory.getLogger(UserService.class,"fi6en");
-	ArrayList<String> usernameArraylist;
-	IConnection conn= Red5.getConnectionLocal();
-	IScope appScope= conn.getScope();
-	ISharedObject sharedObjectUserslist;
-	public UserService() {
-		try {
-			//Arraylist to store the connected client's usernames's
-			usernameArraylist= new ArrayList<String>();
-			conn= Red5.getConnectionLocal();
-			appScope= conn.getScope();
-			createSharedObject(appScope, "usersList", true);
-			sharedObjectUserslist= getSharedObject(appScope, "usersList");
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			log.error("Exception in"+UserService.class.getName()+e);
-		}
+	/**
+	 * @param
+	 * 		scope the scope which has the shared object
+	 * @param
+	 *		soName shared object name   
+	 *    
+	 * @return
+	 *    return the shared object to use      	
+	 */
+	private ISharedObject getSharedObject(IScope scope, String soName) {
+		ISharedObjectService service = (ISharedObjectService) ScopeUtils
+				.getScopeService(scope,
+						ISharedObjectService.class,
+						false);
+		return service.getSharedObject(scope, soName);
 	}
 	
-	public void setSharedObjectUserslist(ISharedObject sharedObjectUserslist) {
-		this.sharedObjectUserslist = sharedObjectUserslist;
+	/**
+	 * @param
+	 * 		scope shared object will be created on the given scope
+	 * @param
+	 * 		soName shared object name
+	 * @param
+	 * 		persistent persistency   
+	 */
+	private void createSharedObject (IScope scope, String soName, boolean persistent) {
+		ISharedObjectService service= (ISharedObjectService) ScopeUtils
+				.getScopeService(scope, 
+						ISharedObjectService.class,
+						false);
+		service.createSharedObject(scope, soName, persistent);
 	}
-
-	public void sendToSharedObject () {
-		sharedObjectUserslist.sendMessage("addToUserlist",usernameArraylist);
+	/**
+	 * 
+	 * @return arralist for the usernames
+	 */
+	public ArrayList<String> getUserlist() {
+		return arraylistUsers;
 	}
-
-	*/
-	/*sends the connected usernames to the client method
-	public void sendUsername(String param) {
-		//IConnection conn= Red5.getConnectionLocal();
-		//appScope= conn.getScope();
-		log.info("send username method ");
-		usernameArraylist.add(param);
-    	ISharedObject so = get(appScope, "chat");
-    	so.sendMessage("receiveUsername",usernameArraylist);
-    	Iterator<String> iterator= usernameArraylist.iterator();
-    	
-    	while( iterator. hasNext() ) {
-    		System.out.println("param : "+iterator.next());
-    	}
-    }*/
 	
-	/*public void deleteUsername(String param) {
-		Iterator<String> iterator= usernameArraylist.iterator();
-    	while( iterator. hasNext() ) {
-    		if (iterator.next().equals(param));
-    		System.out.println("disconnected username is : "+param);
-    		return ;
-    	}
-	}*/
-	
-	/*
-	public void updateUserlist(List<String> user) {
-		try {
-			IConnection conn= Red5.getConnectionLocal();
-			appScope= conn.getScope();
-			sharedObjectUserlist= getSharedObject(appScope, "userlist");
-			log.info(user.toString());
-			log.info("writing"+user.toString()+"to the user list");
-			sharedObjectUserlist.sendMessage("updateUsers", user);
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			log.error("exception : "+e);
-		}		
+	public void clearSharedObject(IScope scope,String soName) {
+		ISharedObjectService service= (ISharedObjectService) ScopeUtils
+		.getScopeService(scope, 
+				ISharedObjectService.class,
+				false);
+		service.clearSharedObjects(scope, soName);
 	}
-	*/
+	
 	
 }
+

@@ -9,9 +9,16 @@ import org.red5.server.api.so.ISharedObjectBase;
 import org.red5.server.api.so.ISharedObjectListener;
 import org.slf4j.Logger;
 
+/**
+ * class that handles the events on the shared objects
+ * 
+ * @author cem (cemosonmez@gmail.com)
+ * 
+ * @version $Revision$ $Date$
+ */
 
-public class MyCustomListener implements ISharedObjectListener {
-	Logger log= Red5LoggerFactory.getLogger(MyCustomListener.class,"fi6en");
+public class SharedObjectListener implements ISharedObjectListener {
+	Logger log= Red5LoggerFactory.getLogger(SharedObjectListener.class,"fi6en");
 	
 	public void onSharedObjectConnect(ISharedObjectBase so) {
 		log.info("videoconference shared object connect");
@@ -38,7 +45,7 @@ public class MyCustomListener implements ISharedObjectListener {
 	 *            the value of the attribute
 	 */
 	public void onSharedObjectUpdate(ISharedObjectBase so, String key, Object value) {
-		log.info("videoconference shared object update");
+		log.info("videoconference shared object update "+"key : "+key+"- value : "+value);
 	}
 
 	@Override
