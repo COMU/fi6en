@@ -97,13 +97,13 @@
 	    </method>
 		
 		<method name="getDataSO" args="key">
-			return this.so.data[key];
-	        /*if (this.so.data['key'] == undefined){
+			
+	        if (this.so.data[key] == undefined){
 	            return null;
 	           //_root.Debug.write.write("key undefined",key);
 	        } else {
-	            return this.so.data['key'];
-	        }*/
+	            return this.so.data[key];
+	        }
 	    </method>
 	    
 	    <method name="setDataSO" args="key, val">

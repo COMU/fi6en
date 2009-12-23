@@ -2,7 +2,7 @@
 	<include href="sharedObject.lzx" />
 	<class name="sharedObjectUserlist" extends="sharedObject">
 
-		<!--adds the username to the usernameList-->
+		<!--adds usernames to the usernameList-->
 		<method name="addToUserlist" args="userlist"><![CDATA[
 			for (var i=0; i<userlist.length; i++) {
 				usersList.addItem(userlist[i], userlist[i]);
@@ -11,9 +11,13 @@
 			//Debug.write("length : "+username.length);
 			]]>					
 		</method>
-		
+		<!--adds the given username to the userlist-->
 		<method name="updateUserlist" args="username">
 			usersList.addItem(username, username);	
+		</method>
+		
+		<method name="removeFromUserlist" args="username">
+			userList.removeItem(username);
 		</method>		
 	</class>
 	

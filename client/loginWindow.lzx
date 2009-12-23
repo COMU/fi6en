@@ -30,24 +30,10 @@
 				soChat.send("writeInfo",classroot.getUsername()+" logged in");
 				
 				conn._conn.call("user.writeUsername", conn.responder, classroot.getUsername());
-				var arrayUserlist= soUsers.so.data['arrayUserlist'];
+				/*getting other users's usernames and adding to the list*/
+				var arrayUserlist= soUsers.getDataSO("arrayUserlist");
 				soUsers.addToUserlist(arrayUserlist);
 				soUsers.send("updateUserlist",classroot.getUsername());
-				//var arrayUserlist= [];
-				//arrayUserlist= soUsers.getDataSO("arrayUserlist");
-				/*for (var i=0; i<arrayUserlist.length; i++) {
-					Debug.info("usernamelist : %w",arrayUserlist[i]);
-				}*/
-				//Debug.info("arrayUserlist legth : %w",arrayUserlist.length);
-				//Debug.info("arrayUserlist : %w",arrayUserlist);
-				//var arrayUserlist=["cem","fi6en"];
-				//Debug.info("usernamelist : %w",arrayUserlist[0]);
-				//Debug.info("usernamelist : %w",arrayUserlist[1]);				
-								
-				//soUsers.addToUserlist(arrayUserlist);
-			
-				//soUsers.send("addToUserlist",classroot.getUsername());
-				
 				/*var dp= classroot.datapointerLogin;
 				dp.addNode("person");
 				dp.selectChild();

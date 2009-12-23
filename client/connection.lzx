@@ -71,7 +71,7 @@
                 case "NetConnection.Connect.Closed":
                 	Debug.write("Disconnected server application." );
                 	this.setAttribute("connected",false);
-                	soUsers.clear();
+                	soUsers.send("removeFromUserlist",loginScreen.getUsername());                	
                 	break;
                 	
                 case "NetConnection.Connect.Rejected":
