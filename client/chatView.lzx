@@ -1,11 +1,12 @@
 <library>
 	<include href="netStream.lzx" />
 	<include href="sharedObjectChat.lzx" />
-	<include href="sharedObjectUserlist.lzx" />
+	<include href="sharedObjectUserlist.lzx" />	
 	
-	
+	<resource name="icon_webcam" src="./icons/webcam-icon.png" />	
 		
-	<class name="chatView" extends="view" align="center">
+	<class name="chatView" extends="view" align="center">	
+		
 		<!--shared object for chat-->
 		<sharedObjectChat id="soChat"> 
 			<handler name="onconnected" reference="conn">
@@ -80,8 +81,7 @@
 					<attribute name="publish" type="boolean" value="false"/>
 				    <handler name="onclick">
 				    	//Debug.write("publish button");
-				    	if (!streamPublish.publish) {
-				    		//Debug.write("publish operation");
+				    	if (!streamPublish.publish) {;
 				    		streamPublish.publishVideo(loginScreen.getUsername());
 				    		//conn.publishVideo(loginScreen.getUsername());
 				    		this.setAttribute('text', "Stop My Cam");
@@ -89,7 +89,6 @@
 				    		streamPublish.publish=true;
 				    	}
 				    	else {
-				    		//Debug.write("publish close operation");
 				    		this.setAttribute('text', "Show My Cam");
 				    		streamPublish.closeStream();
 				    		streamPublish.publish=false;
@@ -148,7 +147,9 @@
 				<button name="showUserCam" align="left">Show user's cam
 					<handler name="onclick">
 						//Debug.write("play button");
-						streamPlay.playVideo("fi6en");
+						//Debug.info ("selected item => %w",usersList.getSelection().text);
+						var streamToPlay= usersList.getSelection().text;
+						streamPlay.playVideo(streamToPlay);
 	        			live._attachStream(streamPlay.stream);
 					</handler>
 				</button>
@@ -162,15 +163,17 @@
 						soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
 						classroot.setAttribute('visible',false);
 						loginScreen.setAttribute('opacity',"1");
+						soUsers.send("removeFromUserlist",loginScreen.getUsername());
 						conn.closeConnection();
 					</handler>
 				</button>
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center">USERS</text>
 				<list id="usersList">
-					<textlistitem visible="false" /> 
+					<textlistitem visible="true" layout="axis:x" text="cem" resource="icon_webcam" />
 				</list>
 			</view>
 		</view>
+		
 		
 		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">

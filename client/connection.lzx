@@ -70,8 +70,7 @@
                 
                 case "NetConnection.Connect.Closed":
                 	Debug.write("Disconnected server application." );
-                	this.setAttribute("connected",false);
-                	soUsers.send("removeFromUserlist",loginScreen.getUsername());                	
+                	this.setAttribute("connected",false);                	
                 	break;
                 	
                 case "NetConnection.Connect.Rejected":
@@ -87,52 +86,50 @@
 		
 		<method name="closeConnection">
 			//_conn.call("deleteUsername",responder,loginScreen.getUsername());
-			this._conn.close();
 			soChat.close();
 			soUsers.close();
+			this._conn.close();
 		</method>
-		
-		<!--here is handling the flash.Net.NetStream object's status-->
-		<!--<method name="netStreamHandler" args="event">
-			switch (event.info.code) {
-				case "NetStream.Publish.Start":
-	                Debug.write("Stream publish started");
-	                //broadcasting._attachStream(this.stream1);
-	                break;
-	            case "NetStream.Failed":
-	            	Debug.write("NetStream Failed");
-	            	break;
-	            case "NetStream.Play.Start":
-	            	Debug.write("NetStream playing started");
-	            	break;
-	            case "NetStream.Play.Stop":
-	            	Debug.write("NetStream play stopped");
-	            	break;
-	            case "NetStream.Play.Failed":
-	            	Debug.write("NetStream play failed");
-	            	break;
-            	case "NetStream.Play.StreamNotFound":
-	            	Debug.write("No stream found");
-	            	break;
-	            case "NetStream.Publish.BadName":
-                	Debug.write("Please check the name of the publishing stream" );
-                	break;
-			}
-	    </method>-->
 		
 		<method name="errorHandler" args="error">
 			Debug.write(error.error);
 		</method>
 		
-		<method name="onResult" args="obj">
+		<method name="onResult" args="returnvalue">
+			Debug.write("onResult:" + returnvalue);
 		</method>
 		
-		<method name="onStatus" args="obj">			
+		<method name="onStatus" args="returnvalue">
+			Debug.write("onStatus:" + returnvalue);
 		</method>
 		
-		<method name="getClients" args="list">
-			Debug.write("list : "+list);
-		</method>
+		<!--<method name="callRemoteFunction" args="func, obj, params">
+			<![CDATA[
+	        //Debug.write("*#* call: func, obj, params",func,obj, typeof (params) , params.length);
+	        if (params.length != 0) {
+	        
+	        	//Debug.write("params:",params);
+	        	//Debug.write("arguments:",arg);
+
+	        	if (params.length==1){
+					this._conn.call(func, obj,params[0]);
+			        Debug.info("called function : %w, parameter : %w",func, params[0]);
+		        } else if (params.length==2){
+		            this._conn.call(func, obj,params[0],params[1]);
+		            Debug.info("called function : %w, parameter : %w %w",func, params[0],params[1]);
+		        } else if (params.length==3){
+		            this._conn.call(func, obj,params[0],params[1],params[2]);
+		        } else if (params.length==4 ){
+		            this._conn.call(func, obj,params[0],params[1],params[2],params[3]);
+		        } 
+	           
+	        } //else {	   
+		      //    Debug.write("this._nc.connected", this.connected);
+		      //    this._conn.call(func, obj);
+	        //}
+		]]>
+	    </method> -->
+	    
 		<!--publishing the stream object-->
 		<!--<method name="publishVideo" args="username">
 			Debug.info("loginscreen.getUsername () => %w",username);	
