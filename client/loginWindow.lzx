@@ -27,6 +27,7 @@
 					conn.connect("rtmp://127.0.0.1/fi6en");
 					soChat.connect("chat", conn._conn, true);
 					soUsers.connect("userlist", conn._conn, false);
+					usersList.removeAllItems();
 				}
 				classroot.animate("opacity","0","700");
 				chatScreen.animate("opacity", "1", "700");
@@ -35,10 +36,16 @@
 				conn._conn.call("user.writeUsername", conn.responder, username);
 				/*getting other users's usernames and adding to the list*/
 				var arrayUserlist= soUsers.getDataSO("arrayUserlist");
+				
+				Debug.write("users : ",arrayUserlist);
+				
 				if (arrayUserlist!=null) {
 					soUsers.addToUserlist(arrayUserlist);	
 				}				
 				soUsers.send("updateUserlist",username);
+				
+				
+				
 				/*var dp= classroot.datapointerLogin;
 				dp.addNode("person");
 				dp.selectChild();

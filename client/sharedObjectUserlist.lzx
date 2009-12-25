@@ -4,6 +4,9 @@
 
 		<!--adds usernames to the usernameList-->
 		<method name="addToUserlist" args="userlist"><![CDATA[
+			Debug.write("userlist legth : "+userlist.length);
+			//usersList.addItem(userlist[0], userlist[0]);
+			//usersList.addItem(userlist[1], userlist[1]);
 			for (var i=0; i<userlist.length; i++) {
 				usersList.addItem(userlist[i], userlist[i]);
 			}

@@ -160,16 +160,18 @@
 				<simplelayout spacing="20"/>
 				<button id="disconnectButton">Disconnect
 					<handler name="onclick">
+						var username= loginScreen.getUsername();
 						soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
 						classroot.setAttribute('visible',false);
 						loginScreen.setAttribute('opacity',"1");
-						soUsers.send("removeFromUserlist",loginScreen.getUsername());
+						soUsers.send("removeFromUserlist",username);
+						conn._conn.call("user.removeUsername", conn.responder);
 						conn.closeConnection();
 					</handler>
 				</button>
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center">USERS</text>
 				<list id="usersList">
-					<textlistitem visible="true" layout="axis:x" text="cem" resource="icon_webcam" />
+					<textlistitem visible="false" layout="axis:x" text="cem" resource="icon_webcam" />
 				</list>
 			</view>
 		</view>
