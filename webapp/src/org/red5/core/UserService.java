@@ -63,9 +63,8 @@ public class UserService {
 		}
 		
 		log.info("array : "+arraylistUsers.toString());
-		log.info("shared object arraylist :"+sharedObjectUserslist.getAttribute("arrayUserlist"));	
-		
 		sharedObjectUserslist.setAttribute("arrayUserlist", arraylistUsers);
+		log.info("shared object arraylist :"+sharedObjectUserslist.getAttribute("arrayUserlist"));		
 	}
 	
 	/**
@@ -83,6 +82,18 @@ public class UserService {
 						ISharedObjectService.class,
 						false);
 		return service.getSharedObject(scope, soName);
+	}
+	
+	public void removeUsername () {
+		String uid= Red5.getConnectionLocal().getClient().getId();
+		String username= clientMgr.removeClient(appScope, uid);
+		log.info("removeUsername method : "+username);
+		if (arraylistUsers.remove(username)) {
+			log.info(username+" removed from the arraylist");	
+		}
+		else {
+			log.info("no username found to delete");
+		}
 	}
 	
 	/**
