@@ -12,18 +12,21 @@
 		</switch>
 		
 		<attribute name="stream" value="null"/>
-		<attribute name="publish" type="boolean" value="false"/>
-		<attribute name="play" type="boolean" value="false"/>
+		<attribute name="publishing" type="boolean" value="false"/>
+		<attribute name="playing" type="boolean" value="false"/>
 		
 		<method name="createStream" args="conn">
 			this.stream= new NetStream(conn);
+			this.stream.client=this;
 			this.stream.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
+			this.stream.addEventListener(NetStatusEvent.NET_STATUS, onPlayStatus);
 		</method>
 		
 		<method name="netStreamHandler" args="event">
 	        switch (event.info.code) {
 		        case "NetStream.Publish.Start":
 					Debug.info("Stream publish started");
+					this.setAttribute('publishing',true);
 					//broadcasting._attachStream(this.stream1);
 					break;
 		        case "NetStream.Failed":
@@ -31,6 +34,7 @@
 			        break;
 		        case "NetStream.Play.Start":
 			        Debug.info("NetStream playing started");
+			        this.setAttribute('playing',true);
 			        break;
 		        case "NetStream.Play.Stop":
 			        Debug.info("NetStream play stopped");
@@ -45,6 +49,17 @@
 			        Debug.error("Please check the name of the publishing stream" );
 			        break;
 	        }
+		</method>
+		
+		<method name="onPlayStatus" args="event">
+			switch (event.info.code) {
+		        case "NetStream.Play.Switch":
+					Debug.info("The subscriber is switching from one stream to another in a playlist.");
+					break;
+		        case "NetStream.Play.Complete":
+			        Debug.info("Playback has completed.");
+			        break;
+			}
 		</method>
 		
 		<method name="closeStream">

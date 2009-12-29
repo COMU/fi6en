@@ -57,11 +57,7 @@
                     Debug.write("The connection attempt succeeded.");
                     responder = new Responder(this.onResult, this.onStatus);
                     this.setAttribute("connected",true);
-                    //Debug.info("connected ? : %w",this.connectionOK);
-                    /*stream1= new NetStream(_conn);
-                    stream2= new NetStream(_conn);                                 
-                    stream1.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
-                    stream2.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);*/
+                    //Debug.info("connected ? : %w",this.connected);
                     break;
                  
                 case "NetConnection.Connect.Failed":
@@ -70,7 +66,8 @@
                 
                 case "NetConnection.Connect.Closed":
                 	Debug.write("Disconnected server application." );
-                	this.setAttribute("connected",false);                	
+                	this.setAttribute("connected",false);
+                	this.closeConnection();
                 	break;
                 	
                 case "NetConnection.Connect.Rejected":
@@ -83,14 +80,17 @@
                 }
 		</method>
 		
-		
+		<!--closing the netconnection and shared objects-->
 		<method name="closeConnection">
 			//_conn.call("deleteUsername",responder,loginScreen.getUsername());
+			Debug.info("closing connection");
+			//soUsers.clear();
 			soChat.close();
 			soUsers.close();
 			this._conn.close();
 		</method>
 		
+		<!--handler for the errors-->
 		<method name="errorHandler" args="error">
 			Debug.write(error.error);
 		</method>

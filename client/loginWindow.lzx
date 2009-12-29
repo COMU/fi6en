@@ -21,14 +21,15 @@
 		<button name="loginButton" align="center">Login
 			<handler name="onclick"><![CDATA[
 				var username= classroot.getUsername();
-				
-				if (!chatScreen.visible && !conn.connected) {
+				/*
+				if (!conn.connected) {
+					Debug.info ("connecting..");
 					chatScreen.setAttribute('visible',true);
 					conn.connect("rtmp://127.0.0.1/fi6en");
 					soChat.connect("chat", conn._conn, true);
 					soUsers.connect("userlist", conn._conn, false);
 					usersList.removeAllItems();
-				}
+				}*/
 				classroot.animate("opacity","0","700");
 				chatScreen.animate("opacity", "1", "700");
 				soChat.send("writeInfo",username+" logged in");
@@ -43,9 +44,7 @@
 					soUsers.addToUserlist(arrayUserlist);	
 				}				
 				soUsers.send("updateUserlist",username);
-				
-				
-				
+								
 				/*var dp= classroot.datapointerLogin;
 				dp.addNode("person");
 				dp.selectChild();

@@ -19,7 +19,9 @@
 			usersList.addItem(username, username);	
 		</method>
 		
+		<!--removes the given username from the userlist-->
 		<method name="removeFromUserlist" args="username">
+			//Debug.write("removing %w from the userlist ",username);
 			usersList.removeItem(username);
 		</method>		
 	</class>

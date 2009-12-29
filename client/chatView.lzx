@@ -159,14 +159,17 @@
 			<view>
 				<simplelayout spacing="20"/>
 				<button id="disconnectButton">Disconnect
-					<handler name="onclick">
+					<handler name="onclick"><![CDATA[
 						var username= loginScreen.getUsername();
 						soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
-						classroot.setAttribute('visible',false);
-						loginScreen.setAttribute('opacity',"1");
+						//classroot.setAttribute('visible',false);
+						//loginScreen.setAttribute('opacity',"1");
 						soUsers.send("removeFromUserlist",username);
 						conn._conn.call("user.removeUsername", conn.responder);
 						conn.closeConnection();
+						var location='http://localhost:8080/lps-4.7.x/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
+						lz.Browser.loadURL(location, '_self'); 
+						]]>
 					</handler>
 				</button>
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center">USERS</text>
