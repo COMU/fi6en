@@ -4,7 +4,7 @@
 		<!--this is the temporary dataset user parameters--> 
 		<!--datapointer for management of the dataset-->
 		
-		<datapointer name="datapointerLogin" xpath="datasetLogin:/"/>
+		<!-- <datapointer name="datapointerLogin" xpath="datasetLogin:/"/> -->
 		
 		<attribute name="allowdrag" type="boolean" value="false"/>
 		

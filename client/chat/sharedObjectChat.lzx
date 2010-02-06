@@ -1,5 +1,4 @@
 <library>
-	<include href="sharedObject.lzx" />
 	<class name="sharedObjectChat" extends="sharedObject">
 		
 		<attribute name="usernameList" value="null"/> <!--array for usernames-->

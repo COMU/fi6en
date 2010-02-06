@@ -1,9 +1,6 @@
 <library>
-	<include href="netStream.lzx" />
-	<include href="sharedObjectChat.lzx" />
-	<include href="sharedObjectUserlist.lzx" />	
 	
-	<resource name="icon_webcam" src="./icons/webcam-icon.png" />	
+	<resource name="icon_webcam" src="../icons/webcam-icon.png" />	
 		
 	<class name="chatView" extends="view" align="center">	
 		

@@ -1,0 +1,4 @@
+<library>
+	<include href="auth/library.lzx"/>
+	<include href="sharedObjectUserlist.lzx"/>		
+</library>

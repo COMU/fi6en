@@ -1,0 +1,3 @@
+<library>
+	<include href="userservice/library.lzx"/>	
+</library>

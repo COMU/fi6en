@@ -1,6 +1,4 @@
 <library>
-	<include href="sharedObject.lzx" />
-	<include href="chatView.lzx"/>
 	
 	<!--server connection initialization class-->
 	<class name="connection" extends="node">
@@ -186,7 +184,7 @@
 	    
 	    <method name="getSharedObjectUser">
 	    	return _sharedObjectUserlist;
-	    </method> -->
+	    </method> -->	    
 	    
 	</class>	
 </library>
