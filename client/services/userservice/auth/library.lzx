@@ -1,3 +1,5 @@
 <library>
 	<include href="loginWindow.lzx" />
+	<include href="registerNewUser.lzx" />
+	<include href="validation.lzx" />
 </library>

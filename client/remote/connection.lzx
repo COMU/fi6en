@@ -20,12 +20,12 @@
 		<method name="connect" args="URL"><![CDATA[
 			//creating rtmpconnection and shared object 
 			_conn = new NetConnection();
-			
 			if (URL=="undefined" || URL==null) {
 				Debug.error("Check the URL");
 			}
 			else {
 				_conn.connect(URL);
+				_conn.objectEncoding = ObjectEncoding.AMF3;
 				_conn.client=this;	
 			}
 			

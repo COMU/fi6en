@@ -1,79 +1,116 @@
 <library>
+	<include href="registerNewUser.lzx" />
 	<!--login window view-->
-	<class name="loginWindow" extends="window">
+	<class name="loginWindow" extends="window" width="300" height="200" >
 		<!--this is the temporary dataset user parameters--> 
 		<!--datapointer for management of the dataset-->
 		
 		<!-- <datapointer name="datapointerLogin" xpath="datasetLogin:/"/> -->
 		
 		<attribute name="allowdrag" type="boolean" value="false"/>
+		<attribute name="title" value="Login" />
+		
+		
+		<registerNewUser name="registerWindow"  placement="canvas" 
+			valign="middle" visible="false" align="center">
+			<method name="cancel">
+				classroot.resetPlacement();
+			</method>
+		</registerNewUser>
 		
 		<simplelayout spacing="10"/>
 		
 		<view>			
-			<text text="Username" x="10" y="20"></text>
+			<text text="Username" x="10" y="22"></text>
 			<edittext id="username" x="100" y="20" width="150">fi6en</edittext>
 		</view>
 		<view >
-			<text text="Password" x="10" y="20"></text>
+			<text text="Password" x="10" y="22"></text>
 			<edittext id="password" x="100" y="20" password="true" width="150">fi6en</edittext>
 		</view>
-		<button name="loginButton" align="center">Login
-			<handler name="onclick"><![CDATA[
-				var username= classroot.getUsername();
-				/*
-				if (!conn.connected) {
-					Debug.info ("connecting..");
-					chatScreen.setAttribute('visible',true);
-					conn.connect("rtmp://127.0.0.1/fi6en");
-					soChat.connect("chat", conn._conn, true);
-					soUsers.connect("userlist", conn._conn, false);
-					usersList.removeAllItems();
-				}*/
-				classroot.animate("opacity","0","700");
-				chatScreen.animate("opacity", "1", "700");
-				soChat.send("writeInfo",username+" logged in");
-				
-				conn._conn.call("user.writeUsername", conn.responder, username);
-				/*getting other users's usernames and adding to the list*/
-				var arrayUserlist= soUsers.getDataSO("arrayUserlist");
-				
-				Debug.write("users : ",arrayUserlist);
-				
-				if (arrayUserlist!=null) {
-					soUsers.addToUserlist(arrayUserlist);	
-				}				
-				soUsers.send("updateUserlist",username);
-								
-				/*var dp= classroot.datapointerLogin;
-				dp.addNode("person");
-				dp.selectChild();
-				dp.addNode("username",username.getText());
-				datasetLogin.doRequest();*/
-				//var sharedObjectUser= conn.getSharedObjectUser();
-				//sharedObjectUser.send("updateUsers",classroot.getUsername());
-				/*if ($debug) {
-					Debug.info("dataset => %w",dp.serialize());
-				}*/
-				]]>
-			</handler>
-		</button>
-		<!--when the opacity=0 the loginWindow object is being destroyed-->
-		<!--<handler name="onopacity">
-		 	if(opacity == 0) {
-		    	if ($debug) { Debug.info("opacity: %w => %w.destroy()", opacity, this); }
-		     	this.destroy();
-		   }
-		 </handler>-->
-		<!--<text text="Email"><edittext name="email"></edittext>-->	
 		
+		<!--room combobox-->
+		<!--<combobox name="roomCombobox" width="175" editable="false" defaultselection="0" align="center">
+				<textlistitem />
+				<textlistitem text="Oda1" />
+				<textlistitem text="Oda2" />
+				<textlistitem text="Oda3" />
+			</combobox>-->
+		
+		<view align="center">
+			<simplelayout axis="x" spacing="20" />
+			<button name="registerButton">Register
+				<handler name="onclick">
+					classroot.registerWindow.setAttribute('visible', true);
+					loginScreen.animate('x', loginScreen.x - 350, 1000);
+					loginScreen.setAttribute('enabled', false);
+				</handler>
+			</button>
+			<button name="loginButton" >Login
+				<handler name="onclick"><![CDATA[
+					classroot.registerWindow.destroy();
+					var username = classroot.getUsername();
+					conn.connect('rtmp://127.0.0.1/fi6en');
+					//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
+					soChat.send("writeInfo", username + " logged in");
+					conn._conn.call("user.writeUsername", conn.responder,
+							username);
+					/*getting other users's usernames and adding to the list*/
+					var arrayUserlist = soUsers.getDataSO("arrayUserlist");
+					Debug.write("users : ", arrayUserlist);
+
+					if (arrayUserlist != null) {
+						soUsers.addToUserlist(arrayUserlist);
+					}
+					soUsers.send("updateUserlist", username);
+					/*
+					if (!conn.connected) {
+						Debug.info ("connecting..");
+						chatScreen.setAttribute('visible',true);
+						conn.connect("rtmp://127.0.0.1/fi6en");
+						soChat.connect("chat", conn._conn, true);
+						soUsers.connect("userlist", conn._conn, false);
+						usersList.removeAllItems();
+					}*/
+					//Debug.write('rtmp://127.0.0.1/fi6en/'+parent.roomCombobox.getSelection().text);
+					//var appURL= 'rtmp://127.0.0.1/fi6en/'+parent.roomCombobox.getSelection().text;
+					//conn.connect(appURL);
+					classroot.animate("opacity", "0", "700");
+					chatScreen.animate("opacity", "1", "700");
+				]]>
+				</handler>
+			</button>
+			<!--when the opacity=0 the loginWindow object is being destroyed-->
+			<!--<handler name="onopacity">
+					 if(opacity == 0) {
+						if ($debug) { Debug.info("opacity: %w => %w.destroy()", opacity, this); }
+						 this.destroy();
+				   }
+				 </handler>-->
+			<!--<text text="Email"><edittext name="email"></edittext>-->
+				
+		</view>
 		<method name="getUsername">
 			//Debug.inspect(username.text);
 			return username.text;
 		</method>
 		<method name="getPassword">
 			return password.text;
-		</method>	
-			
+		</method>
+		
+		<method name="determinePlacement" args="aSub, placement, args">
+  			if (placement == 'canvas') {    
+  				return canvas;
+  			}
+  			else {
+  				return super.determinePlacement(aSub, placement, args);
+  			}
+  		</method>
+  		
+		<method name="resetPlacement">
+			loginScreen.animate('x', loginScreen.x + 350, 1000);
+			loginScreen.setAttribute('enabled', true);
+			registerWindow.setAttribute('visible', false);
+		</method>
 	</class>
 </library>

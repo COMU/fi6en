@@ -1,0 +1,53 @@
+<!--class to do validation operation-->
+<library>
+	<class name="validation">
+		<attribute name="validationAlert" value="null"/>
+		<attribute name="error" type="string" value="null"/>
+		
+		<!--check the fields if they are null-->
+		<method name="checkAllFields" args="form"> <![CDATA[
+			//Debug.write("array length : ", form.length);
+			for (var i = 0; i < form.length; i++) {
+				//Debug.write(i + " : " +form[i]);
+				if (form[i] == '') {
+					error = 'Fill in all the fields please ! ';
+					validationAlert = new lz.alert(canvas, {
+								text : error,
+								stretches : 'both'
+							});
+					validationAlert.open();
+					return;
+				}
+			}
+		]]>
+		</method>
+		
+		<!--compare the passwords whether they are same-->
+		<method name="comparePasswords" args="password, passwordRe">
+			if (password != passwordRe) {
+				error = 'Passwords do not match ! ';
+				validationAlert = new lz.alert(canvas, {
+							text : error,
+							stretches : 'both'
+						});
+				validationAlert.open();
+				return;
+			}
+		</method>
+		
+		<!--check email if it contains @ character-->
+		<method name="checkEmail" args="email"><![CDATA[
+			var st2 = new RegExp("@");
+			if (!(st2.test(email))) {
+				error = 'Invalid Email ID ! ';
+				validationAlert = new lz.alert(canvas, {
+							text : error,
+							stretches : 'both'
+						});
+				validationAlert.open();
+				return;
+			}
+		]]>
+		</method>
+	</class>
+</library>
