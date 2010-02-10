@@ -1,11 +1,31 @@
-<!--class to do validation operation-->
+<!--class to do validation opertion-->
 <library>
 	<class name="validation">
 		<attribute name="validationAlert" value="null"/>
 		<attribute name="error" type="string" value="null"/>
+		<!--attribute represents the validity of all the fiels on the registration window -->
+		<attribute name="valid" type="boolean" value="false"/>
+		
+		<method name="validate" args="form">
+			var password = form[1]; // [1].st index of form is password value
+			var passwordRe = form[2] // [1].st index of form is passwordRe value
+			var email = form[5]; // [1].st index of form is email value
+			
+			//checking the values whether they have valid values
+			if (checkAllFields(form)) {
+				if (comparePasswords(password, passwordRe)) {
+					if (checkEmail(email)) {
+						Debug.info("Validation is ok");
+						this.setAttribute('valid', true);
+						return valid;
+					}
+				}
+			}
+		</method>
 		
 		<!--check the fields if they are null-->
 		<method name="checkAllFields" args="form"> <![CDATA[
+			var isValid = true;
 			//Debug.write("array length : ", form.length);
 			for (var i = 0; i < form.length; i++) {
 				//Debug.write(i + " : " +form[i]);
@@ -15,15 +35,18 @@
 								text : error,
 								stretches : 'both'
 							});
+					isValid = false;
 					validationAlert.open();
 					return;
 				}
 			}
+			return isValid;
 		]]>
 		</method>
 		
 		<!--compare the passwords whether they are same-->
 		<method name="comparePasswords" args="password, passwordRe">
+			var isValid = true;
 			if (password != passwordRe) {
 				error = 'Passwords do not match ! ';
 				validationAlert = new lz.alert(canvas, {
@@ -31,12 +54,15 @@
 							stretches : 'both'
 						});
 				validationAlert.open();
+				isValid = false;
 				return;
 			}
+			return isValid;
 		</method>
 		
 		<!--check email if it contains @ character-->
 		<method name="checkEmail" args="email"><![CDATA[
+			var isValid = true;
 			var st2 = new RegExp("@");
 			if (!(st2.test(email))) {
 				error = 'Invalid Email ID ! ';
@@ -45,9 +71,15 @@
 							stretches : 'both'
 						});
 				validationAlert.open();
+				isValid = false;
 				return;
 			}
+			return isValid;
 		]]>
 		</method>
+		
+		<handler name="onvalid" args="v">
+			Debug.write("valid handleri");
+		</handler>
 	</class>
 </library>

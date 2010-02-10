@@ -13,10 +13,19 @@
 		
 		<registerNewUser name="registerWindow"  placement="canvas" 
 			valign="middle" visible="false" align="center">
+			<!--override cancel method of registerWindow class-->
 			<method name="cancel">
 				classroot.resetPlacement();
 			</method>
 		</registerNewUser>
+		
+		
+		<handler name="onvalid" reference="registerWindow.validation">
+			//Debug.write("register window.validation onvalid method");
+			if (registerWindow.validation.valid) {
+				resetPlacement();
+			}
+		</handler>
 		
 		<simplelayout spacing="10"/>
 		
@@ -42,15 +51,15 @@
 			<button name="registerButton">Register
 				<handler name="onclick">
 					classroot.registerWindow.setAttribute('visible', true);
-					loginScreen.animate('x', loginScreen.x - 350, 1000);
-					loginScreen.setAttribute('enabled', false);
+					classroot.animate('x', classroot.x - 350, 1000);
+					classroot.setAttribute('enabled', false);
 				</handler>
 			</button>
 			<button name="loginButton" >Login
 				<handler name="onclick"><![CDATA[
 					classroot.registerWindow.destroy();
 					var username = classroot.getUsername();
-					conn.connect('rtmp://127.0.0.1/fi6en');
+					//conn.connect('rtmp://127.0.0.1/fi6en');
 					//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 					soChat.send("writeInfo", username + " logged in");
 					conn._conn.call("user.writeUsername", conn.responder,
@@ -91,6 +100,8 @@
 				
 		</view>
 		<method name="getUsername">
+
+
 			//Debug.inspect(username.text);
 			return username.text;
 		</method>
@@ -98,6 +109,7 @@
 			return password.text;
 		</method>
 		
+		<!--overrides the determinePlacement method to handle the placement attribute-->
 		<method name="determinePlacement" args="aSub, placement, args">
   			if (placement == 'canvas') {    
   				return canvas;
@@ -107,9 +119,10 @@
   			}
   		</method>
   		
+		<!--reset the view of the login. Returns to the first placement-->
 		<method name="resetPlacement">
-			loginScreen.animate('x', loginScreen.x + 350, 1000);
-			loginScreen.setAttribute('enabled', true);
+			this.animate('x', this.x + 350, 1000);
+			this.setAttribute('enabled', true);
 			registerWindow.setAttribute('visible', false);
 		</method>
 	</class>

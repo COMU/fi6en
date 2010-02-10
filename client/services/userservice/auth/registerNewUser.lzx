@@ -1,6 +1,6 @@
 <library>
+	<script src="md5.js" />
 	<class name="registerNewUser" extends="window" title="Register">
-		<attribute name="x"/>
 		<attribute name="width" value="300"/>
 		
 		<validation name="validation" />
@@ -26,7 +26,7 @@
 				<edittext name="lastName" width="${parent.elementsWidth}" />		
 				<edittext name="email" width="${parent.elementsWidth}" />
 				<combobox name="location" y="${this.y+5}" width="${parent.elementsWidth}" editable="false">
-					<textlistitem text="Turkey"  selected="true"/>
+					<textlistitem text="Turkey" />
 					<textlistitem text="England" />
 					<textlistitem text="Germany" />
 					<textlistitem text="ABD" />
@@ -38,21 +38,33 @@
 		<view layout="axis:x; spacing:20" align="center">
 			<button name="registerButton">Register
 				<handler name="onclick">
-					Debug.info('Username : %w', classroot.getUsername());
-					//Debug.info('Password : %w', classroot.getPassword());
-					//Debug.info('PasswordRe : %w', classroot.getPasswordRe());
-					Debug.info('Firstname : %w', classroot.getFirstname());
-					Debug.info('Lastname : %w', classroot.getLastname());
-					Debug.info('Email : %w', classroot.getMail());
-					Debug.info('Location : %w', classroot.getLocation());
-					
-					var form= [classroot.getUsername(), classroot.getPassword(), classroot.getPasswordRe(), 
-					classroot.getFirstname(), classroot.getLastname(), classroot.getMail()];
-					
-					//checking the values whether they have valid values
-					classroot.validation.checkAllFields(form);
-					classroot.validation.comparePasswords(classroot.getPassword(), classroot.getPasswordRe());						
-					classroot.validation.checkEmail(classroot.getMail());
+					var username = classroot.getUsername();
+					var password = classroot.getPassword();
+					var passwordRe = classroot.getPasswordRe();
+					var firstname = classroot.getFirstname();
+					var lastname = classroot.getLastname();
+					var email = classroot.getMail();
+					var location = classroot.getLocation();
+					var form = [username, password, passwordRe, firstname,
+							lastname, email];
+
+					if (classroot.validation.validate(form)) {
+						Debug.info('Username : %w', username);
+						//Debug.info('Password : %w', classroot.getPassword());
+						//Debug.info('PasswordRe : %w', classroot.getPasswordRe());
+						Debug.info('Firstname : %w', firstname);
+						Debug.info('Lastname : %w', lastname);
+						Debug.info('Email : %w', email);
+						Debug.info('Location : %w', location);
+						Debug.info("saving user informations to the database...");
+						//md5 hash of the password that will be saved to the database like that form
+						var hash = hex_md5(classroot.getPassword());
+						var user = [username, hash, firstname, lastname, email,
+								location];
+						Debug.debug("md5  %w : %w", password, hash);
+						conn._conn.call("database.saveToDatabase",
+								conn.responder, user);
+					}
 				</handler>
 			</button>
 			
@@ -63,7 +75,7 @@
 			</button>
 		</view>		
 		
-		<!--getters for the user info's attributes-->
+		<!--getters for the user info's-->
 		<method name="getUsername">
 			return registerAttributes.registerValuesView.username.text;
 		</method>
@@ -91,12 +103,11 @@
 		<method name="getLocation">
 			return registerAttributes.registerValuesView.location.text;
 		</method>
-		
-		<method name="cancel">
-		</method>
-		
+		<!--method that can be overriden by other classes when the Cancel button is clicked-->
+		<method name="cancel" />
 		<handler name="ondestroy">
-			Debug.write("destroy method for register window");
+			Debug.info("destroy handler for register window");
 		</handler>
+		
 	</class>	
 </library>
