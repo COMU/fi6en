@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	
 	<!--
 	Defines a properties file for dereferencing variables
 	-->
-	<bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	    <property name="location" value="WEB-INF/red5-web.properties" />
+	<bean id="placeholderConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="WEB-INF/red5-web.properties" />
 	</bean>
-	
 	<!--
 	Defines the web context
 	-->
-	<bean id="web.context" class="org.red5.server.Context" 
-		autowire="byType" />
-	
+	<bean id="web.context" class="org.red5.server.Context" autowire="byType" />
 	<!--
 	Defines the web scopes
 	-->
-	<bean id="web.scope" class="org.red5.server.WebScope"
-		 init-method="register">
+	<bean id="web.scope" class="org.red5.server.WebScope" init-method="register">
 		<property name="server" ref="red5.server" />
 		<property name="parent" ref="global.scope" />
 		<property name="context" ref="web.context" />
@@ -29,14 +25,16 @@
 	</bean>
 
 	<!--
-	Defines the web handler which acts as an applications endpoint
+		Defines the web handler which acts as an applications endpoint
 	-->
-	<bean id="web.handler" 
-	    class="org.red5.core.Application"
+	<bean id="web.handler" class="org.red5.fi6en.core.Application"
 		singleton="true" />
-    
-    <bean id="user.service"
-       class="org.red5.core.UserService"
-       singleton="true" />
-         
+
+	<bean id="user.service" class="org.red5.fi6en.userservice.UserService"
+		singleton="true" />
+
+	<bean name="database.service" 
+		class="org.red5.fi6en.userservice.DatabaseOperation"
+		singleton="true"/>
+
 </beans>

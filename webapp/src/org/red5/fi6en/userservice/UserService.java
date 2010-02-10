@@ -1,8 +1,9 @@
-package org.red5.core;
+package org.red5.fi6en.userservice;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.red5.components.ClientManager;
+import org.red5.fi6en.core.SharedObjectListener;
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
@@ -14,10 +15,10 @@ import org.red5.server.api.so.ISharedObjectService;
 import org.slf4j.Logger;
 
 /**
- * class that does the user operations 
+ * class that manages the user operations 
  * 
  * @author cem (cemosonmez@gmail.com)
- * @version $Revision$ $Date$
+ * @version 0.2 10.02.2010
  */
 
 public class UserService {
@@ -69,12 +70,12 @@ public class UserService {
 	
 	/**
 	 * @param
-	 * 		scope the scope which has the shared object
+	 * 		scope scope which has the shared object
 	 * @param
 	 *		soName shared object name   
 	 *    
 	 * @return
-	 *    return the shared object to use      	
+	 *    return the shared object that will be used      	
 	 */
 	private ISharedObject getSharedObject(IScope scope, String soName) {
 		ISharedObjectService service = (ISharedObjectService) ScopeUtils
