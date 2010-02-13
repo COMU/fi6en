@@ -1,41 +1,46 @@
 <library>
 	<include href="registerNewUser.lzx" />
+	<script src="md5.js" />
 	<!--login window view-->
 	<class name="loginWindow" extends="window" width="300" height="200" >
-		<!--this is the temporary dataset user parameters--> 
-		<!--datapointer for management of the dataset-->
-		
-		<!-- <datapointer name="datapointerLogin" xpath="datasetLogin:/"/> -->
-		
+		<switch>
+			<when property="$as3">
+				<passthrough>
+					import flash.net.*;
+				</passthrough>
+			</when>
+		</switch>		
 		<attribute name="allowdrag" type="boolean" value="false"/>
-		<attribute name="title" value="Login" />
+		<attribute name="title" value="Login" />		
 		
-		
+		<attribute name="loginAlert" value="null"/>
+		<attribute name="error" type="string" value="null"/>
+		<attribute name="responder" /><!--responder for the server side-->
+		<!--register window instance-->
 		<registerNewUser name="registerWindow"  placement="canvas" 
 			valign="middle" visible="false" align="center">
 			<!--override cancel method of registerWindow class-->
 			<method name="cancel">
 				classroot.resetPlacement();
 			</method>
-		</registerNewUser>
-		
+		</registerNewUser>		
 		
 		<handler name="onvalid" reference="registerWindow.validation">
+
 			//Debug.write("register window.validation onvalid method");
 			if (registerWindow.validation.valid) {
 				resetPlacement();
 			}
 		</handler>
 		
-		<simplelayout spacing="10"/>
-		
+		<simplelayout spacing="10"/>		
 		<view>			
 			<text text="Username" x="10" y="22"></text>
-			<edittext id="username" x="100" y="20" width="150">fi6en</edittext>
+			<edittext id="usernameLogin" x="100" y="20" width="150" />
 		</view>
 		<view >
 			<text text="Password" x="10" y="22"></text>
-			<edittext id="password" x="100" y="20" password="true" width="150">fi6en</edittext>
+			<edittext id="passwordLogin" x="100" y="20" password="true" width="150" />
 		</view>
 		
 		<!--room combobox-->
@@ -57,23 +62,10 @@
 			</button>
 			<button name="loginButton" >Login
 				<handler name="onclick"><![CDATA[
-					classroot.registerWindow.destroy();
 					var username = classroot.getUsername();
-					//conn.connect('rtmp://127.0.0.1/fi6en');
-					//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
-					soChat.send("writeInfo", username + " logged in");
-					conn._conn.call("user.writeUsername", conn.responder,
-							username);
-					/*getting other users's usernames and adding to the list*/
-					var arrayUserlist = soUsers.getDataSO("arrayUserlist");
-					Debug.write("users : ", arrayUserlist);
-
-					if (arrayUserlist != null) {
-						soUsers.addToUserlist(arrayUserlist);
-					}
-					soUsers.send("updateUserlist", username);
-					/*
-					if (!conn.connected) {
+					var password = classroot.getPassword();
+					classroot.loginOpearation(username, password);
+					/*if (!conn.connected) {
 						Debug.info ("connecting..");
 						chatScreen.setAttribute('visible',true);
 						conn.connect("rtmp://127.0.0.1/fi6en");
@@ -84,8 +76,6 @@
 					//Debug.write('rtmp://127.0.0.1/fi6en/'+parent.roomCombobox.getSelection().text);
 					//var appURL= 'rtmp://127.0.0.1/fi6en/'+parent.roomCombobox.getSelection().text;
 					//conn.connect(appURL);
-					classroot.animate("opacity", "0", "700");
-					chatScreen.animate("opacity", "1", "700");
 				]]>
 				</handler>
 			</button>
@@ -100,13 +90,10 @@
 				
 		</view>
 		<method name="getUsername">
-
-
-			//Debug.inspect(username.text);
-			return username.text;
+			return usernameLogin.text;
 		</method>
 		<method name="getPassword">
-			return password.text;
+			return passwordLogin.text;
 		</method>
 		
 		<!--overrides the determinePlacement method to handle the placement attribute-->
@@ -124,6 +111,57 @@
 			this.animate('x', this.x + 350, 1000);
 			this.setAttribute('enabled', true);
 			registerWindow.setAttribute('visible', false);
+		</method>
+		<!--sends the username and encrypted password to the server whether they are matching-->
+		<method name="loginOpearation" args="username, password">
+			var hash = hex_md5(password);
+			conn._conn.call("databaseservice.comparePasswords", this.responder,
+					username, hash);
+		</method>
+		
+		<handler name="onconnected" reference="conn">
+			if (conn.connected) {
+				responder = new Responder(this.responderResult,
+						this.responderStatus);
+			}
+		</handler>
+		
+		<method name="responderResult" args="returnvalue">
+			if (returnvalue) {
+				Debug.info("authentication succeeded");
+				enterConference();
+			} else {
+				error = 'Incorrect user name or password ! ';
+				loginAlert = new lz.alert(canvas, {
+							text : error,
+							stretches : 'both'
+						});
+				loginAlert.open();
+				Debug.error("authentication failed");
+			}
+		</method>
+		
+		<method name="responderStatus" args="returnvalue">
+			Debug.write("onStatus:" + returnvalue.toString);
+		</method>
+		
+		<method name="enterConference">
+			registerWindow.destroy();
+			var username = getUsername();
+			var password = getPassword();
+			soChat.send("writeInfo", username + " logged in");
+			conn._conn.call("userservice.writeUsername", conn.responder,
+					username);
+			/*getting other users's usernames and adding to the list*/
+			var arrayUserlist = soUsers.getDataSO("arrayUserlist");
+			Debug.write("users : ", arrayUserlist);
+
+			if (arrayUserlist != null) {
+				soUsers.addToUserlist(arrayUserlist);
+			}
+			soUsers.send("updateUserlist", username);
+			this.animate("opacity", "0", "700");
+			chatScreen.animate("opacity", "1", "700");
 		</method>
 	</class>
 </library>

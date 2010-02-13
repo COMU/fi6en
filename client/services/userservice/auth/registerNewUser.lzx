@@ -4,7 +4,6 @@
 		<attribute name="width" value="300"/>
 		
 		<validation name="validation" />
-		
 		<simplelayout spacing="20" />
 		<view name="registerAttributes">
 			<simplelayout spacing="15" axis="x"/>
@@ -38,34 +37,7 @@
 		<view layout="axis:x; spacing:20" align="center">
 			<button name="registerButton">Register
 				<handler name="onclick">
-					var username = classroot.getUsername();
-					var password = classroot.getPassword();
-					var passwordRe = classroot.getPasswordRe();
-					var firstname = classroot.getFirstname();
-					var lastname = classroot.getLastname();
-					var email = classroot.getMail();
-					var location = classroot.getLocation();
-					var form = [username, password, passwordRe, firstname,
-							lastname, email];
-
-					if (classroot.validation.validate(form)) {
-						Debug.info('Username : %w', username);
-						//Debug.info('Password : %w', classroot.getPassword());
-						//Debug.info('PasswordRe : %w', classroot.getPasswordRe());
-						Debug.info('Firstname : %w', firstname);
-						Debug.info('Lastname : %w', lastname);
-						Debug.info('Email : %w', email);
-						Debug.info('Location : %w', location);
-						Debug.info("saving user informations to the database...");
-						//md5 hash of the password that will be saved to the database like that form
-						var hash = hex_md5(classroot.getPassword());
-						var user = [username, hash, firstname, lastname, email,
-								location];
-						Debug.debug("md5  %w : %w", password, hash);
-						conn._conn.call("database.saveToDatabase",
-								conn.responder, user);
-					}
-				</handler>
+					classroot.registerOperation();																																								</handler>
 			</button>
 			
 			<button name="cancelButton">Cancel
@@ -74,6 +46,37 @@
 				</handler>			
 			</button>
 		</view>		
+		
+		<method name="registerOperation">
+			var username = this.getUsername();
+			var password = this.getPassword();
+			var passwordRe = this.getPasswordRe();
+			var firstname = this.getFirstname();
+			var lastname = this.getLastname();
+			var email = this.getMail();
+			var location = this.getLocation();
+			var form = [username, password, passwordRe, firstname,
+					lastname, email];
+
+			if (this.validation.validate(form)) {
+				Debug.info('Username : %w', username);
+				Debug.info('Firstname : %w', firstname);
+				Debug.info('Lastname : %w', lastname);
+				Debug.info('Email : %w', email);
+				Debug.info('Location : %w', location);
+				Debug.info("saving user informations to the database...");
+				//md5 hash of the password that will be saved to the database like that form
+				var hash = hex_md5(this.getPassword());
+				var user = [username, hash, firstname, lastname, email,
+						location];
+				Debug.debug("md5  %w : %w", password, hash);
+				conn._conn.call("databaseservice.saveToDatabase",
+						conn.responder, user);
+				//setting login windows fields with the typed username and password 
+				usernameLogin.setAttribute('text', username);
+				passwordLogin.setAttribute('text', password);
+			}
+		</method>
 		
 		<!--getters for the user info's-->
 		<method name="getUsername">
@@ -104,7 +107,7 @@
 			return registerAttributes.registerValuesView.location.text;
 		</method>
 		<!--method that can be overriden by other classes when the Cancel button is clicked-->
-		<method name="cancel" />
+		<method name="cancel" /> 
 		<handler name="ondestroy">
 			Debug.info("destroy handler for register window");
 		</handler>

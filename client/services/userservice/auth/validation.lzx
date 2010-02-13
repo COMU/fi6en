@@ -8,8 +8,8 @@
 		
 		<method name="validate" args="form">
 			var password = form[1]; // [1].st index of form is password value
-			var passwordRe = form[2] // [1].st index of form is passwordRe value
-			var email = form[5]; // [1].st index of form is email value
+			var passwordRe = form[2] // [2].st index of form is passwordRe value
+			var email = form[5]; // [5].st index of form is email value
 			
 			//checking the values whether they have valid values
 			if (checkAllFields(form)) {

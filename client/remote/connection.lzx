@@ -53,7 +53,7 @@
 			switch (event.info.code) {
                 case "NetConnection.Connect.Success":
                     Debug.write("The connection attempt succeeded.");
-                    responder = new Responder(this.onResult, this.onStatus);
+                    responder = new Responder(this.responderResult, this.responderStatus);
                     this.setAttribute("connected",true);
                     //Debug.info("connected ? : %w",this.connected);
                     break;
@@ -93,12 +93,12 @@
 			Debug.write(error.error);
 		</method>
 		
-		<method name="onResult" args="returnvalue">
+		<method name="responderResult" args="returnvalue">
 			Debug.write("onResult:" + returnvalue);
 		</method>
 		
-		<method name="onStatus" args="returnvalue">
-			Debug.write("onStatus:" + returnvalue);
+		<method name="responderStatus" args="returnvalue">
+			Debug.write("onStatus:" + returnvalue.toString);
 		</method>
 		
 		<!--<method name="callRemoteFunction" args="func, obj, params">
