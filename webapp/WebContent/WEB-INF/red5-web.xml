@@ -30,10 +30,10 @@
 	<bean id="web.handler" class="org.red5.fi6en.core.Application"
 		singleton="true" />
 
-	<bean id="user.service" class="org.red5.fi6en.userservice.UserService"
+	<bean id="userservice.service" class="org.red5.fi6en.userservice.UserService"
 		singleton="true" />
 
-	<bean name="database.service" 
+	<bean name="databaseservice.service" 
 		class="org.red5.fi6en.userservice.DatabaseOperation"
 		singleton="true"/>
 

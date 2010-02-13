@@ -3,6 +3,7 @@ package org.red5.fi6en.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.red5.fi6en.userservice.DatabaseOperation;
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.adapter.ApplicationAdapter;
 import org.red5.server.api.IConnection;
@@ -47,6 +48,11 @@ public class Application extends ApplicationAdapter {
 		sharedObjectChat = getSharedObject(appScope, "chat");
 		ISharedObjectListener listenerSOChat = new SharedObjectListener();
 		sharedObjectChat.addSharedObjectListener(listenerSOChat);
+		
+		//String username= "necdet";
+		//String password= "57ba172a6be125cca2f449826f9980123a";
+		
+		//log.info("password bulundu mu ?  : "+DatabaseOperation.comparePasswords(username, password));
 		return true;
 	}
 	public void disconnect(IConnection conn, IScope scope) {
