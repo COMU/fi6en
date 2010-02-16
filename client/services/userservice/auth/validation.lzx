@@ -5,6 +5,10 @@
 		<attribute name="error" type="string" value="null"/>
 		<!--attribute represents the validity of all the fiels on the registration window -->
 		<attribute name="valid" type="boolean" value="false"/>
+		<!--error messages will be shown to the user-->
+		<text name="checkFields" datapath="dsetLang:/language/string[@id='13']" text="$path{'value/text()'}"  visible="false"/>
+		<text name="unmatchedPass" datapath="dsetLang:/language/string[@id='14']" text="$path{'value/text()'}"  visible="false"/>
+		<text name="invalidEmail" datapath="dsetLang:/language/string[@id='15']" text="$path{'value/text()'}"  visible="false"/>
 		
 		<method name="validate" args="form">
 			var password = form[1]; // [1].st index of form is password value
@@ -30,7 +34,7 @@
 			for (var i = 0; i < form.length; i++) {
 				//Debug.write(i + " : " +form[i]);
 				if (form[i] == '') {
-					error = 'Fill in all the fields please ! ';
+					error = checkFields.text;
 					validationAlert = new lz.alert(canvas, {
 								text : error,
 								stretches : 'both'
@@ -48,7 +52,7 @@
 		<method name="comparePasswords" args="password, passwordRe">
 			var isValid = true;
 			if (password != passwordRe) {
-				error = 'Passwords do not match ! ';
+				error = unmatchedPass.text;
 				validationAlert = new lz.alert(canvas, {
 							text : error,
 							stretches : 'both'
@@ -65,7 +69,7 @@
 			var isValid = true;
 			var st2 = new RegExp("@");
 			if (!(st2.test(email))) {
-				error = 'Invalid Email ID ! ';
+				error =invalidEmail.text;
 				validationAlert = new lz.alert(canvas, {
 							text : error,
 							stretches : 'both'

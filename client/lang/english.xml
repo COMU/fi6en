@@ -1,0 +1,73 @@
+<language>
+	<string id="1" name="submit">
+		<value>Submit</value>
+	</string>
+	<string id="2" name="login">
+		<value>Log in</value>
+	</string>
+	<string id="3" name="register">
+		<value>Register</value>
+	</string>
+	<string id="4" name="username">
+		<value>Username</value>
+	</string>	
+	<string id="5" name="password">
+		<value>Password</value>
+	</string>
+	<string id="6" name="language">
+		<value>Language</value>
+	</string>
+	<string id="7" name="passwordRE">
+		<value>Password (Retype)</value>
+	</string>
+	<string id="8" name="firstname">
+		<value>Firstname</value>
+	</string>
+	<string id="9" name="lastname">
+		<value>Lastname</value>
+	</string>
+	<string id="10" name="email">
+		<value>Email</value>
+	</string>
+	<string id="11" name="location">
+		<value>Location</value>
+	</string>
+	<string id="12" name="cancel">
+		<value>Cancel</value>
+	</string>	
+	<string id="13" name="cancel">
+		<value>Fill in all the fields please ! </value>
+	</string>
+	<string id="14" name="cancel">
+		<value>Passwords do not match ! </value>
+	</string>
+	<string id="15" name="cancel">
+		<value>Invalid Email ID ! </value>
+	</string>
+	
+	
+	<string id="16" name="show_my_cam">
+		<value>Show My Cam</value>
+	</string>
+	<string id="17" name="show_user_cam">
+		<value>Show User's Cam</value>
+	</string>
+	<string id="18" name="send">
+		<value>Send</value>
+	</string>
+	<string id="19" name="clear">
+		<value>Clear</value>
+	</string>
+	<string id="20" name="clear_message_history">
+		<value>Clear Chat History</value>
+	</string>
+	<string id="21" name="logout">
+		<value>Log out</value>
+	</string>
+	<string id="22" name="users">
+		<value>USERS</value>
+	</string>	
+	<string id="23" name="incorrect_user_pass">
+		<value>Incorrect user name or password ! </value>
+	</string>
+</language>

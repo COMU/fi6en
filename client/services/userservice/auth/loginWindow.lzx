@@ -2,7 +2,8 @@
 	<include href="registerNewUser.lzx" />
 	<script src="md5.js" />
 	<!--login window view-->
-	<class name="loginWindow" extends="window" width="300" height="200" >
+	<class name="loginWindow" extends="window" width="300" height="200" 
+		   datapath="dsetLang:/language/string[@id='2']" title="$path{'value/text()'}">
 		<switch>
 			<when property="$as3">
 				<passthrough>
@@ -10,10 +11,10 @@
 				</passthrough>
 			</when>
 		</switch>		
-		<attribute name="allowdrag" type="boolean" value="false"/>
-		<attribute name="title" value="Login" />		
+		<attribute name="allowdrag" type="boolean" value="false"/>	
 		
 		<attribute name="loginAlert" value="null"/>
+		<text name="incorrectUserPass" datapath="dsetLang:/language/string[@id='23']" text="$path{'value/text()'}"  visible="false"/>
 		<attribute name="error" type="string" value="null"/>
 		<attribute name="responder" /><!--responder for the server side-->
 		<!--register window instance-->
@@ -26,20 +27,18 @@
 		</registerNewUser>		
 		
 		<handler name="onvalid" reference="registerWindow.validation">
-
 			//Debug.write("register window.validation onvalid method");
-			if (registerWindow.validation.valid) {
+			if (registerWindow.validation.valid) 
 				resetPlacement();
-			}
 		</handler>
 		
 		<simplelayout spacing="10"/>		
 		<view>			
-			<text text="Username" x="10" y="22"></text>
+			<text datapath="dsetLang:/language/string[@id='4']" text="$path{'value/text()'}" x="10" y="22"></text>
 			<edittext id="usernameLogin" x="100" y="20" width="150" />
 		</view>
 		<view >
-			<text text="Password" x="10" y="22"></text>
+			<text datapath="dsetLang:/language/string[@id='5']" text="$path{'value/text()'}" x="10" y="22"></text>
 			<edittext id="passwordLogin" x="100" y="20" password="true" width="150" />
 		</view>
 		
@@ -53,14 +52,14 @@
 		
 		<view align="center">
 			<simplelayout axis="x" spacing="20" />
-			<button name="registerButton">Register
+			<button name="registerButton" datapath="dsetLang:/language/string[@id='3']" text="$path{'value/text()'}">
 				<handler name="onclick">
 					classroot.registerWindow.setAttribute('visible', true);
 					classroot.animate('x', classroot.x - 350, 1000);
 					classroot.setAttribute('enabled', false);
 				</handler>
 			</button>
-			<button name="loginButton" >Login
+			<button name="loginButton" datapath="dsetLang:/language/string[@id='2']" text="$path{'value/text()'}">
 				<handler name="onclick"><![CDATA[
 					var username = classroot.getUsername();
 					var password = classroot.getPassword();
@@ -131,7 +130,7 @@
 				Debug.info("authentication succeeded");
 				enterConference();
 			} else {
-				error = 'Incorrect user name or password ! ';
+				error = incorrectUserPass.text;
 				loginAlert = new lz.alert(canvas, {
 							text : error,
 							stretches : 'both'

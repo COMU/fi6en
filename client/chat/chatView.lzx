@@ -74,7 +74,7 @@
 			<!--view for user1 (you)-->
 			<view name="videoViewBroadcast">
 				<simplelayout axis="y" spacing="10" />
-				<button name="showMyCam">Show My Cam
+				<button name="showMyCam" datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}">
 					<attribute name="publish" type="boolean" value="false"/>
 				    <handler name="onclick">
 				    	//Debug.write("publish button");
@@ -107,10 +107,11 @@
 	                  <vscrollbar/>
 	            </view>
 						
-				<view name="buttonView">
+				<view name="buttonView" align="center">
 					<simplelayout spacing="20" />
-					<view name="buttonViewInside1" layout="axis:x; spacing:5" align="center">
-						<button id="sendButton">Send
+					<view name="buttonViewInside1" layout="axis:x; spacing:15" align="center">
+						<button id="sendButton"
+								datapath="dsetLang:/language/string[@id='18']" text="$path{'value/text()'}">
 							<handler name="onclick" method="sendClicked" />
 							<method name="sendClicked" args="v=0">
 								if (message.text!="") {
@@ -121,15 +122,17 @@
 								}
 							</method>
 						</button>
-						<button name="clearButton">Clear
+						<button name="clearButton"
+								datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
 							<handler name="onclick">
 								//Debug.write("Clear button clicked");
 								message.clearText();
 							</handler>
 						</button>
 					</view>
-					<view>
-						<button name="clearTextArea">Clear Message History
+					<view align="center">
+						<button name="clearTextArea" 
+								datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
 							<handler name="onclick">
 								//Debug.write("Clear Text Area button clicked");
 								messageArea.clearText();
@@ -141,7 +144,7 @@
 			
 			<!--view for user1 (other user)-->
 			<view name="videoViewPlay" layout="axis:y; spacing:10">
-				<button name="showUserCam" align="left">Show user's cam
+				<button name="showUserCam" align="left" datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}">
 					<handler name="onclick">
 						//Debug.write("play button");
 						//Debug.info ("selected item => %w",usersList.getSelection().text);
@@ -155,7 +158,8 @@
 			
 			<view>
 				<simplelayout spacing="20"/>
-				<button id="disconnectButton">Disconnect
+				<button id="disconnectButton" datapath="dsetLang:/language/string[@id='21']" text="$path{'value/text()'}" 
+						align="center">
 					<handler name="onclick"><![CDATA[
 						var username= loginScreen.getUsername();
 						soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
@@ -169,8 +173,9 @@
 						]]>
 					</handler>
 				</button>
-				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center">USERS</text>
-				<list id="usersList">
+				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center"
+					  datapath="dsetLang:/language/string[@id='22']" text="$path{'value/text()'}" />
+				<list id="usersList" >
 					<textlistitem visible="false" layout="axis:x" text="cem" resource="icon_webcam" />
 				</list>
 			</view>

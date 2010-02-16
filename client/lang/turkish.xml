@@ -1,0 +1,75 @@
+<language>
+	<string id="1" name="submit">
+		<value>Gönder</value>
+	</string>
+	<string id="2" name="login">
+		<value>Giriş</value>
+	</string>
+	<string id="3" name="register">
+		<value>Kaydol</value>
+	</string>
+	<string id="4" name="username">
+		<value>Kullanıcı Adı</value>
+	</string>	
+	<string id="5" name="password">
+		<value>Parola</value>
+	</string>
+	<string id="6" name="language">
+		<value>Dil</value>
+	</string>
+	<string id="7" name="passwordRE">
+		<value>Parola (Tekrar)</value>
+	</string>
+	<string id="8" name="firstname">
+		<value>İsim</value>
+	</string>
+	<string id="9" name="lastname">
+		<value>Soyisim</value>
+	</string>
+	<string id="10" name="email">
+		<value>E-posta</value>
+	</string>
+	<string id="11" name="location">
+		<value>Yerleşim</value>
+	</string>
+	<string id="12" name="cancel">
+		<value>İptal</value>
+	</string>
+	
+	<string id="13" name="cancel">
+		<value>Lütfen tüm alanları doldurunuz ! </value>
+	</string>
+	<string id="14" name="cancel">
+		<value>Parolalar eşleşmiyor ! </value>
+	</string>
+	<string id="15" name="cancel">
+		<value>Geçersiz E-posta adresi ! </value>
+	</string>
+	
+	
+	<string id="16" name="show_my_cam">
+		<value>Kameramı Göster</value>
+	</string>
+	<string id="17" name="show_user_cam">
+		<value>Kullanıcı Kamerasını Göster</value>
+	</string>
+	<string id="18" name="send">
+		<value>Gönder</value>
+	</string>
+	<string id="19" name="clear">
+		<value>Temizle</value>
+	</string>
+	<string id="20" name="clear_message_history">
+		<value>Konuşma Geçmişini Temizle</value>
+	</string>
+	<string id="21" name="logout">
+		<value>Oturumu Kapat</value>
+	</string>
+	<string id="22" name="users">
+		<value>KULLANICILAR</value>
+	</string>		
+	<string id="23" name="incorrect_user_pass">
+		<value>Yanlış Kullanıcı Adı veya Parola ! </value>
+	</string>	
+			
+</language>

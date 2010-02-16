@@ -1,6 +1,6 @@
 <library>
 	<script src="md5.js" />
-	<class name="registerNewUser" extends="window" title="Register">
+	<class name="registerNewUser" extends="window" datapath="dsetLang:/language/string[@id='3']" title="$path{'value/text()'}">
 		<attribute name="width" value="300"/>
 		
 		<validation name="validation" />
@@ -8,16 +8,24 @@
 		<view name="registerAttributes">
 			<simplelayout spacing="15" axis="x"/>
 			<view layout="axis:y; spacing:15" yoffset="-5" xoffset="-5">
-				<text>Username : </text>		
-				<text>Password : </text>
-				<text>Password (Retype) : </text>
-				<text>Firstname : </text>
-				<text>Lastname : </text>		
-				<text>Email : </text>
-				<text>Location : </text>	
+				<text datapath="dsetLang:/language/string[@id='6']" text="$path{'value/text()'}" />
+				<text datapath="dsetLang:/language/string[@id='4']" text="$path{'value/text()'}" />		
+				<text datapath="dsetLang:/language/string[@id='5']" text="$path{'value/text()'}" />
+				<text datapath="dsetLang:/language/string[@id='7']" text="$path{'value/text()'}" />
+				<text datapath="dsetLang:/language/string[@id='8']" text="$path{'value/text()'}" />
+				<text datapath="dsetLang:/language/string[@id='9']" text="$path{'value/text()'}" />		
+				<text datapath="dsetLang:/language/string[@id='10']" text="$path{'value/text()'}" />
+				<text datapath="dsetLang:/language/string[@id='11']" text="$path{'value/text()'}" />	
 			</view>		
 			<view name="registerValuesView" layout="axis:y; spacing:5" yoffset="-5" >
 				<attribute name="elementsWidth" value="130"/>
+				<!--combobox for the language selection
+				through this combobox implementation application text is being changed dynamically 
+				usage : setting the text property of button with the text of "value" node, which one's id="2" (login) 
+				<button name="myButton" datapath="dsetLang:/language/string[@id='2']" text="$path{'value/text()'}">
+				-->
+				<languageSelector id="registerLanguage" width="${parent.elementsWidth}" 
+								  onselect="langSelector.select(this.getSelection());"/>
 				<edittext name="username" width="${parent.elementsWidth}" />
 				<edittext name="password" width="${parent.elementsWidth}"  password="true"/>
 				<edittext name="passwordRe" width="${parent.elementsWidth}" password="true"/>
@@ -35,12 +43,13 @@
 		
 		<!---button view of the register window-->
 		<view layout="axis:x; spacing:20" align="center">
-			<button name="registerButton">Register
+			<button name="registerButton" datapath="dsetLang:/language/string[@id='3']" text="$path{'value/text()'}">
 				<handler name="onclick">
-					classroot.registerOperation();																																								</handler>
+					classroot.registerOperation();
+				</handler>
 			</button>
 			
-			<button name="cancelButton">Cancel
+			<button name="cancelButton" datapath="dsetLang:/language/string[@id='12']" text="$path{'value/text()'}">
 				<handler name="onclick">
 					classroot.cancel();
 				</handler>			
@@ -55,8 +64,8 @@
 			var lastname = this.getLastname();
 			var email = this.getMail();
 			var location = this.getLocation();
-			var form = [username, password, passwordRe, firstname,
-					lastname, email];
+			var form = [username, password, passwordRe, firstname, lastname,
+					email];
 
 			if (this.validation.validate(form)) {
 				Debug.info('Username : %w', username);
