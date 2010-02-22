@@ -26,11 +26,11 @@
 			</method>
 		</registerNewUser>		
 		
-		<handler name="onvalid" reference="registerWindow.validation">
+		<handler name="onavailableUsername" reference="registerWindow"><![CDATA[
 			//Debug.write("register window.validation onvalid method");
-			if (registerWindow.validation.valid) 
+			if (registerWindow.availableUsername) 
 				resetPlacement();
-		</handler>
+		]]></handler>
 		
 		<simplelayout spacing="10"/>		
 		<view>			
@@ -117,7 +117,7 @@
 			conn._conn.call("databaseservice.comparePasswords", this.responder,
 					username, hash);
 		</method>
-		
+		<!--listening connected attribute of the connection-->
 		<handler name="onconnected" reference="conn">
 			if (conn.connected) {
 				responder = new Responder(this.responderResult,

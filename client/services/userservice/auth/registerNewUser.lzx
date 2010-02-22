@@ -1,9 +1,24 @@
 <library>
 	<script src="md5.js" />
 	<class name="registerNewUser" extends="window" datapath="dsetLang:/language/string[@id='3']" title="$path{'value/text()'}">
+		<switch>
+			<when property="$as3">
+				<passthrough>
+					import flash.net.*;
+				</passthrough>
+			</when>
+		</switch>
 		<attribute name="width" value="300"/>
-		
+		<attribute name="responder" /><!--responder for the server side-->
 		<validation name="validation" />
+		<!--attribute represents the availability of the requested username -->
+		<attribute name="availableUsername" type="boolean" value="false"/>
+		<attribute name="user" value="null" />
+		<attribute name="registerAlert" value="null"/>
+		<attribute name="error" type="string" value="null"/>
+		<text name="duplicateUsername" datapath="dsetLang:/language/string[@id='24']" text="$path{'value/text()'}"  
+			  visible="false"/>
+		
 		<simplelayout spacing="20" />
 		<view name="registerAttributes">
 			<simplelayout spacing="15" axis="x"/>
@@ -20,12 +35,12 @@
 			<view name="registerValuesView" layout="axis:y; spacing:5" yoffset="-5" >
 				<attribute name="elementsWidth" value="130"/>
 				<!--combobox for the language selection
-				through this combobox implementation application text is being changed dynamically 
-				usage : setting the text property of button with the text of "value" node, which one's id="2" (login) 
-				<button name="myButton" datapath="dsetLang:/language/string[@id='2']" text="$path{'value/text()'}">
-				-->
+					through this combobox implementation application text is being changed dynamically 
+					usage : setting the text property of button with the text of "value" node, which one's id="2" (login) 
+					<button name="myButton" datapath="dsetLang:/language/string[@id='2']" text="$path{'value/text()'}">
+					-->
 				<languageSelector id="registerLanguage" width="${parent.elementsWidth}" 
-								  onselect="langSelector.select(this.getSelection());"/>
+					onselect="langSelector.select(this.getSelection());"/>
 				<edittext name="username" width="${parent.elementsWidth}" />
 				<edittext name="password" width="${parent.elementsWidth}"  password="true"/>
 				<edittext name="passwordRe" width="${parent.elementsWidth}" password="true"/>
@@ -76,14 +91,10 @@
 				Debug.info("saving user informations to the database...");
 				//md5 hash of the password that will be saved to the database like that form
 				var hash = hex_md5(this.getPassword());
-				var user = [username, hash, firstname, lastname, email,
+				user = [username, hash, firstname, lastname, email,
 						location];
 				Debug.debug("md5  %w : %w", password, hash);
-				conn._conn.call("databaseservice.saveToDatabase",
-						conn.responder, user);
-				//setting login windows fields with the typed username and password 
-				usernameLogin.setAttribute('text', username);
-				passwordLogin.setAttribute('text', password);
+				this.checkUserAvailability(username);
 			}
 		</method>
 		
@@ -120,6 +131,61 @@
 		<handler name="ondestroy">
 			Debug.info("destroy handler for register window");
 		</handler>
+		
+		<!--listening connected attribute of the connection-->
+		<handler name="onconnected" reference="conn">
+			if (conn.connected) {
+				responder = new Responder(this.responderResult,
+						this.responderStatus);
+			}
+		</handler>
+		
+		
+		<method name="responderResult" args="returnvalue">
+		/**
+		 * @param returnvalue indicates duplicate username
+		 * @return boolean  true: duplicate username , false: available username 
+ 		 */				
+			if ($debug)
+				Debug.write("register result method : " + returnvalue);
+
+			if (returnvalue) {
+				Debug.error("username is in use");
+				this.setAttribute('availableUsername',false);
+				error = duplicateUsername.text;
+				var registerAlert = new lz.alert(canvas, {
+							text : error,
+							stretches : 'both'
+						});
+				registerAlert.open();
+				return;
+				//enterConference();
+			} else if (!returnvalue) {
+				Debug.info("username is available");
+				this.setAttribute('availableUsername',true);
+				this.saveToDatabase();
+			}
+		</method>
+		
+		<method name="responderStatus" args="returnvalue">
+			Debug.write("onStatus:" + returnvalue.toString);
+		</method>
+		
+		<!--check database whether the requested username is available-->
+		<method name="checkUserAvailability" args="username">
+			conn._conn.call("databaseservice.checkDuplicateUser",
+					this.responder, username);
+		</method>
+
+		<method name="saveToDatabase">
+			conn._conn.call("databaseservice.saveToDatabase", null,
+					user);
+			var username = this.getUsername();
+			var password = this.getPassword();
+			//setting login windows fields with the typed username and password 
+			usernameLogin.setAttribute('text', username);
+			passwordLogin.setAttribute('text', password);
+		</method>
 		
 	</class>	
 </library>

@@ -69,5 +69,8 @@
 	</string>	
 	<string id="23" name="incorrect_user_pass">
 		<value>Incorrect user name or password ! </value>
+	</string>	
+	<string id="24" name="duplicate_username">
+		<value>Username is already in use ! </value>
 	</string>
 </language>

@@ -2,7 +2,7 @@
 	
 	<resource name="icon_webcam" src="../icons/webcam-icon.png" />	
 		
-	<class name="chatView" extends="view" align="center">	
+	<class name="chatView" extends="view">	
 		
 		<!--shared object for chat-->
 		<sharedObjectChat id="soChat"> 
@@ -56,7 +56,8 @@
 		
 		<!--audio, video, chat view-->
 		
-		<view layout="axis:x; spacing:20">
+		<view>
+			<simplelayout axis="x" spacing="30" />
 			<!--<window x="10" y="10" >
 			      <statictext fontstyle="bold" >
 			        My new name is ...
@@ -74,7 +75,8 @@
 			<!--view for user1 (you)-->
 			<view name="videoViewBroadcast">
 				<simplelayout axis="y" spacing="10" />
-				<button name="showMyCam" datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}">
+				<button name="showMyCam" datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}"
+						align="right">
 					<attribute name="publish" type="boolean" value="false"/>
 				    <handler name="onclick">
 				    	//Debug.write("publish button");
@@ -166,7 +168,7 @@
 						//classroot.setAttribute('visible',false);
 						//loginScreen.setAttribute('opacity',"1");
 						soUsers.send("removeFromUserlist",username);
-						conn._conn.call("user.removeUsername", conn.responder);
+						conn._conn.call("userservice.removeUsername", conn.responder);
 						conn.closeConnection();
 						var location='http://localhost:8080/lps-4.7.0/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
 						lz.Browser.loadURL(location, '_self'); 

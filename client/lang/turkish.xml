@@ -70,6 +70,8 @@
 	</string>		
 	<string id="23" name="incorrect_user_pass">
 		<value>Yanlış Kullanıcı Adı veya Parola ! </value>
-	</string>	
-			
+	</string>			
+	<string id="24" name="duplicate_username">
+		<value>Kullanıcı adı başka biri tarafından kullanılıyor ! </value>
+	</string>		
 </language>
