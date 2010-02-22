@@ -32,7 +32,7 @@
 				<text datapath="dsetLang:/language/string[@id='10']" text="$path{'value/text()'}" />
 				<text datapath="dsetLang:/language/string[@id='11']" text="$path{'value/text()'}" />	
 			</view>		
-			<view name="registerValuesView" layout="axis:y; spacing:5" yoffset="-5" >
+			<view name="registerValuesView" layout="axis:y; spacing:6" yoffset="-5" >
 				<attribute name="elementsWidth" value="130"/>
 				<!--combobox for the language selection
 					through this combobox implementation application text is being changed dynamically 

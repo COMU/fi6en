@@ -80,7 +80,7 @@
 					<attribute name="publish" type="boolean" value="false"/>
 				    <handler name="onclick">
 				    	//Debug.write("publish button");
-				    	if (!streamPublish.publish) {;
+				    	if (!streamPublish.publish) {
 				    		streamPublish.publishVideo(loginScreen.getUsername());
 				    		//conn.publishVideo(loginScreen.getUsername());
 				    		this.setAttribute('text', "Stop My Cam");
@@ -95,7 +95,7 @@
 				    </handler>
 				</button>
 				<!--<microphone id="micc" capturing="true"/> --> 
-				<videoview id="broadcasting" width="220" height="200" type="rtmp">
+				<videoview id="broadcasting" width="220" height="200" type="rtmp" align="right">
 					<camera id="camm" capturing="true"/>	
 				</videoview>	
 			</view>

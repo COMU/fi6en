@@ -1,5 +1,5 @@
 <!--main application-->
-<canvas width="100%" height="100%" title="Videoconference Application" oninit="conn.connect('rtmp://127.0.0.1/fi6en')">
+<canvas width="100%" height="100%" title="Videoconference Application" oninit="conn.connect('rtmp://192.168.1.4/fi6en')">
 	<!-- oninit="conn.connect('rtmp://127.0.0.1/fi6en')"--> 
 	<dataset name="dsetLang" id="dsetLang"  src="lang/turkish.xml"/>
 	<languageSelector id="langSelector" align="right" valign="top" width="130" yoffset="-10" xoffset="10"/>
