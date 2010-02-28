@@ -22,6 +22,10 @@
 		<method name="removeFromUserlist" args="username">
 			//Debug.write("removing %w from the userlist ",username);
 			usersList.removeItem(username);
+		</method>
+		
+		<method name="deneme" args="param">
+			Debug.write("deneme : %w",param);
 		</method>		
 	</class>
 	

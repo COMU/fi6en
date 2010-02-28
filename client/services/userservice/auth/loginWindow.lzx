@@ -10,9 +10,15 @@
 					import flash.net.*;
 				</passthrough>
 			</when>
-		</switch>		
-		<attribute name="allowdrag" type="boolean" value="false"/>	
+		</switch>	
 		
+		<command name="enterKey" key="['Enter']" active="${classroot.haswindowfocus}">
+			<handler name="onselect">
+				classroot.loginOpearation(classroot.getUsername(),classroot.getPassword());
+			</handler>  
+		</command>
+			
+		<attribute name="allowdrag" type="boolean" value="false"/>		
 		<attribute name="loginAlert" value="null"/>
 		<text name="incorrectUserPass" datapath="dsetLang:/language/string[@id='23']" text="$path{'value/text()'}"  visible="false"/>
 		<attribute name="error" type="string" value="null"/>
@@ -154,10 +160,12 @@
 			/*getting other users's usernames and adding to the list*/
 			var arrayUserlist = soUsers.getDataSO("arrayUserlist");
 			Debug.write("users : ", arrayUserlist);
-
+			
 			if (arrayUserlist != null) {
 				soUsers.addToUserlist(arrayUserlist);
 			}
+			else 
+				chatScreen.setAttribute('isFirstUser',true);
 			soUsers.send("updateUserlist", username);
 			this.animate("opacity", "0", "700");
 			chatScreen.animate("opacity", "1", "700");

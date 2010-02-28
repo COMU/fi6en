@@ -2,27 +2,30 @@
 	
 	<resource name="icon_webcam" src="../icons/webcam-icon.png" />	
 		
-	<class name="chatView" extends="view">	
-		
+	<class name="chatView" extends="view">
+		<!--indicates if the client is the first user for the application-->	
+		<attribute name="isFirstUser" type="boolean" value="false"/>
 		<!--shared object for chat-->
 		<sharedObjectChat id="soChat"> 
 			<handler name="onconnected" reference="conn">
+
 				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.connect("chat", conn._conn, true);
-					this.so.client=this;
+					this.so.client = this;
 				}
 			</handler>
 		</sharedObjectChat>
 		<!--shared object for the usersList(List)
-		@param usersList : name of the shared object at the server side
-		-->
+			@param usersList : name of the shared object at the server side
+			-->
 		<sharedObjectUserlist id="soUsers"> 
 			<handler name="onconnected" reference="conn">
+
 				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.connect("userlist", conn._conn, false);
-					this.so.client=this;
+					this.so.client = this;
 				}
 			</handler>
 		</sharedObjectUserlist>
@@ -30,6 +33,7 @@
 		<!--netStream object for publish operation-->
 		<netStream id="streamPublish"> 
 			<handler name="onconnected" reference="conn">
+
 				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.createStream(conn._conn);
@@ -40,6 +44,7 @@
 		<!--netStream object for play operation-->
 		<netStream id="streamPlay"> 
 			<handler name="onconnected" reference="conn">
+
 				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.createStream(conn._conn);
@@ -59,40 +64,41 @@
 		<view>
 			<simplelayout axis="x" spacing="30" />
 			<!--<window x="10" y="10" >
-			      <statictext fontstyle="bold" >
-			        My new name is ...
-			      </statictext>
-			      <combobox id="cbox" width="175" editable="false" 
-			                defaulttext="test" >
-			        <textlistitem text="Oda1" />
-			        <textlistitem text="Oda2"/>
-			        <textlistitem text="Oda3" />
-			      </combobox>
-			      <button onclick="conn.initConnection(cbox.value)">Katıl
-			      </button>
-			      </window>-->
+				  <statictext fontstyle="bold" >
+					My new name is ...
+				  </statictext>
+				  <combobox id="cbox" width="175" editable="false" 
+							defaulttext="test" >
+					<textlistitem text="Oda1" />
+					<textlistitem text="Oda2"/>
+					<textlistitem text="Oda3" />
+				  </combobox>
+				  <button onclick="conn.initConnection(cbox.value)">Katıl
+				  </button>
+				  </window>-->
 			
 			<!--view for user1 (you)-->
 			<view name="videoViewBroadcast">
 				<simplelayout axis="y" spacing="10" />
 				<button name="showMyCam" datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}"
-						align="right">
+					align="right">
 					<attribute name="publish" type="boolean" value="false"/>
-				    <handler name="onclick">
-				    	//Debug.write("publish button");
-				    	if (!streamPublish.publish) {
-				    		streamPublish.publishVideo(loginScreen.getUsername());
-				    		//conn.publishVideo(loginScreen.getUsername());
-				    		this.setAttribute('text', "Stop My Cam");
-				    		camm.setAttribute("show",true);
-				    		streamPublish.publish=true;
-				    	}
-				    	else {
-				    		this.setAttribute('text', "Show My Cam");
-				    		streamPublish.closeStream();
-				    		streamPublish.publish=false;
-				    	}
-				    </handler>
+					<handler name="onclick">
+
+						//Debug.write("publish button");
+						if (!streamPublish.publish) {
+							streamPublish.publishVideo(loginScreen
+									.getUsername());
+							//conn.publishVideo(loginScreen.getUsername());
+							this.setAttribute('text', "Stop My Cam");
+							camm.setAttribute("show", true);
+							streamPublish.publish = true;
+						} else {
+							this.setAttribute('text', "Show My Cam");
+							streamPublish.closeStream();
+							streamPublish.publish = false;
+						}
+					</handler>
 				</button>
 				<!--<microphone id="micc" capturing="true"/> --> 
 				<videoview id="broadcasting" width="220" height="200" type="rtmp" align="right">
@@ -105,28 +111,29 @@
 				<edittext id="message" width="300" height="20" resizable="true" />
 				
 				<view bgcolor="0XCCCC66" width="300" height="200" clip="true">
-	                  <text id="messageArea" multiline="true" selectable="true"/>
-	                  <vscrollbar/>
-	            </view>
+					<text id="messageArea" multiline="true" selectable="true"/>
+					<vscrollbar/>
+				</view>
 						
 				<view name="buttonView" align="center">
 					<simplelayout spacing="20" />
 					<view name="buttonViewInside1" layout="axis:x; spacing:15" align="center">
 						<button id="sendButton"
-								datapath="dsetLang:/language/string[@id='18']" text="$path{'value/text()'}">
+							datapath="dsetLang:/language/string[@id='18']" text="$path{'value/text()'}">
 							<handler name="onclick" method="sendClicked" />
 							<method name="sendClicked" args="v=0">
-								if (message.text!="") {
+								if (message.text != "") {
 									//Debug.write("Message sent!");
 									classroot.sendMessage(message.text);
 									message.clearText();
-									message.setAttribute("text_y",0);
+									message.setAttribute("text_y", 0);
 								}
 							</method>
 						</button>
 						<button name="clearButton"
-								datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
+							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
 							<handler name="onclick">
+
 								//Debug.write("Clear button clicked");
 								message.clearText();
 							</handler>
@@ -134,8 +141,9 @@
 					</view>
 					<view align="center">
 						<button name="clearTextArea" 
-								datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
+							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
 							<handler name="onclick">
+
 								//Debug.write("Clear Text Area button clicked");
 								messageArea.clearText();
 							</handler>
@@ -148,35 +156,38 @@
 			<view name="videoViewPlay" layout="axis:y; spacing:10">
 				<button name="showUserCam" align="left" datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}">
 					<handler name="onclick">
+
 						//Debug.write("play button");
 						//Debug.info ("selected item => %w",usersList.getSelection().text);
-						var streamToPlay= usersList.getSelection().text;
+						var streamToPlay = usersList.getSelection().text;
 						streamPlay.playVideo(streamToPlay);
-	        			live._attachStream(streamPlay.stream);
+						live._attachStream(streamPlay.stream);
 					</handler>
 				</button>
-		   		<videoview id="live" width="220" height="200" type="rtmp"/>
+				<videoview id="live" width="220" height="200" type="rtmp"/>
 			</view>
 			
 			<view>
 				<simplelayout spacing="20"/>
 				<button id="disconnectButton" datapath="dsetLang:/language/string[@id='21']" text="$path{'value/text()'}" 
-						align="center">
+					align="center">
 					<handler name="onclick"><![CDATA[
-						var username= loginScreen.getUsername();
-						soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
+						var username = loginScreen.getUsername();
+						soChat.send("writeInfo", loginScreen.getUsername()
+										+ " logged out");
 						//classroot.setAttribute('visible',false);
 						//loginScreen.setAttribute('opacity',"1");
-						soUsers.send("removeFromUserlist",username);
-						conn._conn.call("userservice.removeUsername", conn.responder);
+						if (classroot.isFirstUser)
+							soUsers.send("removeFromUserlist", username);
+						//conn._conn.call("userservice.removeUsername", conn.responder);
 						conn.closeConnection();
-						var location='http://localhost:8080/lps-4.7.0/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
-						lz.Browser.loadURL(location, '_self'); 
-						]]>
+						var location = 'http://localhost:8080/lps-4.7.0/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
+						lz.Browser.loadURL(location, '_self');
+					]]>
 					</handler>
 				</button>
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center"
-					  datapath="dsetLang:/language/string[@id='22']" text="$path{'value/text()'}" />
+					datapath="dsetLang:/language/string[@id='22']" text="$path{'value/text()'}" />
 				<list id="usersList" >
 					<textlistitem visible="false" layout="axis:x" text="cem" resource="icon_webcam" />
 				</list>
@@ -186,13 +197,14 @@
 		
 		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">
+
 			//Debug.write("sendMessage method");
-			soChat.writeSharedObject(message); 	 		
+			soChat.writeSharedObject(message);
 		</method>
 		
 		<!--<method name="getUserListReference">
-			return userList;
-		</method>-->
+				return userList;
+			</method>-->
 				
 	</class>	
 	

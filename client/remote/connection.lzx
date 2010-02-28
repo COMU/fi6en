@@ -64,6 +64,8 @@
                 
                 case "NetConnection.Connect.Closed":
                 	Debug.write("Disconnected server application." );
+                	soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
+                	soUsers.send("removeFromUserlist",loginScreen.getUsername());
                 	this.setAttribute("connected",false);
                 	this.closeConnection();
                 	break;
