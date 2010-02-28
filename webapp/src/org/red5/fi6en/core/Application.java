@@ -1,18 +1,11 @@
 package org.red5.fi6en.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.red5.fi6en.userservice.DatabaseOperation;
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.adapter.ApplicationAdapter;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
-import org.red5.server.api.Red5;
-import org.red5.server.api.service.ServiceUtils;
 import org.red5.server.api.so.ISharedObject;
 import org.red5.server.api.so.ISharedObjectListener;
-import org.red5.server.service.ServiceInvoker;
 import org.slf4j.Logger;
 
 /**
@@ -20,24 +13,22 @@ import org.slf4j.Logger;
  * 
  * @author cem (cemosonmez@gmail.com)
  * 
- * @version $Revision$ $Date$
  */
 
 public class Application extends ApplicationAdapter {
 	IScope appScope;
-
 	ISharedObject sharedObjectChat;
 
 	private static Logger log = Red5LoggerFactory.getLogger(Application.class,
 			"fi6en");
 
 	public boolean appStart(IScope scope) {
-		log.info("Videoconference application started");
+		log.info("fi6en Videoconference application started");
 		return true;
 	}
 
 	public void appStop(IScope scope) {
-		log.info("Videoconference Application stopped");
+		log.info("fi6en Videoconference Application stopped");
 	}
 
 	public boolean connect(IConnection conn, IScope scope, Object[] params) {
@@ -48,11 +39,6 @@ public class Application extends ApplicationAdapter {
 		sharedObjectChat = getSharedObject(appScope, "chat");
 		ISharedObjectListener listenerSOChat = new SharedObjectListener();
 		sharedObjectChat.addSharedObjectListener(listenerSOChat);
-		
-		//String username= "necdet";
-		//String password= "57ba172a6be125cca2f449826f9980123a";
-		
-		//log.info("password bulundu mu ?  : "+DatabaseOperation.comparePasswords(username, password));
 		return true;
 	}
 	public void disconnect(IConnection conn, IScope scope) {

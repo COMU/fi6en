@@ -13,13 +13,12 @@ import org.slf4j.Logger;
  * class that handles the events on the shared objects
  * 
  * @author cem (cemosonmez@gmail.com)
- * 
- * @version $Revision$ $Date$
  */
 
 public class SharedObjectListener implements ISharedObjectListener {
-	Logger log= Red5LoggerFactory.getLogger(SharedObjectListener.class,"fi6en");
-	
+	Logger log = Red5LoggerFactory.getLogger(SharedObjectListener.class,
+			"fi6en");
+
 	public void onSharedObjectConnect(ISharedObjectBase so) {
 		log.info("videoconference shared object connect");
 	}
@@ -44,8 +43,10 @@ public class SharedObjectListener implements ISharedObjectListener {
 	 * @param value
 	 *            the value of the attribute
 	 */
-	public void onSharedObjectUpdate(ISharedObjectBase so, String key, Object value) {
-		log.info("videoconference shared object update "+"key : "+key+"- value : "+value);
+	public void onSharedObjectUpdate(ISharedObjectBase so, String key,
+			Object value) {
+		log.info("videoconference shared object update " + "key : " + key
+				+ "- value : " + value);
 	}
 
 	@Override
@@ -58,36 +59,27 @@ public class SharedObjectListener implements ISharedObjectListener {
 	public void onSharedObjectDelete(ISharedObjectBase so, String key) {
 		// TODO Auto-generated method stub
 		System.out.println("shared object deleted");
-		
+
 	}
 
 	@Override
 	public void onSharedObjectSend(ISharedObjectBase so, String method,
 			List<?> params) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onSharedObjectUpdate(ISharedObjectBase so,
 			IAttributeStore values) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onSharedObjectUpdate(ISharedObjectBase so,
 			Map<String, Object> values) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	/**
-	 * Called when multiple attributes of a shared object are updated.
-	 * 
-	 * @param so
-	 *            the shared object
-	 * @param values
-	 *            the new attributes of the shared object
-	 */
 	}
+}
