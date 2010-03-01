@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 public class DatabaseOperation {
 	private static Logger log = Red5LoggerFactory.getLogger(
 			DatabaseOperation.class, "fi6en");
+
 	IScope appScope;
-	
 
 	static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
@@ -71,7 +71,7 @@ public class DatabaseOperation {
 	 */
 	public String fetchUserPassword(String username) {
 		Session session = sessionFactory.openSession();
-		String password=null;
+		String password = null;
 		try {
 			Criteria criteria = session.createCriteria(User.class);
 			criteria.add(Restrictions.eq("username", username));
@@ -79,14 +79,14 @@ public class DatabaseOperation {
 			/*if (users == null)
 				return "";
 			else {*/
-				Iterator iterator = users.iterator();
-				while (iterator.hasNext()) {
-					User user = (User) iterator.next();
-					log.info("username : " + user.getUsername());
-					log.info("password : " + user.getPassword());
-					log.info("email : " + user.getEmail() + "\n");
-					password= user.getPassword();
-				}
+			Iterator iterator = users.iterator();
+			while (iterator.hasNext()) {
+				User user = (User) iterator.next();
+				log.info("username : " + user.getUsername());
+				log.info("password : " + user.getPassword());
+				log.info("email : " + user.getEmail() + "\n");
+				password = user.getPassword();
+			}
 			//}
 		} catch (Exception e) {
 			log
@@ -103,15 +103,36 @@ public class DatabaseOperation {
 	 * @param password password
 	 * @return boolean;
 	 */
-	public boolean comparePasswords (String username, String password) {
-		String databasePassword= fetchUserPassword(username);
-		if (databasePassword!= null && databasePassword.equals(password)) {
-				log.info("authentication successful");
-				return true;
-		}
-		else {
+	public boolean comparePasswords(String username, String password) {
+		String databasePassword = fetchUserPassword(username);
+		if (databasePassword != null && databasePassword.equals(password)) {
+			log.info("authentication successful");
+			return true;
+		} else {
 			log.error("authentication failed");
 			return false;
 		}
+	}
+
+	public boolean checkDuplicateUser(String username) {
+		log.info("check duplicate username method, username : {}", username);
+		Session session = sessionFactory.openSession();
+		boolean isDuplicate= true;
+		try {
+			Criteria criteria = session.createCriteria(User.class);
+			criteria.add(Restrictions.eq("username", username));
+			List users = criteria.list();
+			if (users.isEmpty()) {
+				log.info("username : {} is available to use",username);
+				return false;
+			} else {
+				log.error("username : {} is already in use",username);
+				return true;
+			}
+		} catch (Exception e) {
+			log.error("An error occured while checking duplicate username "
+					+ e.getMessage());
+		}
+		return isDuplicate;
 	}
 }
