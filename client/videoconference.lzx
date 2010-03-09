@@ -1,6 +1,36 @@
 <!--main application-->
-<canvas width="100%" height="100%" title="Videoconference Application" oninit="conn.connect('rtmp://192.168.1.4/fi6en')">
-	<!-- oninit="conn.connect('rtmp://127.0.0.1/fi6en')"--> 
+<canvas width="100%" height="100%" title="Fi6en"
+		>
+	<!--for swf10 runtime-->
+	<switch>
+		<when property="$as3">
+			<passthrough>
+					import flash.system.Security;
+			</passthrough>
+		</when>
+	</switch>
+	
+	<handler name="oninit">
+		conn.connect("rtmp://192.168.1.79/fi6en");
+		Security.allowDomain("*");
+		Security.loadPolicyFile("http://members.comu.edu.tr/cem/fi6en(allow)/crossdomain.xml");
+		switch (Security.sandboxType) {
+			case Security.LOCAL_TRUSTED :
+				Debug.write("Local trusted");
+				break;
+			case Security.LOCAL_WITH_FILE :
+				Debug.write("Local with file");
+				break;
+			case Security.LOCAL_WITH_NETWORK :
+				Debug.write("Local with network");
+				break;
+			case Security.REMOTE :
+				Debug.write("Remote");
+				break;
+		}
+		//Debug.write("Security settings : %w",Security.showSettings());
+	</handler>
+	 
 	<dataset name="dsetLang" id="dsetLang"  src="lang/turkish.xml"/>
 	<languageSelector id="langSelector" align="right" valign="top" width="130" yoffset="-10" xoffset="10"/>
 	<include href="library.lzx"/>

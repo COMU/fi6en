@@ -8,7 +8,6 @@
 		<!--shared object for chat-->
 		<sharedObjectChat id="soChat"> 
 			<handler name="onconnected" reference="conn">
-
 				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.connect("chat", conn._conn, true);
@@ -21,7 +20,6 @@
 			-->
 		<sharedObjectUserlist id="soUsers"> 
 			<handler name="onconnected" reference="conn">
-
 				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.connect("userlist", conn._conn, false);
@@ -133,7 +131,6 @@
 						<button name="clearButton"
 							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
 							<handler name="onclick">
-
 								//Debug.write("Clear button clicked");
 								message.clearText();
 							</handler>
@@ -143,7 +140,6 @@
 						<button name="clearTextArea" 
 							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
 							<handler name="onclick">
-
 								//Debug.write("Clear Text Area button clicked");
 								messageArea.clearText();
 							</handler>
@@ -177,8 +173,10 @@
 										+ " logged out");
 						//classroot.setAttribute('visible',false);
 						//loginScreen.setAttribute('opacity',"1");
-						if (classroot.isFirstUser)
-							soUsers.send("removeFromUserlist", username);
+						
+						/*if (classroot.isFirstUser)
+							soUsers.send("removeFromUserlist", username);*/
+							
 						//conn._conn.call("userservice.removeUsername", conn.responder);
 						conn.closeConnection();
 						var location = 'http://localhost:8080/lps-4.7.0/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
@@ -189,7 +187,7 @@
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center"
 					datapath="dsetLang:/language/string[@id='22']" text="$path{'value/text()'}" />
 				<list id="usersList" >
-					<textlistitem visible="false" layout="axis:x" text="cem" resource="icon_webcam" />
+					<textlistitem visible="false" layout="axis:x" text="1w-*23" resource="icon_webcam" />
 				</list>
 			</view>
 		</view>
@@ -197,9 +195,10 @@
 		
 		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">
-
 			//Debug.write("sendMessage method");
 			soChat.writeSharedObject(message);
+			//messageArea.addText(loginScreen.getUsername()+" : "+message+"\n");
+			//conn._conn.call("sendMessage",null,message);
 		</method>
 		
 		<!--<method name="getUserListReference">

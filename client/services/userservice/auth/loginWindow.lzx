@@ -1,5 +1,5 @@
 <library>
-	<include href="registerNewUser.lzx" />
+	<include href="registerNewUser.lzx"/>
 	<script src="md5.js" />
 	<!--login window view-->
 	<class name="loginWindow" extends="window" width="300" height="200" 
@@ -12,11 +12,12 @@
 			</when>
 		</switch>	
 		
-		<command name="enterKey" key="['Enter']" active="${classroot.haswindowfocus}">
+		<!--<command name="enter" key="['Enter']" active="${classroot.haswindowfocus}">
 			<handler name="onselect">
-				classroot.loginOpearation(classroot.getUsername(),classroot.getPassword());
+				Debug.write("login window enter");
+				//classroot.loginOpearation(classroot.getUsername(),classroot.getPassword());
 			</handler>  
-		</command>
+		</command>-->
 			
 		<attribute name="allowdrag" type="boolean" value="false"/>		
 		<attribute name="loginAlert" value="null"/>
@@ -164,8 +165,12 @@
 			if (arrayUserlist != null) {
 				soUsers.addToUserlist(arrayUserlist);
 			}
-			else 
+			else {
 				chatScreen.setAttribute('isFirstUser',true);
+				Debug.info("you are the first user on the chat application");
+			}
+				
+				
 			soUsers.send("updateUserlist", username);
 			this.animate("opacity", "0", "700");
 			chatScreen.animate("opacity", "1", "700");

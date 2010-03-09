@@ -21,6 +21,12 @@
 		<!--removes the given username from the userlist-->
 		<method name="removeFromUserlist" args="username">
 			//Debug.write("removing %w from the userlist ",username);
+			/*if the client is the first user for the app., manually removing username from the userlist*/
+			if (chatScreen.isFirstUser) {
+				//Debug.info(username," is the first user");
+				usersList.removeItem(username);
+				return;
+			}			
 			usersList.removeItem(username);
 		</method>
 		
