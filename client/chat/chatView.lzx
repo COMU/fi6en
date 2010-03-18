@@ -1,6 +1,6 @@
 <library>
 	
-	<resource name="icon_webcam" src="../icons/webcam-icon.png" />	
+	<resource name="icon_webcam" src="../resources/icons/webcam-icon.png" />	
 		
 	<class name="chatView" extends="view">
 		<!--indicates if the client is the first user for the application-->	
@@ -92,7 +92,6 @@
 							camm.setAttribute("show", true);
 							streamPublish.publish = true;
 						} else {
-							this.setAttribute('text', "Show My Cam");
 							streamPublish.closeStream();
 							streamPublish.publish = false;
 						}

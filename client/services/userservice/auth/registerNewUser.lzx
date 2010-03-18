@@ -93,7 +93,7 @@
 				var hash = hex_md5(this.getPassword());
 				user = [username, hash, firstname, lastname, email,
 						location];
-				Debug.debug("md5  %w : %w", password, hash);
+				//Debug.debug("md5  %w : %w", password, hash);
 				this.checkUserAvailability(username);
 			}
 		</method>

@@ -22,9 +22,11 @@
 		<method name="removeFromUserlist" args="username">
 			//Debug.write("removing %w from the userlist ",username);
 			/*if the client is the first user for the app., manually removing username from the userlist*/
-			if (chatScreen.isFirstUser) {
+			if (!chatScreen.isFirstUser) {
 				//Debug.info(username," is the first user");
 				usersList.removeItem(username);
+				soChat.send("writeInfo", loginScreen.getUsername()
+										+ " logged out");
 				return;
 			}			
 			usersList.removeItem(username);
