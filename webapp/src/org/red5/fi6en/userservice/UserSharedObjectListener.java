@@ -13,7 +13,11 @@ import org.red5.server.api.so.ISharedObject;
 import org.red5.server.api.so.ISharedObjectBase;
 import org.red5.server.api.so.ISharedObjectService;
 import org.slf4j.Logger;
-
+/**
+ * listener class for the user shared object
+ * @author cem (cemosonmez@gmail.com)
+ *
+ */
 public class UserSharedObjectListener extends SharedObjectListener {
 	Logger log = Red5LoggerFactory.getLogger(UserSharedObjectListener.class,
 			"fi6en");
@@ -31,26 +35,34 @@ public class UserSharedObjectListener extends SharedObjectListener {
 			IScope scope = conn.getScope();
 			ISharedObject sharedObject = this
 					.getSharedObject(scope, "userlist");
-			String username = scope	.getStringAttribute(conn.getClient().getId());
-			UserService service = (UserService) scope.getContext().getBean("userservice.service");
+			String username = scope
+					.getStringAttribute(conn.getClient().getId());
+			//getting usersevice.service bean from red5-web.xml
+			UserService service = (UserService) scope.getContext().getBean(
+					"userservice.service");
 			service.removeUsername(username);
 			log.info("so User : {}", username);
 			List<String> list = new ArrayList<String>();
 			list.add(username);
+			//sending current username to remove it from the username list on flash application			
 			sharedObject.sendMessage("removeFromUserlist", list);
 			return true;
 		} catch (Exception e) {
-			log.error(	"exception while removing username from the user list {}",
+			log.error(
+					"exception while removing username from the user list {}",
 					e.getMessage());
 			return false;
 		}
 	}
-/**
- * 
- * @param scope scope has the shared object
- * @param soName shared object name
- * @return {@link ISharedObject} or null
- */
+
+	/**
+	 * 
+	 * @param scope
+	 *            scope has the shared object
+	 * @param soName
+	 *            shared object name
+	 * @return {@link ISharedObject} or null
+	 */
 	private ISharedObject getSharedObject(IScope scope, String soName) {
 		ISharedObjectService service = (ISharedObjectService) ScopeUtils
 				.getScopeService(scope, ISharedObjectService.class, false);

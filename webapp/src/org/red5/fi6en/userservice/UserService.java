@@ -49,13 +49,13 @@ public class UserService {
 		this.createSharedObject(appScope,"userlist",false);
 		sharedObjectUserslist = this.getSharedObject(appScope,"userlist");
 		sharedObjectUserslist.addSharedObjectListener(listenerSOUsers);
-		sharedObjectUserslist.clear();
 		
 		String uname= username;
 		String uid= conn.getClient().getId();
 		clientMgr.addClient(appScope, uname, uid);
 		arraylistUsers.add(uname);
 		
+		//writing connected usernames
 		Iterator<String> iterator= arraylistUsers.iterator();
 		while (iterator.hasNext()) {
 			log.info("username :"+ iterator.next());
@@ -116,7 +116,7 @@ public class UserService {
 	}
 	/**
 	 * 
-	 * @return arralist for the usernames
+	 * @return arraylist for the usernames
 	 */
 	public ArrayList<String> getUserlist() {
 		return arraylistUsers;
