@@ -1,0 +1,5 @@
+<library>
+	<include href="roomTest.lzx" />
+	<include href="roomButton.lzx" />
+	<include href="soChatRoom.lzx" />
+</library>

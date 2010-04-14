@@ -8,6 +8,8 @@
 		<!--shared object for chat-->
 		<sharedObjectChat id="soChat"> 
 			<handler name="onconnected" reference="conn">
+
+
 				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.connect("chat", conn._conn, true);
@@ -20,6 +22,8 @@
 			-->
 		<sharedObjectUserlist id="soUsers"> 
 			<handler name="onconnected" reference="conn">
+
+
 				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.connect("userlist", conn._conn, false);
@@ -32,6 +36,7 @@
 		<netStream id="streamPublish"> 
 			<handler name="onconnected" reference="conn">
 
+
 				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.createStream(conn._conn);
@@ -43,6 +48,7 @@
 		<netStream id="streamPlay"> 
 			<handler name="onconnected" reference="conn">
 
+
 				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.createStream(conn._conn);
@@ -52,6 +58,8 @@
 
 		<command name="enterKey" key="['Enter']">
 			<handler name="onselect">
+
+
 				//Debug.write('Enter key was pressed');
 				sendButton.sendClicked();
 			</handler>  
@@ -59,7 +67,17 @@
 		
 		<!--audio, video, chat view-->
 		
-		<view>
+		<view name="mainChatView">
+			<!--view for creating rooms-->
+			<view name="roomsView">
+				<simplelayout spacing="7"/>
+				<roomTest name="roomTestView" />
+				<view name="roomList" align="center">
+					<attribute name="lastposition" type="number"/>
+					<simplelayout spacing="7"/>
+				</view>
+			</view>
+			
 			<simplelayout axis="x" spacing="30" />
 			<!--<window x="10" y="10" >
 				  <statictext fontstyle="bold" >
@@ -82,6 +100,7 @@
 					align="right">
 					<attribute name="publish" type="boolean" value="false"/>
 					<handler name="onclick">
+
 
 						//Debug.write("publish button");
 						if (!streamPublish.publish) {
@@ -130,6 +149,8 @@
 						<button name="clearButton"
 							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
 							<handler name="onclick">
+
+
 								//Debug.write("Clear button clicked");
 								message.clearText();
 							</handler>
@@ -139,6 +160,8 @@
 						<button name="clearTextArea" 
 							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
 							<handler name="onclick">
+
+
 								//Debug.write("Clear Text Area button clicked");
 								messageArea.clearText();
 							</handler>
@@ -151,6 +174,7 @@
 			<view name="videoViewPlay" layout="axis:y; spacing:10">
 				<button name="showUserCam" align="left" datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}">
 					<handler name="onclick">
+
 
 						//Debug.write("play button");
 						//Debug.info ("selected item => %w",usersList.getSelection().text);
@@ -172,10 +196,10 @@
 										+ " logged out");
 						//classroot.setAttribute('visible',false);
 						//loginScreen.setAttribute('opacity',"1");
-						
+
 						/*if (classroot.isFirstUser)
 							soUsers.send("removeFromUserlist", username);*/
-							
+
 						//conn._conn.call("userservice.removeUsername", conn.responder);
 						conn.closeConnection();
 						var location = 'http://localhost:8080/lps-4.7.0/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
@@ -194,6 +218,8 @@
 		
 		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">
+
+
 			//Debug.write("sendMessage method");
 			soChat.writeSharedObject(message);
 			//messageArea.addText(loginScreen.getUsername()+" : "+message+"\n");

@@ -1,17 +1,20 @@
 <!--main application-->
-<canvas width="100%" height="100%" title="Fi6en">
+<canvas width="100%" height="100%" title="Fi6en" debug="true">
 	<!--for swf10 runtime-->
-	<image src="resources/wallpaper/BlueCurl.jpg"/>
+	<view width="${canvas.width}" height="${canvas.height}"
+          resource="resources/wallpaper/BlueCurl.jpg" stretches="both"/>
 	<switch>
 		<when property="$as3">
 			<passthrough>
-					import flash.system.Security;
+				import flash.system.Security;
 			</passthrough>
 		</when>
 	</switch>
-	
+	<splash>
+		<view resource="initializing.swf"/>
+	</splash>
 	<handler name="oninit">
-		conn.connect("rtmp://192.168.1.79/fi6en");
+		conn.connect("rtmp://192.168.1.79:1935/fi6en");
 		Security.allowDomain("*");
 		//Security.loadPolicyFile("http://members.comu.edu.tr/cem/fi6en(allow)/crossdomain.xml");
 		switch (Security.sandboxType) {
@@ -34,8 +37,8 @@
 	<dataset name="dsetLang" id="dsetLang"  src="lang/turkish.xml"/>
 	<languageSelector id="langSelector" align="right" valign="top" width="130" yoffset="-10" xoffset="10"/>
 	<include href="library.lzx"/>
-	<debug x="50" width="400"/>
+	<debug width="400" height="300"/>
 	<connection id="conn" />
-	<loginWindow name="loginScreen" align="center" valign="middle" />
+	<loginWindow name="loginScreen" align="center" valign="middle" width="300" height="200"/> 
 	<chatView id="chatScreen" y="50" align="center" opacity="0"/>
 </canvas>

@@ -1,6 +1,7 @@
 <library>
 	<include href="chat/library.lzx" />
 	<include href="remote/library.lzx" />
+	<include href="room/library.lzx" />
 	<include href="services/library.lzx" />
 	<include href="util/library.lzx" />
 </library>

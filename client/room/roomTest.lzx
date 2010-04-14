@@ -1,0 +1,67 @@
+<library>
+	
+	<class name="roomTest" extends="view">
+		<soChatRoom id="soChatRoomm"> 
+			<handler name="onconnected" reference="conn">
+
+
+				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
+				if (conn.connected) {
+					this.connect("chatRoom", conn._conn, true);
+					this.so.client = this;
+				}
+			</handler>
+		</soChatRoom>
+		
+		<attribute name="roomAlert" value="null"/>
+		<attribute name="warning" type="string" value="null"/>
+		<view align="center">
+			<simplelayout spacing="10"/>
+			<button name="roomCreateButton">Create Room
+				<handler name="onclick">
+					var room = parent.roomNameView.roomName.text;
+					if (room != '') {
+						parent.parent.createRoom(room);
+						parent.roomNameView.setAttribute('visible', false);
+						parent.roomNameView.roomName.clearText();
+					} 
+					else {
+						classroot.warning = 'Type room name to create please!';
+						classroot.roomAlert = new lz.alert(canvas, {
+									text : classroot.warning,
+									stretches : 'both'
+								});
+						classroot.roomAlert.open();
+					}
+				</handler>
+				<handler name="onmouseover">
+					parent.roomNameView.setAttribute('visible', true);
+				</handler>
+			</button>
+			<view name="roomNameView" visible="false" align="center">
+				<simplelayout axis="x" spacing="5" />
+				<edittext name="roomName" width="70"/>
+				<text>Cancel
+					<handler name="onclick">
+						parent.setAttribute('visible', false);
+					</handler>
+				</text>	
+			</view>		
+			<!--<edittext width="250" name="message" />
+				<button>Send Message
+					<handler name="onclick">
+						soChatRoomm.send('writeMessage', parent.message.text);
+					</handler>
+				</button>-->
+		</view>
+	
+		<method name="createRoom" args="roomName">
+			soChatRoomm.createRoomButton(roomName);
+		</method>
+
+		<method name="roomclick">
+			Debug.info("room url : %w");
+		</method>	
+	</class>
+	
+</library>

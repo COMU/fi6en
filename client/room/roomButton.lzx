@@ -1,0 +1,9 @@
+<library>
+	<class name="roomButton" extends="button">
+		<handler name="onclick">
+			var newUrl = 'rtmp://192.168.1.79:1935/fi6en/'+this.text;
+			Debug.write("url : %w",newUrl);
+			conn.connect(newUrl);
+		</handler>
+	</class>
+</library>

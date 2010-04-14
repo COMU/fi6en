@@ -2,7 +2,7 @@
 	<include href="registerNewUser.lzx"/>
 	<script src="md5.js" />
 	<!--login window view-->
-	<class name="loginWindow" extends="window" width="300" height="200" 
+	<class name="loginWindow" extends="window"  
 		   datapath="dsetLang:/language/string[@id='2']" title="$path{'value/text()'}">
 		<switch>
 			<when property="$as3">
