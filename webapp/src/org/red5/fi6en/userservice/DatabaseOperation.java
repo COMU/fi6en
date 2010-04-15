@@ -9,7 +9,10 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.red5.fi6en.util.HibernateUtil;
 import org.red5.logging.Red5LoggerFactory;
+import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
+import org.red5.server.api.Red5;
+import org.red5.server.api.service.IServiceCapableConnection;
 import org.slf4j.Logger;
 
 public class DatabaseOperation {
@@ -22,7 +25,9 @@ public class DatabaseOperation {
 
 	/**
 	 * store user information to the database
-	 * @param params user information object
+	 * 
+	 * @param params
+	 *            user information object
 	 * @return void
 	 */
 	public void saveToDatabase(Object[] params) {
@@ -35,9 +40,10 @@ public class DatabaseOperation {
 		String email = params[4].toString();
 		String location = params[5].toString();
 
-		/*for (int i = 0; i < params.length; i++) {
-			log.info(i + " : " + params[i].toString() + "\n");
-		}*/
+		/*
+		 * for (int i = 0; i < params.length; i++) { log.info(i + " : " +
+		 * params[i].toString() + "\n"); }
+		 */
 
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -62,50 +68,35 @@ public class DatabaseOperation {
 			session.close();
 		}
 
-	}//saveToDatabase
+	}// saveToDatabase
 
-	/**
-	 * method to fetch the password from fi6en database
-	 * @param username username for the password
-	 * @return String
-	 */
-	public String fetchUserPassword(String username) {
-		Session session = sessionFactory.openSession();
-		String password = null;
-		try {
-			Criteria criteria = session.createCriteria(User.class);
-			criteria.add(Restrictions.eq("username", username));
-			List users = criteria.list();
-			/*if (users == null)
-				return "";
-			else {*/
-			Iterator iterator = users.iterator();
-			while (iterator.hasNext()) {
-				User user = (User) iterator.next();
-				log.info("username : " + user.getUsername());
-				log.info("password : " + user.getPassword());
-				log.info("email : " + user.getEmail() + "\n");
-				password = user.getPassword();
-			}
-			//}
-		} catch (Exception e) {
-			log
-					.error("An error occured while fetching password data from database "
-							+ e.getMessage());
-			System.err.println("error fetching password : " + e.getMessage());
-		}
-		return password;
-	}
+	
 
 	/**
 	 * compares password that is coming from client and password in the database
-	 * @param username username
-	 * @param password password
+	 * 
+	 * @param username
+	 *            username
+	 * @param password
+	 *            password
 	 * @return boolean;
 	 */
 	public boolean comparePasswords(String username, String password) {
-		String databasePassword = fetchUserPassword(username);
+		String databasePassword = fetchUserPassword(username);		
+		User userr = fetchUser(username);
+		// compares password hashes
 		if (databasePassword != null && databasePassword.equals(password)) {
+			/**
+			 * if the authentication is succeeded, 
+			 * sends firstname and lastname to set the welcome message on client application 
+			 */
+			if (Red5.getConnectionLocal() != null) {
+				IConnection conn= Red5.getConnectionLocal();
+				Object[]user  = new Object[]{userr.getFirstname(),userr.getLastname()};
+				IServiceCapableConnection service = (IServiceCapableConnection)conn;
+				service.invoke("setWelcomeMessage", user);
+			}
+
 			log.info("authentication successful");
 			return true;
 		} else {
@@ -117,16 +108,16 @@ public class DatabaseOperation {
 	public boolean checkDuplicateUser(String username) {
 		log.info("check duplicate username method, username : {}", username);
 		Session session = sessionFactory.openSession();
-		boolean isDuplicate= true;
+		boolean isDuplicate = true;
 		try {
 			Criteria criteria = session.createCriteria(User.class);
 			criteria.add(Restrictions.eq("username", username));
 			List users = criteria.list();
 			if (users.isEmpty()) {
-				log.info("username : {} is available to use",username);
+				log.info("username : {} is available to use", username);
 				return false;
 			} else {
-				log.error("username : {} is already in use",username);
+				log.error("username : {} is already in use", username);
 				return true;
 			}
 		} catch (Exception e) {
@@ -134,5 +125,62 @@ public class DatabaseOperation {
 					+ e.getMessage());
 		}
 		return isDuplicate;
+	}
+
+	/**
+	 * method to fetch the password from fi6en database
+	 * 
+	 * @param username
+	 *            username for the password
+	 * @return String
+	 */
+	public String fetchUserPassword(String username) {
+		Session session = sessionFactory.openSession();
+		String password = null;
+		try {
+			Criteria criteria = session.createCriteria(User.class);
+			criteria.add(Restrictions.eq("username", username));
+			List users = criteria.list();
+			/*
+			 * if (users == null) return ""; else {
+			 */
+			Iterator iterator = users.iterator();
+			while (iterator.hasNext()) {
+				User user = (User) iterator.next();
+				log.info("username : " + user.getUsername());
+				log.info("password : " + user.getPassword());
+				log.info("email : " + user.getEmail() + "\n");
+				password = user.getPassword();
+			}
+			// }
+		} catch (Exception e) {
+			log
+					.error("An error occured while fetching password data from database "
+							+ e.getMessage());
+			System.err.println("error fetching password : " + e.getMessage());
+		}
+		return password;
+	}
+	
+	public User fetchUser(String username) {
+		User user = new User();
+		Session session = sessionFactory.openSession();
+		try {
+			Criteria criteria = session.createCriteria(User.class);
+			criteria.add(Restrictions.eq("username", username));
+			List users = criteria.list();
+			/*
+			 * if (users == null) return ""; else {
+			 */
+			Iterator iterator = users.iterator();
+			while (iterator.hasNext()) {
+				user = (User) iterator.next();
+			}
+			// }
+		} catch (Exception e) {
+			log.error("An error occured while fetching user from database "
+							+ e.getMessage());
+		}
+		return user;
 	}
 }
