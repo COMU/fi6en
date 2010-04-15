@@ -68,7 +68,7 @@
 		<!--audio, video, chat view-->
 		
 		<view name="mainChatView">
-			<!--view for creating rooms-->
+			<!--view for creating and entering the rooms-->
 			<view name="roomsView">
 				<simplelayout spacing="7"/>
 				<roomTest name="roomTestView" />
@@ -126,9 +126,11 @@
 			<view name="chat" layout="axis:y;spacing:10" >
 				<edittext id="message" width="300" height="20" resizable="true" />
 				
-				<view bgcolor="0XCCCC66" width="300" height="200" clip="true">
-					<text id="messageArea" multiline="true" selectable="true"/>
-					<vscrollbar/>
+				<view bgcolor="0XCCCC66" width="300" height="200" clip="true"
+					  focusable="true" clickable="true">
+					<text id="messageArea" multiline="true" selectable="true" clickable="true"/>
+					<vscrollbar id="vscrollbarChat" mousewheelactive="true"
+								usemousewheel="true" focusview="$once{parent}" />
 				</view>
 						
 				<view name="buttonView" align="center">
@@ -142,14 +144,14 @@
 									//Debug.write("Message sent!");
 									classroot.sendMessage(message.text);
 									message.clearText();
-									message.setAttribute("text_y", 0);
+									vscrollbarChat.page(-1);
+									vscrollbarChat.step(-1);
 								}
 							</method>
 						</button>
 						<button name="clearButton"
 							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
 							<handler name="onclick">
-
 
 								//Debug.write("Clear button clicked");
 								message.clearText();
@@ -160,7 +162,6 @@
 						<button name="clearTextArea" 
 							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
 							<handler name="onclick">
-
 
 								//Debug.write("Clear Text Area button clicked");
 								messageArea.clearText();
@@ -174,7 +175,6 @@
 			<view name="videoViewPlay" layout="axis:y; spacing:10">
 				<button name="showUserCam" align="left" datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}">
 					<handler name="onclick">
-
 
 						//Debug.write("play button");
 						//Debug.info ("selected item => %w",usersList.getSelection().text);
@@ -218,7 +218,6 @@
 		
 		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">
-
 
 			//Debug.write("sendMessage method");
 			soChat.writeSharedObject(message);

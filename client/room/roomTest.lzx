@@ -3,8 +3,6 @@
 	<class name="roomTest" extends="view">
 		<soChatRoom id="soChatRoomm"> 
 			<handler name="onconnected" reference="conn">
-
-
 				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.connect("chatRoom", conn._conn, true);

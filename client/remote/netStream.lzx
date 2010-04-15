@@ -72,7 +72,7 @@
         <method name="publishVideo" args="streamName">	
 	        var camera= Camera.getCamera();
 	        camera.setMode(220, 200, 15);
-	        camera.setQuality(0,80);
+	        camera.setQuality(0,95);
 	        this.stream.attachCamera(camera);
 			this.stream.publish(streamName,"live");
 			//_conn.call("user.sendUsername",responder,username);

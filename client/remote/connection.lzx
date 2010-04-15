@@ -188,5 +188,11 @@
 	    	return _sharedObjectUserlist;
 	    </method> -->	    
 	    
+	    <!--method sets welcome message with the incoming firstname and lastname-->
+	    
+	    <method name="setWelcomeMessage" args="firstname, lastname">							
+	    	welcome.addText(" "+firstname+" "+lastname);
+	    	Debug.write("başşarılı deneme %w %w",firstname, lastname);	    	
+	    </method>
 	</class>	
 </library>

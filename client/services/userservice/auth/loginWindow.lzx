@@ -168,10 +168,9 @@
 			else {
 				chatScreen.setAttribute('isFirstUser',true);
 				//Debug.info("you are the first user on the chat application");
-			}
-				
-				
+			}				
 			soUsers.send("updateUserlist", username);
+			welcome.setAttribute('visible',true);
 			this.animate("opacity", "0", "700");
 			chatScreen.animate("opacity", "1", "700");
 		</method>
