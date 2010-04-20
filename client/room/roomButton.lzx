@@ -3,6 +3,10 @@
 		<handler name="onclick">
 			var newUrl = 'rtmp://127.0.0.1:1935/fi6en/'+this.text;
 			Debug.write("url : %w",newUrl);
+			chatScreen.soChat.clear();
+			chatScreen.soUsers.clear();
+			chatScreen.soChat.close();
+			chatScreen.soUsers.close();
 			conn.connect(newUrl);
 			enterRoom();
 		</handler>

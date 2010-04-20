@@ -53,9 +53,13 @@
 			onmouseout="info.setAttribute('visible',false)">
 			<text name="info" y="${parent.y-40}" visible="false">Back To Lobby</text>
 			<handler name="onclick">
+				var newUrl = 'rtmp://127.0.0.1:1935/fi6en/';
 				chatScreen.animate("opacity", "1", "700");
 				classroot.animate("opacity", "0", "700");
-				var newUrl = 'rtmp://127.0.0.1:1935/fi6en/';
+				roomScreen.soChatRoom.clear();
+				roomScreen.soUsersRoom.clear();
+				roomScreen.soChatRoom.close();
+				roomScreen.soUsersRoom.close();
 				conn.connect(newUrl);
 			</handler>
 		</view>
@@ -172,7 +176,7 @@
 										.getUsername()
 										+ " logged out");
 						conn.closeConnection();
-						var location = 'http://localhost:8080/lps-4.7.0/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
+						var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
 						lz.Browser.loadURL(location, '_self');
 					]]>
 					</handler>

@@ -185,7 +185,7 @@
 
 						//conn._conn.call("userservice.removeUsername", conn.responder);
 						conn.closeConnection();
-						var location = 'http://localhost:8080/lps-4.7.0/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
+						var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
 						lz.Browser.loadURL(location, '_self');
 					]]>
 					</handler>

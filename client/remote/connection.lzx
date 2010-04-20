@@ -66,7 +66,6 @@
                 	Debug.write("Disconnected server application." );
                 	chatScreen.soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
                 	chatScreen.soUsers.send("removeFromUserlist",loginScreen.getUsername());
-                	this.setAttribute("connected",false);
                 	this.closeConnection();
                 	break;
                 	
@@ -84,10 +83,10 @@
 		<method name="closeConnection">
 			//_conn.call("deleteUsername",responder,loginScreen.getUsername());
 			Debug.info("closing connection");
-			//soUsers.clear();
+			this.setAttribute("connected",false);
 			chatScreen.soChat.close();
 			chatScreen.soUsers.close();
-			roomScreen.chatRoom.close();
+			roomScreen.soChatRoom.close();
 			roomScreen.soUsersRoom.close();
 			this._conn.close();
 		</method>
