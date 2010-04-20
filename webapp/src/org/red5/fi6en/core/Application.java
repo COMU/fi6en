@@ -42,11 +42,6 @@ public class Application extends ApplicationAdapter {
 	public boolean connect(IConnection conn, IScope scope, Object[] params) {
 		log.info("Connected to server application - Client : "
 				+ conn.getRemoteAddress());
-		/*
-		 * List ipList = new ArrayList(); ipList = conn.getRemoteAddresses();
-		 * Iterator iterator = ipList.iterator(); while (iterator.hasNext()) {
-		 * log.info("ip {}", iterator.next()); }
-		 */
 		return true;
 	}
 
@@ -58,13 +53,15 @@ public class Application extends ApplicationAdapter {
 
 	@Override
 	public boolean roomStart(IScope room) {
-		appScope= room;
 		log.info("started room : {}",room.getName());
-		createSharedObject(room, "chatRoom", true);
-		sharedObjectRoomChat = getSharedObject(room, "chatRoom");
-		ISharedObjectListener listenerSOChat = new SharedObjectListener();
-		sharedObjectChat.addSharedObjectListener(listenerSOChat);		
-		log.info("created shared object on {} scope",room.getName());
+		try {
+			createSharedObject(room, "chatRoom", true);
+			sharedObjectRoomChat = getSharedObject(room, "chatRoom");
+			ISharedObjectListener listenerSOChatRoom = new SharedObjectListener();
+			sharedObjectRoomChat.addSharedObjectListener(listenerSOChatRoom);
+		} catch (Exception e) {
+			log.error("error while creating shared object on {} : ",room.getName(),e.getMessage());
+		}		
 		return super.roomStart(room);
 	}
 	
@@ -77,7 +74,16 @@ public class Application extends ApplicationAdapter {
 
 	@Override
 	public boolean roomJoin(IClient client, IScope room) {
-		log.info("joined room : {}",room.getName());
+		log.info("joined room : {}",room.getName());		
+		if (!hasSharedObject(room, "chatRoom")) {
+			log.info("there is no shared object available : {}", room.getName());
+			createSharedObject(room, "chatRoom", true);			
+			sharedObjectRoomChat = getSharedObject(room, "chatRoom");
+			ISharedObjectListener listenerSOChatRoom = new SharedObjectListener();
+			sharedObjectRoomChat.addSharedObjectListener(listenerSOChatRoom);			
+		}
+		else 
+			log.info("chatRoom shared object is available : {}", room.getName());
 		return super.roomJoin(client, room);
 	}
 	
@@ -98,5 +104,4 @@ public class Application extends ApplicationAdapter {
 		log.info("disconnected room : {}",conn.getScope().getName());
 		super.roomDisconnect(conn);
 	}
-
 }
