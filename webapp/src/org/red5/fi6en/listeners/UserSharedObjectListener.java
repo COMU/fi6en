@@ -1,9 +1,10 @@
-package org.red5.fi6en.userservice;
+package org.red5.fi6en.listeners;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.red5.fi6en.core.SharedObjectListener;
+import org.red5.fi6en.userservice.UserService;
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
@@ -22,6 +23,12 @@ public class UserSharedObjectListener extends SharedObjectListener {
 	Logger log = Red5LoggerFactory.getLogger(UserSharedObjectListener.class,
 			"fi6en");
 
+	@Override
+	public void onSharedObjectConnect(ISharedObjectBase so) {
+		log.info("UserSharedObjectListener connect");
+		super.onSharedObjectConnect(so);
+	}
+	
 	@Override
 	public void onSharedObjectDisconnect(ISharedObjectBase so) {
 		log.info("UserSharedObjectListener disconnect");

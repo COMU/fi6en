@@ -1,5 +1,6 @@
 package org.red5.fi6en.core;
 
+import org.red5.fi6en.listeners.ChatSharedObjectListener;
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.adapter.ApplicationAdapter;
 import org.red5.server.api.IClient;
@@ -29,7 +30,7 @@ public class Application extends ApplicationAdapter {
 		appScope = scope;
 		createSharedObject(appScope, "chat", true);
 		sharedObjectChat = getSharedObject(appScope, "chat");
-		ISharedObjectListener listenerSOChat = new SharedObjectListener();
+		ChatSharedObjectListener listenerSOChat = new ChatSharedObjectListener();
 		sharedObjectChat.addSharedObjectListener(listenerSOChat);
 		return true;
 	}
@@ -48,6 +49,7 @@ public class Application extends ApplicationAdapter {
 	public void disconnect(IConnection conn, IScope scope) {
 		log.info("Application disconnect " + conn.getRemoteAddress());
 		sharedObjectChat.clear();
+		sharedObjectRoomChat.clear();
 		super.disconnect(conn, scope);
 	}
 
@@ -57,7 +59,7 @@ public class Application extends ApplicationAdapter {
 		try {
 			createSharedObject(room, "chatRoom", true);
 			sharedObjectRoomChat = getSharedObject(room, "chatRoom");
-			ISharedObjectListener listenerSOChatRoom = new SharedObjectListener();
+			SharedObjectListener listenerSOChatRoom = new SharedObjectListener();
 			sharedObjectRoomChat.addSharedObjectListener(listenerSOChatRoom);
 		} catch (Exception e) {
 			log.error("error while creating shared object on {} : ",room.getName(),e.getMessage());
@@ -76,10 +78,10 @@ public class Application extends ApplicationAdapter {
 	public boolean roomJoin(IClient client, IScope room) {
 		log.info("joined room : {}",room.getName());		
 		if (!hasSharedObject(room, "chatRoom")) {
-			log.info("there is no shared object available : {}", room.getName());
+			log.info("there is no shared object available : {}, creating one..", room.getName());
 			createSharedObject(room, "chatRoom", true);			
 			sharedObjectRoomChat = getSharedObject(room, "chatRoom");
-			ISharedObjectListener listenerSOChatRoom = new SharedObjectListener();
+			SharedObjectListener listenerSOChatRoom = new SharedObjectListener();
 			sharedObjectRoomChat.addSharedObjectListener(listenerSOChatRoom);			
 		}
 		else 

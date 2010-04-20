@@ -3,6 +3,7 @@ package org.red5.fi6en.userservice;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.red5.components.ClientManager;
+import org.red5.fi6en.listeners.UserSharedObjectListener;
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
