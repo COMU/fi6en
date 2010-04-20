@@ -1,9 +1,16 @@
 <library>
 	<class name="roomButton" extends="button">
 		<handler name="onclick">
-			var newUrl = 'rtmp://192.168.1.79:1935/fi6en/'+this.text;
+			var newUrl = 'rtmp://127.0.0.1:1935/fi6en/'+this.text;
 			Debug.write("url : %w",newUrl);
 			conn.connect(newUrl);
+			enterRoom();
 		</handler>
+		
+		<method name="enterRoom">
+			chatScreen.animate("opacity", "0", "700");
+			roomScreen.setRoomName(this.text);
+			roomScreen.animate("opacity", "1", "700");			
+		</method>
 	</class>
 </library>

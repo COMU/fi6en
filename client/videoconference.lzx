@@ -44,8 +44,9 @@
 		<!--combobox for language selection-->
 		<languageSelector id="langSelector" width="130" />
 	</view>
-	<debug width="400" height="300"/>
+	<debug width="400" height="300" align="left"/>
 	<connection id="conn" />
 	<loginWindow name="loginScreen" align="center" valign="middle" width="300" height="200"/> 
 	<chatView id="chatScreen" y="50" align="center" opacity="0"/>
+	<roomView id="roomScreen" y="50" align="center" opacity="0" />
 </canvas>

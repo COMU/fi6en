@@ -7,7 +7,7 @@
 			//usersList.addItem(userlist[0], userlist[0]);
 			//usersList.addItem(userlist[1], userlist[1]);
 			for (var i=0; i<userlist.length; i++) {
-				usersList.addItem(userlist[i], userlist[i]);
+				chatScreen.mainChatView.rightBar.usersList.addItem(userlist[i], userlist[i]);
 			}
 			//Debug.info("username : "+username);
 			//Debug.write("length : "+username.length);
@@ -15,7 +15,7 @@
 		</method>
 		<!--adds the given username to the userlist-->
 		<method name="updateUserlist" args="username">
-			usersList.addItem(username, username);	
+			chatScreen.mainChatView.rightBar.usersList.addItem(username, username);	
 		</method>
 		
 		<!--removes the given username from the userlist-->
@@ -24,12 +24,12 @@
 			/*if the client is the first user for the app., manually removing username from the userlist*/
 			if (!chatScreen.isFirstUser) {
 				//Debug.info(username," is the first user");
-				usersList.removeItem(username);
-				soChat.send("writeInfo", loginScreen.getUsername()
+				chatScreen.mainChatView.rightBar.usersList.removeItem(username);
+				chatScreen.soChat.send("writeInfo", loginScreen.getUsername()
 										+ " logged out");
 				return;
 			}			
-			usersList.removeItem(username);
+			chatScreen.mainChatView.rightBar.usersList.removeItem(username);
 		</method>
 		
 		<method name="deneme" args="param">

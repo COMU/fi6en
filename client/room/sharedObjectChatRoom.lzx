@@ -1,0 +1,40 @@
+<library>
+	<!--shared object class of the room-->
+	<class name="sharedObjectChatRoom" extends="sharedObject">
+		<method name="createRoomButton" args="roomName">
+			this.send('createRoom', roomName, loginScreen.getUsername());			
+		</method>
+		
+		<method name="createRoom" args="roomName, username">
+			var room = new lz.roomButton(
+					chatScreen.mainChatView.roomsView.roomList, {
+						text : roomName,
+						xoffset : -30,
+						yoffset : -20
+					});
+			room.animate('y', room.y + 30, 1000, false, {
+						motion : 'easein'
+					});
+			room.animate('y', room.y, 1000, false, {
+						motion : 'easeout'
+					});
+			Debug.write("room : %w created by %w", roomName, username);
+		</method>
+		
+		<!--will be shown to all clients who got the chat shared object -->
+		<method name="writeMessage" args="username, msg">
+			//Debug.debug(msg);
+			roomScreen.mainChatView.chat.messageAreaView.messageArea.addText(username +" : "+msg+"\n");
+		</method>
+		
+		<method name="writeSharedObject" args="message">
+			this.send("writeMessage",loginScreen.getUsername(),message);
+		</method>
+		
+		<!--this method writes the messages to the debug window which will be shown to all users-->
+		<method name="writeInfo" args="message">
+			Debug.info("%w",message);
+		</method>
+	</class>
+	
+</library>

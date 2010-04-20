@@ -1,27 +1,22 @@
-<library>	
-	<resource name="icon_webcam" src="../resources/icons/webcam-icon.png" />	
+<library>		
 		
-	<class name="chatView" extends="view">
-		<!--indicates if the client is the first user for the application-->	
-		<attribute name="isFirstUser" type="boolean" value="false"/>
-		<!--shared object for chat-->
-		<sharedObjectChat name="soChat"> 
+	<class name="roomView" extends="view">		
+		<!--shared object for chat in the room-->
+		<sharedObjectChatRoom name="soChatRoom"> 
 			<handler name="onconnected" reference="conn">
-				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
-					this.connect("chat", conn._conn, true);
+					this.connect("chatRoom", conn._conn, true);
 					this.so.client = this;
 				}
 			</handler>
-		</sharedObjectChat>
-		<!--shared object for the usersList(List)
+		</sharedObjectChatRoom>
+		<!--shared object for the usersList(List) in the room
 			@param usersList : name of the shared object at the server side
 			-->
-		<sharedObjectUserlist name="soUsers"> 
+		<sharedObjectUserlist name="soUsersRoom"> 
 			<handler name="onconnected" reference="conn">
-				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
-					this.connect("userlist", conn._conn, false);
+					this.connect("userlistRoom", conn._conn, false);
 					this.so.client = this;
 				}
 			</handler>
@@ -30,7 +25,6 @@
 		<!--netStream object for publish operation-->
 		<netStream name="streamPublish"> 
 			<handler name="onconnected" reference="conn">
-				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.createStream(conn._conn);
 				}
@@ -48,38 +42,33 @@
 
 		<command name="enterKey" key="['Enter']" active="${classroot.haswindowfocus}">
 			<handler name="onselect">
-				//Debug.write('Enter key was pressed');
-				classroot.mainChatView.chat.buttonView.buttonViewInside1.sendButton.sendClicked();
+				classroot.mainChatView.chat.buttonView.buttonViewInside1.sendButton
+						.sendClicked();
 			</handler>  
 		</command>
+		
+		<view name="backToLobbyButton" resource="../resources/icons/back.png"
+			x="20" y="20" placement="canvas" visible="${classroot.visible}"
+			onmouseover="info.setAttribute('visible',true)" 
+			onmouseout="info.setAttribute('visible',false)">
+			<text name="info" y="${parent.y-40}" visible="false">Back To Lobby</text>
+			<handler name="onclick">
+				chatScreen.animate("opacity", "1", "700");
+				classroot.animate("opacity", "0", "700");
+				var newUrl = 'rtmp://127.0.0.1:1935/fi6en/';
+				conn.connect(newUrl);
+			</handler>
+		</view>
+		
+		<text name="roomName" x="${parent.backToLobbyButton.x+60}" y="${parent.backToLobbyButton.y}"
+			  fontsize="14" fgcolor="#33CC66"
+			  placement="canvas" visible="${classroot.visible}" 
+			  />
 		
 		<!--audio, video, chat view-->
 		
 		<view name="mainChatView">
 			<simplelayout axis="x" spacing="40" />			
-			<!--view for creating and entering the rooms-->
-			<view name="roomsView">
-				<simplelayout spacing="7"/>
-				<rooms name="roomInnerView" />
-				<view name="roomList" align="center">
-					<attribute name="lastposition" type="number"/>
-					<simplelayout spacing="7"/>
-				</view>
-			</view>			
-			
-			<!--<window x="10" y="10" >
-				  <statictext fontstyle="bold" >
-					My new name is ...
-				  </statictext>
-				  <combobox id="cbox" width="175" editable="false" 
-							defaulttext="test" >
-					<textlistitem text="Oda1" />
-					<textlistitem text="Oda2"/>
-					<textlistitem text="Oda3" />
-				  </combobox>
-				  <button onclick="conn.initConnection(cbox.value)">Katıl
-				  </button>
-				  </window>-->
 			
 			<!--view for user1 (you)-->
 			<view name="videoViewBroadcast">
@@ -87,8 +76,9 @@
 				<button name="showMyCam" datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}" align="center">
 					<attribute name="publish" type="boolean" value="false"/>
 					<handler name="onclick">
+
 						//Debug.write("publish button");
-						var streamPublish= classroot.streamPublish;
+						var streamPublish = classroot.streamPublish;
 						if (!streamPublish.publishing) {
 							streamPublish.publishVideo(loginScreen
 									.getUsername());
@@ -98,7 +88,7 @@
 						} else {
 							streamPublish.closeStream();
 							streamPublish.setAttribute('publishing', false);
-							
+
 						}
 					</handler>
 				</button>
@@ -112,7 +102,7 @@
 			<view name="chat" layout="axis:y;spacing:10" >
 				<edittext name="message" width="300" height="20" resizable="true" />
 				
-				<view name="messageAreaView" bgcolor="0XCCCC66" width="300" height="350" clip="true"
+				<view name="messageAreaView" bgcolor="0X339999" width="300" height="350" clip="true"
 					focusable="true" clickable="true">
 					<text name="messageArea" multiline="true" selectable="true" clickable="true"/>
 					<vscrollbar name="vscrollbarChat" mousewheelactive="true"
@@ -126,8 +116,8 @@
 							datapath="dsetLang:/language/string[@id='18']" text="$path{'value/text()'}">
 							<handler name="onclick" method="sendClicked" />
 							<method name="sendClicked" args="v=0">
-								var message= classroot.mainChatView.chat.message;
-								if (message!= "") {
+								var message = classroot.mainChatView.chat.message;
+								if (message != "") {
 									//Debug.write("Message sent!");									
 									classroot.sendMessage(message.text);
 									message.clearText();
@@ -137,6 +127,7 @@
 						<button name="clearButton"
 							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
 							<handler name="onclick">
+
 								//Debug.write("Clear button clicked");
 								classroot.mainChatView.chat.message.clearText();
 							</handler>
@@ -146,8 +137,8 @@
 						<button name="clearTextArea" 
 							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
 							<handler name="onclick">
-								//Debug.write("Clear Text Area button clicked");
-								classroot.mainChatView.chat.messageAreaView.messageArea.clearText();
+								classroot.mainChatView.chat.messageAreaView.messageArea
+										.clearText();
 							</handler>
 						</button>
 					</view>
@@ -159,9 +150,11 @@
 				<button name="showUserCam" datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"
 					align="center">
 					<handler name="onclick">
+
 						//Debug.write("play button");
 						//Debug.info ("selected item => %w",usersList.getSelection().text);
-						var streamToPlay = classroot.mainChatView.rightBar.usersList.getSelection().text;
+						var streamToPlay = classroot.mainChatView.rightBar.usersList
+								.getSelection().text;
 						classroot.streamPlay.playVideo(streamToPlay);
 						parent.live._attachStream(classroot.streamPlay.stream);
 					</handler>
@@ -175,15 +168,9 @@
 					align="center">
 					<handler name="onclick"><![CDATA[
 						var username = loginScreen.getUsername();
-						classroot.soChat.send("writeInfo", loginScreen.getUsername()
+						classroot.soChatRoom.send("writeInfo", loginScreen
+										.getUsername()
 										+ " logged out");
-						//classroot.setAttribute('visible',false);
-						//loginScreen.setAttribute('opacity',"1");
-
-						/*if (classroot.isFirstUser)
-							soUsers.send("removeFromUserlist", username);*/
-
-						//conn._conn.call("userservice.removeUsername", conn.responder);
 						conn.closeConnection();
 						var location = 'http://localhost:8080/lps-4.7.0/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
 						lz.Browser.loadURL(location, '_self');
@@ -198,14 +185,32 @@
 			</view>
 		</view>
 		
+		<!--when user leaves the room, message area text is being cleared-->
+		<handler name="onopacity">
+			if (opacity) {
+				mainChatView.chat.messageAreaView.messageArea.clearText();
+			}
+		</handler>
 		
 		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">
-			//Debug.write("sendMessage method");
-			soChat.writeSharedObject(message);
-			//messageArea.addText(loginScreen.getUsername()+" : "+message+"\n");
-			//conn._conn.call("sendMessage",null,message);
-		</method>				
+			soChatRoom.writeSharedObject(message);
+		</method>
+		
+		<!--overrides the determinePlacement method to handle the placement attribute-->
+		<method name="determinePlacement" args="aSub, placement, args">
+  			if (placement == 'canvas') {    
+  				return canvas;
+  			}
+  			else {
+  				return super.determinePlacement(aSub, placement, args);
+  			}
+  		</method>
+  		
+  		<method name="setRoomName" args="roomName">  			 
+  			this.roomName.setAttribute('text',roomName);
+  		</method>		
 	</class>	
 	
-</library>
+</library>	
+	

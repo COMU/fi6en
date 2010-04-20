@@ -155,21 +155,21 @@
 			registerWindow.destroy();
 			var username = getUsername();
 			var password = getPassword();
-			soChat.send("writeInfo", username + " logged in");
+			chatScreen.soChat.send("writeInfo", username + " logged in");
 			conn._conn.call("userservice.writeUsername", conn.responder,
 					username);
 			/*getting other users's usernames and adding to the list*/
-			var arrayUserlist = soUsers.getDataSO("arrayUserlist");
+			var arrayUserlist = chatScreen.soUsers.getDataSO("arrayUserlist");
 			Debug.write("users : ", arrayUserlist);
 			
 			if (arrayUserlist != null) {
-				soUsers.addToUserlist(arrayUserlist);
+				chatScreen.soUsers.addToUserlist(arrayUserlist);
 			}
 			else {
 				chatScreen.setAttribute('isFirstUser',true);
 				//Debug.info("you are the first user on the chat application");
 			}				
-			soUsers.send("updateUserlist", username);
+			chatScreen.soUsers.send("updateUserlist", username);
 			welcome.setAttribute('visible',true);
 			this.animate("opacity", "0", "700");
 			chatScreen.animate("opacity", "1", "700");

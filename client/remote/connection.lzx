@@ -64,8 +64,8 @@
                 
                 case "NetConnection.Connect.Closed":
                 	Debug.write("Disconnected server application." );
-                	soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
-                	soUsers.send("removeFromUserlist",loginScreen.getUsername());
+                	chatScreen.soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
+                	chatScreen.soUsers.send("removeFromUserlist",loginScreen.getUsername());
                 	this.setAttribute("connected",false);
                 	this.closeConnection();
                 	break;
@@ -85,8 +85,10 @@
 			//_conn.call("deleteUsername",responder,loginScreen.getUsername());
 			Debug.info("closing connection");
 			//soUsers.clear();
-			soChat.close();
-			soUsers.close();
+			chatScreen.soChat.close();
+			chatScreen.soUsers.close();
+			roomScreen.chatRoom.close();
+			roomScreen.soUsersRoom.close();
 			this._conn.close();
 		</method>
 		
@@ -190,9 +192,8 @@
 	    
 	    <!--method sets welcome message with the incoming firstname and lastname-->
 	    
-	    <method name="setWelcomeMessage" args="firstname, lastname">							
-	    	welcome.addText(" "+firstname+" "+lastname);
-	    	Debug.write("başşarılı deneme %w %w",firstname, lastname);	    	
-	    </method>
+	    <method name="setWelcomeMessage" args="firstname, lastname"><![CDATA[							
+	    	welcome.addText("<b><font>"+' '+firstname+' '+lastname+"</font></b>");	    	
+	    ]]></method>
 	</class>	
 </library>

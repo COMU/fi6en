@@ -1,16 +1,6 @@
-<library>
-	
-	<class name="roomTest" extends="view">
-		<soChatRoom id="soChatRoomm"> 
-			<handler name="onconnected" reference="conn">
-				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
-				if (conn.connected) {
-					this.connect("chatRoom", conn._conn, true);
-					this.so.client = this;
-				}
-			</handler>
-		</soChatRoom>
-		
+<library>	
+	<class name="rooms" extends="view">
+				
 		<attribute name="roomAlert" value="null"/>
 		<attribute name="warning" type="string" value="null"/>
 		<view align="center">
@@ -54,7 +44,7 @@
 		</view>
 	
 		<method name="createRoom" args="roomName">
-			soChatRoomm.createRoomButton(roomName);
+			roomScreen.soChatRoom.createRoomButton(roomName);
 		</method>
 
 		<method name="roomclick">

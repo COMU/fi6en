@@ -6,7 +6,7 @@
 		<!--will be shown to all clients who got the chat shared object -->
 		<method name="writeMessage" args="username, msg">
 			//Debug.debug(msg);
-			messageArea.addText(username +" : "+msg+"\n");
+			chatScreen.mainChatView.chat.messageAreaView.messageArea.addText(username +" : "+msg+"\n");
 		</method>
 		
 		<method name="writeSharedObject" args="message">

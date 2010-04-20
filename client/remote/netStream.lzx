@@ -65,7 +65,7 @@
 		<method name="closeStream">
 	        Debug.write("closing the stream");
 	        this.stream.close();
-	        camm.setAttribute("show",false);
+	        chatScreen.mainChatView.videoViewBroadcast.mainChatView.camm.setAttribute("show",false);
         </method>
         
         <!--publishing the stream object-->
