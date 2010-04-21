@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 public class Application extends ApplicationAdapter {
 	IScope appScope;
 	//shared objects for main page and room
-	ISharedObject sharedObjectChat, sharedObjectRoomChat;  
+	ISharedObject sharedObjectChat, sharedObjectRoomChat, sharedObjectRoomList;  
 
 	private static Logger log = Red5LoggerFactory.getLogger(Application.class,
 			"fi6en");
@@ -32,12 +32,18 @@ public class Application extends ApplicationAdapter {
 		sharedObjectChat = getSharedObject(appScope, "chat");
 		ChatSharedObjectListener listenerSOChat = new ChatSharedObjectListener();
 		sharedObjectChat.addSharedObjectListener(listenerSOChat);
+		
+		createSharedObject(appScope, "roomlist", false);
+		sharedObjectRoomList= getSharedObject(appScope, "roomlist");
+		SharedObjectListener listenerSORoomList = new SharedObjectListener();
+		sharedObjectRoomList.addSharedObjectListener(listenerSORoomList);		
 		return true;
 	}
 
 	public void appStop(IScope scope) {
 		log.info("fi6en Videoconference Application stopped");
 		sharedObjectChat.close();
+		sharedObjectRoomList.close();
 	}
 
 	public boolean connect(IConnection conn, IScope scope, Object[] params) {
@@ -47,10 +53,14 @@ public class Application extends ApplicationAdapter {
 	}
 
 	public void disconnect(IConnection conn, IScope scope) {
-		log.info("Application disconnect " + conn.getRemoteAddress());
-		sharedObjectChat.clear();
-		sharedObjectRoomChat.clear();
-		super.disconnect(conn, scope);
+		try {
+			log.info("Application disconnect " + conn.getRemoteAddress());
+			sharedObjectChat.clear();
+			sharedObjectRoomList.clear();
+		} catch (Exception e) {
+			log.error("Error while disconnecting : {}",e.getMessage());
+		}
+			super.disconnect(conn, scope);
 	}
 
 	@Override
@@ -73,7 +83,7 @@ public class Application extends ApplicationAdapter {
 		sharedObjectRoomChat.close();
 		super.roomStop(room);
 	}
-
+	
 	@Override
 	public boolean roomJoin(IClient client, IScope room) {
 		log.info("joined room : {}",room.getName());		
