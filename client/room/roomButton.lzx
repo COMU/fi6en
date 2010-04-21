@@ -2,15 +2,15 @@
 	<class name="roomButton" extends="button">
 		<handler name="onclick">
 			var newUrl = 'rtmp://127.0.0.1:1935/fi6en/'+this.text;
-			Debug.write("url : %w",newUrl);
-			chatScreen.soChat.clear();
-			chatScreen.soUsers.clear();
+			//Debug.write("url : %w",newUrl);
+			/*closing remote shared object connections*/
 			chatScreen.soChat.close();
 			chatScreen.soUsers.close();
+			chatScreen.soRooms.close();
 			conn.connect(newUrl);
 			enterRoom();
 		</handler>
-		
+		<!--visual steps while entering a room-->
 		<method name="enterRoom">
 			chatScreen.animate("opacity", "0", "700");
 			roomScreen.setRoomName(this.text);

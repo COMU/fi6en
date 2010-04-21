@@ -106,11 +106,15 @@
 			<view name="chat" layout="axis:y;spacing:10" >
 				<edittext name="message" width="300" height="20" resizable="true" />
 				
-				<view name="messageAreaView" bgcolor="0X339999" width="300" height="350" clip="true"
+				<view name="messageAreaView" bgcolor="#339999" width="300" height="350" clip="true"
 					focusable="true" clickable="true">
 					<text name="messageArea" multiline="true" selectable="true" clickable="true"/>
-					<vscrollbar name="vscrollbarChat" mousewheelactive="true"
-						usemousewheel="true" focusview="$once{parent}" />
+					<vscrollbar name="vscrollbarChat" visible="${scrollable}">
+						<handler name="ondata">
+							Debug.write("scrollbar data");
+							this.page(-1);
+						</handler>
+					</vscrollbar>
 				</view>
 						
 				<view name="buttonView" align="center">
@@ -154,7 +158,6 @@
 				<button name="showUserCam" datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"
 					align="center">
 					<handler name="onclick">
-
 						//Debug.write("play button");
 						//Debug.info ("selected item => %w",usersList.getSelection().text);
 						var streamToPlay = classroot.mainChatView.rightBar.usersList
@@ -172,13 +175,19 @@
 					align="center">
 					<handler name="onclick"><![CDATA[
 						var username = loginScreen.getUsername();
-						classroot.soChatRoom.send("writeInfo", loginScreen
+						chatScreen.soChat.send("writeInfo", loginScreen
 										.getUsername()
 										+ " logged out");
+						//classroot.setAttribute('visible',false);
+						//loginScreen.setAttribute('opacity',"1");
+
+						/*if (classroot.isFirstUser)
+							soUsers.send("removeFromUserlist", username);*/
+
+						//conn._conn.call("userservice.removeUsername", conn.responder);
 						conn.closeConnection();
 						var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
-						lz.Browser.loadURL(location, '_self');
-					]]>
+						lz.Browser.loadURL(location, '_self');]]>
 					</handler>
 				</button>
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center"

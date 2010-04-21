@@ -1,5 +1,5 @@
-<library>	
-	<resource name="icon_webcam" src="../resources/icons/webcam-icon.png" />	
+<library>
+	<resource name="icon_webcam" src="../resources/icons/webcam-icon.png" />
 		
 	<class name="chatView" extends="view">
 		<!--indicates if the client is the first user for the application-->	
@@ -7,7 +7,6 @@
 		<!--shared object for chat-->
 		<sharedObjectChat name="soChat"> 
 			<handler name="onconnected" reference="conn">
-				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.connect("chat", conn._conn, true);
 					this.so.client = this;
@@ -19,18 +18,25 @@
 			-->
 		<sharedObjectUserlist name="soUsers"> 
 			<handler name="onconnected" reference="conn">
-				//Debug.info("connected attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.connect("userlist", conn._conn, false);
 					this.so.client = this;
 				}
 			</handler>
 		</sharedObjectUserlist>
+		<!--shared object for the roomList(List) -->
+		<sharedObjectRoomList name="soRooms">
+			<handler name="onconnected" reference="conn">
+				if (conn.connected) {
+					this.connect("roomlist", conn._conn, false);
+					this.so.client = this;
+				}
+			</handler>		
+		</sharedObjectRoomList>
 		
 		<!--netStream object for publish operation-->
 		<netStream name="streamPublish"> 
 			<handler name="onconnected" reference="conn">
-				//Debug.info("connectionOK attribute operation, value :%w",conn.connectionOK);
 				if (conn.connected) {
 					this.createStream(conn._conn);
 				}
@@ -49,7 +55,8 @@
 		<command name="enterKey" key="['Enter']" active="${classroot.haswindowfocus}">
 			<handler name="onselect">
 				//Debug.write('Enter key was pressed');
-				classroot.mainChatView.chat.buttonView.buttonViewInside1.sendButton.sendClicked();
+				classroot.mainChatView.chat.buttonView.buttonViewInside1.sendButton
+						.sendClicked();
 			</handler>  
 		</command>
 		
@@ -88,7 +95,7 @@
 					<attribute name="publish" type="boolean" value="false"/>
 					<handler name="onclick">
 						//Debug.write("publish button");
-						var streamPublish= classroot.streamPublish;
+						var streamPublish = classroot.streamPublish;
 						if (!streamPublish.publishing) {
 							streamPublish.publishVideo(loginScreen
 									.getUsername());
@@ -98,7 +105,7 @@
 						} else {
 							streamPublish.closeStream();
 							streamPublish.setAttribute('publishing', false);
-							
+
 						}
 					</handler>
 				</button>
@@ -112,11 +119,16 @@
 			<view name="chat" layout="axis:y;spacing:10" >
 				<edittext name="message" width="300" height="20" resizable="true" />
 				
-				<view name="messageAreaView" bgcolor="0XCCCC66" width="300" height="350" clip="true"
+				<view name="messageAreaView" bgcolor="#CCCC66" width="300" height="100" clip="true"
 					focusable="true" clickable="true">
+					<attribute name="usernameColor" type="color"/>
 					<text name="messageArea" multiline="true" selectable="true" clickable="true"/>
-					<vscrollbar name="vscrollbarChat" mousewheelactive="true"
-						usemousewheel="true" focusview="$once{parent}" />
+					<vscrollbar name="vscrollbarChat" visible="${scrollable}">
+						<handler name="onvisible">
+							Debug.write("visible");
+							this.page(1);
+						</handler>
+					</vscrollbar>	
 				</view>
 						
 				<view name="buttonView" align="center">
@@ -126,8 +138,8 @@
 							datapath="dsetLang:/language/string[@id='18']" text="$path{'value/text()'}">
 							<handler name="onclick" method="sendClicked" />
 							<method name="sendClicked" args="v=0">
-								var message= classroot.mainChatView.chat.message;
-								if (message!= "") {
+								var message = classroot.mainChatView.chat.message;
+								if (message != "") {
 									//Debug.write("Message sent!");									
 									classroot.sendMessage(message.text);
 									message.clearText();
@@ -137,7 +149,6 @@
 						<button name="clearButton"
 							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
 							<handler name="onclick">
-								//Debug.write("Clear button clicked");
 								classroot.mainChatView.chat.message.clearText();
 							</handler>
 						</button>
@@ -147,7 +158,8 @@
 							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
 							<handler name="onclick">
 								//Debug.write("Clear Text Area button clicked");
-								classroot.mainChatView.chat.messageAreaView.messageArea.clearText();
+								classroot.mainChatView.chat.messageAreaView.messageArea
+										.clearText();
 							</handler>
 						</button>
 					</view>
@@ -161,7 +173,8 @@
 					<handler name="onclick">
 						//Debug.write("play button");
 						//Debug.info ("selected item => %w",usersList.getSelection().text);
-						var streamToPlay = classroot.mainChatView.rightBar.usersList.getSelection().text;
+						var streamToPlay = classroot.mainChatView.rightBar.usersList
+								.getSelection().text;
 						classroot.streamPlay.playVideo(streamToPlay);
 						parent.live._attachStream(classroot.streamPlay.stream);
 					</handler>
@@ -175,7 +188,8 @@
 					align="center">
 					<handler name="onclick"><![CDATA[
 						var username = loginScreen.getUsername();
-						classroot.soChat.send("writeInfo", loginScreen.getUsername()
+						classroot.soChat.send("writeInfo", loginScreen
+										.getUsername()
 										+ " logged out");
 						//classroot.setAttribute('visible',false);
 						//loginScreen.setAttribute('opacity',"1");
@@ -201,7 +215,6 @@
 		
 		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">
-			//Debug.write("sendMessage method");
 			soChat.writeSharedObject(message);
 			//messageArea.addText(loginScreen.getUsername()+" : "+message+"\n");
 			//conn._conn.call("sendMessage",null,message);

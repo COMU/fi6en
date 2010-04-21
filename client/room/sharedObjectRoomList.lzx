@@ -1,0 +1,25 @@
+<library>
+	<!--shared object class of the room list-->
+	<class name="sharedObjectRoomList" extends="sharedObject">
+		<method name="createRoomButton" args="roomName">
+			this.send('createRoom', roomName, loginScreen.getUsername());			
+		</method>
+		
+		<method name="createRoom" args="roomName, username">
+			var room = new lz.roomButton(
+					chatScreen.mainChatView.roomsView.roomList, {
+						text : roomName,
+						xoffset : -30,
+						yoffset : -20
+					});
+			room.animate('y', room.y + 30, 1000, false, {
+						motion : 'easein'
+					});
+			room.animate('y', room.y, 1000, false, {
+						motion : 'easeout'
+					});
+			Debug.write("room : %w created by %w", roomName, username);
+		</method>
+	</class>
+	
+</library>
