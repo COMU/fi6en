@@ -27,8 +27,7 @@
 	<!--
 		Defines the web handler which acts as an applications endpoint
 	-->
-	<bean id="web.handler" class="org.red5.fi6en.core.Application"
-		singleton="true" />
+	<bean id="web.handler" class="org.red5.fi6en.core.Application" />
 
 	<bean id="userservice.service" class="org.red5.fi6en.userservice.UserService"
 		singleton="true" />
@@ -36,5 +35,10 @@
 	<bean name="databaseservice.service" 
 		class="org.red5.fi6en.userservice.DatabaseOperation"
 		singleton="true"/>
+		
+	<bean id="streamservice.service" class="org.red5.fi6en.streaming.StreamManager"
+		singleton="true">
+        <property name="application" ref="web.handler"/>
+    </bean>	
 
 </beans>

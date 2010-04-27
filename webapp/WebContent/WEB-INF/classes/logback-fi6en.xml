@@ -20,5 +20,6 @@
     </root>
     <logger name="org.red5.core">
         <level value="INFO" />
+        <level value="DEBUG" />
     </logger>
 </configuration>
