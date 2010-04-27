@@ -1,7 +1,7 @@
 <library>
 	<class name="roomButton" extends="button">
 		<handler name="onclick">
-			var newUrl = 'rtmp://127.0.0.1:1935/fi6en/'+this.text;
+			var newUrl = 'rtmp://193.255.97.35:1935/fi6en/'+this.text;
 			//Debug.write("url : %w",newUrl);
 			/*closing remote shared object connections*/
 			chatScreen.soChat.close();

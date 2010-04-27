@@ -16,7 +16,7 @@
 			width="${canvas.width}" height="${canvas.height}"/>
 	</splash>
 	<handler name="oninit">
-		conn.connect("rtmp://192.168.1.79:1935/fi6en");
+		conn.connect("rtmp://127.0.0.1:1935/fi6en");
 		Security.allowDomain("*");
 		//Security.loadPolicyFile("http://members.comu.edu.tr/cem/fi6en(allow)/crossdomain.xml");
 		switch (Security.sandboxType) {
@@ -40,7 +40,8 @@
 	<view align="right" valign="top" yoffset="-10" xoffset="10">
 		<simplelayout axis="x" spacing="10" />
 		<!--welcome message-->
-		<text id="welcome" text="Hoşgeldiniz" fontsize="13" fgcolor="#33CC66" visible="false" />
+		<text id="welcome" fontsize="13" fgcolor="#33CC66" visible="false" 
+			datapath="dsetLang:/language/string[@id='33']" text="$path{'value/text()'}" />	
 		<!--combobox for language selection-->
 		<languageSelector id="langSelector" width="130" />
 	</view>

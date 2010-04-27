@@ -45,8 +45,6 @@
 	<string id="15" name="cancel">
 		<value>Geçersiz E-posta adresi ! </value>
 	</string>
-	
-	
 	<string id="16" name="show_my_cam">
 		<value>Kameramı Göster</value>
 	</string>
@@ -73,5 +71,33 @@
 	</string>			
 	<string id="24" name="duplicate_username">
 		<value>Kullanıcı adı başka biri tarafından kullanılıyor ! </value>
-	</string>		
+	</string>	
+	<string id="25" name="stop_my_cam">
+		<value>Kameramı Durdur</value>
+	</string>
+	<string id="26" name="create_room">
+		<value>Oda Oluştur</value>
+	</string>
+	<string id="27" name="back_to_lobby">
+		<value>Lobiye Dön</value>
+	</string>
+	<string id="28" name="start_recording">
+		<value>Kayıt</value>
+	</string>
+	<string id="29" name="stop_recording">
+		<value>Kaydı Durdur</value>
+	</string>
+	<string id="30" name="play">
+		<value>Oynat</value>
+	</string>
+	<string id="31" name="pause">
+		<value>Durdur</value>
+	</string>
+	<string id="32" name="stop">
+		<value>Durdur</value>
+	</string>
+	<string id="33" name="welcome">
+		<value>Hoşgeldiniz</value>
+	</string>
+			
 </language>

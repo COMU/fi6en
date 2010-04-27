@@ -40,7 +40,7 @@
 			</handler>
 		</netStream>
 
-		<command name="enterKey" key="['Enter']" active="${classroot.haswindowfocus}">
+		<command name="enterKey" key="['Enter']" active="${classroot.mainChatView.chat.isMouseOver()}">
 			<handler name="onselect">
 				classroot.mainChatView.chat.buttonView.buttonViewInside1.sendButton
 						.sendClicked();
@@ -51,9 +51,10 @@
 			x="20" y="20" placement="canvas" visible="${classroot.visible}"
 			onmouseover="info.setAttribute('visible',true)" 
 			onmouseout="info.setAttribute('visible',false)">
-			<text name="info" y="${parent.y-40}" visible="false">Back To Lobby</text>
+			<text name="info" y="${parent.y-40}" visible="false"
+				  datapath="dsetLang:/language/string[@id='27']" text="$path{'value/text()'}"/>
 			<handler name="onclick">
-				var newUrl = 'rtmp://127.0.0.1:1935/fi6en/';
+				var newUrl = 'rtmp://193.255.97.35:1935/fi6en';
 				chatScreen.animate("opacity", "1", "700");
 				classroot.animate("opacity", "0", "700");
 				roomScreen.soChatRoom.clear();
@@ -76,30 +77,31 @@
 			
 			<!--view for user1 (you)-->
 			<view name="videoViewBroadcast">
-				<simplelayout axis="y" spacing="10" />
-				<button name="showMyCam" datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}" align="center">
-					<attribute name="publish" type="boolean" value="false"/>
+				
+				<simplelayout axis="y" spacing="30" />
+				
+				<button name="publishButton" align="center"
+						datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}">
+					<text name="publishText" visible="false"
+						datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}"/>
+					<text name="stopText" visible="false"
+						datapath="dsetLang:/language/string[@id='25']" text="$path{'value/text()'}"/>	
 					<handler name="onclick">
-
-						//Debug.write("publish button");
-						var streamPublish = classroot.streamPublish;
-						if (!streamPublish.publishing) {
-							streamPublish.publishVideo(loginScreen
+						if (this.text==publishText.text) {
+							publishUserRoom.publish(loginScreen
 									.getUsername());
-							this.setAttribute('text', "Stop My Cam");
-							parent.broadcasting.camm.setAttribute("show", true);
-							streamPublish.setAttribute('publishing', true);
-						} else {
-							streamPublish.closeStream();
-							streamPublish.setAttribute('publishing', false);
-
+							this.setAttribute('text',stopText.text);
+							publishUserRoom.setAttribute('visible',true);
 						}
+						else {
+							publishUserRoom.stopPublishing();
+							this.setAttribute('text',publishText.text);
+							publishUserRoom.setAttribute('visible',false);
+						}						
 					</handler>
 				</button>
-				<!--<microphone id="micc" capturing="true"/> --> 
-				<videoview name="broadcasting" width="220" height="200" type="rtmp">
-					<camera name="camm" capturing="true"/>	
-				</videoview>	
+				<!--publish cideo view for you-->
+				<publisher id="publishUserRoom" align="center"/>
 			</view>
 			
 			<!--chat area-->
@@ -178,15 +180,8 @@
 						chatScreen.soChat.send("writeInfo", loginScreen
 										.getUsername()
 										+ " logged out");
-						//classroot.setAttribute('visible',false);
-						//loginScreen.setAttribute('opacity',"1");
-
-						/*if (classroot.isFirstUser)
-							soUsers.send("removeFromUserlist", username);*/
-
-						//conn._conn.call("userservice.removeUsername", conn.responder);
 						conn.closeConnection();
-						var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
+						var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?lzr=swf10&debug=true';
 						lz.Browser.loadURL(location, '_self');]]>
 					</handler>
 				</button>

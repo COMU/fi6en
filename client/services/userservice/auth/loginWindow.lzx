@@ -12,12 +12,12 @@
 			</when>
 		</switch>	
 		
-		<!--<command name="enter" key="['Enter']" active="${classroot.haswindowfocus}">
+		<command name="enter" key="['Enter']" active="${classroot.isMouseOver()}">
 			<handler name="onselect">
-				Debug.write("login window enter");
-				//classroot.loginOpearation(classroot.getUsername(),classroot.getPassword());
+				//Debug.write("login window enter");
+				classroot.loginOpearation(classroot.getUsername(),classroot.getPassword());
 			</handler>  
-		</command>-->
+		</command>
 			
 		<attribute name="allowdrag" type="boolean" value="false"/>		
 		<attribute name="loginAlert" value="null"/>

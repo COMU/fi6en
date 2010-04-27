@@ -35,17 +35,15 @@
 	<string id="12" name="cancel">
 		<value>Cancel</value>
 	</string>	
-	<string id="13" name="cancel">
+	<string id="13" name="fill_all">
 		<value>Fill in all the fields please ! </value>
 	</string>
-	<string id="14" name="cancel">
+	<string id="14" name="passwords_dont_match">
 		<value>Passwords do not match ! </value>
 	</string>
 	<string id="15" name="cancel">
 		<value>Invalid Email ID ! </value>
-	</string>
-	
-	
+	</string>	
 	<string id="16" name="show_my_cam">
 		<value>Show My Cam</value>
 	</string>
@@ -72,5 +70,35 @@
 	</string>	
 	<string id="24" name="duplicate_username">
 		<value>Username is already in use ! </value>
+	</string>	
+	<string id="25" name="stop_my_cam">
+		<value>Stop My Cam</value>
 	</string>
+	<string id="26" name="create_room">
+		<value>Create Room</value>
+	</string>
+	<string id="27" name="back_to_lobby">
+		<value>Back To Lobby</value>
+	</string>
+	<string id="28" name="start_recording">
+		<value>Start Recording</value>
+	</string>
+	<string id="29" name="stop_recording">
+		<value>Stop Recording</value>
+	</string>
+	<string id="30" name="play">
+		<value>Play</value>
+	</string>
+	<string id="31" name="pause">
+		<value>Pause</value>
+	</string>
+	<string id="32" name="stop">
+		<value>Stop</value>
+	</string>
+	<string id="33" name="welcome">
+		<value>Welcome</value>
+	</string>
+	
+	
+	
 </language>

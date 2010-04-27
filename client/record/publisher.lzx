@@ -1,0 +1,76 @@
+<library>
+	<!--class for a publisher view : publishing video and recording-->
+	<class name="publisher" extends="view">
+		<!--for swf10 runtime-->
+		<switch>
+			<when property="$as3">
+				<passthrough>
+					import flash.net.*;
+					import flash.events.*;
+				</passthrough>
+			</when>
+		</switch>
+		
+		<!--netStream object for publish operation-->
+		<netStream name="streamPublish"> 
+			<handler name="onconnected" reference="conn">
+				if (conn.connected) {
+					this.createStream(conn._conn);
+				}
+			</handler>
+		</netStream>
+		<!--view for video and recording-->
+		<view name="broadcastView">			
+			<simplelayout spacing="30" />
+			<videoview name="broadcasting" width="220" height="200" type="rtmp">
+				<camera name="camm" capturing="true"/>
+			</videoview>
+			<view name="recordingView" visible="${parent.broadcasting.camm.show}">
+				<view name="recordButton" resource="../resources/icons/record_button.png"
+					onmouseover="recordText.setAttribute('visible',true)"
+					onmouseout="recordText.setAttribute('visible',false)"
+					onclick="classroot.record()">
+					<text name="recordText" visible="false"
+						y="${parent.y-20}"
+						datapath="dsetLang:/language/string[@id='28']" text="$path{'value/text()'}"/>
+				</view>
+				<view name="stopRecordButton" x="${parent.recordButton.x+50}" 
+					resource="../resources/icons/pause_button.png" 
+					onmouseover="stopRecordText.setAttribute('visible',true)"
+					onmouseout="stopRecordText.setAttribute('visible',false)"
+					onclick="classroot.stopRecording()">
+					<text name="stopRecordText" visible="false"
+						y="${parent.y-20}"
+						datapath="dsetLang:/language/string[@id='29']" text="$path{'value/text()'}"/>
+				</view>
+			</view>
+			
+		</view>	
+			
+		<!--publish video-->
+		<method name="publish" args="streamName">
+			streamPublish.publishVideo(streamName);
+			streamPublish.setAttribute('publishing', true);
+			broadcastView.broadcasting.camm.setAttribute('show', true);
+		</method>
+		<!--stops publishing video-->
+		<method name="stopPublishing">
+			streamPublish.closeStream();
+			streamPublish.setAttribute('publishing', false);
+			broadcastView.broadcasting.camm.setAttribute('show',false);
+		</method>
+		<!--record video-->
+		<method name="record">
+			Debug.info("Recording started");
+			conn._conn.call("streamservice.recordShow", null, loginScreen
+									.getUsername());
+		</method>
+		<!--stop recording-->
+		<method name="stopRecording">
+			Debug.info("Recording stopped");
+			conn._conn.call("streamservice.stopRecordingShow", null, loginScreen
+									.getUsername());
+		</method>
+	</class>
+	
+</library>

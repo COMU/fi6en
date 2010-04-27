@@ -129,68 +129,9 @@
 		      //    this._conn.call(func, obj);
 	        //}
 		]]>
-	    </method> -->
-	    
-		<!--publishing the stream object-->
-		<!--<method name="publishVideo" args="username">
-			Debug.info("loginscreen.getUsername () => %w",username);	
-			var camera= Camera.getCamera();
-			camera.setMode(220, 200, 15);
-			camera.setQuality(0,80);
-			stream1.attachCamera(camera);
-            stream1.publish(username,"live");
-            _conn.call("user.sendUsername",responder,username);
-		</method>-->
-		
-		<!--playing the stream object on the videoview
-			@param username : username which is coming from the login window -->
-		<!--<method name="playVideo" args="username">
-			//Debug.write("playVideo button clicked");
-			var streamToPlay= getOtherUsername(username);
-			this.stream2.play(streamToPlay);
-	        live._attachStream(stream2);
-		</method>-->
-		
-		<!--method to determine the usernames which is publishing video-->
-		<!--<method name="getOtherUsername" args="myUsername">
-			<![CDATA[
-			var otherUsername;
-			for (var i=0; i<_sharedObject.usernameList.length; i++) {
-				if (myUsername!=_sharedObject.usernameList[i]) {
-					otherUsername= _sharedObject.usernameList[i];
-					Debug.inspect(otherUsername);
-					return otherUsername;
-				}
-			}
-			]]>
-		</method>-->
-		
-		<!--closing the open streams successfully-->
-		<!--<method name="closeStream">
-			Debug.write("closing the stream");
-			stream1.close();
-			stream2.close();
-			camm.setAttribute("show",false);
-		</method>-->
-		
-		<!--<method name="writeSharedObject" args="message">
-			//Debug.write("sending to the shared object");
-			this._sharedObject.send("writeMessage",loginScreen.getUsername(),message);
-		</method>
-		
-		<method name="onResult" args="returnvalue">
-			Debug.info("onResult: %w",returnvalue);
-		</method>
-		<method name="onStatus" args="returnvalue">
-			Debug.info("onStatus: %w",returnvalue);
-		</method>
-	    
-	    <method name="getSharedObjectUser">
-	    	return _sharedObjectUserlist;
-	    </method> -->	    
+	    </method> -->    
 	    
 	    <!--method sets welcome message with the incoming firstname and lastname-->
-	    
 	    <method name="setWelcomeMessage" args="firstname, lastname"><![CDATA[							
 	    	welcome.addText("<b><font>"+' '+firstname+' '+lastname+"</font></b>");	    	
 	    ]]></method>

@@ -5,7 +5,8 @@
 		<attribute name="warning" type="string" value="null"/>
 		<view align="center">
 			<simplelayout spacing="10"/>
-			<button name="roomCreateButton">Create Room
+			<button name="roomCreateButton"
+					datapath="dsetLang:/language/string[@id='26']" text="$path{'value/text()'}">
 				<handler name="onclick">
 					var room = parent.roomNameView.roomName.text;
 					if (room != '') {
@@ -29,18 +30,12 @@
 			<view name="roomNameView" visible="false" align="center">
 				<simplelayout axis="x" spacing="5" />
 				<edittext name="roomName" width="70"/>
-				<text>Cancel
+				<text datapath="dsetLang:/language/string[@id='12']" text="$path{'value/text()'}">
 					<handler name="onclick">
 						parent.setAttribute('visible', false);
 					</handler>
 				</text>	
 			</view>		
-			<!--<edittext width="250" name="message" />
-				<button>Send Message
-					<handler name="onclick">
-						soChatRoomm.send('writeMessage', parent.message.text);
-					</handler>
-				</button>-->
 		</view>
 	
 		<method name="createRoom" args="roomName">

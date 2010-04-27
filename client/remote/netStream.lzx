@@ -65,17 +65,15 @@
 		<method name="closeStream">
 	        Debug.write("closing the stream");
 	        this.stream.close();
-	        chatScreen.mainChatView.videoViewBroadcast.mainChatView.camm.setAttribute("show",false);
         </method>
         
         <!--publishing the stream object-->
         <method name="publishVideo" args="streamName">	
 	        var camera= Camera.getCamera();
 	        camera.setMode(220, 200, 15);
-	        camera.setQuality(0,95);
+	        camera.setQuality(0,80);
 	        this.stream.attachCamera(camera);
 			this.stream.publish(streamName,"live");
-			//_conn.call("user.sendUsername",responder,username);
         </method>
         
         <!--playing the stream object on the videoview-->

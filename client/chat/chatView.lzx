@@ -34,15 +34,6 @@
 			</handler>		
 		</sharedObjectRoomList>
 		
-		<!--netStream object for publish operation-->
-		<netStream name="streamPublish"> 
-			<handler name="onconnected" reference="conn">
-				if (conn.connected) {
-					this.createStream(conn._conn);
-				}
-			</handler>
-		</netStream>
-		
 		<!--netStream object for play operation-->
 		<netStream name="streamPlay"> 
 			<handler name="onconnected" reference="conn">
@@ -52,7 +43,7 @@
 			</handler>
 		</netStream>
 
-		<command name="enterKey" key="['Enter']" active="${classroot.haswindowfocus}">
+		<command name="enterKey" key="['Enter']" active="${classroot.mainChatView.chat.isMouseOver()}">
 			<handler name="onselect">
 				//Debug.write('Enter key was pressed');
 				classroot.mainChatView.chat.buttonView.buttonViewInside1.sendButton
@@ -90,45 +81,41 @@
 			
 			<!--view for user1 (you)-->
 			<view name="videoViewBroadcast">
-				<simplelayout axis="y" spacing="10" />
-				<button name="showMyCam" datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}" align="center">
-					<attribute name="publish" type="boolean" value="false"/>
+				<simplelayout axis="y" spacing="30" />
+				
+				<button name="publishButton" align="center"
+						datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}">
+					<text name="publishText" visible="false"
+						datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}"/>
+					<text name="stopText" visible="false"
+						datapath="dsetLang:/language/string[@id='25']" text="$path{'value/text()'}"/>	
 					<handler name="onclick">
-						//Debug.write("publish button");
-						var streamPublish = classroot.streamPublish;
-						if (!streamPublish.publishing) {
-							streamPublish.publishVideo(loginScreen
+						if (this.text==publishText.text) {
+							publishUser.publish(loginScreen
 									.getUsername());
-							this.setAttribute('text', "Stop My Cam");
-							parent.broadcasting.camm.setAttribute("show", true);
-							streamPublish.setAttribute('publishing', true);
-						} else {
-							streamPublish.closeStream();
-							streamPublish.setAttribute('publishing', false);
-
+							this.setAttribute('text',stopText.text);
+							publishUser.setAttribute('visible',true);
 						}
+						else {
+							publishUser.stopPublishing();
+							this.setAttribute('text',publishText.text);
+							publishUser.setAttribute('visible',false);
+						}						
 					</handler>
 				</button>
-				<!--<microphone id="micc" capturing="true"/> --> 
-				<videoview name="broadcasting" width="220" height="200" type="rtmp">
-					<camera name="camm" capturing="true"/>	
-				</videoview>	
+				<!--publish cideo view for you-->
+				<publisher id="publishUser" align="center"/>	
 			</view>
 			
-			<!--chat area-->
+			<!--main chat area-->
 			<view name="chat" layout="axis:y;spacing:10" >
 				<edittext name="message" width="300" height="20" resizable="true" />
 				
-				<view name="messageAreaView" bgcolor="#CCCC66" width="300" height="100" clip="true"
+				<view name="messageAreaView" bgcolor="#CCCC66" width="300" height="350" clip="true"
 					focusable="true" clickable="true">
 					<attribute name="usernameColor" type="color"/>
 					<text name="messageArea" multiline="true" selectable="true" clickable="true"/>
-					<vscrollbar name="vscrollbarChat" visible="${scrollable}">
-						<handler name="onvisible">
-							Debug.write("visible");
-							this.page(1);
-						</handler>
-					</vscrollbar>	
+					<vscrollbar name="vscrollbarChat" visible="${scrollable}" />	
 				</view>
 						
 				<view name="buttonView" align="center">
@@ -139,7 +126,7 @@
 							<handler name="onclick" method="sendClicked" />
 							<method name="sendClicked" args="v=0">
 								var message = classroot.mainChatView.chat.message;
-								if (message != "") {
+								if (message.text != "") {
 									//Debug.write("Message sent!");									
 									classroot.sendMessage(message.text);
 									message.clearText();
@@ -199,7 +186,7 @@
 
 						//conn._conn.call("userservice.removeUsername", conn.responder);
 						conn.closeConnection();
-						var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?debug=true&lzr=swf10';
+						var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?lzr=swf10&debug=true';
 						lz.Browser.loadURL(location, '_self');
 					]]>
 					</handler>
