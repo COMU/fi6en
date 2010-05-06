@@ -1,0 +1,45 @@
+<library>
+	<class name="menuBar" extends="view">
+		<attribute name="bgcolor" value="#CCCCCC"/>
+		<attribute name="fgcolor" value="#009900"/>
+		<attribute name="width" value="${canvas.width}"/>
+		<attribute name="height" value="25"/>
+		<attribute name="fontsize" value="14"/>
+		<view valign="middle">
+			<simplelayout axis="x" spacing="20" inset="20"/>
+			<view>
+				<text>Lobby</text>
+				<handler name="onclick">
+					if (chatScreen.opacity == 0) {
+						chatScreen.animate("opacity", "1", "700");	
+					}					
+					if (roomScreen.opacity == 1) {
+						roomScreen.animate("opacity", "0", "700");
+					}
+				</handler>
+			</view>
+			<view>
+				<text>Rooms</text>
+			</view>
+			<view>
+				<text>Records</text>
+			</view>
+		</view>
+		<view align="right" xoffset="10">
+			<button name="disconnectButton" 
+				datapath="dsetLang:/language/string[@id='21']" text="$path{'value/text()'}" 
+				height="${classroot.height}">
+				<handler name="onclick"><![CDATA[
+					var username = loginScreen.getUsername();
+					chatScreen.soChat.send("writeInfo", loginScreen
+									.getUsername()
+									+ " logged out");
+					conn.closeConnection();
+					var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?lzr=swf10&debug=true';
+					lz.Browser.loadURL(location, '_self');
+				]]>
+				</handler>
+			</button>
+		</view>
+	</class>
+</library>

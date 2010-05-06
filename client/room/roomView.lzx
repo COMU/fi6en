@@ -48,10 +48,12 @@
 		</command>
 		
 		<view name="backToLobbyButton" resource="../resources/icons/back.png"
-			x="20" y="20" placement="canvas" visible="${classroot.visible}"
+			x="20" y="10" placement="canvas" visible="${classroot.visible}"
 			onmouseover="info.setAttribute('visible',true)" 
 			onmouseout="info.setAttribute('visible',false)">
-			<text name="info" y="${parent.y-40}" visible="false"
+			<text name="info" x="${parent.x+30}" 
+				  y="${parent.parent.roomName.y-20}"
+				  visible="false"
 				  datapath="dsetLang:/language/string[@id='27']" text="$path{'value/text()'}"/>
 			<handler name="onclick">
 				var newUrl = 'rtmp://193.255.97.35:1935/fi6en';
@@ -65,7 +67,8 @@
 			</handler>
 		</view>
 		
-		<text name="roomName" x="${parent.backToLobbyButton.x+60}" y="${parent.backToLobbyButton.y}"
+		<text name="roomName" x="${parent.backToLobbyButton.x+60}" 
+			  y="${parent.backToLobbyButton.y}"
 			  fontsize="14" fgcolor="#33CC66"
 			  placement="canvas" visible="${classroot.visible}" 
 			  />
@@ -173,18 +176,6 @@
 			
 			<view name="rightBar">
 				<simplelayout spacing="20"/>
-				<button name="disconnectButton" datapath="dsetLang:/language/string[@id='21']" text="$path{'value/text()'}" 
-					align="center">
-					<handler name="onclick"><![CDATA[
-						var username = loginScreen.getUsername();
-						chatScreen.soChat.send("writeInfo", loginScreen
-										.getUsername()
-										+ " logged out");
-						conn.closeConnection();
-						var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?lzr=swf10&debug=true';
-						lz.Browser.loadURL(location, '_self');]]>
-					</handler>
-				</button>
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center"
 					datapath="dsetLang:/language/string[@id='22']" text="$path{'value/text()'}" />
 				<list name="usersList" >

@@ -14,6 +14,7 @@
 		<attribute name="stream" value="null"/>
 		<attribute name="publishing" type="boolean" value="false"/>
 		<attribute name="playing" type="boolean" value="false"/>
+		<attribute name="recording" type="boolean" value="false"/>
 		
 		<method name="createStream" args="conn">
 			this.stream= new NetStream(conn);
@@ -70,16 +71,25 @@
         <!--publishing the stream object-->
         <method name="publishVideo" args="streamName">	
 	        var camera= Camera.getCamera();
+	        var microphone= Microphone.getMicrophone();
 	        camera.setMode(220, 200, 15);
 	        camera.setQuality(0,80);
-	        this.stream.attachCamera(camera);
+	        this.stream.attachAudio(microphone);
+	        this.stream.attachCamera(camera);	        
 			this.stream.publish(streamName,"live");
+			
+			//Debug.write("bandwidth : %w",camera.bandwidth);
+			//Debug.write("currentFPS : %w",camera.currentFPS);
+			//Debug.write("fps : %w",camera.fps);
+			//Debug.write("keyFrameInterval : %w",camera.keyFrameInterval);
+			//Debug.write("width : %w",camera.width);
+			//Debug.write("height : %w",camera.height);
+			
+			
         </method>
         
         <!--playing the stream object on the videoview-->
         <method name="playVideo" args="streamName">
-	        //Debug.write("playVideo button clicked");
-	        //var streamToPlay= getOtherUsername(username);
 	        this.stream.play(streamName);
 	        //live._attachStream(stream2);
         </method>

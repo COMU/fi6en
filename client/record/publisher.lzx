@@ -57,19 +57,26 @@
 		<method name="stopPublishing">
 			streamPublish.closeStream();
 			streamPublish.setAttribute('publishing', false);
-			broadcastView.broadcasting.camm.setAttribute('show',false);
+			broadcastView.broadcasting.camm.setAttribute('show', false);
 		</method>
 		<!--record video-->
 		<method name="record">
 			Debug.info("Recording started");
 			conn._conn.call("streamservice.recordShow", null, loginScreen
-									.getUsername());
+							.getUsername());
+			streamPublish.setAttribute('recording', true);
 		</method>
 		<!--stop recording-->
 		<method name="stopRecording">
-			Debug.info("Recording stopped");
-			conn._conn.call("streamservice.stopRecordingShow", null, loginScreen
-									.getUsername());
+			if (streamPublish.recording) {
+				Debug.info("Recording stopped");
+				conn._conn.call("streamservice.stopRecordingShow", null,
+						loginScreen.getUsername());
+				streamPublish.setAttribute('recording', false);
+			}
+			else {
+				Debug.warn("There is no stream is being recorded now!");
+			}
 		</method>
 	</class>
 	

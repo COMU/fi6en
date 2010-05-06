@@ -103,7 +103,7 @@
 						}						
 					</handler>
 				</button>
-				<!--publish cideo view for you-->
+				<!--publish video view for you-->
 				<publisher id="publishUser" align="center"/>	
 			</view>
 			
@@ -158,7 +158,6 @@
 				<button name="showUserCam" datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"
 					align="center">
 					<handler name="onclick">
-						//Debug.write("play button");
 						//Debug.info ("selected item => %w",usersList.getSelection().text);
 						var streamToPlay = classroot.mainChatView.rightBar.usersList
 								.getSelection().text;
@@ -171,26 +170,6 @@
 			
 			<view name="rightBar">
 				<simplelayout spacing="20"/>
-				<button name="disconnectButton" datapath="dsetLang:/language/string[@id='21']" text="$path{'value/text()'}" 
-					align="center">
-					<handler name="onclick"><![CDATA[
-						var username = loginScreen.getUsername();
-						classroot.soChat.send("writeInfo", loginScreen
-										.getUsername()
-										+ " logged out");
-						//classroot.setAttribute('visible',false);
-						//loginScreen.setAttribute('opacity',"1");
-
-						/*if (classroot.isFirstUser)
-							soUsers.send("removeFromUserlist", username);*/
-
-						//conn._conn.call("userservice.removeUsername", conn.responder);
-						conn.closeConnection();
-						var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?lzr=swf10&debug=true';
-						lz.Browser.loadURL(location, '_self');
-					]]>
-					</handler>
-				</button>
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center"
 					datapath="dsetLang:/language/string[@id='22']" text="$path{'value/text()'}" />
 				<list name="usersList" >

@@ -15,8 +15,9 @@
 		<view resource="initializing.swf" 
 			width="${canvas.width}" height="${canvas.height}"/>
 	</splash>
+	<menuBar id="myMenuBar" y="40" visible="false"/>
 	<handler name="oninit">
-		conn.connect("rtmp://127.0.0.1:1935/fi6en");
+		conn.connect("rtmp://192.168.1.79:1935/fi6en");
 		Security.allowDomain("*");
 		//Security.loadPolicyFile("http://members.comu.edu.tr/cem/fi6en(allow)/crossdomain.xml");
 		switch (Security.sandboxType) {
@@ -37,7 +38,7 @@
 	</handler>
 	<!--dataset for the languages--> 
 	<dataset name="dsetLang" id="dsetLang"  src="lang/turkish.xml"/>
-	<view align="right" valign="top" yoffset="-10" xoffset="10">
+	<view align="right" valign="top" yoffset="-7" xoffset="10">
 		<simplelayout axis="x" spacing="10" />
 		<!--welcome message-->
 		<text id="welcome" fontsize="13" fgcolor="#33CC66" visible="false" 
@@ -48,6 +49,6 @@
 	<debug width="400" height="300" align="left"/>
 	<connection id="conn" />
 	<loginWindow name="loginScreen" align="center" valign="middle" width="300" height="200"/> 
-	<chatView id="chatScreen" y="50" align="center" opacity="0"/>
-	<roomView id="roomScreen" y="50" align="center" opacity="0" />
+	<chatView id="chatScreen" y="80" align="center" opacity="0"/>
+	<roomView id="roomScreen" y="80" align="center" opacity="0" />
 </canvas>

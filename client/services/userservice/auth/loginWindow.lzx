@@ -171,6 +171,7 @@
 			}				
 			chatScreen.soUsers.send("updateUserlist", username);
 			welcome.setAttribute('visible',true);
+			myMenuBar.setAttribute('visible',true);
 			this.animate("opacity", "0", "700");
 			chatScreen.animate("opacity", "1", "700");
 		</method>
