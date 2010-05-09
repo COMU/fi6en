@@ -1,0 +1,56 @@
+<library>
+	<class name="recordsView" extends="view">
+		<netStream name="playRecordStream"> 
+			<handler name="onconnected" reference="conn">
+				if (conn.connected) {
+					this.createStream(conn._conn);
+				}
+			</handler>
+		</netStream>
+		<dataset name="dset" id="dset" type="http" querytype="POST"
+			src="http://localhost:5080/fi6en/getvideos.jsp" 
+			autorequest="true"/>
+			
+		<simplelayout axis="x" spacing="40"/>	
+		<view>
+			<simplelayout spacing="20" />
+			<grid name="videoGrid" datapath="local:classroot.dset:/videos" contentdatapath="video"
+				bgcolor="silver">	
+				<gridcolumn width="150">Filename
+					<text datapath="@filename" />
+				</gridcolumn>
+				<gridcolumn width="100">Date
+					<text datapath="@date" />
+				</gridcolumn>
+				<gridcolumn width="100">Size
+					<text datapath="@size" />
+				</gridcolumn>
+			</grid>
+			
+			<view layout="axis:x; spacing:10" align="center">
+				<button align="center">Play
+					<handler name="onclick">
+						var recordFilename = parent.parent.videoGrid.getSelection()[0]
+								.getNodeAttribute("filename");
+						//Debug.write('video name %w', recordFilename);
+						classroot.playRecordStream.playRecord(recordFilename);
+						classroot.recordVideoview
+								._attachStream(classroot.playRecordStream.stream);
+					</handler>
+				</button>
+				<button>Stop
+					<handler name="onclick">
+						classroot.recordVideoview.stop();
+					</handler>
+				</button>
+			</view>
+			
+		</view>	
+				
+		<videoview name="recordVideoview" width="320" height="240" />
+		
+		<method name="fetchVideos">
+			dset.doRequest();
+		</method>
+	</class>	
+</library>

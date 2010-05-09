@@ -83,9 +83,7 @@
 			//Debug.write("fps : %w",camera.fps);
 			//Debug.write("keyFrameInterval : %w",camera.keyFrameInterval);
 			//Debug.write("width : %w",camera.width);
-			//Debug.write("height : %w",camera.height);
-			
-			
+			//Debug.write("height : %w",camera.height);			
         </method>
         
         <!--playing the stream object on the videoview-->
@@ -94,5 +92,8 @@
 	        //live._attachStream(stream2);
         </method>
 		
+        <method name="playRecord" args="recordName">
+        	this.stream.play(recordName);
+        </method>		
 	</class>	
 </library>

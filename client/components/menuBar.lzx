@@ -9,12 +9,15 @@
 			<simplelayout axis="x" spacing="20" inset="20"/>
 			<view>
 				<text>Lobby</text>
-				<handler name="onclick">
-					if (chatScreen.opacity == 0) {
-						chatScreen.animate("opacity", "1", "700");	
-					}					
+				<handler name="onclick">					
 					if (roomScreen.opacity == 1) {
 						roomScreen.animate("opacity", "0", "700");
+					}
+					if (recordsScreen.opacity == 1) {
+						recordsScreen.animate("opacity", "0", "700");
+					}
+					if (chatScreen.opacity == 0) {
+						chatScreen.animate("opacity", "1", "700");	
 					}
 				</handler>
 			</view>
@@ -23,6 +26,18 @@
 			</view>
 			<view>
 				<text>Records</text>
+				<handler name="onclick">
+					if (chatScreen.opacity == 1) {
+						chatScreen.animate("opacity", "0", "700");	
+					}					
+					if (roomScreen.opacity == 1) {
+						roomScreen.animate("opacity", "0", "700");
+					}
+					if (recordsScreen.opacity == 0) {
+						recordsScreen.animate("opacity", "1", "700");
+						recordsScreen.fetchVideos();
+					}
+				</handler>
 			</view>
 		</view>
 		<view align="right" xoffset="10">

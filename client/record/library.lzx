@@ -1,3 +1,4 @@
 <library>
 	<include href="publisher.lzx" />
+	<include href="recordsView.lzx" />
 </library>
