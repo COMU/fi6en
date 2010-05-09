@@ -39,6 +39,9 @@
 	<bean id="streamservice.service" class="org.red5.fi6en.streaming.StreamManager"
 		singleton="true">
         <property name="application" ref="web.handler"/>
-    </bean>	
+    </bean>
+    
+    <bean id="recordingservice.service" class="org.red5.fi6en.recording.DemoService"
+		singleton="true" />	
 
 </beans>
