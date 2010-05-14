@@ -5,6 +5,12 @@ import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.api.so.ISharedObjectBase;
 import org.slf4j.Logger;
 
+/**
+ * Listener Class for the chat share object in the lobby
+ * @author cem
+ *
+ */
+
 public class ChatSharedObjectListener extends SharedObjectListener{
 	Logger log = Red5LoggerFactory.getLogger(ChatSharedObjectListener.class,
 	"fi6en");

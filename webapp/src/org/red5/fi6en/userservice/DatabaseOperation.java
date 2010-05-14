@@ -105,6 +105,11 @@ public class DatabaseOperation {
 		}
 	}
 
+	/**
+	 * check if the given username is being used by another user 
+	 * @param username
+	 * @return
+	 */
 	public boolean checkDuplicateUser(String username) {
 		log.info("check duplicate username method, username : {}", username);
 		Session session = sessionFactory.openSession();

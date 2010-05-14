@@ -1,4 +1,6 @@
 
+<%@page import="org.red5.logging.Red5LoggerFactory"%>
+<%@page import="org.slf4j.Logger"%>
 <%@page import="org.red5.fi6en.core.Application"%>
 <%@page import="org.red5.fi6en.recording.DemoService"%>
 <%@page import="javax.xml.transform.dom.DOMSource"%>
@@ -19,8 +21,6 @@ Application myApp = (Application)rootCtx.getBean("web.handler");
 IScope scope = myApp.getScope();
 DemoService demoService= (DemoService)rootCtx.getBean("recordingservice.service");
 %>
-<%--<%=scope.getName()--%>
-<%--=demoService.getMesaj()--%>
 <%
 /////////////////
 //Output the XML
@@ -37,9 +37,9 @@ StreamResult result = new StreamResult(sw);
 DOMSource source = new DOMSource(demoService.getListOfAvailableFLVs(scope));
 trans.transform(source, result);
 String xmlString = sw.toString();
-
+demoService.writeXML(xmlString);
 //print xml
-System.out.println("Here's the xml:\n\n" + xmlString);
+//System.out.println("Here's the xml:\n\n" + xmlString);
 
 %>
 <%=xmlString%>
