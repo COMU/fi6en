@@ -22,48 +22,16 @@
 		<method name="removeFromUserlist" args="username">
 			//Debug.write("removing %w from the userlist ",username);
 			/*if the client is the first user for the app., manually removing username from the userlist*/
-			if (!chatScreen.isFirstUser) {
-				//Debug.info(username," is the first user");
+			
+			if (chatScreen.isFirstUser) {
+				chatScreen.soChat.send("writeInfo", username+" was the first user");
 				chatScreen.mainChatView.rightBar.usersList.removeItem(username);
 				chatScreen.soChat.send("writeInfo", loginScreen.getUsername()
 										+ " logged out");
 				return;
-			}			
+			}
 			chatScreen.mainChatView.rightBar.usersList.removeItem(username);
-		</method>
-		
-		<method name="deneme" args="param">
-			Debug.write("deneme : %w",param);
-		</method>
-		
-		
-		
-		
-		
-		<method name="createRoomButton" args="roomName">
-			this.send('createRoom', roomName, loginScreen.getUsername());			
-		</method>
-		
-		<method name="createRoom" args="roomName, username">
-			var room = new lz.roomButton(
-					chatScreen.mainChatView.roomsView.roomList, {
-						text : roomName,
-						xoffset : -30,
-						yoffset : -20
-					});
-			room.animate('y', room.y + 30, 1000, false, {
-						motion : 'easein'
-					});
-			room.animate('y', room.y, 1000, false, {
-						motion : 'easeout'
-					});
-			Debug.write("room : %w created by %w", roomName, username);
-		</method>
-		
-		
-		
-		
-				
+		</method>			
 	</class>
 	
 	

@@ -1,0 +1,17 @@
+<library>
+	<include href="../remote/netStream.lzx" />
+	<class name="subscriber" extends="window">
+		<attribute name="closeable" value="true"/>
+		<!--<attribute name="resizable" value="true"/>-->
+		
+		<!--netStream object for play operation-->
+		<netStream name="streamPlay" oninit="this.createStream(conn._conn)"/>
+		
+		<videoview name="live" width="150" height="120" type="rtmp"/>
+		
+		<method name="attachStream" args="streamName">
+			streamPlay.playVideo(streamName);
+			live._attachStream(streamPlay.stream);
+		</method>
+	</class>
+</library>

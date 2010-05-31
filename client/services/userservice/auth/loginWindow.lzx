@@ -3,7 +3,7 @@
 	<script src="md5.js" />
 	<!--login window view-->
 	<class name="loginWindow" extends="window"  
-		   datapath="dsetLang:/language/string[@id='2']" title="$path{'value/text()'}">
+		datapath="dsetLang:/language/string[@id='2']" title="$path{'value/text()'}">
 		<switch>
 			<when property="$as3">
 				<passthrough>
@@ -14,8 +14,11 @@
 		
 		<command name="enter" key="['Enter']" active="${classroot.isMouseOver()}">
 			<handler name="onselect">
+
+
 				//Debug.write("login window enter");
-				classroot.loginOpearation(classroot.getUsername(),classroot.getPassword());
+				classroot.loginOpearation(classroot.getUsername(), classroot
+								.getPassword());
 			</handler>  
 		</command>
 			
@@ -25,7 +28,7 @@
 		<attribute name="error" type="string" value="null"/>
 		<attribute name="responder" /><!--responder for the server side-->
 		<!--register window instance-->
-		<registerNewUser name="registerWindow"  placement="canvas" 
+		<registerNewUser name="registerWindow" placement="canvas" 
 			valign="middle" visible="false" align="center">
 			<!--override cancel method of registerWindow class-->
 			<method name="cancel">
@@ -34,20 +37,24 @@
 		</registerNewUser>		
 		
 		<handler name="onavailableUsername" reference="registerWindow"><![CDATA[
+
+
 			//Debug.write("register window.validation onvalid method");
-			if (registerWindow.availableUsername) 
+			if (registerWindow.availableUsername)
 				resetPlacement();
-		]]></handler>
+		]]>
+		</handler>
 		
 		<simplelayout spacing="10"/>		
 		<view>			
 			<text datapath="dsetLang:/language/string[@id='4']" text="$path{'value/text()'}" x="10" y="22"></text>
 			<edittext id="usernameLogin" x="100" y="20" width="150" />
 		</view>
-		<view >
+		<view>
 			<text datapath="dsetLang:/language/string[@id='5']" text="$path{'value/text()'}" x="10" y="22"></text>
 			<edittext id="passwordLogin" x="100" y="20" password="true" width="150" />
 		</view>
+		
 		
 		<!--room combobox-->
 		<!--<combobox name="roomCombobox" width="175" editable="false" defaultselection="0" align="center">
@@ -57,7 +64,7 @@
 				<textlistitem text="Oda3" />
 			</combobox>-->
 		
-		<view align="center">
+		<view name="buttonsView" align="center">
 			<simplelayout axis="x" spacing="20" />
 			<button name="registerButton" datapath="dsetLang:/language/string[@id='3']" text="$path{'value/text()'}">
 				<handler name="onclick">
@@ -92,9 +99,42 @@
 						 this.destroy();
 				   }
 				 </handler>-->
-			<!--<text text="Email"><edittext name="email"></edittext>-->
-				
+			<!--<text text="Email"><edittext name="email"></edittext>-->	
 		</view>
+		<view align="center">
+			<text name="tryText" fgcolor="red" text="Just Try!" />
+			<handler name="onclick">
+				if (parent.tryLoginView.visible) {
+					this.tryText.setAttribute('text','Just Try!');
+					classroot.animate('height', classroot.height - 100, 1000);
+					parent.tryLoginView.setAttribute('visible', false);
+					parent.buttonsView.registerButton.setAttribute('enabled' , true);
+					parent.buttonsView.loginButton.setAttribute('enabled' , true);
+					usernameLogin.setAttribute('enabled' , true);
+					passwordLogin.setAttribute('enabled' , true);					
+				}
+				else {
+					this.tryText.setAttribute('text','Cancel');
+					parent.tryLoginView.setAttribute('visible', true);
+					classroot.animate('height', classroot.height + 100, 1000);
+					parent.buttonsView.registerButton.setAttribute('enabled' , false);
+					parent.buttonsView.loginButton.setAttribute('enabled' , false);
+					usernameLogin.setAttribute('enabled' , false);
+					passwordLogin.setAttribute('enabled' , false);
+				}
+			</handler>
+		</view>
+		
+		<view name="tryLoginView" align="center" visible="false">
+			<simplelayout spacing="10"/>
+			<view layout="axis:x; spacing:10">
+				<text text="Username" x="10" y="22" />
+				<edittext name="usernameLogin" x="100" y="20" width="150" />
+			</view>
+			<button align="center">Login</button>
+			<text onclick="classroot.animate('height',classroot.height - 100, 1000);">Cancel</text>
+		</view>
+		
 		<method name="getUsername">
 			return usernameLogin.text;
 		</method>
@@ -161,17 +201,16 @@
 			/*getting other users's usernames and adding to the list*/
 			var arrayUserlist = chatScreen.soUsers.getDataSO("arrayUserlist");
 			Debug.write("users : ", arrayUserlist);
-			
+
 			if (arrayUserlist != null) {
 				chatScreen.soUsers.addToUserlist(arrayUserlist);
+			} else {
+				chatScreen.setAttribute('isFirstUser', true);
+				Debug.info("you are the first user on the chat application");
 			}
-			else {
-				chatScreen.setAttribute('isFirstUser',true);
-				//Debug.info("you are the first user on the chat application");
-			}				
 			chatScreen.soUsers.send("updateUserlist", username);
-			welcome.setAttribute('visible',true);
-			myMenuBar.setAttribute('visible',true);
+			welcome.setAttribute('visible', true);
+			myMenuBar.setAttribute('visible', true);
 			this.animate("opacity", "0", "700");
 			chatScreen.animate("opacity", "1", "700");
 		</method>

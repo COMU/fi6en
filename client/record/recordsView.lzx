@@ -8,7 +8,7 @@
 			</handler>
 		</netStream>
 		<dataset name="dset" id="dset" type="http" querytype="POST"
-			src="http://localhost:5080/fi6en/getvideos.jsp" 
+			src="http://127.0.0.1:5080/fi6en/getvideos.jsp" 
 			autorequest="true"/>
 			
 		<simplelayout axis="x" spacing="40"/>	

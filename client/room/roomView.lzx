@@ -56,7 +56,7 @@
 				  visible="false"
 				  datapath="dsetLang:/language/string[@id='27']" text="$path{'value/text()'}"/>
 			<handler name="onclick">
-				var newUrl = 'rtmp://193.255.97.35:1935/fi6en';
+				var newUrl = 'rtmp://127.0.0.1:1935/fi6en';
 				chatScreen.animate("opacity", "1", "700");
 				classroot.animate("opacity", "0", "700");
 				roomScreen.soChatRoom.clear();

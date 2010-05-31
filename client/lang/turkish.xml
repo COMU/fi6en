@@ -99,5 +99,8 @@
 	<string id="33" name="welcome">
 		<value>Hoşgeldiniz</value>
 	</string>
+	<string id="34" name="stop_playing">
+		<value>Oynatmayı Durdur</value>
+	</string>
 			
 </language>

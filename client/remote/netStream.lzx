@@ -17,83 +17,93 @@
 		<attribute name="recording" type="boolean" value="false"/>
 		
 		<method name="createStream" args="conn">
-			this.stream= new NetStream(conn);
-			this.stream.client=this;
-			this.stream.addEventListener(NetStatusEvent.NET_STATUS, netStreamHandler);
-			this.stream.addEventListener(NetStatusEvent.NET_STATUS, onPlayStatus);
+			this.stream = new NetStream(conn);
+			this.stream.client = this;
+			this.stream.addEventListener(NetStatusEvent.NET_STATUS,
+					netStreamHandler);
+			this.stream.addEventListener(NetStatusEvent.NET_STATUS,
+					onPlayStatus);
 		</method>
 		
 		<method name="netStreamHandler" args="event">
-	        switch (event.info.code) {
-		        case "NetStream.Publish.Start":
+			switch (event.info.code) {
+				case "NetStream.Publish.Start" :
 					Debug.info("Stream publish started");
-					this.setAttribute('publishing',true);
+					this.setAttribute('publishing', true);
 					//broadcasting._attachStream(this.stream1);
 					break;
-		        case "NetStream.Failed":
-			        Debug.error("NetStream Failed");
-			        break;
-		        case "NetStream.Play.Start":
-			        Debug.info("NetStream playing started");
-			        this.setAttribute('playing',true);
-			        break;
-		        case "NetStream.Play.Stop":
-			        Debug.info("NetStream play stopped");
-			        break;
-		        case "NetStream.Play.Failed":
-			        Debug.error("NetStream playing failed");
-			        break;
-		        case "NetStream.Play.StreamNotFound":
-			        Debug.warn("No stream to play");
-			        break;
-		        case "NetStream.Publish.BadName":
-			        Debug.error("Please check the name of the publishing stream" );
-			        break;
-	        }
+				case "NetStream.Failed" :
+					Debug.error("NetStream Failed");
+					break;
+				case "NetStream.Play.Start" :
+					Debug.info("NetStream playing started");
+					this.setAttribute('playing', true);
+					break;
+				case "NetStream.Play.Stop" :
+					Debug.info("NetStream play stopped");
+					break;
+				case "NetStream.Play.Failed" :
+					Debug.error("NetStream playing failed");
+					break;
+				case "NetStream.Play.StreamNotFound" :
+					Debug.warn("No stream to play");
+					break;
+				case "NetStream.Publish.BadName" :
+					Debug.error("Please check the name of the publishing stream");
+					break;
+			}
 		</method>
 		
 		<method name="onPlayStatus" args="event">
 			switch (event.info.code) {
-		        case "NetStream.Play.Switch":
+				case "NetStream.Play.Switch" :
 					Debug.info("The subscriber is switching from one stream to another in a playlist.");
 					break;
-		        case "NetStream.Play.Complete":
-			        Debug.info("Playback has completed.");
-			        break;
+				case "NetStream.Play.Complete" :
+					Debug.info("Playback has completed.");
+					break;
 			}
 		</method>
 		
 		<method name="closeStream">
-	        Debug.write("closing the stream");
-	        this.stream.close();
-        </method>
+			Debug.write("closing the stream");
+			this.stream.close();
+		</method>
         
-        <!--publishing the stream object-->
-        <method name="publishVideo" args="streamName">	
-	        var camera= Camera.getCamera();
-	        var microphone= Microphone.getMicrophone();
-	        camera.setMode(220, 200, 15);
-	        camera.setQuality(0,80);
-	        this.stream.attachAudio(microphone);
-	        this.stream.attachCamera(camera);	        
-			this.stream.publish(streamName,"live");
-			
+		<!--publishing the stream object-->
+		<method name="publishVideo" args="streamName, video, audio"><![CDATA[
+			var camera = Camera.getCamera();
+			//var microphone = Microphone.getMicrophone();
+			camera.setMode(220, 200, 15);
+			camera.setQuality(0, 80);
+			if (video && audio) {
+				//this.stream.attachAudio(microphone);
+				this.stream.attachCamera(camera);
+			} else if (video && !audio) {
+				this.stream.attachCamera(camera);
+			}
+			else {
+				//this.stream.attachAudio(microphone);
+			}
+
+			this.stream.publish(streamName, "live");
 			//Debug.write("bandwidth : %w",camera.bandwidth);
 			//Debug.write("currentFPS : %w",camera.currentFPS);
 			//Debug.write("fps : %w",camera.fps);
 			//Debug.write("keyFrameInterval : %w",camera.keyFrameInterval);
 			//Debug.write("width : %w",camera.width);
 			//Debug.write("height : %w",camera.height);			
-        </method>
+		]]>
+		</method>
         
-        <!--playing the stream object on the videoview-->
-        <method name="playVideo" args="streamName">
-	        this.stream.play(streamName);
-	        //live._attachStream(stream2);
-        </method>
+		<!--playing the stream object on the videoview-->
+		<method name="playVideo" args="streamName">
+			this.stream.play(streamName);
+			//live._attachStream(stream2);
+		</method>
 		
-        <method name="playRecord" args="recordName">
-        	this.stream.play(recordName);
-        </method>		
+		<method name="playRecord" args="recordName">
+			this.stream.play(recordName);
+		</method>		
 	</class>	
 </library>

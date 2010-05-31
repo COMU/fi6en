@@ -98,6 +98,9 @@
 	<string id="33" name="welcome">
 		<value>Welcome</value>
 	</string>
+	<string id="34" name="stop_playing">
+		<value>Stop Playing</value>
+	</string>
 	
 	
 	

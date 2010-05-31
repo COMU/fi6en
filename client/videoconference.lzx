@@ -1,9 +1,10 @@
 <!--main application-->
 <canvas width="100%" height="100%" title="Fi6en" debug="true">
 	<include href="library.lzx"/>
-	<!--for swf10 runtime-->
+	<debug width="400" height="250" x="0" valign="bottom"/>
 	<view width="${canvas.width}" height="${canvas.height}"
 		resource="resources/wallpaper/BlueCurl.jpg" stretches="both"/>
+	<!--for swf10 runtime-->
 	<switch>
 		<when property="$as3">
 			<passthrough>
@@ -17,9 +18,11 @@
 	</splash>
 	<menuBar id="myMenuBar" y="40" visible="false"/>
 	<handler name="oninit">
-		conn.connect("rtmp://127.0.0.1:1935/fi6en");
+		conn.connect("rtmp://192.168.1.79:1935/fi6en");
+		//("rtmp://[2001:a98:a080:2:221:5dff:fe5e:da96]:1935/fi6en");
+		//("rtmp://127.0.0.1:1935/fi6en");
 		Security.allowDomain("*");
-		//Security.loadPolicyFile("http://members.comu.edu.tr/cem/fi6en(allow)/crossdomain.xml");
+		//Security.loadPolicyFile("http://193.255.97.35:5080/crossdomain.xml");
 		switch (Security.sandboxType) {
 			case Security.LOCAL_TRUSTED :
 				Debug.write("Local trusted");
@@ -46,9 +49,12 @@
 		<!--combobox for language selection-->
 		<languageSelector id="langSelector" width="130" />
 	</view>
-	<debug width="400" height="300" align="left"/>
 	<connection id="conn" />
-	<loginWindow name="loginScreen" align="center" valign="middle" width="300" height="200"/> 
+	<account name="accountWindow" id="accountWindow" title="Account" 
+			 visible="false" stretches="both" 
+			 resizable="true" closeable="true"
+			 width="200" height="200" />	 
+	<loginWindow name="loginScreen" align="center" valign="middle" width="300" height="210"/> 
 	<chatView id="chatScreen" y="80" align="center" opacity="0"/>
 	<roomView id="roomScreen" y="80" align="center" opacity="0" />
 	<recordsView id="recordsScreen" y="80" x="100" opacity="0"/>

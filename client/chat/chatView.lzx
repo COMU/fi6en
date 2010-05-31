@@ -84,23 +84,21 @@
 				<simplelayout axis="y" spacing="30" />
 				
 				<button name="publishButton" align="center"
-						datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}">
+					datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}">
 					<text name="publishText" visible="false"
 						datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}"/>
 					<text name="stopText" visible="false"
 						datapath="dsetLang:/language/string[@id='25']" text="$path{'value/text()'}"/>	
 					<handler name="onclick">
-						if (this.text==publishText.text) {
-							publishUser.publish(loginScreen
-									.getUsername());
-							this.setAttribute('text',stopText.text);
-							publishUser.setAttribute('visible',true);
-						}
-						else {
+						if (this.text == publishText.text) {
+							publishUser.publish(loginScreen.getUsername());
+							this.setAttribute('text', stopText.text);
+							publishUser.setAttribute('visible', true);
+						} else {
 							publishUser.stopPublishing();
-							this.setAttribute('text',publishText.text);
-							publishUser.setAttribute('visible',false);
-						}						
+							this.setAttribute('text', publishText.text);
+							publishUser.setAttribute('visible', false);
+						}
 					</handler>
 				</button>
 				<!--publish video view for you-->
@@ -144,6 +142,7 @@
 						<button name="clearTextArea" 
 							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
 							<handler name="onclick">
+
 								//Debug.write("Clear Text Area button clicked");
 								classroot.mainChatView.chat.messageAreaView.messageArea
 										.clearText();
@@ -152,22 +151,47 @@
 					</view>
 				</view>
 			</view>
-			
+						
 			<!--view for user1 (other user)-->
 			<view name="videoViewPlay" layout="axis:y; spacing:10">
-				<button name="showUserCam" datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"
+				<button name="showUserCam" 
+					datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"
 					align="center">
+					<text name="playText" visible="false"
+						datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"/>
+					<text name="stopText" visible="false"
+						datapath="dsetLang:/language/string[@id='34']" text="$path{'value/text()'}"/>
+					
+					<attribute name="subscriberpositionX" type="number" value="${parent.x+100}"/>
+					<attribute name="subscriberpositionyY" type="number" value="${parent.y+100}"/>
 					<handler name="onclick">
-						//Debug.info ("selected item => %w",usersList.getSelection().text);
 						var streamToPlay = classroot.mainChatView.rightBar.usersList
-								.getSelection().text;
-						classroot.streamPlay.playVideo(streamToPlay);
-						parent.live._attachStream(classroot.streamPlay.stream);
+									.getSelection().text;
+						var subscriber= new lz.subscriber (canvas, 
+											{stretches:'both', title:streamToPlay,
+											 x:subscriberpositionX, y:subscriberpositionyY});
+						subscriberpositionyY = subscriberpositionyY + 5; 					 
+						Debug.info ("selected item => %w",streamToPlay);			
+						subscriber.attachStream(streamToPlay);					
+						//if (this.text == playText.text) {
+							//Debug.info ("selected item => %w",usersList.getSelection().text);
+							/*this.setAttribute('text', stopText.text);
+							parent.live.setAttribute('visible', true);
+							var streamToPlay = classroot.mainChatView.rightBar.usersList
+									.getSelection().text;
+							classroot.streamPlay.playVideo(streamToPlay);
+							parent.live
+									._attachStream(classroot.streamPlay.stream);
+						} else {
+							classroot.streamPlay.closeStream();
+							this.setAttribute('text', playText.text);
+							parent.live.setAttribute('visible', false);
+						}*/
 					</handler>
-				</button>
-				<videoview name="live" width="220" height="200" type="rtmp"/>
+				</button>				
+				<!--<videoview name="live" width="220" height="200" type="rtmp"/>-->
 			</view>
-			
+						
 			<view name="rightBar">
 				<simplelayout spacing="20"/>
 				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center"
@@ -178,13 +202,28 @@
 			</view>
 		</view>
 		
+		<window name="camerasWindow" title="cameras window"
+						width="400" height="400"
+						bgcolor="#BBBBBB" visible="false">
+			<wrappinglayout axis="x" spacing="10" />
+		</window>
 		
 		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">
 			soChat.writeSharedObject(message);
 			//messageArea.addText(loginScreen.getUsername()+" : "+message+"\n");
 			//conn._conn.call("sendMessage",null,message);
-		</method>				
+		</method>
+		
+		<!--overrides the determinePlacement method to handle the placement attribute-->
+		<method name="determinePlacement" args="aSub, placement, args">
+  			if (placement == 'canvas') {    
+  				return canvas;
+  			}
+  			else {
+  				return super.determinePlacement(aSub, placement, args);
+  			}
+  		</method>						
 	</class>	
 	
 </library>
