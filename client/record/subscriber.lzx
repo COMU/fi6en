@@ -1,17 +1,28 @@
 <library>
-	<include href="../remote/netStream.lzx" />
+	<!--subscriber window class-->
 	<class name="subscriber" extends="window">
 		<attribute name="closeable" value="true"/>
-		<!--<attribute name="resizable" value="true"/>-->
 		
 		<!--netStream object for play operation-->
-		<netStream name="streamPlay" oninit="this.createStream(conn._conn)"/>
-		
-		<videoview name="live" width="150" height="120" type="rtmp"/>
-		
-		<method name="attachStream" args="streamName">
-			streamPlay.playVideo(streamName);
-			live._attachStream(streamPlay.stream);
+		<netStream name="streamPlay" type="rtmp" rtmp="${conn}"/>
+		<!--videoview that is the resource of the subscriber window-->
+		<videoview name="live" width="150" height="120" type="rtmp"
+				   stream="${parent.streamPlay}">
+			<handler name="onwidth" reference="parent">
+				this.setAttribute('width', parent.width - 20);
+			</handler>
+			<handler name="onheight" reference="parent">
+				this.setAttribute('height', parent.height - 45);
+			</handler>			 
+		</videoview>
+		<!--subscribes the given stream named streamName-->
+		<method name="playStream" args="streamName">
+			streamPlay.setAttribute("url", streamName);
+			streamPlay.play();
 		</method>
+		
+		<handler name="onvisible">
+			this.destroy();
+		</handler>
 	</class>
 </library>

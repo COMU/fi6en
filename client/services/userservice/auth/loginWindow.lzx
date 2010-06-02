@@ -14,9 +14,6 @@
 		
 		<command name="enter" key="['Enter']" active="${classroot.isMouseOver()}">
 			<handler name="onselect">
-
-
-				//Debug.write("login window enter");
 				classroot.loginOpearation(classroot.getUsername(), classroot
 								.getPassword());
 			</handler>  
@@ -26,7 +23,8 @@
 		<attribute name="loginAlert" value="null"/>
 		<text name="incorrectUserPass" datapath="dsetLang:/language/string[@id='23']" text="$path{'value/text()'}"  visible="false"/>
 		<attribute name="error" type="string" value="null"/>
-		<attribute name="responder" /><!--responder for the server side-->
+		<!--responder for the server side-->
+		<attribute name="responder" />
 		<!--register window instance-->
 		<registerNewUser name="registerWindow" placement="canvas" 
 			valign="middle" visible="false" align="center">
@@ -37,9 +35,6 @@
 		</registerNewUser>		
 		
 		<handler name="onavailableUsername" reference="registerWindow"><![CDATA[
-
-
-			//Debug.write("register window.validation onvalid method");
 			if (registerWindow.availableUsername)
 				resetPlacement();
 		]]>
@@ -54,15 +49,6 @@
 			<text datapath="dsetLang:/language/string[@id='5']" text="$path{'value/text()'}" x="10" y="22"></text>
 			<edittext id="passwordLogin" x="100" y="20" password="true" width="150" />
 		</view>
-		
-		
-		<!--room combobox-->
-		<!--<combobox name="roomCombobox" width="175" editable="false" defaultselection="0" align="center">
-				<textlistitem />
-				<textlistitem text="Oda1" />
-				<textlistitem text="Oda2" />
-				<textlistitem text="Oda3" />
-			</combobox>-->
 		
 		<view name="buttonsView" align="center">
 			<simplelayout axis="x" spacing="20" />
@@ -161,12 +147,12 @@
 		<!--sends the username and encrypted password to the server whether they are matching-->
 		<method name="loginOpearation" args="username, password">
 			var hash = hex_md5(password);
-			conn._conn.call("databaseservice.comparePasswords", this.responder,
+			conn._nc.call("databaseservice.comparePasswords", this.responder,
 					username, hash);
 		</method>
 		<!--listening connected attribute of the connection-->
-		<handler name="onconnected" reference="conn">
-			if (conn.connected) {
+		<handler name="onstage" reference="conn">
+			if (conn.stage==2) {
 				responder = new Responder(this.responderResult,
 						this.responderStatus);
 			}
@@ -196,7 +182,7 @@
 			var username = getUsername();
 			var password = getPassword();
 			chatScreen.soChat.send("writeInfo", username + " logged in");
-			conn._conn.call("userservice.writeUsername", conn.responder,
+			conn._nc.call("userservice.writeUsername", conn.responder,
 					username);
 			/*getting other users's usernames and adding to the list*/
 			var arrayUserlist = chatScreen.soUsers.getDataSO("arrayUserlist");

@@ -1,12 +1,7 @@
 <library>
-	<class name="recordsView" extends="view">
-		<netStream name="playRecordStream"> 
-			<handler name="onconnected" reference="conn">
-				if (conn.connected) {
-					this.createStream(conn._conn);
-				}
-			</handler>
-		</netStream>
+	<class name="recordsView" extends="view">		
+		<netStream name="streamPlay" type="rtmp" rtmp="${conn}"/>
+			
 		<dataset name="dset" id="dset" type="http" querytype="POST"
 			src="http://127.0.0.1:5080/fi6en/getvideos.jsp" 
 			autorequest="true"/>
@@ -33,21 +28,20 @@
 						var recordFilename = parent.parent.videoGrid.getSelection()[0]
 								.getNodeAttribute("filename");
 						//Debug.write('video name %w', recordFilename);
-						classroot.playRecordStream.playRecord(recordFilename);
-						classroot.recordVideoview
-								._attachStream(classroot.playRecordStream.stream);
+						classroot.player.playVideo(recordFilename,"rtmp");
 					</handler>
 				</button>
-				<button>Stop
+				<!--<button>Stop
 					<handler name="onclick">
-						classroot.recordVideoview.stop();
+						classroot.player.stream.stop();
 					</handler>
-				</button>
+				</button>-->
 			</view>
 			
 		</view>	
-				
-		<videoview name="recordVideoview" width="320" height="240" />
+		
+		<videoplayer name="player" width="320" height="240" 
+					 type="rtmp" stream="${parent.streamPlay}" />		
 		
 		<method name="fetchVideos">
 			dset.doRequest();

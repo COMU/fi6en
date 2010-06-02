@@ -18,7 +18,7 @@
 	</splash>
 	<menuBar id="myMenuBar" y="40" visible="false"/>
 	<handler name="oninit">
-		conn.connect("rtmp://192.168.1.79:1935/fi6en");
+		//conn.connect("rtmp://192.168.1.79:1935/fi6en");
 		//("rtmp://[2001:a98:a080:2:221:5dff:fe5e:da96]:1935/fi6en");
 		//("rtmp://127.0.0.1:1935/fi6en");
 		Security.allowDomain("*");
@@ -49,7 +49,8 @@
 		<!--combobox for language selection-->
 		<languageSelector id="langSelector" width="130" />
 	</view>
-	<connection id="conn" />
+	<connection id="conn" autoconnect="true"
+				src="rtmp://192.168.1.79:1935/fi6en" />
 	<account name="accountWindow" id="accountWindow" title="Account" 
 			 visible="false" stretches="both" 
 			 resizable="true" closeable="true"

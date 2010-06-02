@@ -54,7 +54,7 @@
 				</handler>								
 			</view>
 			
-			<button name="disconnectButton" 
+			<roundedButton name="disconnectButton" 
 				datapath="dsetLang:/language/string[@id='21']" text="$path{'value/text()'}" 
 				height="${classroot.height}">
 				<handler name="onclick"><![CDATA[
@@ -62,14 +62,14 @@
 					chatScreen.soChat.send("writeInfo", loginScreen
 									.getUsername()
 									+ " logged out");
-					conn.closeConnection();
+					//conn.closeConnection();
 					var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?lzr=swf10&debug=true';
 					//http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?lzr=swf10&debug=true
 					//"http://fi6en.comu.edu.tr/fi6en"
 					lz.Browser.loadURL(location, '_self');
 				]]>
 				</handler>
-			</button>
+			</roundedButton>
 		</view>
 	</class>
 </library>

@@ -3,9 +3,9 @@
 	<class name="roomView" extends="view">		
 		<!--shared object for chat in the room-->
 		<sharedObjectChatRoom name="soChatRoom"> 
-			<handler name="onconnected" reference="conn">
-				if (conn.connected) {
-					this.connect("chatRoom", conn._conn, true);
+			<handler name="onstage" reference="conn">
+				if (conn.stage==2) {
+					this.connect("chatRoom", conn._nc, true);
 					this.so.client = this;
 				}
 			</handler>
@@ -14,9 +14,9 @@
 			@param usersList : name of the shared object at the server side
 			-->
 		<sharedObjectUserlist name="soUsersRoom"> 
-			<handler name="onconnected" reference="conn">
-				if (conn.connected) {
-					this.connect("userlistRoom", conn._conn, false);
+			<handler name="onstage" reference="conn">
+				if (conn.stage==2) {
+					this.connect("userlistRoom", conn._nc, false);
 					this.so.client = this;
 				}
 			</handler>
@@ -32,13 +32,7 @@
 		</netStream>
 		
 		<!--netStream object for play operation-->
-		<netStream name="streamPlay"> 
-			<handler name="onconnected" reference="conn">
-				if (conn.connected) {
-					this.createStream(conn._conn);
-				}
-			</handler>
-		</netStream>
+		<netStream name="streamPlay" />
 
 		<command name="enterKey" key="['Enter']" active="${classroot.mainChatView.chat.isMouseOver()}">
 			<handler name="onselect">
@@ -47,7 +41,7 @@
 			</handler>  
 		</command>
 		
-		<view name="backToLobbyButton" resource="../resources/icons/back.png"
+		<!--<view name="backToLobbyButton" resource="../resources/icons/back.png"
 			x="20" y="10" placement="canvas" visible="${classroot.visible}"
 			onmouseover="info.setAttribute('visible',true)" 
 			onmouseout="info.setAttribute('visible',false)">
@@ -71,8 +65,12 @@
 			  y="${parent.backToLobbyButton.y}"
 			  fontsize="14" fgcolor="#33CC66"
 			  placement="canvas" visible="${classroot.visible}" 
+			  /> -->
+		<text name="roomName" x="20" y="10"
+			  fontsize="14" fgcolor="#33CC66"
+			  placement="canvas" visible="${classroot.visible}" 
 			  />
-		
+			  
 		<!--audio, video, chat view-->
 		
 		<view name="mainChatView">

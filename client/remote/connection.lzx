@@ -1,94 +1,84 @@
-<library>
-	
+<library>		
 	<!--server connection initialization class-->
-	<class name="connection" extends="node">
-		<!--for swf10 runtime-->
+	<class name="connection" extends="rtmpconnection">
 		<switch>
 			<when property="$as3">
 				<passthrough>
-					import flash.net.*;
-					import flash.events.*;
+                        import flash.net.NetConnection;
+                        import flash.net.Responder;
+                        import flash.events.ErrorEvent;
+                        import flash.events.StatusEvent;
+                        import flash.events.IOErrorEvent;
+                        import flash.events.NetStatusEvent;
+                        import flash.events.SecurityErrorEvent;
+                        import flash.events.AsyncErrorEvent;
 				</passthrough>
 			</when>
-		</switch>			
-		
-		<attribute name="_conn"/>
-		<!--attribute to be sure whether connection is successful-->
-		<attribute name="connected" value="false" type="boolean"/> 
+		</switch>
 		<attribute name="responder" /><!--responder for the server side-->
 		
-		<method name="connect" args="URL"><![CDATA[
-			//creating rtmpconnection and shared object 
-			_conn = new NetConnection();
-			if (URL=="undefined" || URL==null) {
-				Debug.error("Check the URL");
+		<handler name="onstage" reference="this">
+			switch (this.stage) {
+				case 0 : 
+					Debug.info("Disconnected server application.");
+					break;
+				case 1 : 
+					Debug.info("Connecting to the server application...");
+					break;
+				case 2 : 
+					Debug.info("Server connection attempt succeeded.");
+					break;
 			}
-			else {
-				_conn.connect(URL);
-				_conn.objectEncoding = ObjectEncoding.AMF3;
-				_conn.client=this;	
-			}
-			
-			//_sharedObject= new lz.sharedObject();
-			//_sharedObjectUserlist= new lz.sharedObject();
-			/*add the listeners according to the runtime */	
-			if ($swf8) {
-				Debug.write("swf8 env.");
-				_conn.onStatus= function (info) {
-					if (info.code=="NetConnection.Connect.Success") {
-						Debug.write("The connection attempt succeeded.");
-					}
-				}
-			}			
-			
-			else {
-				Debug.write("swf10 env.");
-				_conn.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
-				_conn.addEventListener(AsyncErrorEvent.ASYNC_ERROR, errorHandler);
-			}
-		]]></method>
+			/*if (this.stage == 2) {
+				Debug.info("The connection attempt succeeded.");
+			}*/
+		</handler>
 		
 		<!--here is handling the flash.Net.NetConnection object and creating the NetStream objects-->
-		<method name="netStatusHandler" args="event">
+		<!--<method name="netStatusHandler" args="event">
 			switch (event.info.code) {
-                case "NetConnection.Connect.Success":
-                    Debug.write("The connection attempt succeeded.");
-                    responder = new Responder(this.responderResult, this.responderStatus);
-                    this.setAttribute("connected",true);
-                    //Debug.info("connected ? : %w",this.connected);
-                    break;
-                 
-                case "NetConnection.Connect.Failed":
-                	Debug.write("The connection attempt failed.");
-                    break;
-                
-                case "NetConnection.Connect.Closed":
-                	Debug.write("Disconnected server application." );
-                	chatScreen.soChat.send("writeInfo",loginScreen.getUsername()+" logged out");
-                	chatScreen.soUsers.send("removeFromUserlist",loginScreen.getUsername());
-                	this.closeConnection();
-                	break;
-                	
-                case "NetConnection.Connect.Rejected":
-                    Debug.write("The connection attempt did not have permission to access the application.");
-                    break;
-                case "NetConnection.Connect.AppShutdown":
-                	Debug.write("Application is shutting down.." );
-                	break;
-                	
-                }
-		</method>
+				case "NetConnection.Connect.Success" :
+					Debug.info("The connection attempt succeeded.");
+					responder = new Responder(this.responderResult,
+							this.responderStatus);
+					this.setAttribute("connected", true);
+					//Debug.info("connected ? : %w",this.connected);
+					break;
+
+				case "NetConnection.Connect.Failed" :
+					Debug.info("The connection attempt failed.");
+					break;
+
+				case "NetConnection.Connect.Closed" :
+					Debug.info("Disconnected server application.");
+					chatScreen.soChat.send("writeInfo", loginScreen
+									.getUsername()
+									+ " logged out");
+					chatScreen.soUsers.send("removeFromUserlist", loginScreen
+									.getUsername());
+					this.closeConnection();
+					break;
+
+				case "NetConnection.Connect.Rejected" :
+					Debug
+							.info("The connection attempt did not have permission to access the application.");
+					break;
+				case "NetConnection.Connect.AppShutdown" :
+					Debug.info("Application is shutting down..");
+					break;
+
+			}
+		</method>-->
 		
 		<!--closing the netconnection and shared objects-->
 		<method name="closeConnection">
 			//_conn.call("deleteUsername",responder,loginScreen.getUsername());
 			Debug.info("closing connection");
-			this.setAttribute("connected",false);
 			chatScreen.soChat.close();
 			chatScreen.soUsers.close();
 			roomScreen.soChatRoom.close();
 			roomScreen.soUsersRoom.close();
-			this._conn.close();
+			this._nc.close();
 		</method>
 		
 		<!--handler for the errors-->
@@ -105,35 +95,37 @@
 		</method>
 		
 		<!--<method name="callRemoteFunction" args="func, obj, params">
-			<![CDATA[
-	        //Debug.write("*#* call: func, obj, params",func,obj, typeof (params) , params.length);
-	        if (params.length != 0) {
-	        
-	        	//Debug.write("params:",params);
-	        	//Debug.write("arguments:",arg);
+				<![CDATA[
+				//Debug.write("*#* call: func, obj, params",func,obj, typeof (params) , params.length);
+				if (params.length != 0) {
 
-	        	if (params.length==1){
-					this._conn.call(func, obj,params[0]);
-			        Debug.info("called function : %w, parameter : %w",func, params[0]);
-		        } else if (params.length==2){
-		            this._conn.call(func, obj,params[0],params[1]);
-		            Debug.info("called function : %w, parameter : %w %w",func, params[0],params[1]);
-		        } else if (params.length==3){
-		            this._conn.call(func, obj,params[0],params[1],params[2]);
-		        } else if (params.length==4 ){
-		            this._conn.call(func, obj,params[0],params[1],params[2],params[3]);
-		        } 
-	           
-	        } //else {	   
-		      //    Debug.write("this._nc.connected", this.connected);
-		      //    this._conn.call(func, obj);
-	        //}
-		]]>
-	    </method> -->    
+					//Debug.write("params:",params);
+					//Debug.write("arguments:",arg);
+
+					if (params.length==1){
+						this._conn.call(func, obj,params[0]);
+						Debug.info("called function : %w, parameter : %w",func, params[0]);
+					} else if (params.length==2){
+						this._conn.call(func, obj,params[0],params[1]);
+						Debug.info("called function : %w, parameter : %w %w",func, params[0],params[1]);
+					} else if (params.length==3){
+						this._conn.call(func, obj,params[0],params[1],params[2]);
+					} else if (params.length==4 ){
+						this._conn.call(func, obj,params[0],params[1],params[2],params[3]);
+					} 
+
+				} //else {	   
+				  //    Debug.write("this._nc.connected", this.connected);
+				  //    this._conn.call(func, obj);
+				//}
+			]]>
+			</method> -->    
 	    
-	    <!--method sets welcome message with the incoming firstname and lastname-->
-	    <method name="setWelcomeMessage" args="firstname, lastname"><![CDATA[							
-	    	welcome.addText("<b><font>"+' '+firstname+' '+lastname+"</font></b>");	    	
-	    ]]></method>
+		<!--method sets welcome message with the incoming firstname and lastname-->
+		<method name="setWelcomeMessage" args="firstname, lastname"><![CDATA[
+			welcome.addText("<b><font>" + ' ' + firstname + ' ' + lastname
+					+ "</font></b>");
+		]]>
+		</method>
 	</class>	
 </library>

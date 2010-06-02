@@ -3,13 +3,14 @@
 		<switch>
 			<when property="$as3">
 				<passthrough>
-					import flash.net.*;
-					import flash.events.*;
+					import flash.net.SharedObject;
+					import flash.events.NetStatusEvent;
 				</passthrough>
 			</when>
 		</switch>	
 	
-		<attribute name="so" value="null" /> <!--shared object object-->
+		<!--shared object object-->
+		<attribute name="so" value="null" /> 
 		<attribute name="onStatus" value="null" /> 
 		<attribute name="createSharedObject" type="boolean" value="false"/>			
 		<!--getting Shared Object from server

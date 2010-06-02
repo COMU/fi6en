@@ -9,8 +9,6 @@
 			for (var i=0; i<userlist.length; i++) {
 				chatScreen.mainChatView.rightBar.usersList.addItem(userlist[i], userlist[i]);
 			}
-			//Debug.info("username : "+username);
-			//Debug.write("length : "+username.length);
 			]]>					
 		</method>
 		<!--adds the given username to the userlist-->
@@ -22,14 +20,13 @@
 		<method name="removeFromUserlist" args="username">
 			//Debug.write("removing %w from the userlist ",username);
 			/*if the client is the first user for the app., manually removing username from the userlist*/
-			
-			if (chatScreen.isFirstUser) {
+			/*if (chatScreen.isFirstUser) {
 				chatScreen.soChat.send("writeInfo", username+" was the first user");
 				chatScreen.mainChatView.rightBar.usersList.removeItem(username);
 				chatScreen.soChat.send("writeInfo", loginScreen.getUsername()
 										+ " logged out");
 				return;
-			}
+			}*/
 			chatScreen.mainChatView.rightBar.usersList.removeItem(username);
 		</method>			
 	</class>

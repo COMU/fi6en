@@ -6,9 +6,9 @@
 		<attribute name="isFirstUser" type="boolean" value="false"/>
 		<!--shared object for chat-->
 		<sharedObjectChat name="soChat"> 
-			<handler name="onconnected" reference="conn">
-				if (conn.connected) {
-					this.connect("chat", conn._conn, true);
+			<handler name="onstage" reference="conn">
+				if (conn.stage==2) {
+					this.connect("chat", conn._nc, true);
 					this.so.client = this;
 				}
 			</handler>
@@ -17,31 +17,25 @@
 			@param usersList : name of the shared object at the server side
 			-->
 		<sharedObjectUserlist name="soUsers"> 
-			<handler name="onconnected" reference="conn">
-				if (conn.connected) {
-					this.connect("userlist", conn._conn, false);
+			<handler name="onstage" reference="conn">
+				if (conn.stage==2) {
+					this.connect("userlist", conn._nc, false);
 					this.so.client = this;
 				}
 			</handler>
 		</sharedObjectUserlist>
 		<!--shared object for the roomList(List) -->
 		<sharedObjectRoomList name="soRooms">
-			<handler name="onconnected" reference="conn">
-				if (conn.connected) {
-					this.connect("roomlist", conn._conn, false);
+			<handler name="onstage" reference="conn">
+				if (conn.stage==2) {
+					this.connect("roomlist", conn._nc, false);
 					this.so.client = this;
 				}
 			</handler>		
 		</sharedObjectRoomList>
 		
 		<!--netStream object for play operation-->
-		<netStream name="streamPlay"> 
-			<handler name="onconnected" reference="conn">
-				if (conn.connected) {
-					this.createStream(conn._conn);
-				}
-			</handler>
-		</netStream>
+		<netStream name="streamPlay" />
 
 		<command name="enterKey" key="['Enter']" active="${classroot.mainChatView.chat.isMouseOver()}">
 			<handler name="onselect">
@@ -142,7 +136,6 @@
 						<button name="clearTextArea" 
 							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
 							<handler name="onclick">
-
 								//Debug.write("Clear Text Area button clicked");
 								classroot.mainChatView.chat.messageAreaView.messageArea
 										.clearText();
@@ -169,27 +162,14 @@
 									.getSelection().text;
 						var subscriber= new lz.subscriber (canvas, 
 											{stretches:'both', title:streamToPlay,
-											 x:subscriberpositionX, y:subscriberpositionyY});
+											 x:subscriberpositionX, y:subscriberpositionyY,
+											 width: "170", height: "165", 
+											 resizable: true});
 						subscriberpositionyY = subscriberpositionyY + 5; 					 
 						Debug.info ("selected item => %w",streamToPlay);			
-						subscriber.attachStream(streamToPlay);					
-						//if (this.text == playText.text) {
-							//Debug.info ("selected item => %w",usersList.getSelection().text);
-							/*this.setAttribute('text', stopText.text);
-							parent.live.setAttribute('visible', true);
-							var streamToPlay = classroot.mainChatView.rightBar.usersList
-									.getSelection().text;
-							classroot.streamPlay.playVideo(streamToPlay);
-							parent.live
-									._attachStream(classroot.streamPlay.stream);
-						} else {
-							classroot.streamPlay.closeStream();
-							this.setAttribute('text', playText.text);
-							parent.live.setAttribute('visible', false);
-						}*/
+						subscriber.playStream(streamToPlay);					
 					</handler>
 				</button>				
-				<!--<videoview name="live" width="220" height="200" type="rtmp"/>-->
 			</view>
 						
 			<view name="rightBar">
@@ -202,11 +182,11 @@
 			</view>
 		</view>
 		
-		<window name="camerasWindow" title="cameras window"
+		<!--<window name="camerasWindow" title="cameras window"
 						width="400" height="400"
 						bgcolor="#BBBBBB" visible="false">
 			<wrappinglayout axis="x" spacing="10" />
-		</window>
+		</window>-->
 		
 		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">

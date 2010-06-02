@@ -1,0 +1,6 @@
+<library>
+	<include href="incubator/roundrectbutton.lzx" />
+	<class name="roundedButton" extends="roundrectbutton">
+		<attribute name="height" type="number" value="25"/>
+	</class>
+</library>
