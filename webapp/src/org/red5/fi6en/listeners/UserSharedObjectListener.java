@@ -57,7 +57,7 @@ public class UserSharedObjectListener extends SharedObjectListener {
 		} catch (Exception e) {
 			log.error(
 					"exception while removing username from the user list {}",
-					e);
+					e.getMessage());
 			return false;
 		}
 	}
