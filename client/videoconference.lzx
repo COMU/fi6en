@@ -50,7 +50,7 @@
 		<languageSelector id="langSelector" width="130" />
 	</view>
 	<connection id="conn" autoconnect="true"
-				src="rtmp://192.168.1.79:1935/fi6en" />
+				src="rtmp://cem.comu.edu.tr:1935/fi6en" />
 	<account name="accountWindow" id="accountWindow" title="Account" 
 			 visible="false" stretches="both" 
 			 resizable="true" closeable="true"
