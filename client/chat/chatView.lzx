@@ -103,8 +103,9 @@
 			<view name="chat" layout="axis:y;spacing:10" >
 				<edittext name="message" width="300" height="20" resizable="true" />
 				
-				<view name="messageAreaView" bgcolor="#CCCC66" width="300" height="350" clip="true"
-					focusable="true" clickable="true">
+				<view name="messageAreaView" bgcolor="#9999CC" width="300" height="350" clip="true"
+					focusable="true" clickable="true"
+					cornerradius="10">
 					<attribute name="usernameColor" type="color"/>
 					<text name="messageArea" multiline="true" selectable="true" clickable="true"/>
 					<vscrollbar name="vscrollbarChat" visible="${scrollable}" />	
@@ -163,7 +164,7 @@
 						var subscriber= new lz.subscriber (canvas, 
 											{stretches:'both', title:streamToPlay,
 											 x:subscriberpositionX, y:subscriberpositionyY,
-											 width: "170", height: "165", 
+											 width: "172", height: "183", 
 											 resizable: true});
 						subscriberpositionyY = subscriberpositionyY + 5; 					 
 						Debug.info ("selected item => %w",streamToPlay);			
@@ -174,7 +175,7 @@
 						
 			<view name="rightBar">
 				<simplelayout spacing="20"/>
-				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center"
+				<text fontsize="12" fgcolor="#CCCCCC" align="center"
 					datapath="dsetLang:/language/string[@id='22']" text="$path{'value/text()'}" />
 				<list name="usersList" >
 					<textlistitem visible="false" layout="axis:x" text="1w-*23" resource="icon_webcam" />

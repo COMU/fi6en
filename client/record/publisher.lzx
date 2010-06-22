@@ -1,4 +1,5 @@
 <library>
+	<include href="../remote/netStream.lzx" />
 	<!--class for a publisher view : publishing video and recording-->
 	<class name="publisher" extends="view">
 		<microphone name="micc" capturing="true" silencelevel="30" gain="40"/>
@@ -41,9 +42,10 @@
 			streamPublish.setAttribute("cam", camm);
 			camm.setMode(220, 200, 15, false);
 			camm.setQuality(0, 80);
+			micc.setAttribute("silencelevel",5);
 			broadcastView.broadcasting.mycam.setAttribute("show",true);			
 			streamPublish.broadcast();
-			Debug.write("started broadcasting:", streamPublish.url);
+			Debug.info("started broadcasting:", streamPublish.url);
 		</method>
 		<!--stops publishing video-->
 		<method name="stopPublishing">
@@ -62,9 +64,9 @@
 		</method>
 		<!--stop recording-->
 		<method name="stopRecording">
-			if (streamPublish.recording) {
+			if (streamPublish.recordingg) {
 				Debug.info("Recording stopped");
-				conn._conn.call("streamservice.stopRecordingShow", null,
+				conn._nc.call("streamservice.stopRecordingShow", null,
 						loginScreen.getUsername());
 				streamPublish.setAttribute("recordingg", false);
 			}

@@ -103,5 +103,21 @@
 	</string>
 	
 	
+	<string id="35" name="lobby">
+		<value>Lobby</value>
+	</string>
+	<string id="36" name="lobby">
+		<value>Rooms</value>
+	</string>
+	<string id="37" name="lobby">
+		<value>Records</value>
+	</string>
+	<string id="38" name="lobby">
+		<value>Profile</value>
+	</string>
+	
+	
+	
+	
 	
 </language>

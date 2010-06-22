@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!--
+	type of the server connection
+	Acceptable types: rtmp, rtmpt and rtmps
+	-->
+	<connectiontype>rtmp</connectiontype>
+	<!--
+	host name/ip for fi6en server application.
+	client application attempts to connect the server application on this host
+	example: 
+	127.0.0.1 or localhost
+	-->
+	<host>localhost</host>
+	<!--
+	fi6en red5 application rtmp port
+	see: $RED5_HOME/conf/red5.properties  
+	-->
+	<rtmpport>1935</rtmpport>
+	<!--
+	fi6en red5 application rtmpt port
+	see: $RED5_HOME/conf/red5.properties  
+	-->
+	<rtmptport>8088</rtmptport>
+	<!--
+	fi6en red5 application rtmpt port
+	see: $RED5_HOME/conf/red5.properties  
+	-->
+	<rtmpsport>8443</rtmpsport>
+	<!--
+	fi6en red5 application http port
+	see: $RED5_HOME/conf/red5.properties
+	-->
+	<httpport>5080</httpport>
+	<!--
+	webAppRootKey for the server application
+	-->
+	<webapprootkey>fi6en</webapprootkey>
+	<!--
+	Url where Fi6en client application locates:
+	example:
+	http://fi6en.comu.edu.tr/fi6en
+	http://localhost:8080/lps-4.7.2/client/videoconference.lzx?lzr=swf10
+	-->
+	<appurl>http://fi6en.comu.edu.tr/fi6en</appurl>
+</config>

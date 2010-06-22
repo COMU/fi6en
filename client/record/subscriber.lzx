@@ -6,13 +6,13 @@
 		<!--netStream object for play operation-->
 		<netStream name="streamPlay" type="rtmp" rtmp="${conn}"/>
 		<!--videoview that is the resource of the subscriber window-->
-		<videoview name="live" width="150" height="120" type="rtmp"
+		<videoview name="live" width="154" height="140" type="rtmp"
 				   stream="${parent.streamPlay}">
 			<handler name="onwidth" reference="parent">
-				this.setAttribute('width', parent.width - 20);
+				this.setAttribute('width', parent.width-19);
 			</handler>
 			<handler name="onheight" reference="parent">
-				this.setAttribute('height', parent.height - 45);
+				this.setAttribute('height', parent.height-44);
 			</handler>			 
 		</videoview>
 		<!--subscribes the given stream named streamName-->
@@ -22,6 +22,7 @@
 		</method>
 		
 		<handler name="onvisible">
+			this.streamPlay.close();
 			this.destroy();
 		</handler>
 	</class>

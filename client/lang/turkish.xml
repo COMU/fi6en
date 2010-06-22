@@ -102,5 +102,18 @@
 	<string id="34" name="stop_playing">
 		<value>Oynatmayı Durdur</value>
 	</string>
+	
+	<string id="35" name="lobby">
+		<value>Lobi</value>
+	</string>
+	<string id="36" name="lobby">
+		<value>Odalar</value>
+	</string>
+	<string id="37" name="lobby">
+		<value>Kayıtlar</value>
+	</string>
+	<string id="38" name="lobby">
+		<value>Profil</value>
+	</string>
 			
 </language>

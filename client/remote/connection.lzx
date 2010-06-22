@@ -17,6 +17,12 @@
 		</switch>
 		<attribute name="responder" /><!--responder for the server side-->
 		
+		<attribute name="type" type="text"/>
+		<attribute name="host" type="text"/>
+		<attribute name="port" type="text"/>
+		<attribute name="webapprootkey" type="text"/>
+		<attribute name="httpport" type="text"/>
+				
 		<handler name="onstage" reference="this">
 			switch (this.stage) {
 				case 0 : 

@@ -1,17 +1,22 @@
 <library>
 	<class name="menuBar" extends="view">
 		<attribute name="bgcolor" value="#222222"/>
-		<attribute name="fgcolor" value="#009900"/>
+		<attribute name="fgcolor" value="#9999FF"/>
 		<attribute name="width" value="${canvas.width}"/>
 		<attribute name="height" value="25"/>
 		<attribute name="fontsize" value="14"/>
 		<view valign="middle">
 			<simplelayout axis="x" spacing="20" inset="20"/>
 			<view>
-				<text>Lobby</text>
+				<text datapath="dsetLang:/language/string[@id='35']" text="$path{'value/text()'}"/>
 				<handler name="onclick">
 					if (roomScreen.opacity == 1) {
 						roomScreen.animate("opacity", "0", "700");
+						conn.setAttribute('src', conn.type + '://' + conn.host
+										+ ':' + conn.port + '/'
+										+ conn.webapprootkey);
+						conn._doconnect();
+						//Debug.write("url : %w", conn.src);
 					}
 					if (recordsScreen.opacity == 1) {
 						recordsScreen.animate("opacity", "0", "700");
@@ -22,10 +27,10 @@
 				</handler>
 			</view>
 			<view>
-				<text>Rooms</text>
+				<text datapath="dsetLang:/language/string[@id='36']" text="$path{'value/text()'}"/>
 			</view>
 			<view>
-				<text>Records</text>
+				<text datapath="dsetLang:/language/string[@id='37']" text="$path{'value/text()'}" />
 				<handler name="onclick">
 					if (chatScreen.opacity == 1) {
 						chatScreen.animate("opacity", "0", "700");
@@ -36,6 +41,7 @@
 					if (recordsScreen.opacity == 0) {
 						recordsScreen.animate("opacity", "1", "700");
 						recordsScreen.fetchVideos();
+						//Debug.write("dataset src : ", recordsScreen.dset.src);
 					}
 				</handler>
 			</view>
@@ -45,9 +51,9 @@
 			<simplelayout axis="x" spacing="20" />
 			<attribute name="accountWindow"/>
 			<view valign="middle">
-				<text text="Profile"/>
+				<text datapath="dsetLang:/language/string[@id='38']" text="$path{'value/text()'}" />
 				<handler name="onclick">
-					canvas.accountWindow.setAttribute('visible',true);
+					canvas.accountWindow.setAttribute('visible', true);
 					//parent.accountWindow = new lz.account(canvas,
 					//	{title:'Profil', streches:'both', 
 					//	resizable:true, closeable:true }); 
@@ -56,14 +62,16 @@
 			
 			<roundedButton name="disconnectButton" 
 				datapath="dsetLang:/language/string[@id='21']" text="$path{'value/text()'}" 
-				height="${classroot.height}">
+				height="${classroot.height}"
+				fgcolor="#BB0000" >
 				<handler name="onclick"><![CDATA[
 					var username = loginScreen.getUsername();
 					chatScreen.soChat.send("writeInfo", loginScreen
 									.getUsername()
 									+ " logged out");
 					//conn.closeConnection();
-					var location = 'http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?lzr=swf10&debug=true';
+					var location = dsetConf.getPointer()
+							.xpathQuery('config/appurl/text()');
 					//http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?lzr=swf10&debug=true
 					//"http://fi6en.comu.edu.tr/fi6en"
 					lz.Browser.loadURL(location, '_self');

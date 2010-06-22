@@ -18,7 +18,7 @@
 			room.animate('y', room.y, 1000, false, {
 						motion : 'easeout'
 					});
-			Debug.write("room : %w created by %w", roomName, username);
+			Debug.info("room : %w created by %w", roomName, username);
 		</method>
 	</class>
 	

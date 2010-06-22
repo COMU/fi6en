@@ -129,16 +129,17 @@
 		<!--method that can be overriden by other classes when the Cancel button is clicked-->
 		<method name="cancel" /> 
 		<handler name="ondestroy">
-			Debug.info("destroy handler for register window");
+			//Debug.info("destroy handler for register window");
 		</handler>
 		
 		<!--listening connected attribute of the connection-->
-		<handler name="onconnected" reference="conn">
-			if (conn.connected) {
+		<handler name="onstage" reference="conn">
+			if (conn.stage==2) {
 				responder = new Responder(this.responderResult,
 						this.responderStatus);
 			}
 		</handler>
+		
 		
 		
 		<method name="responderResult" args="returnvalue">
@@ -173,12 +174,12 @@
 		
 		<!--check database whether the requested username is available-->
 		<method name="checkUserAvailability" args="username">
-			conn._conn.call("databaseservice.checkDuplicateUser",
+			conn._nc.call("databaseservice.checkDuplicateUser",
 					this.responder, username);
 		</method>
 
 		<method name="saveToDatabase">
-			conn._conn.call("databaseservice.saveToDatabase", null,
+			conn._nc.call("databaseservice.saveToDatabase", null,
 					user);
 			var username = this.getUsername();
 			var password = this.getPassword();

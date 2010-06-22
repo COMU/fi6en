@@ -2,9 +2,13 @@
 	<class name="recordsView" extends="view">		
 		<netStream name="streamPlay" type="rtmp" rtmp="${conn}"/>
 			
-		<dataset name="dset" id="dset" type="http" querytype="POST"
-			src="http://127.0.0.1:5080/fi6en/getvideos.jsp" 
-			autorequest="true"/>
+		<dataset name="dset" id="dset" type="http" querytype="POST">
+			<handler name="oninit">
+				var datasetsrc = "http://" + conn.host + ":" + conn.httpport
+						+ "/" + conn.webapprootkey + "/getvideos.jsp";
+				this.setAttribute('src', datasetsrc);
+			</handler>
+		</dataset>
 			
 		<simplelayout axis="x" spacing="40"/>	
 		<view>
@@ -23,25 +27,26 @@
 			</grid>
 			
 			<view layout="axis:x; spacing:10" align="center">
-				<button align="center">Play
+				<button align="center" 
+					datapath="dsetLang:/language/string[@id='30']" text="$path{'value/text()'}">
 					<handler name="onclick">
-						var recordFilename = parent.parent.videoGrid.getSelection()[0]
-								.getNodeAttribute("filename");
+						var recordFilename = parent.parent.videoGrid
+								.getSelection()[0].getNodeAttribute("filename");
 						//Debug.write('video name %w', recordFilename);
-						classroot.player.playVideo(recordFilename,"rtmp");
+						classroot.player.playVideo(recordFilename, "rtmp");
 					</handler>
 				</button>
 				<!--<button>Stop
-					<handler name="onclick">
-						classroot.player.stream.stop();
-					</handler>
-				</button>-->
+						<handler name="onclick">
+							classroot.player.stream.stop();
+						</handler>
+					</button>-->
 			</view>
 			
 		</view>	
 		
 		<videoplayer name="player" width="320" height="240" 
-					 type="rtmp" stream="${parent.streamPlay}" />		
+			type="rtmp" stream="${parent.streamPlay}" />		
 		
 		<method name="fetchVideos">
 			dset.doRequest();

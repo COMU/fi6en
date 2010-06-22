@@ -192,7 +192,7 @@
 				chatScreen.soUsers.addToUserlist(arrayUserlist);
 			} else {
 				chatScreen.setAttribute('isFirstUser', true);
-				Debug.info("you are the first user on the chat application");
+				//Debug.info("you are the first user on the chat application");
 			}
 			chatScreen.soUsers.send("updateUserlist", username);
 			welcome.setAttribute('visible', true);

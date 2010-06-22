@@ -2,13 +2,13 @@
 	<class name="roomButton" extends="button">
 		<handler name="onclick">
 			var newUrl = conn.src+'/'+this.text;
-			Debug.write("url : %w",newUrl);
+			//Debug.write("url : %w",newUrl);
 			/*closing remote shared object connections*/
 			chatScreen.soChat.close();
 			chatScreen.soUsers.close();
 			chatScreen.soRooms.close();
 			conn.setAttribute("src",newUrl);
-			conn.connect();
+			conn._doconnect()
 			enterRoom();
 		</handler>
 		<!--visual steps while entering a room-->
