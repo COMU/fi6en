@@ -2,7 +2,10 @@ package org.red5.fi6en.userservice;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -15,14 +18,14 @@ import org.red5.server.api.Red5;
 import org.red5.server.api.service.IServiceCapableConnection;
 import org.slf4j.Logger;
 
+import com.sun.corba.se.spi.servicecontext.UEInfoServiceContext;
+
 public class DatabaseOperation {
 	private static Logger log = Red5LoggerFactory.getLogger(
 			DatabaseOperation.class, "fi6en");
 
 	IScope appScope;
-
 	static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-
 	/**
 	 * store user information to the database
 	 * 
@@ -187,5 +190,35 @@ public class DatabaseOperation {
 							+ e.getMessage());
 		}
 		return user;
+	}
+	/**
+	 * method to update the user information on db 
+	 * @param username username of the User
+	 * @param user User object properties what will be replaced with the existings 
+	 */
+	public void updateUser(String username, Map<String, String> user) {
+		//log.info("firstname : {}",user.get("firstname"));
+		User userOnDb= this.fetchUser(username);
+		log.info("username: {}", userOnDb.getUsername());		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			User updateUser= (User)session.get(User.class, userOnDb.getId());
+			updateUser.setFirstname(user.get("firstname"));
+			updateUser.setLastname(user.get("lastname"));
+			updateUser.setEmail(user.get("email"));
+			updateUser.setLocation(user.get("location"));
+			session.update(updateUser);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for user : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
+
 	}
 }
