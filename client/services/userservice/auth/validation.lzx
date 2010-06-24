@@ -11,12 +11,15 @@
 		<text name="invalidEmail" datapath="dsetLang:/language/string[@id='15']" text="$path{'value/text()'}"  visible="false"/>
 		
 		<method name="validate" args="form">
-			var password = form[1]; // [1].st index of form is password value
-			var passwordRe = form[2] // [2].st index of form is passwordRe value
-			var email = form[5]; // [5].st index of form is email value
-			
+			//Debug.write("validate : %w",form);
+			var password = form['password'];
+			var passwordRe = form['passwordRe'];
+			var email = form['email'];
+			var dizi= [form['username'],form['firstname'], 
+					form['lastname'], form['password'], 
+					form['passwordRe'], form['email'], form['location']];
 			//checking the values whether they have valid values
-			if (checkAllFields(form)) {
+			if (checkAllFields(dizi)) {
 				if (comparePasswords(password, passwordRe)) {
 					if (checkEmail(email)) {
 						Debug.info("Validation is ok");
@@ -81,9 +84,5 @@
 			return isValid;
 		]]>
 		</method>
-		
-		<handler name="onvalid" args="v">
-			Debug.write("valid handleri");
-		</handler>
 	</class>
 </library>

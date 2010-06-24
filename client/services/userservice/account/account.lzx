@@ -1,5 +1,0 @@
-<library>
-	<class name="account" extends="window">
-	
-	</class>	
-</library>

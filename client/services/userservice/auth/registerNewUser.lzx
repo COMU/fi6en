@@ -17,7 +17,7 @@
 		<attribute name="registerAlert" value="null"/>
 		<attribute name="error" type="string" value="null"/>
 		<text name="duplicateUsername" datapath="dsetLang:/language/string[@id='24']" text="$path{'value/text()'}"  
-			  visible="false"/>
+			visible="false"/>
 		
 		<simplelayout spacing="20" />
 		<view name="registerAttributes">
@@ -33,7 +33,7 @@
 				<text datapath="dsetLang:/language/string[@id='11']" text="$path{'value/text()'}" />	
 			</view>		
 			<view name="registerValuesView" layout="axis:y; spacing:6" yoffset="-5" >
-				<attribute name="elementsWidth" value="130"/>
+				<attribute name="elementsWidth" value="150"/>
 				<!--combobox for the language selection
 					through this combobox implementation application text is being changed dynamically 
 					usage : setting the text property of button with the text of "value" node, which one's id="2" (login) 
@@ -79,22 +79,34 @@
 			var lastname = this.getLastname();
 			var email = this.getMail();
 			var location = this.getLocation();
-			var form = [username, password, passwordRe, firstname, lastname,
-					email];
-
-			if (this.validation.validate(form)) {
-				Debug.info('Username : %w', username);
-				Debug.info('Firstname : %w', firstname);
-				Debug.info('Lastname : %w', lastname);
-				Debug.info('Email : %w', email);
-				Debug.info('Location : %w', location);
-				Debug.info("saving user informations to the database...");
-				//md5 hash of the password that will be saved to the database like that form
-				var hash = hex_md5(this.getPassword());
-				user = [username, hash, firstname, lastname, email,
-						location];
-				//Debug.debug("md5  %w : %w", password, hash);
-				this.checkUserAvailability(username);
+			//var form = [username, password, passwordRe, firstname, lastname,
+			//		email];					
+			var form= new Object;
+			form['username']= username;
+			form['firstname']= firstname;
+			form['lastname']= lastname;
+			form['password']= password;
+			form['passwordRe']= passwordRe;
+			form['email']= email;
+			form['location']= location;
+			if (conn.stage == 2) {
+				if (this.validation.validate(form)) {
+					Debug.info('Username : %w', username);
+					Debug.info('Firstname : %w', firstname);
+					Debug.info('Lastname : %w', lastname);
+					Debug.info('Email : %w', email);
+					Debug.info('Location : %w', location);
+					Debug.info("saving user informations to the database...");
+					//md5 hash of the password that will be saved to the database like that form
+					var hash = hex_md5(this.getPassword());
+					user = [username, hash, firstname, lastname, email,
+							location];
+					//Debug.debug("md5  %w : %w", password, hash);
+					this.checkUserAvailability(username);
+				}
+			}
+			else {
+				Debug.warn("Check the connection with the server application!");
 			}
 		</method>
 		
@@ -129,12 +141,13 @@
 		<!--method that can be overriden by other classes when the Cancel button is clicked-->
 		<method name="cancel" /> 
 		<handler name="ondestroy">
+
 			//Debug.info("destroy handler for register window");
 		</handler>
 		
 		<!--listening connected attribute of the connection-->
 		<handler name="onstage" reference="conn">
-			if (conn.stage==2) {
+			if (conn.stage == 2) {
 				responder = new Responder(this.responderResult,
 						this.responderStatus);
 			}
@@ -143,16 +156,17 @@
 		
 		
 		<method name="responderResult" args="returnvalue">
-		/**
-		 * @param returnvalue indicates duplicate username
-		 * @return boolean  true: duplicate username , false: available username 
- 		 */				
+
+			/**
+			 * @param returnvalue indicates duplicate username
+			 * @return boolean  true: duplicate username , false: available username 
+			 */
 			if ($debug)
-				Debug.write("register result method : " + returnvalue);
+				//Debug.write("register result method : " + returnvalue);
 
 			if (returnvalue) {
 				Debug.error("username is in use");
-				this.setAttribute('availableUsername',false);
+				this.setAttribute('availableUsername', false);
 				error = duplicateUsername.text;
 				var registerAlert = new lz.alert(canvas, {
 							text : error,
@@ -163,7 +177,7 @@
 				//enterConference();
 			} else if (!returnvalue) {
 				Debug.info("username is available");
-				this.setAttribute('availableUsername',true);
+				this.setAttribute('availableUsername', true);
 				this.saveToDatabase();
 			}
 		</method>
@@ -174,13 +188,12 @@
 		
 		<!--check database whether the requested username is available-->
 		<method name="checkUserAvailability" args="username">
-			conn._nc.call("databaseservice.checkDuplicateUser",
-					this.responder, username);
+			conn._nc.call("databaseservice.checkDuplicateUser", this.responder,
+					username);
 		</method>
 
 		<method name="saveToDatabase">
-			conn._nc.call("databaseservice.saveToDatabase", null,
-					user);
+			conn._nc.call("databaseservice.saveToDatabase", null, user);
 			var username = this.getUsername();
 			var password = this.getPassword();
 			//setting login windows fields with the typed username and password 

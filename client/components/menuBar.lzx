@@ -21,6 +21,9 @@
 					if (recordsScreen.opacity == 1) {
 						recordsScreen.animate("opacity", "0", "700");
 					}
+					if (accountScreen.opacity == 1) {
+						accountScreen.animate("opacity", "0", "700");
+					}
 					if (chatScreen.opacity == 0) {
 						chatScreen.animate("opacity", "1", "700");
 					}
@@ -38,11 +41,14 @@
 					if (roomScreen.opacity == 1) {
 						roomScreen.animate("opacity", "0", "700");
 					}
+					if (accountScreen.opacity == 1) {
+						accountScreen.animate("opacity", "0", "700");
+					}
 					if (recordsScreen.opacity == 0) {
 						recordsScreen.animate("opacity", "1", "700");
-						recordsScreen.fetchVideos();
 						//Debug.write("dataset src : ", recordsScreen.dset.src);
 					}
+					recordsScreen.fetchVideos();
 				</handler>
 			</view>
 		</view>
@@ -53,7 +59,19 @@
 			<view valign="middle">
 				<text datapath="dsetLang:/language/string[@id='38']" text="$path{'value/text()'}" />
 				<handler name="onclick">
-					canvas.accountWindow.setAttribute('visible', true);
+					if (chatScreen.opacity == 1) {
+						chatScreen.animate("opacity", "0", "700");
+					}
+					if (roomScreen.opacity == 1) {
+						roomScreen.animate("opacity", "0", "700");
+					}
+					if (recordsScreen.opacity == 1) {
+						recordsScreen.animate("opacity", "0", "700");
+					}
+					if (accountScreen.opacity == 0) {
+						accountScreen.animate("opacity", "1", "700");
+					}
+					accountScreen.refreshAccount();
 					//parent.accountWindow = new lz.account(canvas,
 					//	{title:'Profil', streches:'both', 
 					//	resizable:true, closeable:true }); 
