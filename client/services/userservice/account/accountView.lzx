@@ -1,5 +1,5 @@
 <library>
-	<!--<script src="md5.js" />-->
+	<script src="../auth/md5.js" />
 	<class name="accountView" extends="view">
 		<switch>
 			<when property="$as3">
@@ -40,7 +40,7 @@
 				</view>
 			</view>
 			<view align="center" layout="axis:x; spacing:30">
-				<button name="saveicon"> 
+				<button name="saveicon" width="32" height="32"> 
 					<view resource="../../../resources/icons/save_icon.png"
 						align="center" valign="middle"/>
 					<!--<text name="saveicontext" y="${parent.y+20}" 
@@ -50,9 +50,12 @@
 						classroot.updateOperation();
 					</handler>
 				</button> 
-				<button name="refreshicon">
+				<button name="refreshicon" width="32" height="32">
 					<view resource="../../../resources/icons/refresh_icon.png"
 						align="center" valign="middle"/>
+					<handler name="onclick">
+						classroot.refreshAccount();
+					</handler>	
 				</button>
 			</view>			
 		</view>
@@ -69,18 +72,21 @@
 
 			//Debug.info("Respond result:",result);
 		</method>
+		<!--method gets user informations from server and set 
+			the profile text field with these values-->
 		<method name="responderResultUser" args="result">
 			var valuesView = accountAttributes.accountAttributesView.accountVaulesView;
+			valuesView.password.clearText();
+			valuesView.passwordRe.clearText();
 			valuesView.firstName.setAttribute("text", result['firstname']);
 			valuesView.lastName.setAttribute("text", result['lastname']);
 			valuesView.email.setAttribute("text", result['email']);
 		</method>
 		<method name="responderStatus" args="status">
 
-
 			//Debug.info("Respond status:",status);
 		</method>
-		
+		<!--getters-->
 		<method name="getPassword">
 			return accountAttributes.accountAttributesView.accountVaulesView.password.text;
 		</method>
@@ -99,7 +105,7 @@
 		<method name="getLocation">
 			return accountAttributes.accountAttributesView.accountVaulesView.location.text;
 		</method>
-		
+		<!--updates user informations on db with the new ones-->
 		<method name="updateOperation"><![CDATA[
 			var password = this.getPassword();
 			var passwordRe = this.getPasswordRe();
@@ -110,19 +116,16 @@
 			var form = new Object;
 			form['firstname'] = firstname;
 			form['lastname'] = lastname;
-			form['password'] = password;
-			form['passwordRe'] = passwordRe;
 			form['email'] = email;
 			form['location'] = location;
 			//Debug.write("form : %w %w",form['firstname'],form['lastname']);
-			//Debug.write("form.length",form.length);
-			/*var p=new lz.Param();
-			p.addValue('isim',firstname,true);
-			p.addValue('soyisim',lastname,true);
-			Debug.write("length : %w",p.length);*/
 			if (validation.comparePasswords(password, passwordRe)) {
 				if (email != '') {
 					if (validation.checkEmail(email)) {
+						if (password != '') {
+							var hash = hex_md5(this.getPassword());
+							form['password'] = hash;
+						}
 						conn._nc.call("databaseservice.updateUser", responder,
 								loginScreen.getUsername(), form);
 						Debug.info("updated user informations");
@@ -135,7 +138,7 @@
 			}
 		]]>
 		</method>
-
+		<!--method to refresh user profile informations-->
 		<method name="refreshAccount">
 			conn._nc.call("databaseservice.fetchUser", responderUser,
 					loginScreen.getUsername());

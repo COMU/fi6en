@@ -15,6 +15,7 @@
 				</passthrough>
 			</when>
 		</switch>
+		<attribute name="connected" type="boolean" value="false"/>
 		<attribute name="responder" /><!--responder for the server side-->
 		
 		<attribute name="type" type="text"/>
@@ -33,6 +34,7 @@
 					break;
 				case 2 : 
 					Debug.info("Server connection attempt succeeded.");
+					this.setAttribute('connected',true);
 					break;
 			}
 			/*if (this.stage == 2) {

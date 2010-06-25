@@ -1,5 +1,4 @@
-<library>		
-		
+<library>				
 	<class name="roomView" extends="view">		
 		<!--shared object for chat in the room-->
 		<sharedObjectChatRoom name="soChatRoom"> 
@@ -21,18 +20,11 @@
 				}
 			</handler>
 		</sharedObjectUserlist>
-		
 		<!--netStream object for publish operation-->
-		<netStream name="streamPublish"> 
-			<handler name="onconnected" reference="conn">
-				if (conn.connected) {
-					this.createStream(conn._conn);
-				}
-			</handler>
-		</netStream>
+		<netStream name="streamPublish" type="rtmp" rtmp="${conn}"/>
 		
 		<!--netStream object for play operation-->
-		<netStream name="streamPlay" />
+		<netStream name="streamPlay" type="rtmp" rtmp="${conn}"/>
 
 		<command name="enterKey" key="['Enter']" active="${classroot.mainChatView.chat.isMouseOver()}">
 			<handler name="onselect">
@@ -101,7 +93,7 @@
 						}						
 					</handler>
 				</button>
-				<!--publish cideo view for you-->
+				<!--publish video view for you-->
 				<publisher id="publishUserRoom" align="center"/>
 			</view>
 			
@@ -138,7 +130,6 @@
 						<button name="clearButton"
 							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
 							<handler name="onclick">
-
 								//Debug.write("Clear button clicked");
 								classroot.mainChatView.chat.message.clearText();
 							</handler>

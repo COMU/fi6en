@@ -89,14 +89,13 @@
 			form['passwordRe']= passwordRe;
 			form['email']= email;
 			form['location']= location;
-			if (conn.stage == 2) {
+			if (conn.connected) {
 				if (this.validation.validate(form)) {
-					Debug.info('Username : %w', username);
+					/*Debug.info('Username : %w', username);
 					Debug.info('Firstname : %w', firstname);
 					Debug.info('Lastname : %w', lastname);
 					Debug.info('Email : %w', email);
-					Debug.info('Location : %w', location);
-					Debug.info("saving user informations to the database...");
+					Debug.info('Location : %w', location);*/
 					//md5 hash of the password that will be saved to the database like that form
 					var hash = hex_md5(this.getPassword());
 					user = [username, hash, firstname, lastname, email,
@@ -110,7 +109,7 @@
 			}
 		</method>
 		
-		<!--getters for the user info's-->
+		<!--getters-->
 		<method name="getUsername">
 			return registerAttributes.registerValuesView.username.text;
 		</method>
@@ -141,7 +140,6 @@
 		<!--method that can be overriden by other classes when the Cancel button is clicked-->
 		<method name="cancel" /> 
 		<handler name="ondestroy">
-
 			//Debug.info("destroy handler for register window");
 		</handler>
 		
@@ -151,19 +149,15 @@
 				responder = new Responder(this.responderResult,
 						this.responderStatus);
 			}
-		</handler>
-		
-		
+		</handler>		
 		
 		<method name="responderResult" args="returnvalue">
-
 			/**
 			 * @param returnvalue indicates duplicate username
 			 * @return boolean  true: duplicate username , false: available username 
 			 */
 			if ($debug)
 				//Debug.write("register result method : " + returnvalue);
-
 			if (returnvalue) {
 				Debug.error("username is in use");
 				this.setAttribute('availableUsername', false);
@@ -177,6 +171,7 @@
 				//enterConference();
 			} else if (!returnvalue) {
 				Debug.info("username is available");
+				Debug.info("saving user informations to the database...");
 				this.setAttribute('availableUsername', true);
 				this.saveToDatabase();
 			}
@@ -186,7 +181,7 @@
 			Debug.write("onStatus:" + returnvalue.toString);
 		</method>
 		
-		<!--check database whether the requested username is available-->
+		<!--check database whether the requested username is available to use-->
 		<method name="checkUserAvailability" args="username">
 			conn._nc.call("databaseservice.checkDuplicateUser", this.responder,
 					username);

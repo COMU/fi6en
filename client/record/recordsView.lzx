@@ -15,7 +15,7 @@
 			<simplelayout spacing="20" />
 			<grid name="videoGrid" datapath="local:classroot.dset:/videos" contentdatapath="video"
 				bgcolor="silver">	
-				<gridcolumn width="150">Filename
+				<gridcolumn width="170">Filename
 					<text datapath="@filename" />
 				</gridcolumn>
 				<gridcolumn width="100">Date

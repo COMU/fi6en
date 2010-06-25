@@ -61,9 +61,14 @@
 			</button>
 			<button name="loginButton" datapath="dsetLang:/language/string[@id='2']" text="$path{'value/text()'}">
 				<handler name="onclick"><![CDATA[
+				if (conn.connected) {
 					var username = classroot.getUsername();
 					var password = classroot.getPassword();
 					classroot.loginOpearation(username, password);
+				}
+				else {
+					Debug.warn("Check the connection with the server application!");
+				}
 					/*if (!conn.connected) {
 						Debug.info ("connecting..");
 						chatScreen.setAttribute('visible',true);
