@@ -1,5 +1,8 @@
 package org.red5.fi6en.core;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.red5.fi6en.listeners.ChatSharedObjectListener;
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.adapter.ApplicationAdapter;
@@ -48,6 +51,10 @@ public class Application extends ApplicationAdapter {
 	public boolean connect(IConnection conn, IScope scope, Object[] params) {
 		log.info("Connected to server application - Client : "
 				+ conn.getRemoteAddress());
+		final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
+		Calendar cal = Calendar.getInstance();
+	    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+		log.info("connection date: {}",sdf.format(cal.getTime()));
 		return true;
 	}
 

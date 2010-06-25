@@ -52,6 +52,7 @@ public class StreamManager{
 				appScope, username);
 		// Stop recording.
 		stream.stopRecording();
+		stream.stop();
 	}
 
 	/* ----- Spring injected dependencies ----- */

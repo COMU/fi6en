@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,6 +18,7 @@ import org.red5.server.api.service.IServiceCapableConnection;
 import org.slf4j.Logger;
 
 import com.sun.corba.se.spi.servicecontext.UEInfoServiceContext;
+import com.sun.net.ssl.internal.ssl.Debug;
 
 public class DatabaseOperation {
 	private static Logger log = Red5LoggerFactory.getLogger(
@@ -208,6 +208,10 @@ public class DatabaseOperation {
 			updateUser.setLastname(user.get("lastname"));
 			updateUser.setEmail(user.get("email"));
 			updateUser.setLocation(user.get("location"));
+			if (user.get("password")!=null) {
+				//log.info("password : {}",user.get("password"));
+				updateUser.setPassword(user.get("password"));				
+			}
 			session.update(updateUser);
 			tx.commit();
 		} catch (Exception e) {
