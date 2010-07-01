@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<!--
-	type of the server connection
+	type of the connection protocol
 	Acceptable types: rtmp, rtmpt and rtmps
 	-->
 	<connectiontype>rtmp</connectiontype>
@@ -11,7 +11,7 @@
 	example: 
 	127.0.0.1 or localhost
 	-->
-	<host>localhost</host>
+	<host>cem.comu.edu.tr</host>
 	<!--
 	fi6en red5 application rtmp port
 	see: $RED5_HOME/conf/red5.properties  

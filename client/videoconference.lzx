@@ -46,7 +46,7 @@
 		<text id="welcome" fontsize="13" fgcolor="#FF9933" visible="false" 
 			datapath="dsetLang:/language/string[@id='33']" text="$path{'value/text()'}" />	
 		<!--combobox for language selection-->
-		<languageSelector id="langSelector" width="130" />
+		<languageSelector id="langSelector" width="130"/>
 	</view>
 	<connection id="conn" autoconnect="false">
 		<handler name="oninit">
