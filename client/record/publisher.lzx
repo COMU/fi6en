@@ -40,8 +40,8 @@
 			streamPublish.setAttribute("url", streamName);
 			streamPublish.setAttribute("mic", micc);
 			streamPublish.setAttribute("cam", camm);
-			camm.setMode(220, 200, 15, false);
-			camm.setQuality(0, 80);
+			camm.setMode(220, 200, 22, false);
+			camm.setQuality(32768, 0);
 			micc.setAttribute("silencelevel",5);
 			broadcastView.broadcasting.mycam.setAttribute("show",true);			
 			streamPublish.broadcast();

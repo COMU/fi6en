@@ -11,7 +11,7 @@
 	example: 
 	127.0.0.1 or localhost
 	-->
-	<host>cem.comu.edu.tr</host>
+	<host>127.0.0.1</host>
 	<!--
 	fi6en red5 application rtmp port
 	see: $RED5_HOME/conf/red5.properties  
@@ -42,5 +42,5 @@
 	http://fi6en.comu.edu.tr/fi6en
 	http://localhost:8080/lps-4.7.2/client/videoconference.lzx?lzr=swf10
 	-->
-	<appurl>http://fi6en.comu.edu.tr/fi6en</appurl>
+	<appurl>http://cem.comu.edu.tr/fi6en</appurl>
 </config>
