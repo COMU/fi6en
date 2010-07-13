@@ -17,9 +17,6 @@ import org.red5.server.api.Red5;
 import org.red5.server.api.service.IServiceCapableConnection;
 import org.slf4j.Logger;
 
-import com.sun.corba.se.spi.servicecontext.UEInfoServiceContext;
-import com.sun.net.ssl.internal.ssl.Debug;
-
 public class DatabaseOperation {
 	private static Logger log = Red5LoggerFactory.getLogger(
 			DatabaseOperation.class, "fi6en");
@@ -31,7 +28,6 @@ public class DatabaseOperation {
 	 * 
 	 * @param params
 	 *            user information object
-	 * @return void
 	 */
 	public void saveToDatabase(Object[] params) {
 		log
@@ -111,7 +107,7 @@ public class DatabaseOperation {
 	/**
 	 * check if the given username is being used by another user 
 	 * @param username
-	 * @return
+	 * @return boolean whether username is in use or not
 	 */
 	public boolean checkDuplicateUser(String username) {
 		log.info("check duplicate username method, username : {}", username);

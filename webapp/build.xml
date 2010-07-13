@@ -76,7 +76,7 @@
 			<fileset dir="${basedir}/WebContent" includes="*.jsp" />
 		</copy>
 	</target>
-	<!--clean temp build direcroties-->
+	<!--clean temp build directories-->
 	<target name="clean" description="clean up">
 		<delete dir="${classes.dir}/.." />
 		<delete dir="${dist.dir}/.." />
