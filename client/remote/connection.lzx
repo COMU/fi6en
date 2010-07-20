@@ -31,9 +31,11 @@
 					break;
 				case 1 : 
 					Debug.info("Connecting to the server application...");
+					notificationWindow.addMessage("info","Connecting to the server application...");
 					break;
 				case 2 : 
 					Debug.info("Server connection attempt succeeded.");
+					notificationWindow.addMessage("info","Server connection attempt succeeded.");
 					this.setAttribute('connected',true);
 					break;
 			}

@@ -1,4 +1,5 @@
 <library>
 	<include href="button/library.lzx" />
 	<include href="menuBar.lzx" />
+	<include href="debuggerWindow.lzx" />
 </library>

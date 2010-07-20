@@ -1,35 +1,41 @@
 <library>
+	<include href="../remote/sharedObjectMediators.lzx" />
 	<resource name="icon_webcam" src="../resources/icons/webcam-icon.png" />
 		
 	<class name="chatView" extends="view">
 		<!--indicates if the client is the first user for the application-->	
 		<attribute name="isFirstUser" type="boolean" value="false"/>
+		<!--class to use the functions of the shared object classes in non-debug mode-->
+		<sharedObjectMediators name="mediators" />
 		<!--shared object for chat-->
+		<!--SharedObjectChatMediator class comes from sharedObjectMediators class impl.-->
 		<sharedObjectChat name="soChat"> 
 			<handler name="onstage" reference="conn">
-				if (conn.stage==2) {
+				if (conn.stage == 2) {
 					this.connect("chat", conn._nc, true);
-					this.so.client = this;
+					this.so.client = new SharedObjectChatMediator(this);
 				}
 			</handler>
 		</sharedObjectChat>
 		<!--shared object for the usersList(List)
 			@param usersList : name of the shared object at the server side
 			-->
+		<!--SharedObjectUserMediator class comes from sharedObjectMediators class impl.-->	
 		<sharedObjectUserlist name="soUsers"> 
 			<handler name="onstage" reference="conn">
-				if (conn.stage==2) {
+				if (conn.stage == 2) {
 					this.connect("userlist", conn._nc, false);
-					this.so.client = this;
+					this.so.client = new SharedObjectUserMediator(this);
 				}
 			</handler>
 		</sharedObjectUserlist>
 		<!--shared object for the roomList(List) -->
+		<!--SharedObjectRoomMediator class comes from sharedObjectMediators class impl.-->
 		<sharedObjectRoomList name="soRooms">
 			<handler name="onstage" reference="conn">
-				if (conn.stage==2) {
+				if (conn.stage == 2) {
 					this.connect("roomlist", conn._nc, false);
-					this.so.client = this;
+					this.so.client = new SharedObjectRoomMediator(this);
 				}
 			</handler>		
 		</sharedObjectRoomList>
@@ -39,14 +45,12 @@
 
 		<command name="enterKey" key="['Enter']" active="${classroot.mainChatView.chat.isMouseOver()}">
 			<handler name="onselect">
-				//Debug.write('Enter key was pressed');
 				classroot.mainChatView.chat.buttonView.buttonViewInside1.sendButton
 						.sendClicked();
 			</handler>  
 		</command>
 		
-		<!--audio, video, chat view-->
-		
+		<!--audio, video, chat view-->		
 		<view name="mainChatView">
 			<simplelayout axis="x" spacing="40" />			
 			<!--view for creating and entering the rooms-->
@@ -137,7 +141,6 @@
 						<button name="clearTextArea" 
 							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
 							<handler name="onclick">
-								//Debug.write("Clear Text Area button clicked");
 								classroot.mainChatView.chat.messageAreaView.messageArea
 										.clearText();
 							</handler>
@@ -160,15 +163,19 @@
 					<attribute name="subscriberpositionyY" type="number" value="${parent.y+100}"/>
 					<handler name="onclick">
 						var streamToPlay = classroot.mainChatView.rightBar.usersList
-									.getSelection().text;
-						var subscriber= new lz.subscriber (canvas, 
-											{stretches:'both', title:streamToPlay,
-											 x:subscriberpositionX, y:subscriberpositionyY,
-											 width: "172", height: "183", 
-											 resizable: true});
-						subscriberpositionyY = subscriberpositionyY + 5; 					 
-						Debug.info ("selected item => %w",streamToPlay);			
-						subscriber.playStream(streamToPlay);					
+								.getSelection().text;
+						var subscriber = new lz.subscriber(canvas, {
+									stretches : 'both',
+									title : streamToPlay,
+									x : subscriberpositionX,
+									y : subscriberpositionyY,
+									width : "172",
+									height : "183",
+									resizable : true
+								});
+						subscriberpositionyY = subscriberpositionyY + 5;
+						Debug.info("selected user to play => %w", streamToPlay);
+						subscriber.playStream(streamToPlay);
 					</handler>
 				</button>				
 			</view>
@@ -184,10 +191,10 @@
 		</view>
 		
 		<!--<window name="camerasWindow" title="cameras window"
-						width="400" height="400"
-						bgcolor="#BBBBBB" visible="false">
-			<wrappinglayout axis="x" spacing="10" />
-		</window>-->
+							width="400" height="400"
+							bgcolor="#BBBBBB" visible="false">
+				<wrappinglayout axis="x" spacing="10" />
+			</window>-->
 		
 		<!--sending the given parameter to the "writeSharedObject" function-->
 		<method name="sendMessage" args="message">

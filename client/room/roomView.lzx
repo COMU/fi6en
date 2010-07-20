@@ -1,11 +1,13 @@
 <library>				
-	<class name="roomView" extends="view">		
+	<class name="roomView" extends="view">
+		<!--class to use the functions of the shared object classes in non-debug mode-->
+		<sharedObjectMediators name="mediators" />		
 		<!--shared object for chat in the room-->
 		<sharedObjectChatRoom name="soChatRoom"> 
 			<handler name="onstage" reference="conn">
 				if (conn.stage==2) {
 					this.connect("chatRoom", conn._nc, true);
-					this.so.client = this;
+					this.so.client = new SharedObjectChatRoomMediator(this);
 				}
 			</handler>
 		</sharedObjectChatRoom>
@@ -16,7 +18,7 @@
 			<handler name="onstage" reference="conn">
 				if (conn.stage==2) {
 					this.connect("userlistRoom", conn._nc, false);
-					this.so.client = this;
+					this.so.client = new SharedObjectUserMediator(this);
 				}
 			</handler>
 		</sharedObjectUserlist>

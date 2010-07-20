@@ -204,6 +204,7 @@
 			myMenuBar.setAttribute('visible', true);
 			this.animate("opacity", "0", "700");
 			chatScreen.animate("opacity", "1", "700");
+			notificationWindow.setAttribute('visible', true);
 		</method>
 	</class>
 </library>

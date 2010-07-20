@@ -20,6 +20,7 @@
 		<!--this method writes the messages to the debug window which will be shown to all users-->
 		<method name="writeInfo" args="message">
 			Debug.info("%w",message);
+			notificationWindow.addMessage("info",message);
 		</method>
 		<!--gets the incoming usernames from the serverside method-->
 		<!--<method name="receiveUsername" args="username1,username2=null,username3=null">

@@ -14,109 +14,115 @@
 		<attribute name="onStatus" value="null" /> 
 		<attribute name="createSharedObject" type="boolean" value="false"/>			
 		<!--getting Shared Object from server
-		@param so_Name : shared Object name  
-		@param nc : connection which has the shared object
-		@persistant : persistency <true | flase>		
-		@secure : secure <true | false>
-		-->
+			@param so_Name : shared Object name  
+			@param nc : connection which has the shared object
+			@persistant : persistency <true | flase>		
+			@secure : secure <true | false>
+			-->
 		
 		<method name="connect" args="so_Name,nc,persistant">
-			this.so = SharedObject.getRemote(so_Name,nc.uri,persistant); 
+			this.so = SharedObject.getRemote(so_Name, nc.uri, persistant);
 			//this.so.client=this;
 			var t = this;
-			if ($swf8){
-				this.so.onSync = function (evtObj){
-				if (t.onStatus)t.onStatus.sendEvent(evtObj);
-				//_root.Debug.write.write("Shared Object onSync",evtObj,arguments);
+			if ($swf8) {
+				this.so.onSync = function(evtObj) {
+					if (t.onStatus)
+						t.onStatus.sendEvent(evtObj);
+					//_root.Debug.write.write("Shared Object onSync",evtObj,arguments);
 				}
-				this.so.writeMessage= function (msg) {
-				Debug.debug(msg);
+				this.so.writeMessage = function(msg) {
+					Debug.debug(msg);
 				}
-			}
-			else {
-				this.so.addEventListener(NetStatusEvent.NET_STATUS, sharedObjectHandler);
+			} else {
+				this.so.addEventListener(NetStatusEvent.NET_STATUS,
+						sharedObjectHandler);
 			}
 			this.so.connect(nc);
 		</method>
 		
 		<method name="sharedObjectHandler" args="event"><![CDATA[
-			switch(event.info.code) {
-				case "SharedObject.Flush.Success" : 
+			switch (event.info.code) {
+				case "SharedObject.Flush.Success" :
 					Debug.info("SharedObject.flush() call succeeded.");
 					break;
-				case "SharedObject.Flush.Failed" : 
+				case "SharedObject.Flush.Failed" :
 					Debug.error("SharedObject.flush() failed.");
 					break;
 				case "SharedObject.BadPersistence" :
-					Debug.warn("Shared object has already been created with different flags");
-					break;	
+					Debug
+							.warn("Shared object has already been created with different flags");
+					break;
 				case "SharedObject.UriMismatch" :
-					Debug.error("mismatch with the URI while connecting to the shared object on the application");
-					break;	
+					Debug
+							.error("mismatch with the URI while connecting to the shared object on the application");
+					break;
 			}
-			
-		]]></method>
+		]]>
+		</method>
 		
 		<method name="send" args="funcName,param1,param2=null">
-			if (param2==null) {	
-				return this.so.send(funcName,param1);
+			if (param2 == null) {
+				return this.so.send(funcName, param1);
 			} else {
-				return this.so.send(funcName,param1,param2);	
-			}			
+				return this.so.send(funcName, param1, param2);
+			}
 		</method>		
 		
 		<!--- create Object if not existing  -->
-	    <method name="getLocal" args="name">
-	        this.so = SharedObject.getLocal(name); 
-	
-	        var t = this;
-	        this.so.onSync = function (evtObj){
-	            if (t.onStatus)t.onStatus.sendEvent(evtObj);
-	            //_root.Debug.write.write("Shared Object onSync",evtObj,arguments);
-	        }	        
-	    </method>
+		<method name="getLocal" args="name">
+			this.so = SharedObject.getLocal(name);
+
+			var t = this;
+			this.so.onSync = function(evtObj) {
+				if (t.onStatus)
+					t.onStatus.sendEvent(evtObj);
+				//_root.Debug.write.write("Shared Object onSync",evtObj,arguments);
+			}
+		</method>
 	    
 		<!--sets the client of the shared object with the given class parameter-->
 		<method name="setClient" args="className">
-			this.so.client=className;
+			this.so.client = className;
 		</method>
 		
 		<!--- 
-	        force write to disk
-	        @return true(success) false(User has forbidden to store data local)
-	      -->
-	    <method name="flush">
-	        return this.so.flush();
-	    </method>
+				force write to disk
+				@return true(success) false(User has forbidden to store data local)
+			  -->
+		<method name="flush">
+			return this.so.flush();
+		</method>
 	    
-	    <!--Closes the connection between a remote shared object and the server.-->
-	    <method name="close">
-	    	this.so.close();
-	    </method>
+		<!--Closes the connection between a remote shared object and the server.-->
+		<method name="close">
+			this.so.close();
+		</method>
 	    
-	    <!--deletes the local shared object from the disc-->
-	    <method name="clear">
-	    	this.so.clear();
-	    </method>
+		<!--deletes the local shared object from the disc-->
+		<method name="clear">
+			this.so.clear();
+		</method>
 		
 		<method name="getDataSO" args="key">
-			
-	        if (this.so.data[key] == undefined){
-	            return null;
-	           //_root.Debug.write.write("key undefined",key);
-	        } else {
-	            return this.so.data[key];
-	        }
-	    </method>
+
+
+			if (this.so.data[key] == undefined) {
+				return null;
+				//_root.Debug.write.write("key undefined",key);
+			} else {
+				return this.so.data[key];
+			}
+		</method>
 	    
-	    <method name="setDataSO" args="key, val">
-	    	//Debug.write("this...... so: ",this.so);
-	        this.so.data["key"] = val;
-    	</method>
+		<method name="setDataSO" args="key, val">
+
+			//Debug.write("this...... so: ",this.so);
+			this.so.data["key"] = val;
+		</method>
     	
-    	<method name="write" args="msg">
-    		Debug.write("mesaj : "+msg);
-    	</method>
+		<method name="write" args="msg">
+			Debug.write("mesaj : " + msg);
+		</method>
 	    	    						
 	</class>
 </library>

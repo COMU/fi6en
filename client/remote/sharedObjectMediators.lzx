@@ -1,0 +1,56 @@
+<library>
+	<script when="immediate">
+		public class SharedObjectChatMediator {
+			var client;
+		  	public function SharedObjectChatMediator (client) {
+		  		this.client = client;
+		  	}
+		  	public function writeInfo(msg) {
+		  		this.client.writeInfo(msg);
+    		}
+    		public function writeMessage(username, msg) {
+    			this.client.writeMessage(username, msg);
+    		}    		
+  		}
+  		public class SharedObjectUserMediator {
+  			var client;
+  			public function SharedObjectUserMediator (client) {
+  				this.client= client;
+  			}
+  			public function addToUserlist(userlist) {
+  				this.client.addToUserlist(userlist);
+  			}
+  			public function updateUserlist(username) {
+  				this.client.updateUserlist(username);
+  			}
+  			public function removeFromUserlist(username) {
+  				this.client.removeFromUserlist(username);
+  			}  			
+  		}
+  		public class SharedObjectRoomMediator {
+  			var client;
+  			public function SharedObjectRoomMediator (client) {
+  				this.client= client;
+  			}
+  			public function createRoom(roomName, username) {
+  				this.client.createRoom(roomName, username);
+  			}
+  		}
+  		public class SharedObjectChatRoomMediator {
+  			var client;
+  			public function SharedObjectChatRoomMediator (client) {
+  				this.client= client;
+  			}
+  			public function createRoom (roomName, username) {
+  				this.client.createRoom(roomName, username);
+  			}
+  			public function writeInfo(msg) {
+		  		this.client.writeInfo(msg);
+    		}
+    		public function writeMessage(username, msg) {
+    			this.client.writeMessage(username, msg);
+    		}  			
+  		}
+	</script>
+	<class name="sharedObjectMediators" />
+</library>

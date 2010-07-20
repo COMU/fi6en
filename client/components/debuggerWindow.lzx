@@ -1,0 +1,29 @@
+<library>
+	<class name="debuggerWindow" extends="window">
+		<attribute name="title" value="Notification Window" />
+		<attribute name="resizable" value="true"/>
+		<attribute name="clip" value="true"/>
+		<vscrollbar />
+		<text name="message" visible="false"/>
+		<text name="messageArea" multiline="true" 
+			selectable="true" clickable="true"
+			width="${parent.width-30}"/>
+		<method name="addMessage" args="type, msg"><![CDATA[
+			switch (type) {
+				case "info" :
+					notificationWindow.messageArea
+							.addText('<font color="#0099FF">info: ' + msg + '<br/></font>');
+					break;
+				case "error" :
+					notificationWindow.messageArea
+							.addText('<font color="#EE0000">error: ' + msg + '<br/></font>');
+					break;
+				case "warn" :
+					notificationWindow.messageArea
+							.addText('<font color="#FFCC00">warn: ' + msg + '<br/></font>');
+					break;
+			}
+		]]>
+		</method>	
+	</class>
+</library>
