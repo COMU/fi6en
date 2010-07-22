@@ -100,20 +100,21 @@
 	</string>
 	<string id="34" name="stop_playing">
 		<value>Stop Playing</value>
-	</string>
-	
-	
+	</string>	
 	<string id="35" name="lobby">
 		<value>Lobby</value>
 	</string>
-	<string id="36" name="lobby">
+	<string id="36" name="rooms">
 		<value>Rooms</value>
 	</string>
-	<string id="37" name="lobby">
+	<string id="37" name="records">
 		<value>Records</value>
 	</string>
-	<string id="38" name="lobby">
+	<string id="38" name="profile">
 		<value>Profile</value>
+	</string>
+	<string id="39" name="notification_window">
+		<value>Notification Window</value>
 	</string>
 	
 	

@@ -106,6 +106,7 @@
 			}
 			else {
 				Debug.warn("Check the connection with the server application!");
+				notificationWindow.addMessage("warn","Check the connection with the server application!");
 			}
 		</method>
 		
@@ -160,6 +161,7 @@
 				//Debug.write("register result method : " + returnvalue);
 			if (returnvalue) {
 				Debug.error("username is in use");
+				notificationWindow.addMessage("error","username is in use");
 				this.setAttribute('availableUsername', false);
 				error = duplicateUsername.text;
 				var registerAlert = new lz.alert(canvas, {
@@ -171,7 +173,9 @@
 				//enterConference();
 			} else if (!returnvalue) {
 				Debug.info("username is available");
+				notificationWindow.addMessage("info","username is available");
 				Debug.info("saving user informations to the database...");
+				notificationWindow.addMessage("info","saving user informations to the database...");
 				this.setAttribute('availableUsername', true);
 				this.saveToDatabase();
 			}
@@ -179,6 +183,7 @@
 		
 		<method name="responderStatus" args="returnvalue">
 			Debug.write("onStatus:" + returnvalue.toString);
+			notificationWindow.addMessage("info",returnvalue);
 		</method>
 		
 		<!--check database whether the requested username is available to use-->

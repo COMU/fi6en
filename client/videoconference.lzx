@@ -3,7 +3,7 @@
 	<include href="library.lzx"/>	
 	<debug width="400" height="230" align="right" valign="bottom"/>
 	<debuggerWindow id="notificationWindow" width="350" height="200" 
-					align="right" valign="bottom" visible="true" closeable="true"/>
+					align="right" valign="bottom" closeable="true"/>
 	<font name="mainFi6enFont" src="./fonts/Clerica.ttf"/>
 	<view width="${canvas.width}" height="${canvas.height}"
 		resource="resources/wallpaper/BlueCurl.jpg" stretches="both" />

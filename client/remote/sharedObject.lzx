@@ -44,17 +44,23 @@
 			switch (event.info.code) {
 				case "SharedObject.Flush.Success" :
 					Debug.info("SharedObject.flush() call succeeded.");
+					notificationWindow.addMessage("info",
+							"SharedObject.flush() call succeeded.");
 					break;
 				case "SharedObject.Flush.Failed" :
 					Debug.error("SharedObject.flush() failed.");
+					notificationWindow.addMessage("error",
+							"SharedObject.flush() failed.");
 					break;
 				case "SharedObject.BadPersistence" :
-					Debug
-							.warn("Shared object has already been created with different flags");
+					Debug.warn("Shared object has already been created with different flags");
+					notificationWindow.addMessage("warn",
+									"Shared object has already been created with different flags");
 					break;
 				case "SharedObject.UriMismatch" :
-					Debug
-							.error("mismatch with the URI while connecting to the shared object on the application");
+					Debug.error("mismatch with the URI while connecting to the shared object on the application");
+					notificationWindow.addMessage("error",
+									"Shared object has already been created with different flags");
 					break;
 			}
 		]]>
@@ -104,8 +110,6 @@
 		</method>
 		
 		<method name="getDataSO" args="key">
-
-
 			if (this.so.data[key] == undefined) {
 				return null;
 				//_root.Debug.write.write("key undefined",key);
@@ -115,13 +119,12 @@
 		</method>
 	    
 		<method name="setDataSO" args="key, val">
-
-			//Debug.write("this...... so: ",this.so);
 			this.so.data["key"] = val;
 		</method>
     	
 		<method name="write" args="msg">
 			Debug.write("mesaj : " + msg);
+			notificationWindow.addMessage("info",msg);
 		</method>
 	    	    						
 	</class>

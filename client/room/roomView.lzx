@@ -159,6 +159,8 @@
 						var streamToPlay = classroot.mainChatView.rightBar.usersList
 								.getSelection().text;
 						classroot.streamPlay.playVideo(streamToPlay);
+						var msg= "selected user to play => "+streamToPlay;
+						notificationWindow.addMessage("info",msg);
 						parent.live._attachStream(classroot.streamPlay.stream);
 					</handler>
 				</button>

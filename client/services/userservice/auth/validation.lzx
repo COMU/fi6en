@@ -23,6 +23,7 @@
 				if (comparePasswords(password, passwordRe)) {
 					if (checkEmail(email)) {
 						Debug.info("Validation is ok");
+						notificationWindow.addMessage("info","Validation is ok");
 						this.setAttribute('valid', true);
 						return valid;
 					}

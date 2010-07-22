@@ -11,7 +11,7 @@
 	example: 
 	127.0.0.1 or localhost
 	-->
-	<host>127.0.0.1</host>
+	<host>localhost</host>
 	<!--
 	fi6en red5 application rtmp port
 	see: $RED5_HOME/conf/red5.properties  

@@ -40,12 +40,13 @@
 			streamPublish.setAttribute("url", streamName);
 			streamPublish.setAttribute("mic", micc);
 			streamPublish.setAttribute("cam", camm);
-			camm.setMode(220, 200, 22, false);
+			camm.setMode(220, 200, 15, false);
 			camm.setQuality(32768, 0);
 			micc.setAttribute("silencelevel",5);
 			broadcastView.broadcasting.mycam.setAttribute("show",true);			
 			streamPublish.broadcast();
 			Debug.info("started broadcasting:", streamPublish.url);
+			notificationWindow.addMessage("info","started broadcasting : "+streamPublish.url);
 		</method>
 		<!--stops publishing video-->
 		<method name="stopPublishing">
@@ -59,6 +60,7 @@
 			//streamPublish.closeStream();
 			//streamPublish.publishVideo(streamName, true, true);
 			Debug.info("Recording started");
+			notificationWindow.addMessage("info","Recording started");
 			conn._nc.call("streamservice.recordShow", null, streamName);
 			streamPublish.setAttribute("recordingg", true);
 		</method>
@@ -66,12 +68,14 @@
 		<method name="stopRecording">
 			if (streamPublish.recordingg) {
 				Debug.info("Recording stopped");
+				notificationWindow.addMessage("info","Recording stopped");
 				conn._nc.call("streamservice.stopRecordingShow", null,
 						loginScreen.getUsername());
 				streamPublish.setAttribute("recordingg", false);
 			}
 			else {
 				Debug.warn("There is no stream is being recorded now!");
+				notificationWindow.addMessage("warn","There is no stream is being recorded now!");
 			}
 		</method>
 	</class>

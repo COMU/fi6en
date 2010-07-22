@@ -23,11 +23,12 @@
 		<attribute name="port" type="text"/>
 		<attribute name="webapprootkey" type="text"/>
 		<attribute name="httpport" type="text"/>
-				
+		<!--here is handling the rtmp connection-->		
 		<handler name="onstage" reference="this">
 			switch (this.stage) {
 				case 0 : 
 					Debug.info("Disconnected server application.");
+					notificationWindow.addMessage("info","Disconnected server application.");
 					break;
 				case 1 : 
 					Debug.info("Connecting to the server application...");
@@ -39,51 +40,13 @@
 					this.setAttribute('connected',true);
 					break;
 			}
-			/*if (this.stage == 2) {
-				Debug.info("The connection attempt succeeded.");
-			}*/
 		</handler>
-		
-		<!--here is handling the flash.Net.NetConnection object and creating the NetStream objects-->
-		<!--<method name="netStatusHandler" args="event">
-			switch (event.info.code) {
-				case "NetConnection.Connect.Success" :
-					Debug.info("The connection attempt succeeded.");
-					responder = new Responder(this.responderResult,
-							this.responderStatus);
-					this.setAttribute("connected", true);
-					//Debug.info("connected ? : %w",this.connected);
-					break;
-
-				case "NetConnection.Connect.Failed" :
-					Debug.info("The connection attempt failed.");
-					break;
-
-				case "NetConnection.Connect.Closed" :
-					Debug.info("Disconnected server application.");
-					chatScreen.soChat.send("writeInfo", loginScreen
-									.getUsername()
-									+ " logged out");
-					chatScreen.soUsers.send("removeFromUserlist", loginScreen
-									.getUsername());
-					this.closeConnection();
-					break;
-
-				case "NetConnection.Connect.Rejected" :
-					Debug
-							.info("The connection attempt did not have permission to access the application.");
-					break;
-				case "NetConnection.Connect.AppShutdown" :
-					Debug.info("Application is shutting down..");
-					break;
-
-			}
-		</method>-->
 		
 		<!--closing the netconnection and shared objects-->
 		<method name="closeConnection">
 			//_conn.call("deleteUsername",responder,loginScreen.getUsername());
 			Debug.info("closing connection");
+			notificationWindow.addMessage("info","closing connection");
 			chatScreen.soChat.close();
 			chatScreen.soUsers.close();
 			roomScreen.soChatRoom.close();
@@ -94,10 +57,12 @@
 		<!--handler for the errors-->
 		<method name="errorHandler" args="error">
 			Debug.write(error.error);
+			notificationWindow.addMessage("error",error);
 		</method>
 		
 		<method name="responderResult" args="returnvalue">
 			Debug.write("onResult:" + returnvalue);
+			notificationWindow.addMessage("info",returnvalue);
 		</method>
 		
 		<method name="responderStatus" args="returnvalue">

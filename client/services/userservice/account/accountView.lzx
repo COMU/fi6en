@@ -68,8 +68,6 @@
 			}
 		</handler>
 		<method name="responderResult" args="result">
-
-
 			//Debug.info("Respond result:",result);
 		</method>
 		<!--method gets user informations from server and set 
@@ -83,7 +81,6 @@
 			valuesView.email.setAttribute("text", result['email']);
 		</method>
 		<method name="responderStatus" args="status">
-
 			//Debug.info("Respond status:",status);
 		</method>
 		<!--getters-->
@@ -129,11 +126,13 @@
 						conn._nc.call("databaseservice.updateUser", responder,
 								loginScreen.getUsername(), form);
 						Debug.info("updated user informations");
+						notificationWindow.addMessage("info","updated user informations");
 					}
 				} else {
 					conn._nc.call("databaseservice.updateUser", responder,
 							loginScreen.getUsername(), form);
 					Debug.info("updated user informations");
+					notificationWindow.addMessage("info","updated user informations");
 				}
 			}
 		]]>

@@ -101,19 +101,21 @@
 	</string>
 	<string id="34" name="stop_playing">
 		<value>Oynatmayı Durdur</value>
-	</string>
-	
+	</string>	
 	<string id="35" name="lobby">
 		<value>Lobi</value>
 	</string>
-	<string id="36" name="lobby">
+	<string id="36" name="rooms">
 		<value>Odalar</value>
 	</string>
-	<string id="37" name="lobby">
+	<string id="37" name="records">
 		<value>Kayıtlar</value>
 	</string>
-	<string id="38" name="lobby">
+	<string id="38" name="profile">
 		<value>Profil</value>
+	</string>
+	<string id="39" name="notification_window">
+		<value>Bildirim Penceresi</value>
 	</string>
 			
 </language>

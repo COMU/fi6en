@@ -19,6 +19,7 @@
 						motion : 'easeout'
 					});
 			Debug.info("room : %w created by %w", roomName, username);
+			notificationWindow.addMessage("info","room : "+roomName+" created by "+username);
 		</method>
 	</class>
 	

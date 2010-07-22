@@ -112,7 +112,7 @@
 					cornerradius="10">
 					<attribute name="usernameColor" type="color"/>
 					<text name="messageArea" multiline="true" selectable="true" clickable="true"/>
-					<vscrollbar name="vscrollbarChat" visible="${scrollable}" />	
+					<vscrollbar name="vscrollbarChat" visible="${scrollable}"/>	
 				</view>
 						
 				<view name="buttonView" align="center">
@@ -127,6 +127,7 @@
 									//Debug.write("Message sent!");									
 									classroot.sendMessage(message.text);
 									message.clearText();
+									parent.parent.parent.messageAreaView.vscrollbarChat.page(1);
 								}
 							</method>
 						</button>
@@ -175,6 +176,8 @@
 								});
 						subscriberpositionyY = subscriberpositionyY + 5;
 						Debug.info("selected user to play => %w", streamToPlay);
+						var msg= "selected user to play => "+streamToPlay;
+						notificationWindow.addMessage("info",msg);
 						subscriber.playStream(streamToPlay);
 					</handler>
 				</button>				

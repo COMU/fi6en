@@ -90,8 +90,6 @@
 					//conn.closeConnection();
 					var location = dsetConf.getPointer()
 							.xpathQuery('config/appurl/text()');
-					//http://localhost:8080/lps-4.7.2/workspace-laszlo/client/videoconference.lzx?lzr=swf10&debug=true
-					//"http://fi6en.comu.edu.tr/fi6en"
 					lz.Browser.loadURL(location, '_self');
 				]]>
 				</handler>
