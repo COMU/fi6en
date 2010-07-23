@@ -46,11 +46,11 @@
 			broadcastView.broadcasting.mycam.setAttribute("show",true);			
 			streamPublish.broadcast();
 			Debug.info("started broadcasting:", streamPublish.url);
-			notificationWindow.addMessage("info","started broadcasting : "+streamPublish.url);
+			chatScreen.soChat.send("writeInfo",loginScreen.getUsername()+" started broadcasting");
 		</method>
 		<!--stops publishing video-->
 		<method name="stopPublishing">
-			streamPublish.stop();
+			streamPublish._flashstream.close();
 			//streamPublish.setAttribute('publishing', false);
 			broadcastView.broadcasting.mycam.setAttribute('show', false);
 		</method>
@@ -78,6 +78,14 @@
 				notificationWindow.addMessage("warn","There is no stream is being recorded now!");
 			}
 		</method>
+		
+		<handler name="onstart">
+			Debug.info("publish mediastream onstart");
+		</handler>
+		
+		<handler name="onstop">
+			Debug.info("publish mediastream onstop");
+		</handler>
 	</class>
 	
 </library>

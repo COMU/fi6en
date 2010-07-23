@@ -25,5 +25,13 @@
 			this.streamPlay.close();
 			this.destroy();
 		</handler>
+		
+		<handler name="onstart">
+			Debug.info("play mediastream onstart");
+		</handler>
+		
+		<handler name="onstop">
+			Debug.info("play mediastream onstop");
+		</handler>
 	</class>
 </library>

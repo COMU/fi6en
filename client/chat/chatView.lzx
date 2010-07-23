@@ -96,6 +96,7 @@
 							publishUser.stopPublishing();
 							this.setAttribute('text', publishText.text);
 							publishUser.setAttribute('visible', false);
+							classroot.soChat.send("writeInfo",loginScreen.getUsername()+" stopped broadcasting");
 						}
 					</handler>
 				</button>
