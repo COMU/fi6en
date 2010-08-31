@@ -5,7 +5,7 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.password">root</property>
+		<property name="hibernate.connection.password">boston</property>
 		<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/fi6en</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -28,6 +28,9 @@
 
 
 		<mapping class="org.red5.fi6en.userservice.User" />
+		<mapping class="org.red5.fi6en.traffic.Subscribe" />
+		<mapping class="org.red5.fi6en.traffic.Broadcast" />
+
 
 	</session-factory>
 </hibernate-configuration>

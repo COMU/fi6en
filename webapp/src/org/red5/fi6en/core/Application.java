@@ -3,13 +3,31 @@ package org.red5.fi6en.core;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.impl.CriteriaImpl.Subcriteria;
 import org.red5.fi6en.listeners.ChatSharedObjectListener;
+import org.red5.fi6en.traffic.Broadcast;
+import org.red5.fi6en.traffic.Subscribe;
+import org.red5.fi6en.userservice.User;
+import org.red5.fi6en.util.HibernateUtil;
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.adapter.ApplicationAdapter;
 import org.red5.server.api.IClient;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
 import org.red5.server.api.so.ISharedObject;
+import org.red5.server.api.statistics.IClientBroadcastStreamStatistics;
+import org.red5.server.api.statistics.IPlaylistSubscriberStreamStatistics;
+import org.red5.server.api.statistics.IStatisticsService;
+import org.red5.server.api.statistics.IStreamStatistics;
+import org.red5.server.api.stream.IBroadcastStream;
+import org.red5.server.api.stream.IClientBroadcastStream;
+import org.red5.server.api.stream.IPlaylistSubscriberStream;
+import org.red5.server.api.stream.ISubscriberStream;
+import org.red5.server.api.stream.ISubscriberStreamService;
+import org.red5.server.stream.ClientBroadcastStream;
 import org.slf4j.Logger;
 
 /**
@@ -24,9 +42,10 @@ public class Application extends ApplicationAdapter {
 	//shared objects for main page and room
 	ISharedObject sharedObjectChat, sharedObjectRoomChat, sharedObjectRoomList;  
 
-	private static Logger log = Red5LoggerFactory.getLogger(Application.class,
-			"fi6en");
+	private static Logger log = Red5LoggerFactory.getLogger(Application.class,"fi6en");
 
+	static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+	
 	public boolean appStart(IScope scope) {
 		log.info("fi6en Videoconference application started");
 		appScope = scope;
@@ -67,6 +86,8 @@ public class Application extends ApplicationAdapter {
 			log.error("Error while disconnecting : {}",e.getMessage());
 		}
 			super.disconnect(conn, scope);
+			
+		
 	}
 
 	@Override
@@ -122,4 +143,139 @@ public class Application extends ApplicationAdapter {
 		log.info("disconnected room : {}",conn.getScope().getName());
 		super.roomDisconnect(conn);
 	}
+	@Override
+	public void streamSubscriberClose(ISubscriberStream stream) {
+		
+		super.streamSubscriberClose(stream);
+		
+		
+		
+		//Statistics...		
+		IPlaylistSubscriberStream mystream = (IPlaylistSubscriberStream) stream;
+		IPlaylistSubscriberStreamStatistics istats = mystream.getStatistics();
+
+		
+		
+		/*log.info("");
+		log.info("********************");
+		log.info("Streaming Subscriber Statistics...");
+		log.info("Name: " + mystream.getName());
+		log.info("Subs IP: " + stream.getConnection().getRemoteAddress());
+		log.info("Creation Time: " + mystream.getStatistics().getCreationTime());
+		log.info("Current Time: " + mystream.getStatistics().getCurrentTimestamp());
+		log.info("ReadBytes: " + stream.getConnection().getReadBytes());
+		log.info("WrittenBytes: " + stream.getConnection().getWrittenBytes());
+		log.info("Stream Name: " + stream.getName());
+		log.info("Stream ID: " + stream.getStreamId());
+		log.info("Codec: " + stream.getCodecInfo());
+		//Null Pointer exception...
+		//log.info("ChannelBandwith: " + stream.getBandwidthConfigure().getChannelBandwidth());
+		log.info("----->" + mystream.getStatistics().getEstimatedBufferFill());
+		log.info("Connections params: " + stream.getConnection().getConnectParams());
+		log.info("Client ID: " + stream.getConnection().getClient().getId());
+		log.info("---");
+		log.info("PublishName: " + stream.getConnection().getAttribute("pname"));
+		log.info("********************");
+		log.info("");*/
+		log.info("#### Type: " + stream.getConnection().getType());
+		
+		
+		
+		//Statistic to Database..
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			Subscribe s = new Subscribe();
+			s.setIp(stream.getConnection().getRemoteAddress());
+			s.setRemoteUserId(1);
+			s.setDuration(istats.getCurrentTimestamp());
+			s.setSize(stream.getConnection().getClientBytesRead());
+			s.setDateBegin(null);
+			s.setDateEnd(null);
+			s.setServer_name("localhost");
+			s.setClient_name(mystream.getName());
+			Long streamId = (Long) session.save(s);
+			log.info("Subscriber statistic saved to database. - ID: " + streamId);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for stream : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
+		
+		
+		
+		
+	}
+	
+	
+	@Override
+	public void streamBroadcastStart(IBroadcastStream stream) {
+		super.streamBroadcastStart(stream);
+		
+		
+	}
+	
+	@Override
+	public void streamBroadcastClose(IBroadcastStream bstream) {
+		
+		super.streamBroadcastClose(bstream);
+		
+		ClientBroadcastStream stream = (ClientBroadcastStream) bstream;
+		IClientBroadcastStreamStatistics istats = (IClientBroadcastStreamStatistics) bstream;
+		
+		/*//Statistics...
+		IClientBroadcastStreamStatistics istats = (IClientBroadcastStreamStatistics) bstream;
+		log.info("");
+		log.info("*****----*****----*****");
+		log.info("Stream Broadcasting Statistics...");
+		log.info("Name: " + bstream.getName());
+		log.info("RemoteUserID: " + istats.getPublishedName());
+		log.info("IP: " + stream.getConnection().getRemoteAddress());
+		log.info("Published Name:" + stream.getPublishedName());
+		log.info("Creation Time: " + istats.getCreationTime());
+		log.info("Current Time: " + istats.getCurrentTimestamp());
+		log.info("Bytes: " + istats.getBytesReceived());
+		log.info("Stream Name: " + bstream.getName());
+		log.info("Codec: " + bstream.getCodecInfo());
+		log.info("Stream ID: " + stream.getStreamId());
+		log.info("Connections params: " + stream.getConnection().getConnectParams());
+		log.info("Client ID: " + stream.getConnection().getClient().getId());
+		log.info("*****----*****----*****");
+		log.info("");*/
+		
+		//Statistic to Database..
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			Broadcast b = new Broadcast();
+			b.setIp(stream.getConnection().getRemoteAddress());
+			b.setRemoteUserId(1);
+			b.setDuration(stream.getStatistics().getCurrentTimestamp());
+			b.setSize(istats.getBytesReceived());
+			b.setDateBegin(null);
+			b.setDateEnd(null);
+			b.setServer_name("localhost");
+			b.setClient_name(bstream.getPublishedName());
+			Long streamId = (Long) session.save(b);
+			log.info("Broadcast statistic saved to database. - ID: " + streamId);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for broadcast : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
+
+	}
+	
+	
+	
 }
