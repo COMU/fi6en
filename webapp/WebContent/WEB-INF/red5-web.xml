@@ -44,4 +44,6 @@
     <bean id="recordingservice.service" class="org.red5.fi6en.recording.DemoService"
 		singleton="true" />	
 
+	<bean id="roomservice.service" class="org.red5.fi6en.roomservice.RoomService" singleton="true" />
+	
 </beans>
