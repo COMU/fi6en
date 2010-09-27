@@ -5,7 +5,10 @@ import org.slf4j.Logger;
 
 public class RoomService {
 	
-	Logger log= Red5LoggerFactory.getLogger(RoomService.class,"sodeneme");
+	public RoomService() {
+	}
+	
+	Logger log= Red5LoggerFactory.getLogger(RoomService.class,"fi6en");
 	
 	public void addRoom(String name) {
 		log.info("Room Added -> Name: " + name);
@@ -33,6 +36,7 @@ public class RoomService {
 	}
 	public void disconnectUser(String userName) {
 		log.info("User Disconnected: " + userName);
+		
 	}
 	
 
