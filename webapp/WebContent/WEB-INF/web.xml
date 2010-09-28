@@ -30,4 +30,13 @@
 	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<servlet>
+		<servlet-name>RoomServiceServlet</servlet-name>
+		<servlet-class>org.red5.fi6en.roomservice.RoomServiceServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RoomServiceServlet</servlet-name>
+		<url-pattern>/userlist</url-pattern>
+	</servlet-mapping>
+	
 </web-app>
