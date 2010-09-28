@@ -182,6 +182,8 @@
 			chatScreen.soChat.send("writeInfo", username + " logged in");
 			conn._nc.call("userservice.writeUsername", conn.responder,
 					username);
+			//RoomService
+			conn._nc.call("roomservice.connectUser", conn.responder, username);
 			/*getting other users's usernames and adding to the list*/
 			var arrayUserlist = chatScreen.soUsers.getDataSO("arrayUserlist");
 			Debug.write("users : ", arrayUserlist);
@@ -197,6 +199,8 @@
 			this.animate("opacity", "0", "700");
 			chatScreen.animate("opacity", "1", "700");
 			notificationWindow.setAttribute('visible', true);
+			
+			//RoomService girişi...
 		</method>
 	</class>
 </library>
