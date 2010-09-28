@@ -13,6 +13,8 @@
 						parent.parent.createRoom(room);
 						parent.roomNameView.setAttribute('visible', false);
 						parent.roomNameView.roomName.clearText();
+						//Room Service invoke..
+						conn._nc.call("roomservice.addRoom", conn.responder, room);
 					} 
 					else {
 						classroot.warning = 'Type room name to create please!';

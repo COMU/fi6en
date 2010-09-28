@@ -1,6 +1,7 @@
 <library>
 	<class name="roomButton" extends="button">
 		<handler name="onclick">
+			
 			var newUrl = conn.src+'/'+this.text;
 			//Debug.write("url : %w",newUrl);
 			/*closing remote shared object connections*/
@@ -10,12 +11,17 @@
 			conn.setAttribute("src",newUrl);
 			conn._doconnect()
 			enterRoom();
+			
+			
 		</handler>
 		<!--visual steps while entering a room-->
 		<method name="enterRoom">
 			chatScreen.animate("opacity", "0", "700");
 			roomScreen.setRoomName(this.text);
-			roomScreen.animate("opacity", "1", "700");			
+			roomScreen.animate("opacity", "1", "700");
+			
+			//RoomService invoke...
+			conn._nc.call("roomservice.addUserToRoom", conn.responder, loginScreen.getUsername(), this.text);
 		</method>
 	</class>
 </library>
