@@ -18,10 +18,10 @@ public class Room {
 	private long id;
 	private String name;
 	private String comment;
-	private Date starttime;
-	private Date finishtime;
-	private boolean is_public;
-	private boolean is_open;
+	private Timestamp starttime;
+	private Timestamp finishtime;
+	private Boolean is_public;
+	private Boolean is_open;
 	
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
@@ -47,31 +47,31 @@ public class Room {
 		this.comment = comment;
 	}
 	@Column (name="starttime")
-	public Date getStarttime() {
+	public Timestamp getStarttime() {
 		return starttime;
 	}
-	public void setStarttime(Date starttime) {
+	public void setStarttime(Timestamp starttime) {
 		this.starttime = starttime;
 	}
 	@Column (name="finishtime")
-	public Date getFinishtime() {
+	public Timestamp getFinishtime() {
 		return finishtime;
 	}
-	public void setFinishtime(Date finishtime) {
+	public void setFinishtime(Timestamp finishtime) {
 		this.finishtime = finishtime;
 	}
 	@Column (name="is_public")
-	public boolean isIs_public() {
+	public Boolean isIs_public() {
 		return is_public;
 	}
-	public void setIs_public(boolean isPublic) {
+	public void setIs_public(Boolean isPublic) {
 		is_public = isPublic;
 	}
 	@Column (name="is_open")
-	public boolean isIs_open() {
+	public Boolean isIs_open() {
 		return is_open;
 	}
-	public void setIs_open(boolean isOpen) {
+	public void setIs_open(Boolean isOpen) {
 		is_open = isOpen;
 	}
 	

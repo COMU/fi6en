@@ -56,6 +56,13 @@ public class DatabaseOperation {
 			user.setLocation(location);
 			Long userId = (Long) session.save(user);
 			log.info("users id : " + userId);
+			
+			UserStatus us = new UserStatus();
+			us.setUsername(username);
+			us.setRoomname("");
+			us.setIs_online(false);
+			session.save(us);
+			
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)

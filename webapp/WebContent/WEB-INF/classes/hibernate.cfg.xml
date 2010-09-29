@@ -28,6 +28,7 @@
 
 
 		<mapping class="org.red5.fi6en.userservice.User" />
+		<mapping class="org.red5.fi6en.userservice.UserStatus" />
 		<mapping class="org.red5.fi6en.traffic.Subscribe" />
 		<mapping class="org.red5.fi6en.traffic.Broadcast" />
 		<mapping class="org.red5.fi6en.roomservice.Room" />
