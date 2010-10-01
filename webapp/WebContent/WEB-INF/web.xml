@@ -31,12 +31,20 @@
 	</filter-mapping>
 	
 	<servlet>
+		<servlet-name>UserServiceServlet</servlet-name>
+		<servlet-class>org.red5.fi6en.userservice.UserServiceServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserServiceServlet</servlet-name>
+		<url-pattern>/userlist</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>RoomServiceServlet</servlet-name>
 		<servlet-class>org.red5.fi6en.roomservice.RoomServiceServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>RoomServiceServlet</servlet-name>
-		<url-pattern>/userlist</url-pattern>
+		<url-pattern>/roomlist</url-pattern>
 	</servlet-mapping>
 	
 </web-app>
