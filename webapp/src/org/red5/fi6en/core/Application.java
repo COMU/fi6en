@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.impl.CriteriaImpl.Subcriteria;
 import org.red5.fi6en.listeners.ChatSharedObjectListener;
+import org.red5.fi6en.roomservice.RoomService;
 import org.red5.fi6en.traffic.Broadcast;
 import org.red5.fi6en.traffic.Subscribe;
 import org.red5.fi6en.userservice.User;
@@ -17,6 +18,7 @@ import org.red5.server.adapter.ApplicationAdapter;
 import org.red5.server.api.IClient;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
+import org.red5.server.api.Red5;
 import org.red5.server.api.so.ISharedObject;
 import org.red5.server.api.statistics.IClientBroadcastStreamStatistics;
 import org.red5.server.api.statistics.IPlaylistSubscriberStreamStatistics;
@@ -78,6 +80,9 @@ public class Application extends ApplicationAdapter {
 	}
 
 	public void disconnect(IConnection conn, IScope scope) {
+		//RoomService
+		new RoomService().disconnectUser(Long.parseLong(conn.getClient().getId()));
+		
 		try {
 			log.info("Application disconnect " + conn.getRemoteAddress());
 			sharedObjectChat.clear();
@@ -85,7 +90,10 @@ public class Application extends ApplicationAdapter {
 		} catch (Exception e) {
 			log.error("Error while disconnecting : {}",e.getMessage());
 		}
-			super.disconnect(conn, scope);
+		
+		
+		
+		super.disconnect(conn, scope);
 			
 		
 	}
@@ -106,6 +114,10 @@ public class Application extends ApplicationAdapter {
 	
 	@Override
 	public void roomStop(IScope room) {
+		//RoomService
+		RoomService rs = new RoomService();
+		rs.deleteRoom(room.getName());
+		
 		log.info("stopped room : {}",room.getName());
 		sharedObjectRoomChat.close();
 		super.roomStop(room);
