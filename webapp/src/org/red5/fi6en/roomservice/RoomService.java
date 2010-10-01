@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import org.red5.fi6en.userservice.UserStatus;
 import org.red5.fi6en.util.HibernateUtil;
 import org.red5.logging.Red5LoggerFactory;
+import org.red5.server.api.Red5;
 import org.slf4j.Logger;
 
 public class RoomService {
@@ -92,11 +93,52 @@ public class RoomService {
 	}
 	
 	public void connectUser(String userName) {
-		log.info("User Connected: " + userName);
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			//Set roomname in userstatus table
+			Query q = session.createQuery("Update UserStatus set roomname = :roomName, client_id = :clientID, is_online = :is where username = :userName");
+			q.setParameter("roomName", "");
+			q.setParameter("is", true);
+			q.setParameter("clientID", Long.parseLong(Red5.getConnectionLocal().getClient().getId()));
+			q.setParameter("userName", userName);
+			q.executeUpdate();
+			log.info("User Connected: " + userName);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for adding user to room : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
+		
 	}
 	
-	public void disconnectUser(String userName) {
-		log.info("User Disconnected: " + userName);
+	public void disconnectUser(long client_id) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			//Set roomname in userstatus table
+			Query q = session.createQuery("Update UserStatus set roomname = :roomName, client_id = :clientID, is_online = :isOnline where client_id = :clientID");
+			q.setParameter("roomName", "");
+			q.setParameter("isOnline", false);
+			q.setParameter("clientID", null);
+			q.executeUpdate();
+			log.info("User DisConnected: " + client_id);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for adding user to room : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
 		
 	}
 	
