@@ -92,8 +92,6 @@
 							.xpathQuery('config/appurl/text()');
 					lz.Browser.loadURL(location, '_self');
 					
-					//RoomService
-					conn._nc.call("roomservice.disconnectUser", conn.responder, loginScreen.getUsername());
 				]]>
 				</handler>
 			</roundedButton>
