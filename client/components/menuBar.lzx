@@ -27,6 +27,9 @@
 					if (chatScreen.opacity == 0) {
 						chatScreen.animate("opacity", "1", "700");
 					}
+					//RoomService
+					var roomname = "";
+					conn._nc.call("roomservice.addUserToRoom", this.responder, loginScreen.getUsername(), roomname);
 				</handler>
 			</view>
 			<view>
