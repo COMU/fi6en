@@ -51,7 +51,26 @@ public class RoomService {
 	}
 	
 	public void deleteRoom(String name) {
-		log.info("Room Deleted -> Name: " + name);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			//Set roomname in userstatus table
+			Query q = session.createQuery("UPDATE Room SET is_open = :isOpen, finishtime = :finishTime WHERE name = :name");
+			q.setParameter("isOpen", false);
+			q.setParameter("finishTime", new Timestamp(Calendar.getInstance().getTime().getTime()));
+			q.setParameter("name", name);
+			q.executeUpdate();
+			log.info("Room Deleted -> Name: " + name);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for adding user to room : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
 	}
 	
 	public void addUserToRoom(String userName, String roomName){
@@ -59,8 +78,10 @@ public class RoomService {
 		Transaction tx = session.beginTransaction();
 		try {
 			//Set roomname in userstatus table
-			Query q = session.createQuery("Update UserStatus set roomname = :roomName where username = :userName");
+			Query q = session.createQuery("Update UserStatus set roomname = :roomName, client_id = :clientID, is_online = :isOnline where username = :userName");
 			q.setParameter("roomName", roomName);
+			q.setParameter("clientID", Long.parseLong(Red5.getConnectionLocal().getClient().getId()));
+			q.setParameter("isOnline", true);
 			q.setParameter("userName", userName);
 			q.executeUpdate();
 			log.info("User Added -> " + userName + " To Room -> " + roomName);
@@ -74,10 +95,6 @@ public class RoomService {
 		} finally {
 			session.close();
 		}
-	}
-	
-	public void deleteUserFromRoom(String userName, String roomName) {
-		log.info("User Deleted -> " + userName + " From Room -> " + roomName);
 	}
 	
 	public void kickUser(String userName, String roomName) {
@@ -123,10 +140,11 @@ public class RoomService {
 		Transaction tx = session.beginTransaction();
 		try {
 			//Set roomname in userstatus table
-			Query q = session.createQuery("Update UserStatus set roomname = :roomName, client_id = :clientID, is_online = :isOnline where client_id = :clientID");
+			Query q = session.createQuery("UPDATE UserStatus SET roomname = :roomName, client_id = :clientID, is_online = :isOnline WHERE client_id = :c");
 			q.setParameter("roomName", "");
-			q.setParameter("isOnline", false);
 			q.setParameter("clientID", null);
+			q.setParameter("isOnline", false);
+			q.setParameter("c", client_id);
 			q.executeUpdate();
 			log.info("User DisConnected: " + client_id);
 			tx.commit();
