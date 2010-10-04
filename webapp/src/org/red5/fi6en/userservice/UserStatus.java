@@ -47,7 +47,7 @@ public class UserStatus {
 	public void setIs_online(Boolean isOnline) {
 		is_online = isOnline;
 	}
-	@Column (name="client_id")
+	@Column (name="client_id", nullable=true)
 	public void setClient_id(long client_id) {
 		this.client_id = client_id;
 	}

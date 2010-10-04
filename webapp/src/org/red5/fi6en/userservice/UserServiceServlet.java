@@ -2,6 +2,8 @@ package org.red5.fi6en.userservice;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import javax.servlet.ServletException;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.red5.fi6en.core.Application;
 import org.red5.fi6en.util.HibernateUtil;
@@ -24,26 +28,33 @@ public class UserServiceServlet extends HttpServlet {
 		
 		response.setContentType("text/html;charset=UTF-8");
 		
-		PrintWriter out = response.getWriter();
-		
 		StringBuilder sb = new StringBuilder();
+		
+		//Select * from files
+		Session session = sessionFactory.openSession();
+		String sql = "select * from user_status";
+		
+		SQLQuery query = session.createSQLQuery(sql);
+        query.addEntity("user_status", UserStatus.class);
+        List results = query.list();
+        Iterator iter = results.iterator();
+		
 		sb.append("<users>");
-		Random r = new Random();
-		String[] ss = {"kozdincer","kaan","osman","sedat","orcun","mali","hakan","volkan"};
-		
-		
-		for (int i=0; i<r.nextInt(20); i++) {
-			int a = r.nextInt(7);
+		while (iter.hasNext()) {
+			UserStatus u = (UserStatus) iter.next();
+			
 			sb.append("<user>");
-			sb.append("<id>" + "1" + "</id>");
-			sb.append("<username>" + ss[a] + "</username>");
+			
+			sb.append("<id>" + u.getId() + "</id>");
+			sb.append("<username>" + u.getUsername() + "</username>");
+			sb.append("<roomname>" + u.getRoomname() + "</roomname>");
+			
 			sb.append("</user>");
 		}
 		sb.append("</users>");
-		
-		out.print(sb.toString());
 
-		
+		PrintWriter out = response.getWriter();
+		out.print(sb.toString());
 
 	}
 
