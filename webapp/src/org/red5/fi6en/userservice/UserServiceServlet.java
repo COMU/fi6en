@@ -32,7 +32,7 @@ public class UserServiceServlet extends HttpServlet {
 		
 		//Select * from files
 		Session session = sessionFactory.openSession();
-		String sql = "select * from user_status";
+		String sql = "select * from user_status where is_online = 1";
 		
 		SQLQuery query = session.createSQLQuery(sql);
         query.addEntity("user_status", UserStatus.class);
