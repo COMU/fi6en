@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table (name="user_status")
 public class UserStatus {
 	private long id;
-	private long client_id;
+	private Long client_id;
 	private String username;
 	private String roomname;
 	private Boolean is_online;
@@ -48,10 +48,10 @@ public class UserStatus {
 		is_online = isOnline;
 	}
 	@Column (name="client_id", nullable=true)
-	public void setClient_id(long client_id) {
+	public void setClient_id(Long client_id) {
 		this.client_id = client_id;
 	}
-	public long getClient_id() {
+	public Long getClient_id() {
 		return client_id;
 	}
 }
