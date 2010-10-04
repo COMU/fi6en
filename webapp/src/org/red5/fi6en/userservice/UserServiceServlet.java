@@ -17,6 +17,7 @@ import org.hibernate.SessionFactory;
 import org.red5.fi6en.core.Application;
 import org.red5.fi6en.util.HibernateUtil;
 import org.red5.logging.Red5LoggerFactory;
+import org.red5.server.api.Red5;
 import org.slf4j.Logger;
 
 public class UserServiceServlet extends HttpServlet {
@@ -27,12 +28,15 @@ public class UserServiceServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.setContentType("text/html;charset=UTF-8");
+		String roomname = request.getParameter("roomname");
+		if (roomname == null) roomname = "";
 		
 		StringBuilder sb = new StringBuilder();
 		
 		//Select * from files
 		Session session = sessionFactory.openSession();
-		String sql = "select * from user_status where is_online = 1";
+		String sql = "select * from user_status where is_online = 1 AND roomname = '" + roomname + "'";
+		System.out.println(sql);
 		
 		SQLQuery query = session.createSQLQuery(sql);
         query.addEntity("user_status", UserStatus.class);
