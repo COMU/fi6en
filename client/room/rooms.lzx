@@ -1,53 +1,36 @@
 <library>	
-	<class name="rooms" extends="view">
-				
-		<attribute name="roomAlert" value="null"/>
-		<attribute name="warning" type="string" value="null"/>
-		<view align="center">
-			<simplelayout spacing="10"/>
-			<button name="roomCreateButton"
-					datapath="dsetLang:/language/string[@id='26']" text="$path{'value/text()'}">
+	<class name="rooms">
+		<view name="main" height="25">
+			<simplelayout axis="y" spacing="5"></simplelayout>
+			<button name="create" text="Oda Oluştur">
 				<handler name="onclick">
-					var room = parent.roomNameView.roomName.text;
-					if (room != '') {
-						parent.parent.createRoom(room);
-						parent.roomNameView.setAttribute('visible', false);
-						parent.roomNameView.roomName.clearText();
-						//Room Service invoke..
-						conn._nc.call("roomservice.addRoom", conn.responder, room);
-					} 
-					else {
-						classroot.warning = 'Type room name to create please!';
-						classroot.roomAlert = new lz.alert(canvas, {
-									text : classroot.warning,
-									stretches : 'both'
-								});
-						classroot.roomAlert.open();
-					}
-				</handler>
-				<handler name="onmouseover">
-					parent.roomNameView.setAttribute('visible', true);
+					classroot.main.windowCreate.animate("visible", true, 1000);
+					classroot.main.create.setAttribute("enabled", false);
 				</handler>
 			</button>
-			<view name="roomNameView" visible="false" align="center">
-				<simplelayout axis="x" spacing="5" />
-				<edittext name="roomName" width="70"/>
-				<text datapath="dsetLang:/language/string[@id='12']" text="$path{'value/text()'}">
-					<handler name="onclick">
-						parent.setAttribute('visible', false);
-					</handler>
-				</text>	
-			</view>		
+			<view name="windowCreate" visible="false">
+				<simplelayout axis="y" spacing="5"></simplelayout>
+				<text text="Oda Adı:"></text>
+				<edittext name="roomname" ></edittext>
+				<checkbox name="is_public" text="Public" value="true"></checkbox>
+				<text text="Parola:" visible="${!parent.is_public.value}"></text>
+				<edittext name="password" password="true" visible="${!parent.is_public.value}"></edittext>
+				<view name="buttons">
+					<simplelayout axis="x" spacing="2" />
+					<button name="buttonCreate" text="Oluştur">
+						<handler name="onclick">
+							classroot.main.windowCreate.animate("visible", false, 10);
+							classroot.main.create.setAttribute("enabled", true);
+						</handler>
+					</button>
+					<button name="buttonClose" text="X">
+						<handler name="onclick">
+							classroot.main.windowCreate.animate("visible", false, 10);
+							classroot.main.create.setAttribute("enabled", true);
+						</handler>
+					</button>
+				</view>
+			</view>
 		</view>
-	
-		<method name="createRoom" args="roomName">
-			chatScreen.soRooms.createRoomButton(roomName);
-			//roomScreen.soChatRoom.createRoomButton(roomName);
-		</method>
-
-		<method name="roomclick">
-			Debug.info("room url : %w");
-		</method>	
 	</class>
-	
 </library>
