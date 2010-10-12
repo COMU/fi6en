@@ -55,8 +55,9 @@ public class RoomService {
 		Transaction tx = session.beginTransaction();
 		try {
 			//Set roomname in userstatus table
-			Query q = session.createQuery("UPDATE Room SET is_open = :isOpen, finishtime = :finishTime WHERE name = :name");
+			Query q = session.createQuery("UPDATE Room SET is_open = :isOpen, is_public = :isPublic, finishtime = :finishTime WHERE name = :name");
 			q.setParameter("isOpen", false);
+			q.setParameter("isPublic", false);
 			q.setParameter("finishTime", new Timestamp(Calendar.getInstance().getTime().getTime()));
 			q.setParameter("name", name);
 			q.executeUpdate();

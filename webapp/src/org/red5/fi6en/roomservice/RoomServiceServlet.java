@@ -45,24 +45,29 @@ response.setContentType("text/html;charset=UTF-8");
 		
 		sb.append("<rooms>");
 		while (iter.hasNext()) {
-			String icon = "";
 			Room u = (Room) iter.next();
-			if (u.isIs_public()) icon = "room_public.png";
-			if (!u.isIs_public()) icon = "room_private.png";
-			if (!u.isIs_open()) icon = "room_closed.png";
-			icon = "resources/icons/" + icon;
-			
-			
-			sb.append("<room>");
-			
-			sb.append("<id>" + u.getId() + "</id>");
-			sb.append("<name>" + u.getName() + "</name>");
-			sb.append("<ispublic>" + u.isIs_public().toString() + "</ispublic>");
-			sb.append("<isopen>" + u.isIs_open().toString() + "</isopen>");
-			sb.append("<icon>" + icon + "</icon>");
-			sb.append("<comment>" + u.getComment() + "</comment>");
-			
-			sb.append("</room>");
+			//closed room not listed...
+			if (u.isIs_open() == false && u.isIs_public() == false) continue;
+			//public, private and waited rooms list..
+			else {
+				String icon = "";
+				if (u.isIs_public())
+					icon = "room_public.png";
+				if (!u.isIs_public())
+					icon = "room_private.png";
+				if (!u.isIs_open())
+					icon = "room_closed.png";
+				icon = "resources/icons/" + icon;
+				sb.append("<room>");
+				sb.append("<id>" + u.getId() + "</id>");
+				sb.append("<name>" + u.getName() + "</name>");
+				sb.append("<ispublic>" + u.isIs_public().toString()
+						+ "</ispublic>");
+				sb.append("<isopen>" + u.isIs_open().toString() + "</isopen>");
+				sb.append("<icon>" + icon + "</icon>");
+				sb.append("<comment>" + u.getComment() + "</comment>");
+				sb.append("</room>");
+			}
 		}
 		sb.append("</rooms>");
 
