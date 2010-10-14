@@ -1,11 +1,13 @@
 <library>	
 	<class name="rooms">
-		<view name="main" height="25">
+		<view name="main" height="200">
 			<simplelayout axis="y" spacing="5"></simplelayout>
-			<button name="create" text="Oda Oluştur">
+			<button name="create" text="Oda Oluştur" width="200">
 				<handler name="onclick">
 					classroot.main.windowCreate.animate("visible", true, 1000);
 					classroot.main.create.setAttribute("enabled", false);
+					roomList.setAttribute("visible", false);
+					lz.Focus.setFocus(classroot.main.windowCreate.roomname);
 				</handler>
 			</button>
 			<view name="windowCreate" visible="false">
@@ -21,16 +23,50 @@
 						<handler name="onclick">
 							classroot.main.windowCreate.animate("visible", false, 10);
 							classroot.main.create.setAttribute("enabled", true);
+							//Roomservice..
+							var isPublic = classroot.main.windowCreate.is_public.value;
+							var roomname = classroot.main.windowCreate.roomname.value;
+							var password = "";
+							var hashpasswd = "";
+							//Private room password and hash..
+							if (isPublic == false) {
+								password = classroot.main.windowCreate.password.value;
+								hashpasswd = hex_md5(password);
+							}
+							conn._nc.call("roomservice.addRoom", conn.responder, roomname, hashpasswd, isPublic);
+							
+							
+							
+							roomList.setAttribute("visible", true);
+							//reset edittexts..
+							classroot.main.windowCreate.roomname.clearText();
+							classroot.main.windowCreate.password.clearText();
+							classroot.main.windowCreate.is_public.setValue("true");
 						</handler>
 					</button>
 					<button name="buttonClose" text="X">
 						<handler name="onclick">
 							classroot.main.windowCreate.animate("visible", false, 10);
 							classroot.main.create.setAttribute("enabled", true);
+							roomList.setAttribute("visible", true);
+							//reset edittexts..
+							classroot.main.windowCreate.roomname.clearText();
+							classroot.main.windowCreate.password.clearText();
+							classroot.main.windowCreate.is_public.setValue("true");
 						</handler>
 					</button>
 				</view>
 			</view>
+			<roomList id="roomList"></roomList>
 		</view>
+		<method name="createRoom" args="roomname, password">
+			Debug.debug("Room create: " + roomname + " - Password: " + password);
+		</method>
+		<command name="esc" key="['ESC']" active="${classroot.main.windowCreate.visible}">
+			<handler name="onselect">
+				classroot.main.windowCreate.buttons.buttonClose.doEnterDown();
+				classroot.main.windowCreate.buttons.buttonClose.doEnterUp();
+			</handler>  
+		</command>
 	</class>
 </library>

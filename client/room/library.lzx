@@ -4,4 +4,5 @@
 	<include href="roomView.lzx" />
 	<include href="sharedObjectChatRoom.lzx" />
 	<include href="sharedObjectRoomList.lzx" />
+	<include href="roomList.lzx" />
 </library>

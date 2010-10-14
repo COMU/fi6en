@@ -1,0 +1,161 @@
+<library>
+	<class name="roomList" extends="view">
+		<dataset name="dset" src="http://localhost:5080/fi6en/roomlist" request="true" type="http" />
+		<switch>
+			<when property="$as3">
+				<passthrough>
+					import flash.net.Responder;
+				</passthrough>
+			</when>
+		</switch>
+		<!--responder for server side return value-->
+		<attribute name="isConnected" type="boolean" value="false"/>
+		<attribute name="responderRoomAuth"/>
+		<!--listening connected attribute of the connection-->
+		<handler name="onstage" reference="conn">
+		<![CDATA[
+			if (conn.stage == 2 && isConnected == false) {
+				responderRoomAuth = new Responder(this.responderResult, null);
+				isConnected = true;
+			}
+		]]>
+		</handler>
+		<simplelayout axis="y" spacing="5"></simplelayout>
+		<view name="header">
+			<simplelayout axis="x" spacing="5" />
+		</view>
+		<view name="passwd" visible="false">
+			<simplelayout axis="x" spacing="5"/>
+			<edittext name="password" password="true">
+				<command name="enter" key="['Enter']" active="${parent.parent.visible}">
+					<handler name="onselect">
+						parent.parent.ok.doEnterDown();
+						parent.parent.ok.doEnterUp();
+					</handler>  
+				</command>
+				<command name="esc" key="['ESC']" active="${parent.parent.visible}">
+					<handler name="onselect">
+						parent.parent.cancel.doEnterDown();
+						parent.parent.cancel.doEnterUp();
+					</handler>  
+				</command>
+			</edittext>
+			<button name="ok" text="OK">
+				<handler name="onclick">
+					var roomname = "";
+					var sel = classroot.list.table_users.getSelection();
+					var dp = sel[0];
+					var roomname = dp.xpathQuery("name/text()");
+					var hashpasswd = hex_md5(classroot.passwd.password.text);
+					//Room Auth.
+					conn._nc.call("roomservice.roomAuth", classroot.responderRoomAuth, roomname, hashpasswd);
+					//Enter Room. with => respoderRoomAuth mehod...
+					
+				</handler>
+			</button>
+			<button name="cancel" text="X">
+				<handler name="onclick">
+					parent.setAttribute("visible", false);
+					parent.password.clearText();
+				</handler>
+			</button>
+		</view>
+		<view name="list" bgcolor="white">
+			<grid name="table_users" datapath="local:classroot.dset:/rooms" height="300" width="200" contentdatapath="room" rowheight="32" layout="spacing:2;" showhscroll="false">
+				<attribute name="lastclick" type="number" value="0"/>
+				<gridcolumn name="column_empty" width="40" resizable="false" sortable="true" clickable="true">
+					<image datapath="icon/text()" src="" valign="middle" clickable="true">
+					</image>
+				</gridcolumn>
+				<gridtext name="column_name" datapath="name/text()" width="160" editable="false" />
+				<handler name="onselect" args="sel">
+					var d = new Date();
+					var thisclick = d.getTime();
+					var sel = this.getSelection();
+					if(sel.length==1){  // i.e. second click on same row as first...
+   						var interval = thisclick - this.lastclick;
+   						if(interval &lt; 500){   // less than a half second after last click
+       						// Get roomname
+       						var dp = sel[0];
+       						var roomname = dp.xpathQuery("name/text()");
+       						//Room Logins...
+       						var is_public = dp.xpathQuery("ispublic/text()");
+       						var is_open = dp.xpathQuery("isopen/text()");
+       						//Private room login..
+       						if (is_public == "false") {
+       							classroot.passwd.setAttribute("visible", true);
+       							lz.Focus.setFocus(classroot.passwd.password);
+       						}
+       						//Closed room login..
+       						else if (is_open == "false") {
+       							classroot.alertMsg("Bu Oda: İleri Tarihli bir oturum için ayrılmıştır..");
+       						}
+       						//Public room login..
+       						else {
+       							classroot.enter(roomname);
+       						}
+   							
+   						} else {
+       						this.setAttribute ('lastclick', thisclick);
+   						}
+					}
+
+				</handler>
+			</grid>
+			
+		</view>
+		<text>Room List</text>
+		<button text="Refresh">
+			<handler name="onclick">
+				classroot.refreshList();
+			</handler>
+		</button>
+		<method name="refreshList">
+			dset.doRequest();
+		</method>
+		<method name="enter" args="name">
+			var newUrl = conn.src+'/'+name;
+			//Debug.write("url : %w",newUrl);
+			/*closing remote shared object connections*/
+			chatScreen.soChat.close();
+			chatScreen.soUsers.close();
+			chatScreen.soRooms.close();
+			conn.setAttribute("src",newUrl);
+			conn._doconnect();
+			enterRoom(name);
+			
+			
+		</method>
+		<!--visual steps while entering a room-->
+		<method name="enterRoom" args="name">
+			chatScreen.animate("opacity", "0", "700");
+			roomScreen.setRoomName(name);
+			roomScreen.animate("opacity", "1", "700");
+			
+			//RoomService invoke...
+			conn._nc.call("roomservice.addUserToRoom", conn.responder, loginScreen.getUsername(), name);
+		</method>
+		<method name="alertMsg" args="msg">
+			var myAlert = new lz.alert(canvas, {
+						text : msg,
+						stretches : 'both'
+					});
+			myAlert.open();
+		</method>
+		<method name="responderResult" args="returnvalue">
+			if (returnvalue == true) {
+				var roomname = "";
+				var sel = list.table_users.getSelection();
+				var dp = sel[0];
+				var roomname = dp.xpathQuery("name/text()");
+				enter(roomname);
+				passwd.setAttribute("visible", false);
+				passwd.password.clearText();
+				Debug.debug(returnvalue);
+			}
+			else {
+				alertMsg("Yanlış Parola");
+			}
+		</method>
+	</class>
+</library>
