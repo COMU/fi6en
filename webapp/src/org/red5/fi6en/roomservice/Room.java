@@ -22,6 +22,7 @@ public class Room {
 	private Timestamp finishtime;
 	private Boolean is_public;
 	private Boolean is_open;
+	private String hashpasswd;
 	
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
@@ -73,6 +74,13 @@ public class Room {
 	}
 	public void setIs_open(Boolean isOpen) {
 		is_open = isOpen;
+	}
+	@Column (name="hashpasswd")
+	public void setHashpasswd(String hashpasswd) {
+		this.hashpasswd = hashpasswd;
+	}
+	public String getHashpasswd() {
+		return hashpasswd;
 	}
 	
 	

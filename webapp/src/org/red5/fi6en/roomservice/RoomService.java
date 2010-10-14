@@ -3,11 +3,17 @@ package org.red5.fi6en.roomservice;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+import org.red5.fi6en.userservice.User;
 import org.red5.fi6en.userservice.UserStatus;
 import org.red5.fi6en.util.HibernateUtil;
 import org.red5.logging.Red5LoggerFactory;
@@ -22,7 +28,7 @@ public class RoomService {
 	Logger log= Red5LoggerFactory.getLogger(RoomService.class,"fi6en");
 	static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 	
-	public void addRoom(String name) {
+	public void addRoom(String name, String hashpasswd, Boolean isPublic) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
@@ -31,8 +37,9 @@ public class RoomService {
 			room.setComment("no comment");
 			room.setStarttime(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			room.setFinishtime(null);
-			room.setIs_public(true);
+			room.setIs_public(isPublic);
 			room.setIs_open(true);
+			room.setHashpasswd(hashpasswd);
 			session.save(room);
 			tx.commit();
 			log.info("Room Added -> Name: " + name);
@@ -159,6 +166,15 @@ public class RoomService {
 			session.close();
 		}
 		
+	}
+	public boolean roomAuth(String roomname, String hashpasswd) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Room.class);
+		criteria.add(Restrictions.eq("name", roomname));
+		criteria.add(Restrictions.eq("hashpasswd", hashpasswd));
+		List rooms = criteria.list();
+		if (rooms.size() > 0) return true;
+		else return false;
 	}
 	
 
