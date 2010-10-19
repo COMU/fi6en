@@ -1,10 +1,10 @@
 <library>
+	<include href="roomList.lzx" />
 	<!--shared object class of the room list-->
 	<class name="sharedObjectRoomList" extends="sharedObject">
 		<method name="createRoomButton" args="roomName">
 			this.send('createRoom', roomName, loginScreen.getUsername());			
 		</method>
-		
 		<method name="createRoom" args="roomName, username">
 			var room = new lz.roomButton(
 					chatScreen.mainChatView.roomsView.roomList, {
@@ -20,6 +20,19 @@
 					});
 			Debug.info("room : %w created by %w", roomName, username);
 			notificationWindow.addMessage("info","room : "+roomName+" created by "+username);
+		</method>
+		<method name="refreshListSend" args="msg">
+			this.send('refreshList', msg);
+		</method>
+		<method name="refreshList" args="msg">
+			lz.Timer.addTimer( new LzDelegate( this, "requset" ), 1000 );
+			Debug.debug("halloa");
+		</method>
+		<method name="requset" args="msg">
+			roomListView.dset.doRequest();
+		</method>
+		<method name="serverRefresh" args="msg">
+			refreshListSend(msg);
 		</method>
 	</class>
 	

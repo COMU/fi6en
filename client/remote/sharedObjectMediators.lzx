@@ -35,6 +35,12 @@
   			public function createRoom(roomName, username) {
   				this.client.createRoom(roomName, username);
   			}
+  			public function refreshList(msg) {
+  				this.client.refreshList(msg);
+  			}
+  			public function serverRefresh(msg) {
+  				this.client.serverRefresh(msg);
+  			}
   		}
   		public class SharedObjectChatRoomMediator {
   			var client;

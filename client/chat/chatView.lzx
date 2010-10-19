@@ -215,6 +215,9 @@
   			else {
   				return super.determinePlacement(aSub, placement, args);
   			}
+  		</method>
+  		<method name="serverRefreshRoomList" args="msg" >
+  			this.soRooms.serverRefresh(msg);
   		</method>						
 	</class>	
 	

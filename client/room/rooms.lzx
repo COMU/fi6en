@@ -1,12 +1,12 @@
 <library>	
-	<class name="rooms">
+	<class name="rooms" extends="view">
 		<view name="main" height="200">
 			<simplelayout axis="y" spacing="5"></simplelayout>
 			<button name="create" text="Oda Oluştur" width="200">
 				<handler name="onclick">
 					classroot.main.windowCreate.animate("visible", true, 1000);
 					classroot.main.create.setAttribute("enabled", false);
-					roomList.setAttribute("visible", false);
+					roomListView.setAttribute("visible", false);
 					lz.Focus.setFocus(classroot.main.windowCreate.roomname);
 				</handler>
 			</button>
@@ -37,7 +37,7 @@
 							
 							
 							
-							roomList.setAttribute("visible", true);
+							roomListView.setAttribute("visible", true);
 							//reset edittexts..
 							classroot.main.windowCreate.roomname.clearText();
 							classroot.main.windowCreate.password.clearText();
@@ -48,7 +48,7 @@
 						<handler name="onclick">
 							classroot.main.windowCreate.animate("visible", false, 10);
 							classroot.main.create.setAttribute("enabled", true);
-							roomList.setAttribute("visible", true);
+							roomListView.setAttribute("visible", true);
 							//reset edittexts..
 							classroot.main.windowCreate.roomname.clearText();
 							classroot.main.windowCreate.password.clearText();
@@ -57,7 +57,7 @@
 					</button>
 				</view>
 			</view>
-			<roomList id="roomList"></roomList>
+			<roomList id="roomListView"></roomList>
 		</view>
 		<method name="createRoom" args="roomname, password">
 			Debug.debug("Room create: " + roomname + " - Password: " + password);

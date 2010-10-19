@@ -2,6 +2,7 @@
 	<include href="rooms.lzx" />
 	<include href="roomButton.lzx" />
 	<include href="roomView.lzx" />
+	<include href="../remote/sharedObject.lzx" />
 	<include href="sharedObjectChatRoom.lzx" />
 	<include href="sharedObjectRoomList.lzx" />
 	<include href="roomList.lzx" />

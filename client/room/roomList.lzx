@@ -104,14 +104,16 @@
 			</grid>
 			
 		</view>
+		<!--
 		<text>Room List</text>
 		<button text="Refresh">
 			<handler name="onclick">
 				classroot.refreshList();
 			</handler>
 		</button>
+		-->
 		<method name="refreshList">
-			dset.doRequest();
+			chatScreen.soRooms.refreshListSend("");
 		</method>
 		<method name="enter" args="name">
 			var newUrl = conn.src+'/'+name;

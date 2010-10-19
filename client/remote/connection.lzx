@@ -32,10 +32,10 @@
 					break;
 				case 1 : 
 					Debug.info("Connecting to the server application...");
-					notificationWindow.addMessage("info","Connecting to the server application...");
 					break;
 				case 2 : 
 					Debug.info("Server connection attempt succeeded.");
+					chatScreen.soRooms.refreshListSend("");
 					notificationWindow.addMessage("info","Server connection attempt succeeded.");
 					this.setAttribute('connected',true);
 					break;
@@ -101,6 +101,9 @@
 			welcome.addText("<b><font>" + ' ' + firstname + ' ' + lastname
 					+ "</font></b>");
 		]]>
+		</method>
+		<method name="serverRefreshRoomList" args="arg">
+			chatScreen.serverRefreshRoomList(arg);
 		</method>
 	</class>	
 </library>
