@@ -109,6 +109,7 @@ public class Application extends ApplicationAdapter {
 		} catch (Exception e) {
 			log.error("error while creating shared object on {} : ",room.getName(),e.getMessage());
 		}		
+		
 		return super.roomStart(room);
 	}
 	
@@ -120,6 +121,8 @@ public class Application extends ApplicationAdapter {
 		
 		log.info("stopped room : {}",room.getName());
 		sharedObjectRoomChat.close();
+		
+		
 		super.roomStop(room);
 	}
 	
@@ -135,6 +138,7 @@ public class Application extends ApplicationAdapter {
 		}
 		else 
 			log.info("chatRoom shared object is available : {}", room.getName());
+		
 		return super.roomJoin(client, room);
 	}
 	
