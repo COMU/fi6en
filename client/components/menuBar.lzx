@@ -36,7 +36,12 @@
 				</handler>
 			</view>
 			<view>
-				<text datapath="dsetLang:/language/string[@id='36']" text="$path{'value/text()'}"/>
+				<text datapath="dsetLang:/language/string[@id='36']" text="$path{'value/text()'}" clickable="true">
+					<handler name="onclick">
+						roomListView.setAttribute("visible", false);
+						planMeetingView.setAttribute("visible", true);
+					</handler>
+				</text>
 			</view>
 			<view>
 				<text datapath="dsetLang:/language/string[@id='37']" text="$path{'value/text()'}" />

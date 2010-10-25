@@ -5,35 +5,7 @@
 	<simplelayout axis="y" spacing="5"></simplelayout>
 	<rooms id="rooms"></rooms>
 	-->
-	<simplelayout axis="x" spacing="10" />
-	<dataset name="my" id="mydata">
-		<rooms>
-			<room>
-				<name>koz</name>
-				<ispublic>true</ispublic>
-			</room>
-		</rooms>
-	</dataset>
-	<button>
-		<handler name="onclick">
-			Debug.debug(parent.my.serialize());
-		</handler>
-	</button>
-	<button>
-		<handler name="onclick">
-			<![CDATA[
-			Debug.debug(parent.my);
-			Debug.debug(parent.my.serialize());
-			var d = parent.my
-			var dp = d.getPointer();
-			Debug.debug(dp.getChild());
-			Debug.debug(d);
-			Debug.debug(d.serialize());
-			d.setSrc("<hallo></hallo>");
-			d.doRequest();
-			Debug.debug(d);
-			]]>
-			
-		</handler>
-	</button>
+	
+	<include href="planMeetingView.lzx"/>
+	<planMeetingView id="future" />
 </canvas>
