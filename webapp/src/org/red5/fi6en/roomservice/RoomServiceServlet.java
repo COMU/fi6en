@@ -2,6 +2,7 @@ package org.red5.fi6en.roomservice;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
@@ -57,13 +58,33 @@ public class RoomServiceServlet extends HttpServlet {
 					icon = "room_private.png";
 				if (!u.isIs_open())
 					icon = "room_closed.png";
-				icon = "resources/icons/" + icon;
+				
 				sb.append("<room>");
 				sb.append("<id>" + u.getId() + "</id>");
 				sb.append("<name>" + u.getName() + "</name>");
-				sb.append("<ispublic>" + u.isIs_public().toString()
-						+ "</ispublic>");
-				sb.append("<isopen>" + u.isIs_open().toString() + "</isopen>");
+				//planned room date => waited to private
+				if (icon == "room_closed.png") {
+					Long timeRoom = u.getStarttime().getTime();
+					Long timeCurrent = System.currentTimeMillis();
+					if (timeRoom < timeCurrent) {
+						icon = "room_private.png";
+						sb.append("<ispublic>" + "false" + "</ispublic>");
+						sb.append("<isopen>" + "false" + "</isopen>");
+						System.out.println("hallo");
+					}
+					else {
+						icon = "room_closed.png";
+						sb.append("<ispublic>" + "false" + "</ispublic>");
+						sb.append("<isopen>" + u.isIs_open().toString() + "</isopen>");
+						System.out.println("hallo2");
+					}
+				}
+				else {
+					sb.append("<ispublic>" + u.isIs_public().toString() + "</ispublic>");
+					sb.append("<isopen>" + u.isIs_open().toString() + "</isopen>");
+				}
+				
+				icon = "resources/icons/" + icon;
 				sb.append("<icon>" + icon + "</icon>");
 				sb.append("<comment>" + u.getComment() + "</comment>");
 				sb.append("</room>");

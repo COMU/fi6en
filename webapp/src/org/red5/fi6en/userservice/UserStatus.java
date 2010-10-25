@@ -16,6 +16,8 @@ public class UserStatus {
 	private String username;
 	private String roomname;
 	private Boolean is_online;
+	private Boolean broadcast;
+	private Boolean moderator;
 	
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
@@ -53,5 +55,19 @@ public class UserStatus {
 	}
 	public Long getClient_id() {
 		return client_id;
+	}
+	@Column (name="broadcast", nullable=true)
+	public void setBroadcast(Boolean broadcast) {
+		this.broadcast = broadcast;
+	}
+	public Boolean getBroadcast() {
+		return broadcast;
+	}
+	@Column (name="moderator", nullable=true)
+	public void setModerator(Boolean moderator) {
+		this.moderator = moderator;
+	}
+	public Boolean getModerator() {
+		return moderator;
 	}
 }

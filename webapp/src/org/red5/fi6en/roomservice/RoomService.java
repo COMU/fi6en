@@ -141,11 +141,12 @@ public class RoomService {
 		Transaction tx = session.beginTransaction();
 		try {
 			//Set roomname in userstatus table
-			Query q = session.createQuery("Update UserStatus set roomname = :roomName, client_id = :clientID, is_online = :is where username = :userName");
+			Query q = session.createQuery("Update UserStatus set roomname = :roomName, client_id = :clientID, is_online = :is, broadcast = :isBroadcasting where username = :userName");
 			q.setParameter("roomName", "");
 			q.setParameter("is", true);
 			q.setParameter("clientID", Long.parseLong(Red5.getConnectionLocal().getClient().getId()));
 			q.setParameter("userName", userName);
+			q.setParameter("isBroadcasting", false);
 			q.executeUpdate();
 			log.info("User Connected: " + userName);
 			tx.commit();
@@ -212,6 +213,74 @@ public class RoomService {
 		Object[] user  = new Object[]{""};
 		IServiceCapableConnection service = (IServiceCapableConnection)conn;
 		service.invoke("serverRefreshRoomList", user);
+	}
+	
+	public void planAMeeting(String roomname, String comment, String hashpasswd, String time) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			Room room = new Room();
+			room.setName(roomname);
+			room.setComment(comment);
+			room.setStarttime(Timestamp.valueOf(time));
+			room.setFinishtime(null);
+			room.setIs_public(true);
+			room.setIs_open(false);
+			room.setHashpasswd(hashpasswd);
+			session.save(room);
+			tx.commit();
+			log.info("Room Added (Planning Meeting) -> Name: " + roomname);
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for room : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
+		
+		//Client Invoke.
+		refreshClientRoomList("roomlist");
+		
+	}
+	public void setUserBroadcast(String username, Boolean b) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			//Set broadcast in userstatus table
+			Query q = session.createQuery("Update UserStatus set broadcast = :isBroadcasting where username = :userName");
+			q.setParameter("userName", username);
+			q.setParameter("isBroadcasting", b);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for making user status as broadcasting : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
+	}
+	public void setUserModerator(String username, Boolean b) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			//Set broadcast in userstatus table
+			Query q = session.createQuery("Update UserStatus set moderator = :isModerator where username = :userName");
+			q.setParameter("userName", username);
+			q.setParameter("isModerator", b);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for making user status as moderator : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
 	}
 
 }

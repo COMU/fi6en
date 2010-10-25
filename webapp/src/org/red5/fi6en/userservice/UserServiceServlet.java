@@ -45,12 +45,26 @@ public class UserServiceServlet extends HttpServlet {
 		sb.append("<users>");
 		while (iter.hasNext()) {
 			UserStatus u = (UserStatus) iter.next();
+			//Webcam icon selection red | green
+			Boolean isBC = u.getBroadcast();
+			String icon = "";
+			if (isBC == false) icon += "webcam2.png";
+			else icon += "webcam.png";
+			
+			//User icon selection normal | moderator
+			Boolean isM = u.getModerator();
+			String micon = "";
+			if (isM == false) micon += "user_normal.png";
+			else micon += "user_admin.png";
 			
 			sb.append("<user>");
 			
 			sb.append("<id>" + u.getId() + "</id>");
 			sb.append("<username>" + u.getUsername() + "</username>");
-			sb.append("<roomname>" + u.getRoomname() + "</roomname>");
+			sb.append("<isBroadcasting>" + isBC + "</isBroadcasting>");
+			sb.append("<icon>" + icon + "</icon>");
+			sb.append("<moderator>" + isM + "</moderator>");
+			sb.append("<micon>" + micon + "</micon>");
 			
 			sb.append("</user>");
 		}
