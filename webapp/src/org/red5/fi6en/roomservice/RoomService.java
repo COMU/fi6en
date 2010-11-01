@@ -267,7 +267,7 @@ public class RoomService {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			//Set broadcast in userstatus table
+			//Set moderator in userstatus table
 			Query q = session.createQuery("Update UserStatus set moderator = :isModerator where username = :userName");
 			q.setParameter("userName", username);
 			q.setParameter("isModerator", b);
