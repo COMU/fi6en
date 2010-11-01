@@ -52,7 +52,7 @@
 		
 		<!--audio, video, chat view-->		
 		<view name="mainChatView">
-			<simplelayout axis="x" spacing="40" />			
+			<simplelayout axis="x" spacing="10" />			
 			<!--view for creating and entering the rooms-->
 			<view name="roomsView">
 				<simplelayout spacing="7"/>
@@ -78,7 +78,7 @@
 				  </window>-->
 			
 			<!--view for user1 (you)-->
-			<view name="videoViewBroadcast">
+			<view name="videoViewBroadcast" width="250">
 				<simplelayout axis="y" spacing="30" />
 				
 				<button name="publishButton" align="center"
@@ -108,7 +108,7 @@
 			<view name="chat" layout="axis:y;spacing:10" >
 				<edittext name="message" width="300" height="20" resizable="true" />
 				
-				<view name="messageAreaView" bgcolor="#9999CC" width="300" height="350" clip="true"
+				<view name="messageAreaView" bgcolor="#9999CC" width="300" height="300" clip="true"
 					focusable="true" clickable="true"
 					cornerradius="10">
 					<attribute name="usernameColor" type="color"/>
@@ -152,7 +152,7 @@
 			</view>
 						
 			<!--view for user1 (other user)-->
-			<view name="videoViewPlay" layout="axis:y; spacing:10">
+			<view name="videoViewPlay" layout="axis:y; spacing:10" width="200" bgcolor="yellow" opacity="20">
 				<button name="showUserCam" 
 					datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"
 					align="center">
@@ -161,36 +161,45 @@
 					<text name="stopText" visible="false"
 						datapath="dsetLang:/language/string[@id='34']" text="$path{'value/text()'}"/>
 					
-					<attribute name="subscriberpositionX" type="number" value="${parent.x+100}"/>
-					<attribute name="subscriberpositionyY" type="number" value="${parent.y+100}"/>
+					<attribute name="subscriberpositionX" type="number" value="${parent.x+60}"/>
+					<attribute name="subscriberpositionyY" type="number" value="${parent.y+120}"/>
 					<handler name="onclick">
-						var streamToPlay = classroot.mainChatView.rightBar.usersList
-								.getSelection().text;
-						var subscriber = new lz.subscriber(canvas, {
-									stretches : 'both',
-									title : streamToPlay,
-									x : subscriberpositionX,
-									y : subscriberpositionyY,
-									width : "172",
-									height : "183",
-									resizable : true
-								});
-						subscriberpositionyY = subscriberpositionyY + 5;
-						Debug.info("selected user to play => %w", streamToPlay);
-						var msg= "selected user to play => "+streamToPlay;
-						notificationWindow.addMessage("info",msg);
-						subscriber.playStream(streamToPlay);
+						Debug.debug(userList.getSelectedIsBroadcast());
+						if (userList.getSelectedIsBroadcast() == "false") {
+							notificationWindow.addMessage("warn", "No Broadcast");
+						}
+						else {
+							var streamToPlay = "";
+							streamToPlay = userList.getSelectedUserName();
+							var subscriber = new lz.subscriber(canvas, {
+										stretches : 'both',
+										title : streamToPlay,
+										x : subscriberpositionX,
+										y : subscriberpositionyY,
+										width : "172",
+										height : "183",
+										resizable : true
+									});
+							subscriberpositionyY = subscriberpositionyY + 25;
+							Debug.info("selected user to play => %w", streamToPlay);
+							var msg= "selected user to play => "+streamToPlay;
+							notificationWindow.addMessage("info",msg);
+							subscriber.playStream(streamToPlay);
+						}
 					</handler>
 				</button>				
 			</view>
 						
 			<view name="rightBar">
 				<simplelayout spacing="20"/>
+				<!--
 				<text fontsize="12" fgcolor="#CCCCCC" align="center"
 					datapath="dsetLang:/language/string[@id='22']" text="$path{'value/text()'}" />
 				<list name="usersList" >
 					<textlistitem visible="false" layout="axis:x" text="1w-*23" resource="icon_webcam" />
 				</list>
+				-->
+				<myUserList id="userList"></myUserList>
 			</view>
 		</view>
 		

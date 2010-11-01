@@ -48,7 +48,7 @@
 		<value>Show My Cam</value>
 	</string>
 	<string id="17" name="show_user_cam">
-		<value>Show User's Cam</value>
+		<value>Watch Streaming</value>
 	</string>
 	<string id="18" name="send">
 		<value>Send</value>

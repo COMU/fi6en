@@ -26,7 +26,6 @@
 		</method>
 		<method name="refreshList" args="msg">
 			lz.Timer.addTimer( new LzDelegate( this, "requset" ), 1000 );
-			Debug.debug("halloa");
 		</method>
 		<method name="requset" args="msg">
 			roomListView.dset.doRequest();
