@@ -32,9 +32,9 @@
 				</gridcolumn>
 			</grid>
 		</view>
-		<method name="refresh">
-			classroot.dset.setQueryParam("roomname", "");
-			classroot.dset.doRequest();
+		<method name="refreshList">
+			dset.setQueryParam("roomname", "");
+			dset.doRequest();
 		</method>
 		<method name="amIMod">
 			return false;

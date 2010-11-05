@@ -91,10 +91,12 @@
 						if (this.text == publishText.text) {
 							publishUser.publish(loginScreen.getUsername());
 							this.setAttribute('text', stopText.text);
+							conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), true);
 							publishUser.setAttribute('visible', true);
 						} else {
 							publishUser.stopPublishing();
 							this.setAttribute('text', publishText.text);
+							conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), false);
 							publishUser.setAttribute('visible', false);
 							classroot.soChat.send("writeInfo",loginScreen.getUsername()+" stopped broadcasting");
 						}
@@ -164,13 +166,14 @@
 					<attribute name="subscriberpositionX" type="number" value="${parent.x+60}"/>
 					<attribute name="subscriberpositionyY" type="number" value="${parent.y+120}"/>
 					<handler name="onclick">
-						Debug.debug(userList.getSelectedIsBroadcast());
+						var streamToPlay = "";
+						streamToPlay = userList.getSelectedUserName();
+						
 						if (userList.getSelectedIsBroadcast() == "false") {
-							notificationWindow.addMessage("warn", "No Broadcast");
+							msg = "Selected user isn't broadcasting now."
+							notificationWindow.addMessage("warn", msg);
 						}
-						else {
-							var streamToPlay = "";
-							streamToPlay = userList.getSelectedUserName();
+						else if (userList.getSelectedIsBroadcast()) {
 							var subscriber = new lz.subscriber(canvas, {
 										stretches : 'both',
 										title : streamToPlay,
@@ -185,6 +188,10 @@
 							var msg= "selected user to play => "+streamToPlay;
 							notificationWindow.addMessage("info",msg);
 							subscriber.playStream(streamToPlay);
+						}
+						else {
+							msg = "Please select a user for watching stream."
+							notificationWindow.addMessage("warn", msg);
 						}
 					</handler>
 				</button>				

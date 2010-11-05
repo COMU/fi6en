@@ -105,5 +105,8 @@
 		<method name="serverRefreshRoomList" args="arg">
 			chatScreen.serverRefreshRoomList(arg);
 		</method>
+		<method name="serverRefreshUserList" args="arg">
+			userList.refreshList();
+		</method>
 	</class>	
 </library>
