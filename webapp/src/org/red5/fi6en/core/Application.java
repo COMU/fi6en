@@ -76,6 +76,7 @@ public class Application extends ApplicationAdapter {
 		Calendar cal = Calendar.getInstance();
 	    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
 		log.info("connection date: {}",sdf.format(cal.getTime()));
+		
 		return true;
 	}
 

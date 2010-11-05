@@ -70,13 +70,11 @@ public class RoomServiceServlet extends HttpServlet {
 						icon = "room_private.png";
 						sb.append("<ispublic>" + "false" + "</ispublic>");
 						sb.append("<isopen>" + "false" + "</isopen>");
-						System.out.println("hallo");
 					}
 					else {
 						icon = "room_closed.png";
 						sb.append("<ispublic>" + "false" + "</ispublic>");
 						sb.append("<isopen>" + u.isIs_open().toString() + "</isopen>");
-						System.out.println("hallo2");
 					}
 				}
 				else {

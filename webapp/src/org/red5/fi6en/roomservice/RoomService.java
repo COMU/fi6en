@@ -19,6 +19,7 @@ import org.red5.fi6en.userservice.User;
 import org.red5.fi6en.userservice.UserStatus;
 import org.red5.fi6en.util.HibernateUtil;
 import org.red5.logging.Red5LoggerFactory;
+import org.red5.server.Client;
 import org.red5.server.api.IClient;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
@@ -121,6 +122,9 @@ public class RoomService {
 		} finally {
 			session.close();
 		}
+		
+		//Client invokes
+		refreshClientUserList("");
 	}
 	
 	public void kickUser(String userName, String roomName) {
@@ -160,6 +164,9 @@ public class RoomService {
 			session.close();
 		}
 		
+		//Client invokes
+		refreshClientUserList("");
+		
 	}
 	
 	public void disconnectUser(long client_id) {
@@ -185,6 +192,9 @@ public class RoomService {
 			session.close();
 		}
 		
+		//Client invokes
+		refreshClientUserList("");
+		
 	}
 	public boolean roomAuth(String roomname, String hashpasswd) {
 		Session session = sessionFactory.openSession();
@@ -204,16 +214,7 @@ public class RoomService {
 		return service.getSharedObject(scope, soName);
 	}
 	
-	public void refreshClientRoomList(String soName) {
-		//ISharedObject so = this.getSharedObject(Red5.getConnectionLocal().getScope(), soName);
-		//List<String> args = new ArrayList<String>();
-		//args.add("Server ");
-		//so.sendMessage("serverRefresh", args);
-		IConnection conn= Red5.getConnectionLocal();
-		Object[] user  = new Object[]{""};
-		IServiceCapableConnection service = (IServiceCapableConnection)conn;
-		service.invoke("serverRefreshRoomList", user);
-	}
+	
 	
 	public void planAMeeting(String roomname, String comment, String hashpasswd, String time) {
 		Session session = sessionFactory.openSession();
@@ -243,6 +244,7 @@ public class RoomService {
 		//Client Invoke.
 		refreshClientRoomList("roomlist");
 		
+		
 	}
 	public void setUserBroadcast(String username, Boolean b) {
 		Session session = sessionFactory.openSession();
@@ -252,6 +254,7 @@ public class RoomService {
 			Query q = session.createQuery("Update UserStatus set broadcast = :isBroadcasting where username = :userName");
 			q.setParameter("userName", username);
 			q.setParameter("isBroadcasting", b);
+			q.executeUpdate();
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
@@ -262,6 +265,29 @@ public class RoomService {
 		} finally {
 			session.close();
 		}
+		/*Set<IClient> clients = Red5.getConnectionLocal().getScope().getClients();
+		for (IClient c : clients) {
+			for (IScope s : c.getScopes()) {
+				System.out.println(c.getId() + " -> " + s.getName() + " : " + s.getPath() + " : " + c.getAttributes().toString()); 
+			}
+		}
+		System.out.println(Red5.getConnectionLocal().getScope().getName());*/
+		/////deneme2
+		/*String myScopeName = Red5.getConnectionLocal().getScope().getName();
+		Set<IClient> clients = Red5.getConnectionLocal().getScope().getClients();
+		for (IClient c : clients) {
+			IScope s = c.getScopes().iterator().next();
+			if (s.getName() == myScopeName) {
+				IConnection cc = c.getConnections().iterator().next();
+				IServiceCapableConnection scc = (IServiceCapableConnection) cc;
+				scc.invoke("deneme");
+				System.out.println(c.getId()+" : "+s.getName()+" : ");
+			}
+		} */
+		//Client invokes
+		refreshClientUserList("");
+		
+		
 	}
 	public void setUserModerator(String username, Boolean b) {
 		Session session = sessionFactory.openSession();
@@ -271,6 +297,7 @@ public class RoomService {
 			Query q = session.createQuery("Update UserStatus set moderator = :isModerator where username = :userName");
 			q.setParameter("userName", username);
 			q.setParameter("isModerator", b);
+			q.executeUpdate();
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
@@ -280,6 +307,37 @@ public class RoomService {
 					+ e.getMessage());
 		} finally {
 			session.close();
+		}
+		
+		//Client invokes
+		refreshClientUserList("");
+	}
+	
+	public void refreshClientRoomList(String soName) {
+		//ISharedObject so = this.getSharedObject(Red5.getConnectionLocal().getScope(), soName);
+		//List<String> args = new ArrayList<String>();
+		//args.add("Server ");
+		//so.sendMessage("serverRefresh", args);
+		IConnection conn= Red5.getConnectionLocal();
+		Object[] user  = new Object[]{""};
+		IServiceCapableConnection service = (IServiceCapableConnection)conn;
+		service.invoke("serverRefreshRoomList", user);
+	}
+	
+	public void refreshClientUserList(String none) {
+		IConnection conn = Red5.getConnectionLocal();
+		IClient client = conn.getClient();
+		IScope scope = conn.getScope();
+		String clientId = client.getId();
+		String scopeName = scope.getName();
+		Set<IClient> myclients = scope.getClients();
+		for (IClient i: myclients) {
+			String clientScopeName = i.getScopes().iterator().next().getName();
+			if (clientScopeName == scopeName) {
+				IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
+				Object[]user  = new Object[]{""};
+				isc.invoke("serverRefreshUserList", user);
+			}
 		}
 	}
 
