@@ -1,21 +1,14 @@
 <library>
 	<class name="myUserList" extends="view">
+		<attribute name="selectedname" type="string"/>
 		<dataset name="dset" src="http://localhost:5080/fi6en/userlist" request="true" type="http" />
 		<simplelayout axis="y" spacing="5"></simplelayout>
 		<view name="mod">
 			<simplelayout axis="x" spacing="5" />
-			<button text="Refresh">
+			<button text="Refresh" width="250">
 				<handler name="onclick">
 					classroot.dset.setQueryParam("roomname", "");
 					classroot.dset.doRequest();
-				</handler>
-			</button>
-			<button text="kick"></button>
-			<button text="davet"></button>
-			<button text="izle">
-				<handler name="onclick">
-					Debug.debug(classroot.getSelectedUserName());
-					Debug.debug(classroot.getSelectedIsBroadcast());
 				</handler>
 			</button>
 		</view>
@@ -30,8 +23,24 @@
 				<gridcolumn name="column_icon" width="32" resizable="false" sortable="true">
 					<image prefix="resources/icons/" datapath="icon/text()" valign="middle" clickable="true"></image>
 				</gridcolumn>
+				<menu name="myMenu" text="dsa">
+					<text name="myTitle"></text>
+					<menuitem text="Yayını İzle" onselect="Debug.debug(true)"></menuitem>
+					<menuitem text="Masaüstü Paylaşımını İzle"></menuitem>
+					<menuitem text="-" clickable="false" enabled="false"></menuitem>
+					<menuitem text="Kick User"></menuitem>
+				</menu>
+				<handler name="onselect">
+					var name = classroot.getSelectedUserName();
+					name = "Actions for " + name;
+					Debug.debug(classroot.list.table_users.myMenu.myTitle);
+					myMenu.setOpen(true);
+				</handler>
 			</grid>
 		</view>
+		<method name="menuClick">
+			Debug.debug("alaluya..");
+		</method>
 		<method name="refreshList">
 			dset.setQueryParam("roomname", "");
 			dset.doRequest();

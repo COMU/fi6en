@@ -1,0 +1,5 @@
+<canvas debug="true">
+<include href="myUserList.lzx"/>
+<simplelayout axis="y" spacing="10"></simplelayout>
+<myUserList></myUserList>
+</canvas>
