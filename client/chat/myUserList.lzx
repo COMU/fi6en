@@ -1,16 +1,23 @@
 <library>
 	<class name="myUserList" extends="view">
-		<attribute name="selectedname" type="string"/>
 		<dataset name="dset" src="http://localhost:5080/fi6en/userlist" request="true" type="http" />
 		<simplelayout axis="y" spacing="5"></simplelayout>
 		<view name="mod">
-			<simplelayout axis="x" spacing="5" />
-			<button text="Refresh" width="250">
-				<handler name="onclick">
-					classroot.dset.setQueryParam("roomname", "");
-					classroot.dset.doRequest();
-				</handler>
-			</button>
+			<menubar name="mymenubar" width="250">
+				<menu name="normalMenu" text="Actions" enabled="false">
+					<menuitem>Yayını İzle</menuitem>
+					<menuitem text="Masaüstünü İzle">
+						<handler name="onselect">
+							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterDown();
+							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterUp();
+						</handler>
+					</menuitem>
+				</menu>
+				<menu name="modMenu" text="Mod Actions" enabled="false">
+					<menuitem>Kick User</menuitem>
+					<menuitem>Set User As Moderator</menuitem>
+				</menu>
+			</menubar>
 		</view>
 		<view name="list">
 			<grid name="table_users" datapath="local:classroot.dset:/users" height="200" width="250" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">
@@ -23,30 +30,22 @@
 				<gridcolumn name="column_icon" width="32" resizable="false" sortable="true">
 					<image prefix="resources/icons/" datapath="icon/text()" valign="middle" clickable="true"></image>
 				</gridcolumn>
-				<menu name="myMenu" text="dsa">
-					<text name="myTitle"></text>
-					<menuitem text="Yayını İzle" onselect="Debug.debug(true)"></menuitem>
-					<menuitem text="Masaüstü Paylaşımını İzle"></menuitem>
-					<menuitem text="-" clickable="false" enabled="false"></menuitem>
-					<menuitem text="Kick User"></menuitem>
-				</menu>
 				<handler name="onselect">
-					var name = classroot.getSelectedUserName();
-					name = "Actions for " + name;
-					Debug.debug(classroot.list.table_users.myMenu.myTitle);
-					myMenu.setOpen(true);
+					
+					classroot.mod.mymenubar.normalMenu.setAttribute("enabled", true);
+					var m = classroot.isUserMod("ana");
+					if (m == true) {
+						classroot.mod.mymenubar.modMenu.setAttribute("enabled", true);
+						Debug.debug("dsadas");
+					}
+					
+					Debug.debug("dsa");
 				</handler>
 			</grid>
 		</view>
-		<method name="menuClick">
-			Debug.debug("alaluya..");
-		</method>
 		<method name="refreshList">
 			dset.setQueryParam("roomname", "");
 			dset.doRequest();
-		</method>
-		<method name="amIMod">
-			return false;
 		</method>
 		<method name="setModView">
 		</method>
@@ -64,6 +63,35 @@
 			var dp = sel[0];
 			var broadcast = dp.xpathQuery("isBroadcasting/text()");
 			return broadcast;
+		</method>
+		<method name="isUserMod" args="myname">
+			var dp = dset.getPointer();
+			var name="";
+			var ismod="";
+			dp.selectChild(2);
+			do {
+				name = dp.xpathQuery("username/text()");
+				ismod = dp.xpathQuery("moderator/text()");
+				if (name == myname) {
+					if (ismod == "true") {
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			} while (dp.selectNext());
+		</method>
+		
+		<!-- Others -->
+		<method name="watchStream">
+			Debug.debug("yayın izlensin efem..");
+		</method>
+		<method name="watchDesktop">
+			Debug.debug("desktop izleniyor")
+		</method>
+		<method name="kickUser">
+			Debug.debug("UserKicked");
 		</method>
 	</class>
 </library>

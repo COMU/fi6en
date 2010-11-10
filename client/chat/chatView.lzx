@@ -155,7 +155,7 @@
 						
 			<!--view for user1 (other user)-->
 			<view name="videoViewPlay" layout="axis:y; spacing:10" width="200" bgcolor="yellow" opacity="20">
-				<button name="showUserCam" 
+				<button visible="false" name="showUserCam" 
 					datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"
 					align="center">
 					<text name="playText" visible="false"
