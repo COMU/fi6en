@@ -46,5 +46,12 @@
 		<servlet-name>RoomServiceServlet</servlet-name>
 		<url-pattern>/roomlist</url-pattern>
 	</servlet-mapping>
-	
+	<servlet>
+		<servlet-name>PrintServlet</servlet-name>
+		<servlet-class>org.red5.fi6en.roomservice.PrintServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PrintServlet</servlet-name>
+		<url-pattern>/print</url-pattern>
+	</servlet-mapping>
 </web-app>
