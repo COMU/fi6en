@@ -1,0 +1,5 @@
+<canvas bgcolor="grey" debug="true">
+	<include href="library.lzx"/>
+	<simplelayout axis="x" spacing="40" />
+	<adminUserList name="UserList"></adminUserList>
+</canvas>

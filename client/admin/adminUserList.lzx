@@ -1,0 +1,167 @@
+<library>
+	<class name="adminUserList">
+		<dataset name="dset" src="http://localhost:5080/fi6en/userlist" request="true" type="http" />
+		<simplelayout axis="x" spacing="40"/>
+		<view name="left">
+			<grid name="table_users" datapath="local:classroot.dset:/users" height="400" width="250" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">
+				<gridcolumn name="column_empty" width="42" resizable="false" sortable="true" clickable="true">
+					<image prefix="../resources/icons/" datapath="micon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<gridcolumn name="column_username" width="150" resizable="false" sortable="true" clickable="true">
+					<text datapath="username/text()" valign="middle" align="left" maxlength="20" />
+				</gridcolumn>
+				<gridcolumn name="column_icon" width="32" resizable="false" sortable="true">
+					<image prefix="../resources/icons/" datapath="icon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<handler name="onselect">
+					classroot.right_new.setAttribute("visible", false);
+					classroot.right_update.setAttribute("visible", true);
+				</handler>
+			</grid>
+		</view>
+		<view name="right_update" visible="false">
+			<simplelayout axis="y" spacing="10" />
+			<view name="buttons">
+				<simplelayout axis="x" spacing="2"/>
+				<button height="32" width="32">
+					<image src="../resources/icons/save.png"></image>
+					<handler name="onclick">
+						classroot.updateUser();
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="../resources/icons/add.png"></image>
+					<handler name="onclick">
+						classroot.right_update.setAttribute("visible", false);
+						classroot.right_new.setAttribute("visible", true);
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="../resources/icons/refresh.png"></image>
+					<handler name="onclick">
+						classroot.refreshList();
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="../resources/icons/delete.png"></image>
+				</button>
+			</view>
+			<view name="title">
+				<text fontsize="16" fontstyle="bold">Update User</text>
+			</view>
+			<view name="information">
+				<simplelayout axis="x" spacing="5" />
+				<view name="attributes">
+					<simplelayout axis="y" spacing="13"/>
+					<text>ID:</text>
+					<text>Username:</text>
+					<text>Email:</text>
+					<text>First Name:</text>
+					<text>Last Name:</text>
+					<text>Location:</text>
+				</view>
+				<view name="edittexts">
+					<simplelayout axis="y" spacing="5"></simplelayout>
+					<edittext name="userid" enabled="false"></edittext>
+					<edittext name="username"></edittext>
+					<edittext name="email"></edittext>
+					<edittext name="firstname"></edittext>
+					<edittext name="lastname"></edittext>
+					<edittext name="location"></edittext>
+				</view>
+			</view>
+			<view>
+				<simplelayout axis="y" spacing="5"/>
+				<text fontsize="16" fontstyle="bold">Change Password</text>
+				<edittext name="pass1"></edittext>
+				<text>Re-Type</text>
+				<edittext name="pass2"></edittext>
+				<button text="Save">
+					<handler name="onclick">
+						classroot.changePassword();
+					</handler>
+				</button>
+			</view>
+			<view name="inf_update">
+			
+			</view>
+		</view>
+		<view name="right_new">
+			<simplelayout axis="y" spacing="10" />
+			<view name="buttons">
+				<simplelayout axis="x" spacing="2"/>
+				<button height="32" width="32">
+					<image src="../resources/icons/add.png"></image>
+				</button>
+				<button height="32" width="32">
+					<image src="../resources/icons/refresh.png"></image>
+					<handler name="onclick">
+						classroot.refreshList();
+					</handler>
+				</button>
+			</view>
+			<view name="title">
+				<text fontsize="16" fontstyle="bold">Add New User</text>
+			</view>
+			<view name="information">
+				<simplelayout axis="x" spacing="5" />
+				<view name="attributes">
+					<simplelayout axis="y" spacing="13"/>
+					<text>ID:</text>
+					<text>Username:</text>
+					<text>Email:</text>
+					<text>First Name:</text>
+					<text>Last Name:</text>
+					<text>Location:</text>
+					<text>Password:</text>
+					<text>Re-Type:</text>
+					<button text="Save">
+						<handler name="onclick">
+							classroot.addNewUser();
+						</handler>
+					</button>
+				</view>
+				<view name="edittexts">
+					<simplelayout axis="y" spacing="5"></simplelayout>
+					<edittext name="userid" enabled="false"></edittext>
+					<edittext name="username"></edittext>
+					<edittext name="email"></edittext>
+					<edittext name="firstname"></edittext>
+					<edittext name="lastname"></edittext>
+					<edittext name="location"></edittext>
+					<edittext name="pass1"></edittext>
+					<edittext name="pass2"></edittext>
+				</view>
+			</view>
+		</view>
+		<method name="refreshList">
+			dset.doRequest();
+		</method>
+		<method name="addNewUser">
+			var id = right_new.information.edittexts.userid.text;
+			var username = right_new.information.edittexts.username.text;
+			var email = right_new.information.edittexts.email.text;
+			var firstname = right_new.information.edittexts.firstname.text;
+			var lastname = right_new.information.edittexts.lastname.text;
+			var location = right_new.information.edittexts.location.text;
+			var pass1 = right_new.information.edittexts.pass1.text;
+			var pass2 = right_new.information.edittexts.pass2.text;
+			Debug.debug(id+username+email+firstname+lastname+location);
+		</method>
+		<method name="updateUser">
+			var id = right_update.information.edittexts.userid.text;
+			var username = right_update.information.edittexts.username.text;
+			var email = right_update.information.edittexts.email.text;
+			var firstname = right_update.information.edittexts.firstname.text;
+			var lastname = right_update.information.edittexts.lastname.text;
+			var location = right_update.information.edittexts.location.text;
+			Debug.debug(id+username+email+firstname+lastname+location);
+		</method>
+		<method name="changePassword">
+			var id = right_update.information.edittexts.userid.text;
+			var pass1 = right_update.information.edittexts.pass1.text;
+			var pass2 = right_update.information.edittexts.pass2.text;
+			Debug.debug(id+pass1+pass2);
+		</method>
+	</class>
+</library>
