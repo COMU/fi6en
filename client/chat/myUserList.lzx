@@ -5,7 +5,12 @@
 		<view name="mod">
 			<menubar name="mymenubar" width="250">
 				<menu name="normalMenu" text="Actions" enabled="false">
-					<menuitem>Yayını İzle</menuitem>
+					<menuitem text="Yayını İzle">
+						<handler name="onselect">
+							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterDown();
+							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterUp();
+						</handler>
+					</menuitem>
 					<menuitem text="Masaüstünü İzle">
 						<handler name="onselect">
 							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterDown();
@@ -36,10 +41,7 @@
 					var m = classroot.isUserMod("ana");
 					if (m == true) {
 						classroot.mod.mymenubar.modMenu.setAttribute("enabled", true);
-						Debug.debug("dsadas");
 					}
-					
-					Debug.debug("dsa");
 				</handler>
 			</grid>
 		</view>

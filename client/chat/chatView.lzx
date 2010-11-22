@@ -17,6 +17,16 @@
 				}
 			</handler>
 		</sharedObjectChat>
+		<!-- imports for Chat Print -->
+		<switch>
+			<when property="$as3">
+				<passthrough>
+					import flash.net.navigateToURL;  
+					import flash.net.URLRequest;  
+					import flash.net.URLVariables; 
+				</passthrough>
+			</when>
+		</switch>
 		<!--shared object for the usersList(List)
 			@param usersList : name of the shared object at the server side
 			-->
@@ -119,7 +129,7 @@
 				</view>
 						
 				<view name="buttonView" align="center">
-					<simplelayout spacing="20" />
+					<stableborderlayout axis="x"></stableborderlayout>
 					<view name="buttonViewInside1" layout="axis:x; spacing:15" align="center">
 						<button name="sendButton"
 							datapath="dsetLang:/language/string[@id='18']" text="$path{'value/text()'}">
@@ -137,16 +147,15 @@
 						<button name="clearButton"
 							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
 							<handler name="onclick">
-								classroot.mainChatView.chat.message.clearText();
+								classroot.mainChatView.chat.messageAreaView.messageArea.clearText();
 							</handler>
 						</button>
-					</view>
-					<view align="center">
-						<button name="clearTextArea" 
-							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
+						<button name="printButton" text="Cıktı Al">
 							<handler name="onclick">
-								classroot.mainChatView.chat.messageAreaView.messageArea
-										.clearText();
+							<![CDATA[
+								var msg = classroot.mainChatView.chat.messageAreaView.messageArea.getText();
+								Debug.debug(msg);
+							]]>
 							</handler>
 						</button>
 					</view>
@@ -164,7 +173,7 @@
 						datapath="dsetLang:/language/string[@id='34']" text="$path{'value/text()'}"/>
 					
 					<attribute name="subscriberpositionX" type="number" value="${parent.x+60}"/>
-					<attribute name="subscriberpositionyY" type="number" value="${parent.y+120}"/>
+					<attribute name="subscriberpositionyY" type="number" value="${parent.y+96}"/>
 					<handler name="onclick">
 						var streamToPlay = "";
 						streamToPlay = userList.getSelectedUserName();
@@ -183,7 +192,7 @@
 										height : "183",
 										resizable : true
 									});
-							subscriberpositionyY = subscriberpositionyY + 25;
+							subscriberpositionyY = subscriberpositionyY + 50;
 							Debug.info("selected user to play => %w", streamToPlay);
 							var msg= "selected user to play => "+streamToPlay;
 							notificationWindow.addMessage("info",msg);

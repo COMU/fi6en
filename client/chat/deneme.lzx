@@ -1,4 +1,11 @@
 <canvas debug="true">
 <include href="myUserList.lzx"/>
-<myUserList></myUserList>
+<include href="printView.lzx"/>
+<printView id="my">
+	<handler name="oninit">
+		setSize(200,300);
+		setText("2343423sdad");
+		setTitle("Chat Print");
+	</handler>
+</printView>
 </canvas>
