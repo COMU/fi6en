@@ -47,11 +47,11 @@
 		<url-pattern>/roomlist</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>PrintServlet</servlet-name>
-		<servlet-class>org.red5.fi6en.roomservice.PrintServlet</servlet-class>
+		<servlet-name>UserGetServlet</servlet-name>
+		<servlet-class>org.red5.fi6en.userservice.UserGetServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>PrintServlet</servlet-name>
-		<url-pattern>/print</url-pattern>
+		<servlet-name>UserGetServlet</servlet-name>
+		<url-pattern>/getuser</url-pattern>
 	</servlet-mapping>
 </web-app>
