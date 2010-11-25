@@ -1,6 +1,8 @@
 <library>
+	<include href="../remote/connection.lzx"></include>
 	<class name="adminUserList">
 		<dataset name="dset" src="http://localhost:5080/fi6en/userlist" request="true" type="http" />
+		<dataset name="dset2" src="http://localhost:5080/fi6en/getuser" request="true" type="http" />
 		<simplelayout axis="x" spacing="40"/>
 		<view name="left">
 			<grid name="table_users" datapath="local:classroot.dset:/users" height="400" width="250" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">
@@ -16,6 +18,8 @@
 				<handler name="onselect">
 					classroot.right_new.setAttribute("visible", false);
 					classroot.right_update.setAttribute("visible", true);
+					classroot.dset2.setQueryParam("username", classroot.getSelectionName());
+					classroot.dset2.doRequest();
 				</handler>
 			</grid>
 		</view>
@@ -60,14 +64,14 @@
 					<text>Last Name:</text>
 					<text>Location:</text>
 				</view>
-				<view name="edittexts">
+				<view name="edittexts" datapath="local:classroot.dset2:/user">
 					<simplelayout axis="y" spacing="5"></simplelayout>
-					<edittext name="userid" enabled="false"></edittext>
-					<edittext name="username"></edittext>
-					<edittext name="email"></edittext>
-					<edittext name="firstname"></edittext>
-					<edittext name="lastname"></edittext>
-					<edittext name="location"></edittext>
+					<edittext name="userid" enabled="false" datapath="id/text()"></edittext>
+					<edittext name="username" enabled="false" datapath="username/text()"></edittext>
+					<edittext name="email" datapath="email/text()"></edittext>
+					<edittext name="firstname" datapath="firstname/text()"></edittext>
+					<edittext name="lastname" datapath="lastname/text()"></edittext>
+					<edittext name="location" datapath="location/text()"></edittext>
 				</view>
 			</view>
 			<view>
@@ -138,7 +142,6 @@
 			dset.doRequest();
 		</method>
 		<method name="addNewUser">
-			var id = right_new.information.edittexts.userid.text;
 			var username = right_new.information.edittexts.username.text;
 			var email = right_new.information.edittexts.email.text;
 			var firstname = right_new.information.edittexts.firstname.text;
@@ -146,22 +149,45 @@
 			var location = right_new.information.edittexts.location.text;
 			var pass1 = right_new.information.edittexts.pass1.text;
 			var pass2 = right_new.information.edittexts.pass2.text;
-			Debug.debug(id+username+email+firstname+lastname+location);
+			var inf = new Object;
+			if (pass1 == pass2) {
+				inf["username"] = username;
+				inf["email"] = email;
+				inf["firstname"] = firstname;
+				inf["location"] = location;
+				inf["password"] = pass1
+				conn._nc.call("databaseservice.saveToDatabase", conn.responder, inf);
+			}
 		</method>
 		<method name="updateUser">
-			var id = right_update.information.edittexts.userid.text;
-			var username = right_update.information.edittexts.username.text;
 			var email = right_update.information.edittexts.email.text;
+			var username = right_update.information.edittexts.username.text;
 			var firstname = right_update.information.edittexts.firstname.text;
 			var lastname = right_update.information.edittexts.lastname.text;
 			var location = right_update.information.edittexts.location.text;
-			Debug.debug(id+username+email+firstname+lastname+location);
+			var form = new Object;
+			form["firstname"] = firstname;
+			form["lastname"] = lastname;
+			form["location"] = location;
+			form["email"] = email;
+			conn._nc.call("databaseservice.updateUser", conn.responder, username, form);
 		</method>
 		<method name="changePassword">
 			var id = right_update.information.edittexts.userid.text;
 			var pass1 = right_update.information.edittexts.pass1.text;
 			var pass2 = right_update.information.edittexts.pass2.text;
 			Debug.debug(id+pass1+pass2);
+		</method>
+		<method name="deleteUser">
+			var id = right_update.information.edittexts.userid.text;
+			conn._nc.call("databaseservice.deleteUser", conn.responder, id);
+		</method>
+		<method name="getSelectionName">
+			var username = "";
+			var sel = left.table_users.getSelection();
+			var dp = sel[0];
+			var username = dp.xpathQuery("username/text()");
+			return username;
 		</method>
 	</class>
 </library>
