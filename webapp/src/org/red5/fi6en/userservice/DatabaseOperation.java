@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -57,12 +58,6 @@ public class DatabaseOperation {
 			Long userId = (Long) session.save(user);
 			log.info("users id : " + userId);
 			
-			UserStatus us = new UserStatus();
-			us.setUsername(username);
-			us.setRoomname("");
-			us.setIs_online(false);
-			session.save(us);
-			
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
@@ -72,6 +67,30 @@ public class DatabaseOperation {
 					+ e.getMessage());
 		} finally {
 			session.close();
+		}
+		
+		Session session2 = sessionFactory.openSession();
+		Transaction tx2 = session2.beginTransaction();
+		try {
+			UserStatus u = new UserStatus();
+			u.setBroadcast(false);
+			u.setClient_id(null);
+			u.setIs_online(false);
+			u.setModerator(false);
+			u.setRoomname("");
+			u.setUsername(username);
+			Long userId = (Long) session2.save(u);
+			log.info("users id : " + userId);
+			
+			tx2.commit();
+		} catch (Exception e) {
+			if (tx2 != null)
+				tx2.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for user : "
+					+ e.getMessage());
+		} finally {
+			session2.close();
 		}
 
 	}// saveToDatabase
@@ -227,5 +246,31 @@ public class DatabaseOperation {
 			session.close();
 		}
 
+	}
+	//Delete Users from database (at user and user_status table.)
+	public void deleteUser(String username) {
+		Session session = sessionFactory.openSession();
+		String sql = "delete from User where username = :username";
+		Query query = session.createQuery(sql);
+		query.setString("username", username);
+		query.executeUpdate();
+		session.close();
+		
+		Session s = sessionFactory.openSession();
+		sql = "delete from UserStatus where username = :username";
+		Query q = s.createQuery(sql);
+		q.setString("username", username);
+		q.executeUpdate();
+		s.close();
+        
+	}
+	public void changePassword(String username, String hash) {
+		Session s = sessionFactory.openSession();
+		String sql = "update User set password = :hash where username = :username";
+		Query q = s.createQuery(sql);
+		q.setString("hash", hash);
+		q.setString("username", username);
+		q.executeUpdate();
+		s.close();
 	}
 }

@@ -54,4 +54,12 @@
 		<servlet-name>UserGetServlet</servlet-name>
 		<url-pattern>/getuser</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>UserAllServlet</servlet-name>
+		<servlet-class>org.red5.fi6en.userservice.UserAllServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserAllServlet</servlet-name>
+		<url-pattern>/allusers</url-pattern>
+	</servlet-mapping>
 </web-app>
