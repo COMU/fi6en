@@ -1,5 +1,21 @@
 <canvas bgcolor="grey" debug="true">
+	
 	<include href="library.lzx"/>
+	<include href="../remote/connection.lzx"/>
+	<dataset name="dsetConf" id="dsetConf"  src="../config.xml"/>
+	<connection id="conn" autoconnect="false">
+		<handler name="oninit">
+			var datapntr = dsetConf.getPointer();
+			this.setAttribute('type',datapntr.xpathQuery('config/connectiontype/text()'));
+			this.setAttribute('host',datapntr.xpathQuery('config/host/text()'));
+			this.setAttribute('port',datapntr.xpathQuery('config/'+type+'port/text()'));
+			this.setAttribute('webapprootkey',datapntr.xpathQuery('config/webapprootkey/text()'));
+			this.setAttribute('httpport',datapntr.xpathQuery('config/httpport/text()'));
+			this.setAttribute('src',type+'://'+host + ':'+port +'/'+webapprootkey);
+			//Debug.write("connection src:",connectiontype+'://'+host+':'+port+'/'+webapprootkey);
+			this.connect();
+		</handler>		
+	</connection>
 	<simplelayout axis="x" spacing="40" />
 	<adminUserList name="UserList"></adminUserList>
 </canvas>

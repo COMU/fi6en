@@ -1,7 +1,8 @@
 <library>
 	<include href="../remote/connection.lzx"></include>
+	<script src="../services/userservice/auth/md5.js"/>	
 	<class name="adminUserList">
-		<dataset name="dset" src="http://localhost:5080/fi6en/userlist" request="true" type="http" />
+		<dataset name="dset" src="http://localhost:5080/fi6en/allusers" request="true" type="http" />
 		<dataset name="dset2" src="http://localhost:5080/fi6en/getuser" request="true" type="http" />
 		<simplelayout axis="x" spacing="40"/>
 		<view name="left">
@@ -48,6 +49,9 @@
 				</button>
 				<button height="32" width="32">
 					<image src="../resources/icons/delete.png"></image>
+					<handler name="onclick">
+						classroot.deleteUser();
+					</handler>
 				</button>
 			</view>
 			<view name="title">
@@ -74,20 +78,17 @@
 					<edittext name="location" datapath="location/text()"></edittext>
 				</view>
 			</view>
-			<view>
+			<view name="pass">
 				<simplelayout axis="y" spacing="5"/>
 				<text fontsize="16" fontstyle="bold">Change Password</text>
-				<edittext name="pass1"></edittext>
+				<edittext name="pass1" password="true"></edittext>
 				<text>Re-Type</text>
-				<edittext name="pass2"></edittext>
+				<edittext name="pass2" password="true"></edittext>
 				<button text="Save">
 					<handler name="onclick">
 						classroot.changePassword();
 					</handler>
 				</button>
-			</view>
-			<view name="inf_update">
-			
 			</view>
 		</view>
 		<view name="right_new">
@@ -133,12 +134,15 @@
 					<edittext name="firstname"></edittext>
 					<edittext name="lastname"></edittext>
 					<edittext name="location"></edittext>
-					<edittext name="pass1"></edittext>
-					<edittext name="pass2"></edittext>
+					<edittext name="pass1" password="true"></edittext>
+					<edittext name="pass2" password="true"></edittext>
 				</view>
 			</view>
 		</view>
 		<method name="refreshList">
+			lz.Timer.addTimer( new LzDelegate( this, "refreshTimer" ), 500 );
+		</method>
+		<method name="refreshTimer" args="msg">
 			dset.doRequest();
 		</method>
 		<method name="addNewUser">
@@ -149,15 +153,16 @@
 			var location = right_new.information.edittexts.location.text;
 			var pass1 = right_new.information.edittexts.pass1.text;
 			var pass2 = right_new.information.edittexts.pass2.text;
-			var inf = new Object;
-			if (pass1 == pass2) {
-				inf["username"] = username;
-				inf["email"] = email;
-				inf["firstname"] = firstname;
-				inf["location"] = location;
-				inf["password"] = pass1
-				conn._nc.call("databaseservice.saveToDatabase", conn.responder, inf);
+			if (pass1 != pass2) {
+				return false;
 			}
+			else {
+				var hash = hex_md5(pass1);
+				user = [username, hash, firstname, lastname, email, location]
+				conn._nc.call("databaseservice.saveToDatabase", null, user);
+			}
+			reset();
+			refreshList();
 		</method>
 		<method name="updateUser">
 			var email = right_update.information.edittexts.email.text;
@@ -170,17 +175,28 @@
 			form["lastname"] = lastname;
 			form["location"] = location;
 			form["email"] = email;
-			conn._nc.call("databaseservice.updateUser", conn.responder, username, form);
+			conn._nc.call("databaseservice.updateUser", null, username, form);
+			refreshList();
 		</method>
 		<method name="changePassword">
-			var id = right_update.information.edittexts.userid.text;
-			var pass1 = right_update.information.edittexts.pass1.text;
-			var pass2 = right_update.information.edittexts.pass2.text;
-			Debug.debug(id+pass1+pass2);
+			var username = right_update.information.edittexts.username.text;
+			var pass1 = right_update.pass.pass1.text;
+			var pass2 = right_update.pass.pass2.text;
+			if (pass1 != pass2) {
+				return false;
+			}
+			else {
+				var hash = hex_md5(pass1);
+				conn._nc.call("databaseservice.changePassword", null, username, hash);
+			}
+			reset();
 		</method>
 		<method name="deleteUser">
-			var id = right_update.information.edittexts.userid.text;
-			conn._nc.call("databaseservice.deleteUser", conn.responder, id);
+			var username = right_update.information.edittexts.username.text;
+			conn._nc.call("databaseservice.deleteUser", null, username);
+			refreshList();
+			right_update.setAttribute("visible", false);
+			right_new.setAttribute("visible", true);
 		</method>
 		<method name="getSelectionName">
 			var username = "";
@@ -188,6 +204,17 @@
 			var dp = sel[0];
 			var username = dp.xpathQuery("username/text()");
 			return username;
+		</method>
+		<method name="reset">
+			right_new.information.edittexts.username.setAttribute("text", "");
+			right_new.information.edittexts.email.setAttribute("text", "");
+			right_new.information.edittexts.firstname.setAttribute("text", "");
+			right_new.information.edittexts.lastname.setAttribute("text", "");
+			right_new.information.edittexts.location.setAttribute("text", "");
+			right_new.information.edittexts.pass1.setAttribute("text", "");
+			right_new.information.edittexts.pass2.setAttribute("text", "");
+			right_update.pass.pass1.setAttribute("text", "");
+			right_update.pass.pass2.setAttribute("text", "");
 		</method>
 	</class>
 </library>
