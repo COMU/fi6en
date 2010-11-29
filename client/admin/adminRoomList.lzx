@@ -113,8 +113,6 @@
 					<simplelayout axis="y" spacing="13"/>
 					<text>Roomname:</text>
 					<text>Comment:</text>
-					<text>Starting Time:</text>
-					<text>Finishing Time:</text>
 					<text>Public:</text>
 					<text>Open:</text>
 					<text>Password:</text>
@@ -129,8 +127,6 @@
 					<simplelayout axis="y" spacing="5"></simplelayout>
 					<edittext name="roomname"></edittext>
 					<edittext name="comment"></edittext>
-					<edittext name="starttime"></edittext>
-					<edittext name="finishtime"></edittext>
 					<edittext name="ispublic"></edittext>
 					<edittext name="isopen"></edittext>
 					<edittext name="pass1" password="true"></edittext>
@@ -147,8 +143,6 @@
 		<method name="addNewRoom">
 			var roomname = right_new.information.edittexts.roomname.text;
 			var comment = right_new.information.edittexts.comment.text;
-			var starttime = right_new.information.edittexts.starttime.text;
-			var finishtime = right_new.information.edittexts.finishtime.text;
 			var ispublic = right_new.information.edittexts.ispublic.text;
 			var isopen = right_new.information.edittexts.isopen.text;
 			var pass1 = right_new.information.edittexts.pass1.text;
@@ -156,8 +150,6 @@
 			var form = [];
 			form["roomname"] = roomname;
 			form["comment"] = comment;
-			form["starttime"] = starttime;
-			form["finishtime"] = finishtime;
 			form["ispublic"] = ispublic;
 			form["isopen"] = isopen;
 			if (pass1 != pass2) {
@@ -166,7 +158,7 @@
 			else {
 				var hash = hex_md5(pass1);
 				form["hash"] = hash;
-				conn._nc.call("roomservice.addNewRoom", null, form);
+				conn._nc.call("roomservice.addRoomFromAdmin", null, form);
 			}
 			
 			reset();
@@ -220,8 +212,6 @@
 		<method name="reset">
 			right_new.information.edittexts.roomname.setAttribute("text", "");
 			right_new.information.edittexts.comment.setAttribute("text", "");
-			right_new.information.edittexts.starttime.setAttribute("text", "");
-			right_new.information.edittexts.finishtime.setAttribute("text", "");
 			right_new.information.edittexts.ispublic.setAttribute("text", "");
 			right_new.information.edittexts.isopen.setAttribute("text", "");
 			right_new.information.edittexts.pass1.setAttribute("text", "");
