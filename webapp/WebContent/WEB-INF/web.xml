@@ -62,4 +62,12 @@
 		<servlet-name>UserAllServlet</servlet-name>
 		<url-pattern>/allusers</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>RoomGetServlet</servlet-name>
+		<servlet-class>org.red5.fi6en.roomservice.RoomGetServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RoomGetServlet</servlet-name>
+		<url-pattern>/getroom</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -2,10 +2,12 @@ package org.red5.fi6en.roomservice;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.Criteria;
@@ -339,6 +341,51 @@ public class RoomService {
 				isc.invoke("serverRefreshUserList", user);
 			}
 		}
+	}
+	
+	public void addRoomFromAdmin(Map<String, Object> r) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			java.util.Date today = new java.util.Date();
+			Timestamp t = new Timestamp(today.getTime());
+			String isp = (String) r.get("ispublic");
+			String iso = (String) r.get("isopen");
+			Boolean p = true;
+			Boolean o = true;
+			if (isp == "false") p = false;
+			if (iso == "false") o = false;
+			
+			Room room = new Room();
+			room.setName((String) r.get("roomname"));
+			room.setComment((String) r.get("comment"));
+			room.setStarttime(t);
+			room.setFinishtime(null);
+			room.setIs_public(p);
+			room.setIs_open(o);
+			room.setHashpasswd((String) r.get("hash"));
+			session.save(room);
+			tx.commit();
+			log.info("Room Added from admin panel -> Name: " + room.getName());
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for room : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
+		
+	}
+	public void changePassword(Integer id, String hash) {
+		Session s = sessionFactory.openSession();
+		String sql = "update Room set hashpasswd = :hash where id = :id";
+		Query q = s.createQuery(sql);
+		q.setString("hash", hash);
+		q.setInteger("id", id);
+		q.executeUpdate();
+		s.close();
 	}
 
 }
