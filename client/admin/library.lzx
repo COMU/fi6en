@@ -1,3 +1,4 @@
 <library>
 	<include href="adminUserList.lzx"/>
+	<include href="adminRoomList.lzx"/>
 </library>

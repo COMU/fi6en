@@ -1,5 +1,4 @@
 <canvas bgcolor="grey" debug="true">
-	
 	<include href="library.lzx"/>
 	<include href="../remote/connection.lzx"/>
 	<dataset name="dsetConf" id="dsetConf"  src="../config.xml"/>
@@ -17,5 +16,5 @@
 		</handler>		
 	</connection>
 	<simplelayout axis="x" spacing="40" />
-	<adminUserList name="UserList"></adminUserList>
+	<adminRoomList name="roomList"></adminRoomList>
 </canvas>
