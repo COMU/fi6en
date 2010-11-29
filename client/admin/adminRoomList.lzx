@@ -216,6 +216,8 @@
 			right_new.information.edittexts.isopen.setAttribute("text", "");
 			right_new.information.edittexts.pass1.setAttribute("text", "");
 			right_new.information.edittexts.pass2.setAttribute("text", "");
+			right_update.pass.pass1.setAttribute("text", "");
+			right_update.pass.pass2.setAttribute("text", "");
 		</method>
 	</class>
 </library>
