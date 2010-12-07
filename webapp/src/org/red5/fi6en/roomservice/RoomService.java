@@ -368,11 +368,7 @@ public class RoomService {
 			tx.commit();
 			log.info("Room Added from admin panel -> Name: " + room.getName());
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-			log.error("error during database operation for room : "
-					+ e.getMessage());
+			log.info("Adding Exception: " + e.toString());
 		} finally {
 			session.close();
 		}
@@ -387,5 +383,9 @@ public class RoomService {
 		q.executeUpdate();
 		s.close();
 	}
+	public void updateRoom(Integer id, Map<String, String> r) {
+		//TODO Update Room Method
+		System.out.print("Update Room invoke...");
+	} 
 
 }
