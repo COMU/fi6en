@@ -7,4 +7,5 @@
 	<include href="sharedObjectRoomList.lzx" />
 	<include href="roomList.lzx" />
 	<include href="planMeetingView.lzx"/>
+	<include href="myChatView.lzx"/>
 </library>

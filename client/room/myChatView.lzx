@@ -1,0 +1,53 @@
+<library>
+	<include href="../library.lzx"/>
+	<class name="mymymy" extends="view">
+		<attribute name="bgcolor" value="black"/>
+		<simplelayout axis="y" spacing="1" />
+		<view name="head" height="32" width="100%" bgcolor="grey">
+			<view name="left" width="300" height="${parent.height}" bgcolor="#A0A0A0">
+			<simplelayout axis="x"/>
+				<image name="logo" source="../resources/icons/logo.png"></image>
+				<text name="roomname" text="myroom" fgcolor="white"></text>
+			</view>
+			<view name="center" height="${parent.height}"  bgcolor="#808080"></view>
+			<view name="right" width="${username.width+button_exit.width+language.width+40}" height="${parent.height}" bgcolor="#585858">
+			<simplelayout axis="x" spacing="20" />
+				<languageSelector name="language" align="center" valign="middle"></languageSelector>
+				<text name="username" clickable="true" text="kozdincer" valign="middle" fontsize="24" fgcolor="white" >
+					<handler name="onclick">
+						Debug.debug("ACTION: open user profile");
+					</handler>
+				</text>
+				<button name="button_exit" height="${parent.height}" width="${parent.height}" valign="middle">
+					<image source="../resources/icons/exit.png" align="center" valign="middle"></image>
+					<handler name="onclick">
+						Debug.debug("ACTION: exit from room");
+					</handler>
+				</button>
+			</view>
+		<stableborderlayout axis="x" />
+		</view>
+		<view name="main" height="100%" width="100%">
+			<view name="left" width="250" height="${parent.height}" bgcolor="#A0A0A0">
+				<tabs name="left_tabs" height="100%" bgcolor="orange" width="100%" align="center" valign="middle">
+					<tabpane name="tab_userlist" text="Users" bgcolor="yellow"></tabpane>
+					<tabpane name="tab_filelist" text="Files" bgcolor="red"></tabpane>
+					<tabpane name="tab_profile" text="Profile" bgcolor="blue"></tabpane>
+				</tabs>
+			</view>
+			<view name="center" width="250" height="${parent.height}"  bgcolor="#808080">
+				<tabslider name="center_tabslider" height="100%" width="100%">
+					<tabelement name="tab_broadcast" text="Broadcast" bgcolor="red"></tabelement>
+					<tabelement name="tab_desktop" text="Desktop Sharing" bgcolor="yellow"></tabelement>
+					<tabelement name="tab_streams" text="Streams" selected="true" bgcolor="orange"></tabelement>
+				</tabslider>
+			</view>
+			<view name="right" width="${parent.width-parent.left.width-parent.center.width}" height="${parent.height}" bgcolor="#585858">
+				<view name="top" height="${parent.height-parent.bottom.height}" width="100%" bgcolor="white"></view>
+				<view name="bottom" height="150" width="100%" bgcolor="black"></view>
+			<simplelayout axis="y"/>
+			</view>	
+		<simplelayout axis="x"/>
+		</view>
+	</class>
+</library>

@@ -208,13 +208,6 @@
 						
 			<view name="rightBar">
 				<simplelayout spacing="20"/>
-				<!--
-				<text fontsize="12" fgcolor="#CCCCCC" align="center"
-					datapath="dsetLang:/language/string[@id='22']" text="$path{'value/text()'}" />
-				<list name="usersList" >
-					<textlistitem visible="false" layout="axis:x" text="1w-*23" resource="icon_webcam" />
-				</list>
-				-->
 				<myUserList id="userList"></myUserList>
 			</view>
 		</view>

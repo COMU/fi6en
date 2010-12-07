@@ -66,7 +66,7 @@
 			  />
 			  
 		<!--audio, video, chat view-->
-		
+		<text>32423423423423</text>
 		<view name="mainChatView">
 			<simplelayout axis="x" spacing="40" />			
 			

@@ -57,8 +57,6 @@
 				if (hours < 10) hours = "0" + hours;
 				var s = hours + ":" + minutes + ":" + "00";
 				s = i + " " + s;
-				parent.parent.setAttribute("visible", false);
-				roomListView.setAttribute("visible", true);
 				var rn = classroot.roomname.value;
 				var password = classroot.password.value;
 				var content = classroot.about.value;

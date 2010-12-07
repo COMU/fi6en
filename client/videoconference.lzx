@@ -71,6 +71,6 @@
 	<loginWindow name="loginScreen" align="center" valign="middle" width="300" height="210"/>
 	<accountView id="accountScreen" y="${myMenuBar.y+40}" x="80" opacity="0"/> 
 	<chatView id="chatScreen" y="${myMenuBar.y+40}" align="center" opacity="0"/>
-	<roomView id="roomScreen" y="${myMenuBar.y+40}" align="center" opacity="0" />
+	<roomView id="roomScreen" y="${myMenuBar.y+40}" align="center" opacity="0" visible="false" />
 	<recordsView id="recordsScreen" y="${myMenuBar.y+40}" x="100" opacity="0"/>
 </canvas>

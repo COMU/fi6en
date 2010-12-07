@@ -1,5 +1,6 @@
 <library>
 	<include href="../remote/connection.lzx"></include>
+	<include href="planMeetingView.lzx"/>
 	<script src="../services/userservice/auth/md5.js"/>	
 	<class name="adminRoomList">
 		<dataset name="dset" src="http://localhost:5080/fi6en/roomlist" request="true" type="http" />
@@ -96,6 +97,19 @@
 				<simplelayout axis="x" spacing="2"/>
 				<button height="32" width="32">
 					<image src="../resources/icons/add.png"></image>
+					<handler name="onclick">
+						classroot.right_new.information.setAttribute("visible", true);
+						classroot.right_new.title.setAttribute("visible", true);
+						classroot.right_new.planMeeting.setAttribute("visible", false);
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="../resources/icons/add_plan.png"></image>
+					<handler name="onclick">
+						classroot.right_new.information.setAttribute("visible", false);
+						classroot.right_new.title.setAttribute("visible", true);
+						classroot.right_new.planMeeting.setAttribute("visible", true);
+					</handler>
 				</button>
 				<button height="32" width="32">
 					<image src="../resources/icons/refresh.png"></image>
@@ -133,7 +147,11 @@
 					<edittext name="pass2" password="true"></edittext>
 				</view>
 			</view>
+			<view name="planMeeting" visible="false">
+				<planMeetingView></planMeetingView>
+			</view>
 		</view>
+		
 		<method name="refreshList">
 			lz.Timer.addTimer( new LzDelegate( this, "refreshTimer" ), 500 );
 		</method>

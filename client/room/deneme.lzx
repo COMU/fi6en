@@ -1,11 +1,6 @@
-<canvas debug="true">
-	<!--
-	<include href="rooms.lzx"></include>
-	<include href="roomList.lzx"/>
-	<simplelayout axis="y" spacing="5"></simplelayout>
-	<rooms id="rooms"></rooms>
-	-->
-	
-	<include href="planMeetingView.lzx"/>
-	<planMeetingView id="future" />
+<canvas width="100%" height="100%" bgcolor="blue" debug="true">
+	<include href="myChatView.lzx" />
+	<dataset name="dsetLang" id="dsetLang"  src="../lang/turkish.xml"/>
+	<mymymy height="100%" width="100%"></mymymy>
+	<debug height="200" width="200"/>
 </canvas>
