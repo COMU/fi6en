@@ -1,6 +1,5 @@
 <canvas width="100%" height="100%" bgcolor="blue" debug="true">
 	<include href="myChatView.lzx" />
-	<dataset name="dsetLang" id="dsetLang"  src="../lang/turkish.xml"/>
 	<mymymy height="100%" width="100%"></mymymy>
 	<debug height="200" width="200"/>
 </canvas>

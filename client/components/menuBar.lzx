@@ -7,7 +7,7 @@
 		<attribute name="fontsize" value="14"/>
 		<view valign="middle">
 			<simplelayout axis="x" spacing="20" inset="20"/>
-			<view>
+			<view name="buttonLobi">
 				<text datapath="dsetLang:/language/string[@id='35']" text="$path{'value/text()'}"/>
 				<handler name="onclick">
 					//Roomservice
@@ -15,8 +15,8 @@
 					conn._nc.call("roomservice.addUserToRoom", this.responder, loginScreen.getUsername(), roomname);
 					
 					//
-					if (roomScreen.opacity == 1) {
-						roomScreen.animate("opacity", "0", "700");
+					if (roomScreen2.opacity == 1) {
+						roomScreen2.animate("opacity", "0", "700");
 						conn.setAttribute('src', conn.type + '://' + conn.host
 										+ ':' + conn.port + '/'
 										+ conn.webapprootkey);
@@ -49,8 +49,8 @@
 					if (chatScreen.opacity == 1) {
 						chatScreen.animate("opacity", "0", "700");
 					}
-					if (roomScreen.opacity == 1) {
-						roomScreen.animate("opacity", "0", "700");
+					if (roomScreen2.opacity == 1) {
+						roomScreen2.animate("opacity", "0", "700");
 					}
 					if (accountScreen.opacity == 1) {
 						accountScreen.animate("opacity", "0", "700");
@@ -73,8 +73,8 @@
 					if (chatScreen.opacity == 1) {
 						chatScreen.animate("opacity", "0", "700");
 					}
-					if (roomScreen.opacity == 1) {
-						roomScreen.animate("opacity", "0", "700");
+					if (roomScreen2.opacity == 1) {
+						roomScreen2.animate("opacity", "0", "700");
 					}
 					if (recordsScreen.opacity == 1) {
 						recordsScreen.animate("opacity", "0", "700");
@@ -107,5 +107,29 @@
 				</handler>
 			</roundedButton>
 		</view>
+		<method name="gotoLoby">
+			//Roomservice
+					var roomname = "";
+					conn._nc.call("roomservice.addUserToRoom", null, loginScreen.getUsername(), "");
+					
+					//
+					if (roomScreen2.opacity == 1) {
+						roomScreen2.animate("opacity", "0", "700");
+						conn.setAttribute('src', conn.type + '://' + conn.host
+										+ ':' + conn.port + '/'
+										+ conn.webapprootkey);
+						conn._doconnect();
+						//Debug.write("url : %w", conn.src);
+					}
+					if (recordsScreen.opacity == 1) {
+						recordsScreen.animate("opacity", "0", "700");
+					}
+					if (accountScreen.opacity == 1) {
+						accountScreen.animate("opacity", "0", "700");
+					}
+					if (chatScreen.opacity == 0) {
+						chatScreen.animate("opacity", "1", "700");
+					}
+		</method>
 	</class>
 </library>

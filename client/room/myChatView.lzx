@@ -1,12 +1,11 @@
 <library>
-	<include href="../library.lzx"/>
 	<class name="mymymy" extends="view">
 		<attribute name="bgcolor" value="black"/>
 		<simplelayout axis="y" spacing="1" />
 		<view name="head" height="32" width="100%" bgcolor="grey">
 			<view name="left" width="300" height="${parent.height}" bgcolor="#A0A0A0">
 			<simplelayout axis="x"/>
-				<image name="logo" source="../resources/icons/logo.png"></image>
+				<image name="logo" source="resources/icons/logo.png"></image>
 				<text name="roomname" text="myroom" fgcolor="white"></text>
 			</view>
 			<view name="center" height="${parent.height}"  bgcolor="#808080"></view>
@@ -19,9 +18,10 @@
 					</handler>
 				</text>
 				<button name="button_exit" height="${parent.height}" width="${parent.height}" valign="middle">
-					<image source="../resources/icons/exit.png" align="center" valign="middle"></image>
+					<image source="resources/icons/exit.png" align="center" valign="middle"></image>
 					<handler name="onclick">
 						Debug.debug("ACTION: exit from room");
+						classroot.quitRoom();
 					</handler>
 				</button>
 			</view>
@@ -49,5 +49,12 @@
 			</view>	
 		<simplelayout axis="x"/>
 		</view>
+		<method name="setRoomName" args="roomname">
+			this.head.left.roomname.setAttribute("text", roomname);
+		</method>
+		<method name="quitRoom">
+			myMenuBar.gotoLoby();
+			this.animate("opacity", "0", "700");
+		</method>
 	</class>
 </library>

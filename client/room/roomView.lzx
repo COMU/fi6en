@@ -35,38 +35,13 @@
 			</handler>  
 		</command>
 		
-		<!--<view name="backToLobbyButton" resource="../resources/icons/back.png"
-			x="20" y="10" placement="canvas" visible="${classroot.visible}"
-			onmouseover="info.setAttribute('visible',true)" 
-			onmouseout="info.setAttribute('visible',false)">
-			<text name="info" x="${parent.x+30}" 
-				  y="${parent.parent.roomName.y-20}"
-				  visible="false"
-				  datapath="dsetLang:/language/string[@id='27']" text="$path{'value/text()'}"/>
-			<handler name="onclick">
-				var newUrl = 'rtmp://127.0.0.1:1935/fi6en';
-				chatScreen.animate("opacity", "1", "700");
-				classroot.animate("opacity", "0", "700");
-				roomScreen.soChatRoom.clear();
-				roomScreen.soUsersRoom.clear();
-				roomScreen.soChatRoom.close();
-				roomScreen.soUsersRoom.close();
-				conn.connect(newUrl);
-			</handler>
-		</view>
 		
-		<text name="roomName" x="${parent.backToLobbyButton.x+60}" 
-			  y="${parent.backToLobbyButton.y}"
-			  fontsize="14" fgcolor="#33CC66"
-			  placement="canvas" visible="${classroot.visible}" 
-			  /> -->
 		<text name="roomName" x="10" y="5"
 			  fontsize="14" fgcolor="#33CC66"
 			  placement="canvas" visible="${classroot.visible}" 
 			  />
 			  
 		<!--audio, video, chat view-->
-		<text>32423423423423</text>
 		<view name="mainChatView">
 			<simplelayout axis="x" spacing="40" />			
 			

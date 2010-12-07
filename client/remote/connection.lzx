@@ -49,8 +49,8 @@
 			notificationWindow.addMessage("info","closing connection");
 			chatScreen.soChat.close();
 			chatScreen.soUsers.close();
-			roomScreen.soChatRoom.close();
-			roomScreen.soUsersRoom.close();
+			//roomScreen.soChatRoom.close();
+			//roomScreen.soUsersRoom.close();
 			this._nc.close();
 		</method>
 		

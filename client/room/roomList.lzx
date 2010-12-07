@@ -132,8 +132,8 @@
 		<!--visual steps while entering a room-->
 		<method name="enterRoom" args="name">
 			chatScreen.animate("opacity", "0", "700");
-			roomScreen.setRoomName(name);
-			roomScreen.animate("opacity", "1", "700");
+			roomScreen2.setRoomName(name);
+			roomScreen2.animate("opacity", "1", "700");
 			
 			//RoomService invoke...
 			conn._nc.call("roomservice.addUserToRoom", conn.responder, loginScreen.getUsername(), name);

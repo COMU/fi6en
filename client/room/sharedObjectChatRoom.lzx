@@ -24,10 +24,10 @@
 		
 		<!--will be shown to all clients who got the chat shared object -->
 		<method name="writeMessage" args="username, msg"><![CDATA[
-			var messageArea= roomScreen.mainChatView.chat.messageAreaView.messageArea;
-			var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+			//var messageArea= roomScreen.mainChatView.chat.messageAreaView.messageArea;
+			//var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 			//Debug.write("color : %w",color);
-			messageArea.addText("<b><font color='${color}'>"+username +' : '+"</font></b>"+msg+"\n");
+			//messageArea.addText("<b><font color='${color}'>"+username +' : '+"</font></b>"+msg+"\n");
 			//messageArea.addText("<FONT color='${color}'>"+username +" : "+"</FONT>"+msg+"\n");
 		]]></method>
 		
