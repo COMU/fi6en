@@ -8,4 +8,6 @@
 	<include href="roomList.lzx" />
 	<include href="planMeetingView.lzx"/>
 	<include href="myChatView.lzx"/>
+	<include href="roomUserList.lzx"/>
+	<include href="../file/library.lzx"/>
 </library>

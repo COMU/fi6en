@@ -107,6 +107,7 @@
 		</method>
 		<method name="serverRefreshUserList" args="arg">
 			userList.refreshList();
+			roomUserList.refreshList();
 		</method>
 	</class>	
 </library>

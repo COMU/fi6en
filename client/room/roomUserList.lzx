@@ -1,0 +1,99 @@
+<library>
+	<class name="roomUserList" extends="view">
+		<dataset name="dset" src="http://localhost:5080/fi6en/userlist" request="true" type="http" />
+		<simplelayout axis="y" spacing="5"></simplelayout>
+		<view name="mod">
+			<menubar name="mymenubar" width="235">
+				<menu name="normalMenu" text="Actions" enabled="false">
+					<menuitem text="Yayını İzle">
+						<handler name="onselect">
+							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterDown();
+							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterUp();
+						</handler>
+					</menuitem>
+					<menuitem text="Masaüstünü İzle">
+						<handler name="onselect">
+							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterDown();
+							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterUp();
+						</handler>
+					</menuitem>
+				</menu>
+				<menu name="modMenu" text="Mod Actions" enabled="false">
+					<menuitem>Kick User</menuitem>
+					<menuitem>Set User As Moderator</menuitem>
+				</menu>
+			</menubar>
+		</view>
+		<view name="list">
+			<grid name="table_users" datapath="local:classroot.dset:/users" height="${classroot.parent.height-75}" width="235" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">
+				<gridcolumn name="column_empty" width="42" resizable="false" sortable="true" clickable="true">
+					<image prefix="resources/icons/" datapath="micon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<gridcolumn name="column_username" text="User List" width="135" resizable="false" sortable="true" clickable="true">
+					<text datapath="username/text()" valign="middle" align="left" maxlength="20" />
+				</gridcolumn>
+				<gridcolumn name="column_icon" width="32" resizable="false" sortable="true">
+					<image prefix="resources/icons/" datapath="icon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<handler name="onselect">
+					
+					classroot.mod.mymenubar.normalMenu.setAttribute("enabled", true);
+					var m = classroot.isUserMod("ana");
+					if (m == true) {
+						classroot.mod.mymenubar.modMenu.setAttribute("enabled", true);
+					}
+				</handler>
+			</grid>
+		</view>
+		<method name="refreshList">
+			dset.setQueryParam("roomname", roomScreen2.getRoomName());
+			dset.doRequest();
+		</method>
+		<method name="setModView">
+		</method>
+		<method name="setNormalView">
+		</method>
+		<method name="getSelectedUserName">
+			var username = "";
+			var sel = list.table_users.getSelection();
+			var dp = sel[0];
+			username = dp.xpathQuery("username/text()");
+			return username;
+		</method>
+		<method name="getSelectedIsBroadcast">
+			var sel = list.table_users.getSelection();
+			var dp = sel[0];
+			var broadcast = dp.xpathQuery("isBroadcasting/text()");
+			return broadcast;
+		</method>
+		<method name="isUserMod" args="myname">
+			var dp = dset.getPointer();
+			var name="";
+			var ismod="";
+			dp.selectChild(2);
+			do {
+				name = dp.xpathQuery("username/text()");
+				ismod = dp.xpathQuery("moderator/text()");
+				if (name == myname) {
+					if (ismod == "true") {
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			} while (dp.selectNext());
+		</method>
+		
+		<!-- Others -->
+		<method name="watchStream">
+			Debug.debug("yayın izlensin efem..");
+		</method>
+		<method name="watchDesktop">
+			Debug.debug("desktop izleniyor")
+		</method>
+		<method name="kickUser">
+			Debug.debug("UserKicked");
+		</method>
+	</class>
+</library>

@@ -1,0 +1,123 @@
+<library>
+	<include href="fileupload.lzx"/>
+	<class name="fileList" extends="view">
+		<dataset name="dset" src="http://localhost:5080/sodeneme/FileListServlet" request="true" type="http"></dataset>
+		<simplelayout axis="y" spacing="5" />
+		<view name="mod">
+			<menubar name="mymenubar" width="235">
+				<menu name="normalMenu" text="Actions" enabled="false">
+					<menuitem text="Open File"></menuitem>
+					<menuitem text="Delete File"></menuitem>
+					<menuitem text="İnformation"></menuitem>
+				</menu>
+				<menu name="uploadMenu" text="Upload">
+					<menuitem text="File Upload">
+						<handler name="onselect">
+							file_upload_view.setAttribute("visible", true);
+						</handler>
+					</menuitem>
+				</menu>
+			</menubar>
+		</view>
+		<view id="file_upload_view" width="235" visible="false">
+			<simplelayout axis="y" spacing="5" />
+			<view name="view_button_row">
+				<simplelayout axis="x" spacing="2" />
+					
+				<fileUploader name="file_uploader">
+					<method name="onSelect" args="ev=null">
+						//parent.edittext_filename.setAttribute("text", parent.file_uploader.getName());
+						parent.parent.progressBar.setText(parent.file_uploader
+								.getName());
+
+						parent.button_upload.setAttribute("enabled", true);
+					</method>
+					<method name="onComplete" args="ev=null">
+						parent.button_upload.setAttribute("enabled", false);
+						//parent.edittext_filename.clearText();
+						parent.parent.progressBar.setText("");
+
+						parent.parent.progressBar.setValue(100);
+						classroot.refreshList();
+						classroot.hideUpload();
+					</method>
+					<method name="onProgress" args="objDummy, bytesLoaded, bytesTotal">
+						parent.parent.progressBar.setValue(bytesLoaded * 100
+								/ bytesTotal);
+					</method>
+		
+				</fileUploader>
+				<combobox width="80" height="20" defaulttext="File Type" editable="false">
+					<textlistitem>OpenOffice</textlistitem>
+					<textlistitem>PDF</textlistitem>
+					<textlistitem>Image</textlistitem>
+					<textlistitem>MS Office</textlistitem>
+				</combobox>
+		
+				<button name="button_browse" text="Browse">
+					<handler name="onclick">
+						parent.file_uploader.browse();
+						parent.parent.progressBar.setValue(0);
+					</handler>
+				</button>
+	
+				<button name="button_upload" text="Upload" enabled="false">
+					<handler name="onclick">
+						parent.file_uploader
+								.upload('http://localhost:5080/sodeneme/MyServlet');
+					</handler>
+				</button>
+				
+			</view>
+	
+			<view name="progressBar" width="235" height="25" bgcolor="#666666">
+				<view x="1" y="1" width="233" height="23" bgcolor="#FFFFFF"/>
+				<view name="status" x="1" y="1" height="23" bgcolor="#BBBBFF"/>
+				<text name="percent" text="Select A File. (Max 1MB)" x="5" fontstyle="italic" fgcolor="#6666FF" valign="middle"  maxlength="40"/>
+
+				<method name="setValue" args="value"><![CDATA[
+					status.setAttribute('width', value * 233 / 100);
+					percent.setAttribute("text", Math.round(value) + '%');
+				]]>
+				</method>
+
+				<method name="initValue"><![CDATA[
+					status.setAttribute('width', 0);
+					percent.seAttribute("text", '');
+				]]>
+				</method>
+				<method name="setText" args="t">
+					percent.setAttribute("text", t);
+				</method>
+            
+			</view>
+		</view>
+		
+		<grid name="table_files" datapath="local:classroot.dset:/files" height="${classroot.parent.height-50}" width="235" contentdatapath="file" rowheight="32" layout="spacing:2;" showhscroll="false">
+			<gridcolumn name="column_image" width="40" resizable="false" sortable="false" clickable="true">
+				<image prefix="media/" src="$path{'typ/text()'}" valign="middle" clickable="true">
+				</image>
+			</gridcolumn>
+			<gridcolumn name="column_name" width="180" text="Name" resizable="false" >
+				<text datapath="fname/text()" valign="middle" align="left" maxlength="20"></text>
+			</gridcolumn>
+			<handler name="onselect">
+				classroot.mod.mymenubar.normalMenu.setAttribute("enabled", true);
+			</handler>
+		</grid>
+		<alert name="alert_file_information"></alert>
+		<method name="refreshList">
+			lz.Timer.addTimer( new LzDelegate( this, "refreshTimer" ), 500 );
+		</method>
+		<method name="refreshTimer" args="msg">
+			dset.doRequest();
+			mod.mymenubar.normalMenu.setAttribute("enabled", false);
+		</method>
+		<method name="hideUpload">
+			lz.Timer.addTimer( new LzDelegate( this, "hideTimer" ), 500 );
+		</method>
+		<method name="hideTimer" args="msg">
+			file_upload_view.setAttribute("visible", false);
+		</method>
+	</class>
+</library>

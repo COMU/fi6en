@@ -1,4 +1,5 @@
 <library>
+	<include href="library.lzx"/>
 	<class name="mymymy" extends="view">
 		<attribute name="bgcolor" value="black"/>
 		<simplelayout axis="y" spacing="1" />
@@ -30,8 +31,12 @@
 		<view name="main" height="100%" width="100%">
 			<view name="left" width="250" height="${parent.height}" bgcolor="#A0A0A0">
 				<tabs name="left_tabs" height="100%" bgcolor="orange" width="100%" align="center" valign="middle">
-					<tabpane name="tab_userlist" text="Users" bgcolor="yellow"></tabpane>
-					<tabpane name="tab_filelist" text="Files" bgcolor="red"></tabpane>
+					<tabpane name="tab_userlist" text="Users" bgcolor="yellow">
+						<roomUserList id="roomUserList" height="100%" width="100%"></roomUserList>
+					</tabpane>
+					<tabpane name="tab_filelist" text="Files" bgcolor="red">
+						<fileList name="roomFileList" height="100%" width="100%"></fileList>
+					</tabpane>
 					<tabpane name="tab_profile" text="Profile" bgcolor="blue"></tabpane>
 				</tabs>
 			</view>
@@ -55,6 +60,9 @@
 		<method name="quitRoom">
 			myMenuBar.gotoLoby();
 			this.animate("opacity", "0", "700");
+		</method>
+		<method name="getRoomName">
+			return this.head.left.roomname.text;
 		</method>
 	</class>
 </library>

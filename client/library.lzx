@@ -6,4 +6,5 @@
 	<include href="room/library.lzx" />
 	<include href="services/library.lzx" />
 	<include href="util/library.lzx" />
+	<include href="file/library.lzx"/>
 </library>
