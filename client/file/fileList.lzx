@@ -93,9 +93,9 @@
 			</view>
 		</view>
 		
-		<grid name="table_files" datapath="local:classroot.dset:/files" height="${classroot.parent.height-50}" width="235" contentdatapath="file" rowheight="32" layout="spacing:2;" showhscroll="false">
+		<grid name="table_files" datapath="local:classroot.dset:/files" height="${classroot.parent.height-75}" width="235" contentdatapath="file" rowheight="32" layout="spacing:2;" showhscroll="false">
 			<gridcolumn name="column_image" width="40" resizable="false" sortable="false" clickable="true">
-				<image prefix="media/" src="$path{'typ/text()'}" valign="middle" clickable="true">
+				<image prefix="resources/icons/" datapath="typ/text()" valign="middle" clickable="true">
 				</image>
 			</gridcolumn>
 			<gridcolumn name="column_name" width="180" text="Name" resizable="false" >

@@ -1,0 +1,74 @@
+<library>
+	<script src="../services/userservice/auth/md5.js"/>	
+	<class name="roomProfile">
+		<handler name="oninit">
+			dset2.setQueryParam("username", "kozdincer");
+			dset2.doRequest();
+		</handler>
+		<dataset name="dset2" src="http://localhost:5080/fi6en/getuser" request="true" type="http" />
+		<view name="update" width="235" bgcolor="white" align="center" valign="middle">
+			<simplelayout axis="y" spacing="10" />
+			<view name="information">
+				<simplelayout axis="x" spacing="5" />
+				<view name="attributes">
+					<simplelayout axis="y" spacing="13"/>
+					<text>Username:</text>
+					<text>Email:</text>
+					<text>First Name:</text>
+					<text>Last Name:</text>
+					<text>Location:</text>
+					<button text="Save" onclick="classroot.updateUser()">
+					</button>
+				</view>
+				<view name="edittexts" datapath="local:classroot.dset2:/user">
+					<simplelayout axis="y" spacing="5"></simplelayout>
+					<edittext name="userid" enabled="false" datapath="id/text()" visible="false"></edittext>
+					<edittext name="username" enabled="false" datapath="username/text()"></edittext>
+					<edittext name="email" datapath="email/text()"></edittext>
+					<edittext name="firstname" datapath="firstname/text()"></edittext>
+					<edittext name="lastname" datapath="lastname/text()"></edittext>
+					<edittext name="location" datapath="location/text()"></edittext>
+				</view>
+			</view>
+			<view name="pass">
+				<simplelayout axis="y" spacing="5"/>
+				<text fontsize="16" fontstyle="bold">Change Password</text>
+				<edittext name="pass1" password="true"></edittext>
+				<text>Re-Type</text>
+				<edittext name="pass2" password="true"></edittext>
+				<button text="Change" onclick="classroot.changePassword()">
+				</button>
+			</view>
+		</view>
+		<method name="updateUser">
+			var email = update.information.edittexts.email.text;
+			var username = update.information.edittexts.username.text;
+			var firstname = update.information.edittexts.firstname.text;
+			var lastname = update.information.edittexts.lastname.text;
+			var location = update.information.edittexts.location.text;
+			var form = new Object;
+			form["firstname"] = firstname;
+			form["lastname"] = lastname;
+			form["location"] = location;
+			form["email"] = email;
+			conn._nc.call("databaseservice.updateUser", null, username, form);
+		</method>
+		<method name="changePassword">
+			var username = update.information.edittexts.username.text;
+			var pass1 = update.pass.pass1.text
+			var pass2 = update.pass.pass2.text;
+			if (pass1 != pass2) {
+				return false;
+			}
+			else {
+				var hash = hex_md5(pass1);
+				conn._nc.call("databaseservice.changePassword", null, username, hash);
+			}
+			reset();
+		</method>
+		<method name="reset">
+			update.pass.pass1.setAttribute("text", "");
+			update.pass.pass2.setAttribute("text", "");
+		</method>
+	</class>
+</library>

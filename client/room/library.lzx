@@ -10,4 +10,5 @@
 	<include href="myChatView.lzx"/>
 	<include href="roomUserList.lzx"/>
 	<include href="../file/library.lzx"/>
+	<include href="roomProfile.lzx" />
 </library>
