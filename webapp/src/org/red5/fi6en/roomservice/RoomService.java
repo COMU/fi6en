@@ -334,11 +334,15 @@ public class RoomService {
 		String scopeName = scope.getName();
 		Set<IClient> myclients = scope.getClients();
 		for (IClient i: myclients) {
-			String clientScopeName = i.getScopes().iterator().next().getName();
-			if (clientScopeName == scopeName) {
-				IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
-				Object[]user  = new Object[]{""};
-				isc.invoke("serverRefreshUserList", user);
+			try {
+				String clientScopeName = i.getScopes().iterator().next().getName();
+				if (clientScopeName == scopeName) {
+					IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
+					Object[]user  = new Object[]{""};
+					isc.invoke("serverRefreshUserList", user);
+				}
+			} catch (Exception e) {
+				continue;
 			}
 		}
 	}
