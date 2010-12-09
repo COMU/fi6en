@@ -43,9 +43,11 @@
 			</view>
 			<view name="center" width="250" height="${parent.height}"  bgcolor="#808080">
 				<tabslider name="center_tabslider" height="100%" width="100%">
-					<tabelement name="tab_broadcast" text="Broadcast" bgcolor="red"></tabelement>
-					<tabelement name="tab_desktop" text="Desktop Sharing" bgcolor="yellow"></tabelement>
-					<tabelement name="tab_streams" text="Streams" selected="true" bgcolor="orange"></tabelement>
+					<tabelement name="tab_broadcast" text="Broadcast and Desktop Sharing" height="300">
+						<roomSharingEnter id="myShareEnter" height="100%" width="100%"></roomSharingEnter>
+						<roomPublisher id="myRoomPublisher" height="100%" width="100%" align="center" valign="middle"></roomPublisher>
+					</tabelement>
+					<tabelement name="tab_streams" text="Streams" selected="true"></tabelement>
 				</tabslider>
 			</view>
 			<view name="right" width="${parent.width-parent.left.width-parent.center.width}" height="${parent.height}" bgcolor="#585858">
@@ -64,6 +66,9 @@
 		</method>
 		<method name="getRoomName">
 			return this.head.left.roomname.text;
+		</method>
+		<method name="getUserName">
+			return this.head.right.username.text;
 		</method>
 	</class>
 </library>

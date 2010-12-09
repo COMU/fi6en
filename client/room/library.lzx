@@ -11,4 +11,6 @@
 	<include href="roomUserList.lzx"/>
 	<include href="../file/library.lzx"/>
 	<include href="roomProfile.lzx" />
+	<include href="roomSharingEnter.lzx"/>
+	<include href="roomPublisher.lzx"/>
 </library>

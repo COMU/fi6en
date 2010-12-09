@@ -1,0 +1,56 @@
+<library>
+	<class name="roomSharingEnter" extends="view">
+		<view name="broadcast" valign="top" align="center">
+			<simplelayout axis="y" spacing="5" />
+			<text>Choose WebCam:</text>
+			<combobox name="webcam" width="${classroot.width}" editable="false">
+				<passthrough>
+                	import flash.media.Camera;
+				</passthrough>
+				<handler name="oninit">
+				<![CDATA[
+					var tw = Camera.names;
+					var r = "";
+					for (var eg=0;eg<tw.length;eg++){
+						this.addItem(tw[eg],eg);
+						r=eg;
+					}
+					this.selectItem(0);
+				]]>
+				</handler>
+			</combobox>
+			<text>Choose MicroPhone:</text>
+			<combobox name="mic" width="${classroot.width}" editable="false" >
+				<passthrough>
+                	import flash.media.Microphone;
+				</passthrough>
+				<handler name="oninit">
+				<![CDATA[
+					var tw = Microphone.names;
+					var r = "";
+					for (var eg=0;eg<tw.length;eg++){
+						this.addItem(tw[eg],eg);
+						r=eg;
+					}
+					this.selectItem(0);
+				]]>
+				</handler>
+			</combobox>
+			<text></text>
+			<view name="buttons">
+				<simplelayout axis="y" spacing="10"></simplelayout>
+				<button name="button_broadcast" width="${classroot.width}" height="32" text="Start Broadcasting">
+					<image src="resources/icons/broadcast.png"></image>
+					<image src="resources/icons/play.png" align="right" valign="middle"></image>
+					<handler name="onclick">
+						myRoomPublisher.publish(roomScreen2.getUserName());
+					</handler>
+				</button>
+				<button name="button_desktop" width="${classroot.width}" height="32" text="Start Desktop Sharing" enabled="false">
+					<image src="resources/icons/desktop.png"></image>
+					<image src="resources/icons/play.png" align="right" valign="middle"></image>
+				</button>
+			</view>
+		</view>
+	</class>
+</library>

@@ -1,0 +1,49 @@
+<library>
+	<include href="../remote/netStream.lzx" />
+	<!--class for a publisher view : publishing video and recording-->
+	<class name="roomPublisher" extends="view">
+		<attribute name="align" value="center"/>
+		<attribute name="valign" value="middle"/>
+		<microphone name="micc" capturing="true" silencelevel="30" gain="40"/>
+		<camera name="camm" capturing="false" />	
+		<!--netStream object for publish operation-->
+		<netStream name="streamPublish" type="rtmp" rtmp="${conn}"/>
+		
+		<!--view for video and recording-->
+		<view name="broadcastView" height="${classroot.height}" width="${classroot.width}">			
+			<simplelayout spacing="10" />
+			<button name="stopbutton" text="Stop Broadcasting" width="220" visible="false" onclick="classroot.stopPublishing()"></button>
+			<videoview name="broadcasting" width="220" height="200" type="rtmp"> 
+				<camera name="mycam" />
+			</videoview>
+		</view>	
+			
+		<!--publish video-->
+		<method name="publish" args="streamName">			
+			streamPublish.setAttribute("url", streamName);
+			streamPublish.setAttribute("mic", micc);
+			streamPublish.setAttribute("cam", camm);
+			camm.setMode(220, 200, 15, false);
+			camm.setQuality(32768, 0);
+			micc.setAttribute("silencelevel",5);
+			broadcastView.broadcasting.mycam.setAttribute("show",true);
+			broadcastView.broadcasting.setAttribute("visible", true);
+			broadcastView.stopbutton.setAttribute("visible", true);
+			myShareEnter.setAttribute("visible", false);
+			streamPublish.broadcast();
+			Debug.info("started broadcasting:", streamPublish.url);
+			chatScreen.soChat.send("writeInfo",loginScreen.getUsername()+" started broadcasting");
+		</method>
+		<!--stops publishing video-->
+		<method name="stopPublishing">
+			streamPublish._flashstream.close();
+			streamPublish.stop();
+			//streamPublish.setAttribute('publishing', false);
+			broadcastView.broadcasting.mycam.setAttribute('show', false);
+			broadcastView.broadcasting.setAttribute("visible", false);
+			broadcastView.stopbutton.setAttribute("visible", false);
+			myShareEnter.setAttribute("visible", true);
+		</method>
+	</class>
+	
+</library>

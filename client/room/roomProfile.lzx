@@ -1,12 +1,12 @@
 <library>
 	<script src="../services/userservice/auth/md5.js"/>	
-	<class name="roomProfile">
+	<class name="roomProfile" extends="view">
 		<handler name="oninit">
 			dset2.setQueryParam("username", "kozdincer");
 			dset2.doRequest();
 		</handler>
 		<dataset name="dset2" src="http://localhost:5080/fi6en/getuser" request="true" type="http" />
-		<view name="update" width="235" bgcolor="white" align="center" valign="middle">
+		<view name="update" width="235" bgcolor="white">
 			<simplelayout axis="y" spacing="10" />
 			<view name="information">
 				<simplelayout axis="x" spacing="5" />
