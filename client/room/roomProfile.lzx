@@ -6,7 +6,7 @@
 			dset2.doRequest();
 		</handler>
 		<dataset name="dset2" src="http://localhost:5080/fi6en/getuser" request="true" type="http" />
-		<view name="update" width="235" bgcolor="white">
+		<view name="update" width="235">
 			<simplelayout axis="y" spacing="10" />
 			<view name="information">
 				<simplelayout axis="x" spacing="5" />

@@ -1,6 +1,16 @@
 <library>
 	<include href="library.lzx"/>
 	<class name="mymymy" extends="view">
+		<attribute name="bgcolor" value="lightblue"/>
+		<sharedObjectMediators name="mediators" />
+		<sharedObjectChatRoom id="soChatRoom"> 
+			<handler name="onstage" reference="conn">
+				if (conn.stage==2) {
+					this.connect("chatRoom", conn._nc, true);
+					this.so.client = new SharedObjectChatRoomMediator(this);
+				}
+			</handler>
+		</sharedObjectChatRoom>
 		<simplelayout axis="y" spacing="1" />
 		<view name="head" height="32" width="100%" bgcolor="grey">
 			<view name="left" width="300" height="${parent.height}" bgcolor="#A0A0A0">
@@ -27,7 +37,7 @@
 			</view>
 		<stableborderlayout axis="x" />
 		</view>
-		<view name="main" height="100%" width="100%">
+		<view name="main" height="93%" width="100%">
 			<view name="left" width="250" height="${parent.height}">
 				<tabs name="left_tabs" height="100%" width="100%" align="center" valign="middle">
 					<tabpane name="tab_userlist" text="Users" >
@@ -41,7 +51,7 @@
 					</tabpane>
 				</tabs>
 			</view>
-			<view name="center" width="250" height="${parent.height}"  bgcolor="#808080">
+			<view name="center" width="250" height="${parent.height-2}">
 				<tabslider name="center_tabslider" height="100%" width="100%">
 					<tabelement name="tab_broadcast" text="Broadcast and Desktop Sharing" height="300">
 						<roomSharingEnter id="myShareEnter" height="100%" width="100%"></roomSharingEnter>
@@ -50,13 +60,17 @@
 					<tabelement name="tab_streams" text="Streams" selected="true"></tabelement>
 				</tabslider>
 			</view>
-			<view name="right" width="${parent.width-parent.left.width-parent.center.width}" height="${parent.height}" bgcolor="#585858">
-				<view name="top" height="${parent.height-parent.bottom.height}" width="100%" bgcolor="white"></view>
-				<view name="bottom" height="150" width="100%" bgcolor="black"></view>
+			<view name="right" width="${parent.width-parent.left.width-parent.center.width}" height="${parent.height}">
+				<view name="top" height="${parent.height-parent.bottom.height-2}" width="100%" bgcolor="yellow"></view>
+				<view name="hr" height="1" width="100%" bgcolor="grey"/>
+				<view name="bottom" height="150" width="100%">
+					<roomChat name="myRoomChat" height="${parent.parent.bottom.height}" width="${parent.parent.bottom.width}"></roomChat>
+				</view>
 			<simplelayout axis="y"/>
 			</view>	
 		<simplelayout axis="x"/>
 		</view>
+		<view height="5" width="100%" bgcolor="green"></view>
 		<method name="setRoomName" args="roomname">
 			this.head.left.roomname.setAttribute("text", roomname);
 		</method>

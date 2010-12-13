@@ -25,7 +25,7 @@
 			</menubar>
 		</view>
 		<view name="list">
-			<grid name="table_users" datapath="local:classroot.dset:/users" height="${classroot.parent.height-75}" width="235" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">
+			<grid name="table_users" datapath="local:classroot.dset:/users" height="${classroot.parent.height-75}" width="235" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" >
 				<gridcolumn name="column_empty" width="42" resizable="false" sortable="true" clickable="true">
 					<image prefix="resources/icons/" datapath="micon/text()" valign="middle" clickable="true"></image>
 				</gridcolumn>
