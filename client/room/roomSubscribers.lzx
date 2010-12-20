@@ -1,0 +1,26 @@
+<library>
+	<include href="roomSubs.lzx"/>
+	<class name="roomSubscribers" extends="view">
+		<view name="main" width="100%" height="100%" clip="true">
+			<scrollbar/>
+			
+			<view name="subscribers" align="center">
+				<wrappinglayout name="myLayout" axis="x" spacing="2"/>
+				<view name="hr" bgcolor="black" width="${classroot.main.width}" height="1"></view>
+				
+			</view>
+			
+		</view>
+		<button>
+			<handler name="onclick">
+				var d = new Date();
+				new lz.roomSubs(parent.main.subscribers, {
+							"name" : d.toString(),
+							"height" : 162,
+							"width" : 140,
+							"title" : d.getMilliseconds()
+						});
+			</handler>
+		</button>
+	</class>
+</library>

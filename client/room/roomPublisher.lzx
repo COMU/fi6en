@@ -33,6 +33,7 @@
 			streamPublish.broadcast();
 			Debug.info("started broadcasting:", streamPublish.url);
 			chatScreen.soChat.send("writeInfo",loginScreen.getUsername()+" started broadcasting");
+			conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), true);
 		</method>
 		<!--stops publishing video-->
 		<method name="stopPublishing">
@@ -43,6 +44,7 @@
 			broadcastView.broadcasting.setAttribute("visible", false);
 			broadcastView.stopbutton.setAttribute("visible", false);
 			myShareEnter.setAttribute("visible", true);
+			conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), false);
 		</method>
 	</class>
 	

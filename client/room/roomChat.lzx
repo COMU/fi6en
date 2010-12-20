@@ -28,10 +28,17 @@
 						</method>
 					</button>
 					<image src="resources/icons/copy.png" clickable="true">
-						<tooltip>Chat Output</tooltip>
+						<tooltip>Copy to Clipboard</tooltip>
+						<handler name="onclick">
+							var msg = classroot.chat.messageAreaView.messageArea.text;
+							lz.Browser.setClipboard(msg);
+						</handler>
 					</image>
 					<image src="resources/icons/clear.png" clickable="true">
 						<tooltip>Clear Chat Box</tooltip>
+						<handler name="onclick">
+							classroot.chat.messageAreaView.messageArea.clearText();
+						</handler>
 					</image>
 				</view>
 			</view>

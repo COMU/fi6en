@@ -33,6 +33,8 @@
 						chatScreen.animate("opacity", "1", "700");
 					}
 					
+					
+					
 				</handler>
 			</view>
 			<view>
@@ -109,10 +111,10 @@
 		</view>
 		<method name="gotoLoby">
 			//Roomservice
-					var roomname = "";
-					conn._nc.call("roomservice.addUserToRoom", null, loginScreen.getUsername(), "");
-					
 					//
+					var roomname = "";
+					conn._nc.call("roomservice.addUserToRoom", this.responder, loginScreen.getUsername(), roomname);
+					
 					if (roomScreen2.opacity == 1) {
 						roomScreen2.animate("opacity", "0", "700");
 						conn.setAttribute('src', conn.type + '://' + conn.host
@@ -130,6 +132,11 @@
 					if (chatScreen.opacity == 0) {
 						chatScreen.animate("opacity", "1", "700");
 					}
+					
+					var roomname = "";
+					conn._nc.call("roomservice.addUserToRoom", this.responder, loginScreen.getUsername(), roomname);
+					
+					
 		</method>
 	</class>
 </library>

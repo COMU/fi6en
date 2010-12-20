@@ -22,6 +22,9 @@
 					<menuitem>Kick User</menuitem>
 					<menuitem>Set User As Moderator</menuitem>
 				</menu>
+				<menu name="inviteMenu" text="Invite" enabled="true">
+					<menuitem>Invite People</menuitem>
+				</menu>
 			</menubar>
 		</view>
 		<view name="list">
@@ -38,7 +41,7 @@
 				<handler name="onselect">
 					
 					classroot.mod.mymenubar.normalMenu.setAttribute("enabled", true);
-					var m = classroot.isUserMod("ana");
+					var m = classroot.isUserMod(loginScreen.getUsername());
 					if (m == true) {
 						classroot.mod.mymenubar.modMenu.setAttribute("enabled", true);
 					}

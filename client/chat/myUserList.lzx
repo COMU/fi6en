@@ -11,16 +11,6 @@
 							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterUp();
 						</handler>
 					</menuitem>
-					<menuitem text="Masaüstünü İzle">
-						<handler name="onselect">
-							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterDown();
-							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterUp();
-						</handler>
-					</menuitem>
-				</menu>
-				<menu name="modMenu" text="Mod Actions" enabled="false">
-					<menuitem>Kick User</menuitem>
-					<menuitem>Set User As Moderator</menuitem>
 				</menu>
 			</menubar>
 		</view>
@@ -38,10 +28,6 @@
 				<handler name="onselect">
 					
 					classroot.mod.mymenubar.normalMenu.setAttribute("enabled", true);
-					var m = classroot.isUserMod("ana");
-					if (m == true) {
-						classroot.mod.mymenubar.modMenu.setAttribute("enabled", true);
-					}
 				</handler>
 			</grid>
 		</view>
