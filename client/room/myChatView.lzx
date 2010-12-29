@@ -49,6 +49,9 @@
 					<tabpane name="tab_profile" text="Profile">
 						<roomProfile name="roomProfile"></roomProfile>
 					</tabpane>
+					<tabpane name="tab_invite" text="Invite" height="100%" width="100%">
+						<text>deneme invite</text>
+					</tabpane>
 				</tabs>
 			</view>
 			<view name="center" width="300" height="${parent.height-2}">
