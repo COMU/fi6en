@@ -51,13 +51,15 @@
 					</tabpane>
 				</tabs>
 			</view>
-			<view name="center" width="250" height="${parent.height-2}">
+			<view name="center" width="300" height="${parent.height-2}">
 				<tabslider name="center_tabslider" height="100%" width="100%">
 					<tabelement name="tab_broadcast" text="Broadcast and Desktop Sharing" height="300">
 						<roomSharingEnter id="myShareEnter" height="100%" width="100%"></roomSharingEnter>
 						<roomPublisher id="myRoomPublisher" height="100%" width="100%" align="center" valign="middle"></roomPublisher>
 					</tabelement>
-					<tabelement name="tab_streams" text="Streams" selected="true"></tabelement>
+					<tabelement name="tab_streams" text="Streams" selected="true">
+						<roomSubscribers id="myRoomSubs" width="100%" height="100%"></roomSubscribers>
+					</tabelement>
 				</tabslider>
 			</view>
 			<view name="right" width="${parent.width-parent.left.width-parent.center.width}" height="${parent.height}">

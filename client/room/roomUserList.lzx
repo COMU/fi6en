@@ -6,16 +6,15 @@
 			<menubar name="mymenubar" width="235">
 				<menu name="normalMenu" text="Actions" enabled="false">
 					<menuitem text="Yayını İzle">
-						<handler name="onselect">
-							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterDown();
-							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterUp();
+						<handler name="onclick">
+							var username = roomUserList.getSelectedUserName();
+							var isb = roomUserList.isUserBroadcast(username);
+							if (isb) {
+								myRoomSubs.createSubs(username);
+							}
 						</handler>
 					</menuitem>
 					<menuitem text="Masaüstünü İzle">
-						<handler name="onselect">
-							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterDown();
-							chatScreen.mainChatView.videoViewPlay.showUserCam.doEnterUp();
-						</handler>
 					</menuitem>
 				</menu>
 				<menu name="modMenu" text="Mod Actions" enabled="false">
@@ -23,7 +22,11 @@
 					<menuitem>Set User As Moderator</menuitem>
 				</menu>
 				<menu name="inviteMenu" text="Invite" enabled="true">
-					<menuitem>Invite People</menuitem>
+					<menuitem text="invite buddy">
+						<handler name="onclick">
+							Debug.debug(loginScreen.getUsername());
+						</handler>
+					</menuitem>
 				</menu>
 			</menubar>
 		</view>
@@ -45,6 +48,7 @@
 					if (m == true) {
 						classroot.mod.mymenubar.modMenu.setAttribute("enabled", true);
 					}
+					
 				</handler>
 			</grid>
 		</view>
@@ -52,23 +56,7 @@
 			dset.setQueryParam("roomname", roomScreen2.getRoomName());
 			dset.doRequest();
 		</method>
-		<method name="setModView">
-		</method>
-		<method name="setNormalView">
-		</method>
-		<method name="getSelectedUserName">
-			var username = "";
-			var sel = list.table_users.getSelection();
-			var dp = sel[0];
-			username = dp.xpathQuery("username/text()");
-			return username;
-		</method>
-		<method name="getSelectedIsBroadcast">
-			var sel = list.table_users.getSelection();
-			var dp = sel[0];
-			var broadcast = dp.xpathQuery("isBroadcasting/text()");
-			return broadcast;
-		</method>
+		
 		<method name="isUserMod" args="myname">
 			var dp = dset.getPointer();
 			var name="";
@@ -87,16 +75,30 @@
 				}
 			} while (dp.selectNext());
 		</method>
-		
-		<!-- Others -->
-		<method name="watchStream">
-			Debug.debug("yayın izlensin efem..");
+		<method name="isUserBroadcast" args="myname">
+			var dp = dset.getPointer();
+			var name="";
+			var ismod="";
+			dp.selectChild(2);
+			do {
+				name = dp.xpathQuery("username/text()");
+				ismod = dp.xpathQuery("isBroadcasting/text()");
+				if (name == myname) {
+					if (ismod == "true") {
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			} while (dp.selectNext());
 		</method>
-		<method name="watchDesktop">
-			Debug.debug("desktop izleniyor")
-		</method>
-		<method name="kickUser">
-			Debug.debug("UserKicked");
+		<method name="getSelectedUserName">
+			var sel = this.list.table_users.getSelection();
+			var dp = sel[0];
+			var username = "";
+			username = dp.xpathQuery("username/text()");
+			return username;
 		</method>
 	</class>
 </library>

@@ -4,15 +4,15 @@
 		<view name="main" height="100%" width="100%" bgcolor="black">
 			<view name="main2" height="${parent.height-2}" width="${parent.width-2}" align="center" valign="middle" bgcolor="lightblue">
 				<view name="head" height="20" width="${parent.width}" bgcolor="white">
-					<text name="username" x="10" valign="middle" text="${classroot.title}"></text>
-					<image name="mute" src="../resources/icons/close.png" align="right" valign="middle" clickable="true">
+					<text name="username" x="5" valign="middle" text="${classroot.title}"></text>
+					<image name="mute" src="resources/icons/close.png" align="right" valign="middle" clickable="true">
 						<tooltip>Close Stream</tooltip>
 						<handler name="onclick">
 							Debug.debug("Mute");
 							classroot.destroy();
 						</handler>
 					</image>
-					<image src="../resources/icons/mute.png" valign="middle" clickable="true" x="${parent.mute.x-20}">
+					<image src="resources/icons/mute.png" valign="middle" clickable="true" x="${parent.mute.x-20}">
 						<tooltip>Mute Sound</tooltip>
 						<handler name="onclick">
 							Debug.debug("Stop da stream");
@@ -24,19 +24,5 @@
 				<simplelayout axis="y"></simplelayout>
 			</view>
 		</view>
-		<method name="hide">
-			this.animate("height", 22, 500);
-			main.main2.hr.setAttribute("visible", false);
-			main.main2.body.setAttribute("visible", false);
-			main.main2.hr2.setAttribute("visible", false);
-			main.main2.bottom.setAttribute("visible", false);
-		</method>
-		<method name="show">
-			this.animate("height", 204, 500);
-			main.main2.hr.setAttribute("visible", true);
-			main.main2.body.setAttribute("visible", true);
-			main.main2.hr2.setAttribute("visible", true);
-			main.main2.bottom.setAttribute("visible", true);
-		</method>
 	</class>
 </library>
