@@ -26,13 +26,11 @@
 			this.streamPlay.close();
 			this.destroy();
 		</handler>
-		
-		<handler name="onstart">
-			Debug.info("play mediastream onstart");
-		</handler>
-		
-		<handler name="onstop">
-			Debug.info("play mediastream onstop");
-		</handler>
+		<method name="muteOn">
+			this.live.playvolume(0);
+		</method>
+		<method name="muteOff">
+			this.live.playvolume(1);
+		</method>
 	</class>
 </library>

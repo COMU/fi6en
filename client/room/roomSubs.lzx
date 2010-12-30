@@ -9,16 +9,8 @@
 				<view name="head" height="20" width="${parent.width}" bgcolor="white">
 					<text name="username" x="5" valign="middle" text="${classroot.title}"></text>
 					<image name="mute" src="resources/icons/close.png" align="right" valign="middle" clickable="true">
-						<tooltip>Close Stream</tooltip>
 						<handler name="onclick">
-							Debug.debug("Mute");
 							classroot.destroy();
-						</handler>
-					</image>
-					<image src="resources/icons/mute.png" valign="middle" clickable="true" x="${parent.mute.x-20}">
-						<tooltip>Mute Sound</tooltip>
-						<handler name="onclick">
-							Debug.debug("Stop da stream");
 						</handler>
 					</image>
 				</view>
@@ -26,6 +18,18 @@
 				<view name="body" height="${classroot.height-21}" width="${parent.width}">
 					<myRoomSubscriber name="mySub" width="100%" height="100%">
 					</myRoomSubscriber>
+					<image src="resources/icons/sound.png" align="right" valign="bottom" clickable="true">
+						<handler name="onclick">
+							if (src == "resources/icons/sound.png") {
+								setAttribute("src", "resources/icons/mute.png");
+								parent.mySub.muteOn();
+							}
+							else {
+								setAttribute("src", "resources/icons/sound.png");
+								parent.mySub.muteOff();
+							}
+						</handler>
+					</image>
 				</view>
 				<simplelayout axis="y"></simplelayout>
 			</view>

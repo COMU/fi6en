@@ -19,10 +19,9 @@
 				<text name="roomname" text="myroom" fgcolor="white"></text>
 			</view>
 			<view name="center" height="${parent.height}"  bgcolor="#808080"></view>
-			<view name="right" width="${username.width+button_exit.width+language.width+40}" height="${parent.height}" bgcolor="#585858">
+			<view name="right" width="${username.width+button_exit.width+40}" height="${parent.height}" bgcolor="#585858">
 			<simplelayout axis="x" spacing="20" />
-				<languageSelector name="language" align="center" valign="middle"></languageSelector>
-				<text name="username" clickable="true" text="kozdincer" valign="middle" fontsize="24" fgcolor="white" >
+				<text name="username" clickable="true" text="" valign="middle" fontsize="24" fgcolor="white" >
 					<handler name="onclick">
 						classroot.main.left.left_tabs.tab_profile.select();
 					</handler>
