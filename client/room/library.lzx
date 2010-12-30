@@ -15,4 +15,5 @@
 	<include href="roomPublisher.lzx"/>
 	<include href="roomChat.lzx"/>
 	<include href="roomSubscribers.lzx"/>
+	<include href="roomSubscriber.lzx"/>
 </library>

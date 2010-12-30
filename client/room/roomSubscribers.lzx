@@ -12,11 +12,12 @@
 			
 		</view>
 		<method name="createSubs" args="name">
-			new lz.roomSubs(main.subscribers, {
+			var s = new lz.roomSubs(main.subscribers, {
 						"height" : 152,
 						"width" : 130,
 						"title" : name
 					});
+			s.main.main2.body.mySub.playStream(name);
 		</method>
 	</class>
 </library>

@@ -1,0 +1,38 @@
+<library>
+	<!--subscriber window class-->
+	<class name="myRoomSubscriber" extends="view">
+		<attribute name="sname" type="string"/>
+		<!--netStream object for play operation-->
+		<netStream name="streamPlay" type="rtmp" rtmp="${conn}"/>
+		<!--videoview that is the resource of the subscriber window-->
+		<videoview name="live" width="${classroot.width}" height="${classroot.height}" type="rtmp"
+				   stream="${parent.streamPlay}">
+			<handler name="onwidth" reference="parent">
+				this.setAttribute('width', parent.width);
+			</handler>
+			<handler name="onheight" reference="parent">
+				this.setAttribute('height', parent.height);
+			</handler>			 
+		</videoview>
+		<!--subscribes the given stream named streamName-->
+		<method name="playStream" args="streamName">
+			streamPlay.setAttribute("url", streamName);
+			streamPlay.play();
+		</method>
+		<method name="closeStream">
+			this.streamPlay.close();
+		</method>
+		<handler name="onvisible">
+			this.streamPlay.close();
+			this.destroy();
+		</handler>
+		
+		<handler name="onstart">
+			Debug.info("play mediastream onstart");
+		</handler>
+		
+		<handler name="onstop">
+			Debug.info("play mediastream onstop");
+		</handler>
+	</class>
+</library>

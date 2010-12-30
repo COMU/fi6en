@@ -1,6 +1,9 @@
 <library>
 	<class name="roomSubs" extends="view">
 		<attribute name="title"/>
+		<handler name="ondestroy">
+			this.main.main2.body.mySub.closeStream();
+		</handler>
 		<view name="main" height="100%" width="100%" bgcolor="black">
 			<view name="main2" height="${parent.height-2}" width="${parent.width-2}" align="center" valign="middle" bgcolor="lightblue">
 				<view name="head" height="20" width="${parent.width}" bgcolor="white">
@@ -20,7 +23,10 @@
 					</image>
 				</view>
 				<view name="hr" height="1" width="${parent.width}" bgcolor="black"/>
-				<view name="body" height="${classroot.height-21}" width="${parent.width}"></view>
+				<view name="body" height="${classroot.height-21}" width="${parent.width}">
+					<myRoomSubscriber name="mySub" width="100%" height="100%">
+					</myRoomSubscriber>
+				</view>
 				<simplelayout axis="y"></simplelayout>
 			</view>
 		</view>
