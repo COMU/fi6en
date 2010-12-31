@@ -27,10 +27,10 @@
 			this.destroy();
 		</handler>
 		<method name="muteOn">
-			this.live.playvolume(0);
+			this.live.setAttribute("playvolume", 0.0);
 		</method>
 		<method name="muteOff">
-			this.live.playvolume(1);
+			this.live.setAttribute("playvolume", 1.0);
 		</method>
 	</class>
 </library>
