@@ -12,10 +12,14 @@
 		<!--view for video and recording-->
 		<view name="broadcastView" height="${classroot.height}" width="${classroot.width}">			
 			<simplelayout spacing="10" />
-			<button name="stopbutton" text="Stop Broadcasting" width="220" visible="false" onclick="classroot.stopPublishing()"></button>
-			<videoview name="broadcasting" width="220" height="200" type="rtmp"> 
+			<videoview name="broadcasting" width="256" height="256" type="rtmp"> 
 				<camera name="mycam" />
 			</videoview>
+			<button name="stopbutton" text="Stop Broadcasting" width="256" height="32" visible="false" onclick="classroot.stopPublishing()">
+				<image src="resources/icons/broadcast.png"></image>
+				<image src="resources/icons/stop.png" align="right" valign="middle"></image>
+			</button>
+
 		</view>	
 			
 		<!--publish video-->
@@ -23,7 +27,7 @@
 			streamPublish.setAttribute("url", streamName);
 			streamPublish.setAttribute("mic", micc);
 			streamPublish.setAttribute("cam", camm);
-			camm.setMode(220, 200, 15, false);
+			camm.setMode(256, 256, 15, false);
 			camm.setQuality(32768, 0);
 			micc.setAttribute("silencelevel",5);
 			broadcastView.broadcasting.mycam.setAttribute("show",true);
