@@ -24,7 +24,7 @@
 				<menu name="inviteMenu" text="Invite" enabled="true">
 					<menuitem text="invite buddy">
 						<handler name="onclick">
-							Debug.debug(loginScreen.getUsername());
+							roomScreen2.openInviteTab();
 						</handler>
 					</menuitem>
 				</menu>

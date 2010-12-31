@@ -46,6 +46,10 @@
 						myRoomPublisher.publish(roomScreen2.getUserName());
 					</handler>
 				</button>
+				<button name="button_desktop" width="${classroot.width}" height="32" text="Start Desktop Sharing" enabled="false">
+							<image src="resources/icons/desktop.png"></image>
+							<image src="resources/icons/play.png" align="right" valign="middle"></image>
+						</button>
 			</view>
 		</view>
 	</class>

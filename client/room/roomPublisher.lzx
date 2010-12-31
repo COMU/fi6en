@@ -19,7 +19,6 @@
 				<image src="resources/icons/broadcast.png"></image>
 				<image src="resources/icons/stop.png" align="right" valign="middle"></image>
 			</button>
-
 		</view>	
 			
 		<!--publish video-->
