@@ -1,7 +1,7 @@
 <library>
 	<include href="fileupload.lzx"/>
 	<class name="fileList" extends="view">
-		<dataset name="dset" src="http://localhost:5080/sodeneme/FileListServlet" request="true" type="http"></dataset>
+		<dataset name="dset" src="http://localhost:5080/fi6en/FileListServlet" request="true" type="http"></dataset>
 		<simplelayout axis="y" spacing="5" />
 		<view name="mod">
 			<menubar name="mymenubar" width="235">
@@ -64,7 +64,7 @@
 				<button name="button_upload" text="Upload" enabled="false">
 					<handler name="onclick">
 						parent.file_uploader
-								.upload('http://localhost:5080/sodeneme/MyServlet');
+								.upload('http://localhost:5080/fi6en/MyServlet');
 					</handler>
 				</button>
 				

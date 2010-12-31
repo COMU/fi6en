@@ -70,4 +70,20 @@
 		<servlet-name>RoomGetServlet</servlet-name>
 		<url-pattern>/getroom</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>MyServlet</servlet-name>
+		<servlet-class>org.red5.fi6en.file.MyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MyServlet</servlet-name>
+		<url-pattern>/MyServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	<servlet-name>FileListServlet</servlet-name>
+		<servlet-class>org.red5.fi6en.file.FileListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FileListServlet</servlet-name>
+		<url-pattern>/FileListServlet</url-pattern>
+	</servlet-mapping>
 </web-app>
