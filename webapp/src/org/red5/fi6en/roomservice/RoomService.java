@@ -22,6 +22,7 @@ import org.red5.fi6en.userservice.UserStatus;
 import org.red5.fi6en.util.HibernateUtil;
 import org.red5.logging.Red5LoggerFactory;
 import org.red5.server.Client;
+import org.red5.server.Scope;
 import org.red5.server.api.IClient;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
@@ -130,9 +131,45 @@ public class RoomService {
 	}
 	
 	public void kickUser(String userName, String roomName) {
+		IConnection conn = Red5.getConnectionLocal();
+		IScope scope = conn.getScope();
+		Set<IClient> clients = scope.getClients();
+		Iterator<IClient> clis = clients.iterator();
+		while (clis.hasNext()) {
+			Long id = getUserClienID(userName);
+			IClient client = clis.next();
+			Long cid = Long.parseLong(client.getId());
+			if (cid == id) {
+				IServiceCapableConnection isc = (IServiceCapableConnection) client.getConnections().iterator().next();
+				Object[]user  = new Object[]{""};
+				isc.invoke("kickMe", user);
+				break;
+			}
+		}
+		
 		log.info("User Kicked -> " + userName + " From Room -> " + roomName);
 	}
 	
+	public void inviteUser(String userName, String roomName) {
+		IScope scope = Red5.getConnectionLocal().getScope().getParent();
+		System.out.println(scope);
+		System.out.println(scope.getName());
+		System.out.println(scope.getClients());
+		System.out.println(scope.getConnections());
+		
+	}
+	
+	public long getUserClienID(String username) {
+		Session session = sessionFactory.openSession();
+		String sql = "select * from user_status where username = '" + username + "'";
+		SQLQuery query = session.createSQLQuery(sql);
+        query.addEntity("user_status", UserStatus.class);
+        List results = query.list();
+        Iterator iter = results.iterator();
+        UserStatus u = (UserStatus) iter.next();
+		return u.getClient_id();
+	}
+		
 	public void getRooms() {
 		log.info("Rooms Listed");
 	}

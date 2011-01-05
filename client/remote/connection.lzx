@@ -109,5 +109,23 @@
 			userList.refreshList();
 			roomUserList.refreshList();
 		</method>
+		<method name="kickMe" args="arg">
+			roomScreen2.quitRoom();
+			var myAlert = new lz.alert(canvas, {
+						text : "Moderator tarafından odadan atıldınız.",
+						stretches : 'both'
+					});
+			myAlert.open();
+		</method>
+		<method name="modMe" args="arg">
+			var myAlert = new lz.alert(canvas, {
+						text : "Odanın moderatorü yapıldınız.",
+						stretches : 'both'
+					});
+			myAlert.open();
+		</method>
+		<method name="inviteMe" args="roomname">
+			Debug.debug("Davet edildiniz.. for:" + " " + roomname);
+		</method>
 	</class>	
 </library>

@@ -1,11 +1,22 @@
 <canvas width="100%" height="100%" bgcolor="blue" debug="true">
-	<include href="roomUserList.lzx" />
-	<simplelayout axis="y" spacing="10"></simplelayout>
-	<roomUserList id="my"></roomUserList>
+	<include href="../remote/connection.lzx"/>
+	<dataset name="dsetConf" id="dsetConf"  src="../config.xml"/>
+	<connection id="conn" autoconnect="false">
+		<handler name="oninit">
+			var datapntr = dsetConf.getPointer();
+			this.setAttribute('type',datapntr.xpathQuery('config/connectiontype/text()'));
+			this.setAttribute('host',datapntr.xpathQuery('config/host/text()'));
+			this.setAttribute('port',datapntr.xpathQuery('config/'+type+'port/text()'));
+			this.setAttribute('webapprootkey',datapntr.xpathQuery('config/webapprootkey/text()'));
+			this.setAttribute('httpport',datapntr.xpathQuery('config/httpport/text()'));
+			this.setAttribute('src',type+'://'+host + ':'+port +'/'+webapprootkey);
+			//Debug.write("connection src:",connectiontype+'://'+host+':'+port+'/'+webapprootkey);
+			this.connect();
+		</handler>		
+	</connection>
 	<button>
 		<handler name="onclick">
-			Debug.debug(my.getSelectedUserName());
+			conn._nc.call("roomservice.inviteUser", null, "kaan", "aaa");
 		</handler>
 	</button>
-	<debug height="200" width="200"/>
 </canvas>

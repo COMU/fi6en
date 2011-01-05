@@ -1,0 +1,64 @@
+<library>
+	<class name="roomInvite" extends="view">
+		<dataset name="dset" src="http://localhost:5080/fi6en/userlist" request="true" type="http" />
+		<handler name="onvisible">
+			refreshList();
+		</handler>
+		<simplelayout axis="y" spacing="5"></simplelayout>
+		<view name="buttons">
+			<simplelayout axis="x" spacing="5"/>
+			<edittext name="inviteName">
+			</edittext>
+			<button name="button_invite" text="Invite">
+				<handler name="onclick">
+					var username = parent.inviteName.text;
+					var roomname = roomScreen2.getRoomName();
+					conn._nc.call("roomservice.inviteUser", conn.responder, username, roomname);
+					roomScreen2.closeInviteTab();
+				</handler>
+			</button>
+			<button text="X">
+				<handler name="onclick">
+					roomScreen2.closeInviteTab();
+				</handler>
+			</button>
+		</view>
+		<view name="list">
+			<grid name="table_users" datapath="local:classroot.dset:/users" height="${classroot.parent.height-75}" width="235" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" >
+				<gridcolumn name="column_empty" width="42" resizable="false" sortable="true" clickable="true">
+					<image prefix="resources/icons/" datapath="micon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<gridcolumn name="column_username" text="Invite A User" width="135" resizable="false" sortable="true" clickable="true">
+					<text datapath="username/text()" valign="middle" align="left" maxlength="20" />
+				</gridcolumn>
+				<handler name="onselect" args="sel">
+					var d = new Date();
+					var thisclick = d.getTime();
+					var sel = this.getSelection();
+					if(sel.length==1){  // i.e. second click on same row as first...
+   						var interval = thisclick - this.lastclick;
+   						if(interval &lt; 500){   // less than a half second after last click
+       						
+   							var username = classroot.getSelectedUserName();
+   							classroot.buttons.inviteName.setAttribute("text", username);
+   							
+   						} else {
+       						this.setAttribute ('lastclick', thisclick);
+   						}
+					}
+
+				</handler>
+			</grid>
+		</view>
+		<method name="refreshList">
+			classroot.init();
+		</method>
+		<method name="getSelectedUserName">
+			var sel = this.list.table_users.getSelection();
+			var dp = sel[0];
+			var username = "";
+			username = dp.xpathQuery("username/text()");
+			return username;
+		</method>
+	</class>
+</library>
