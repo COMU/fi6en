@@ -151,7 +151,8 @@ public class RoomService {
 	}
 	
 	public void inviteUser(String userName, String roomName) {
-		IScope scope = Red5.getConnectionLocal().getScope().getParent();
+		System.out.println("dsadsadasdsadas21312312");
+		IScope scope = Red5.getConnectionLocal().getScope().getParent().getScope("fi6en");
 		System.out.println(scope);
 		System.out.println(scope.getName());
 		System.out.println(scope.getClients());

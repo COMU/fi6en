@@ -17,6 +17,7 @@
 	<button>
 		<handler name="onclick">
 			conn._nc.call("roomservice.inviteUser", null, "kaan", "aaa");
+			Debug.debug("olduu");
 		</handler>
 	</button>
 </canvas>
