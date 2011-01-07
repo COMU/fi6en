@@ -91,6 +91,7 @@
 		<method name="openInviteTab">
 			roomUserList.setAttribute("visible", false);
 			main.left.left_tabs.tab_userlist.roomInvite.setAttribute("visible", true);
+			main.left.left_tabs.tab_userlist.roomInvite.refreshList();
 		</method>
 		<method name="closeInviteTab">
 			roomUserList.setAttribute("visible", true);

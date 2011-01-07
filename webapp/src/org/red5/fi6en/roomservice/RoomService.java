@@ -152,11 +152,18 @@ public class RoomService {
 	
 	public void inviteUser(String userName, String roomName) {
 		System.out.println("dsadsadasdsadas21312312");
-		IScope scope = Red5.getConnectionLocal().getScope().getParent().getScope("fi6en");
-		System.out.println(scope);
-		System.out.println(scope.getName());
-		System.out.println(scope.getClients());
-		System.out.println(scope.getConnections());
+		IScope scope = Red5.getConnectionLocal().getScope().getParent();
+		Set<IClient> clients = scope.getClients();
+		Long id = getUserClienID(userName);
+		for (IClient client : clients) {
+			Long cid = Long.parseLong(client.getId());
+			if (cid == id) {
+				IServiceCapableConnection isc = (IServiceCapableConnection) client.getConnections().iterator().next();
+				Object[]user  = new Object[]{roomName};
+				isc.invoke("inviteMe", user);
+				break;
+			}
+		}
 		
 	}
 	

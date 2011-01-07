@@ -1,19 +1,16 @@
 <library>
 	<class name="roomInvite" extends="view">
 		<dataset name="dset" src="http://localhost:5080/fi6en/userlist" request="true" type="http" />
-		<handler name="onvisible">
-			refreshList();
-		</handler>
 		<simplelayout axis="y" spacing="5"></simplelayout>
 		<view name="buttons">
 			<simplelayout axis="x" spacing="5"/>
-			<edittext name="inviteName">
+			<edittext name="inviteName" enabled="false">
 			</edittext>
 			<button name="button_invite" text="Invite">
 				<handler name="onclick">
 					var username = parent.inviteName.text;
 					var roomname = roomScreen2.getRoomName();
-					conn._nc.call("roomservice.inviteUser", conn.responder, username, roomname);
+					conn._nc.call("roomservice.inviteUser", conn.responder, "kaan", roomname);
 					roomScreen2.closeInviteTab();
 				</handler>
 			</button>
@@ -51,7 +48,8 @@
 			</grid>
 		</view>
 		<method name="refreshList">
-			classroot.init();
+			dset.setQueryParam("roomname", "");
+			dset.doRequest();
 		</method>
 		<method name="getSelectedUserName">
 			var sel = this.list.table_users.getSelection();

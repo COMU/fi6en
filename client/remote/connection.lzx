@@ -125,7 +125,9 @@
 			myAlert.open();
 		</method>
 		<method name="inviteMe" args="roomname">
-			Debug.debug("Davet edildiniz.. for:" + " " + roomname);
+			var i = new lz.roomInviteDialog();
+			i.setAttribute("roomname", roomname);
+			i.open();
 		</method>
 	</class>	
 </library>
