@@ -1,5 +1,4 @@
 <library>
-	<include href="debugger/library.lzx" />
 	<!--shared object class of the room-->
 	<class name="sharedObjectChatRoom" extends="sharedObject">
 		<method name="createRoomButton" args="roomName">
