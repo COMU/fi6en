@@ -117,7 +117,6 @@
 					}
 			</handler>
 		</grid>
-		<edittext id="file_information_name"/>
 		<alert name="alert_file_information"></alert>
 		<method name="refreshList">
 			lz.Timer.addTimer( new LzDelegate( this, "refreshTimer" ), 500 );

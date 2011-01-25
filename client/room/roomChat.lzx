@@ -10,7 +10,6 @@
 					</handler>
 				</vscrollbar>
 			</view>
-			<view name="hr" height="1" width="${classroot.width}" bgcolor="grey"></view>
 			<view name="buttonView" align="center">
 				<simplelayout spacing="5" />
 				<view name="buttonViewInside1" layout="axis:x; spacing:5" align="center" valign="middle" height="${parent.parent.messageAreaView.height}">

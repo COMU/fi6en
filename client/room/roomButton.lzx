@@ -19,6 +19,7 @@
 			chatScreen.animate("opacity", "0", "700");
 			roomScreen2.setRoomName(this.text);
 			roomScreen2.animate("opacity", "1", "700");
+			notificationWindow.setAttribute("visible", false);
 			
 			//RoomService invoke...
 			conn._nc.call("roomservice.addUserToRoom", conn.responder, loginScreen.getUsername(), this.text);

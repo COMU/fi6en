@@ -1,7 +1,7 @@
 <library>
 	<include href="library.lzx"/>
 	<class name="mymymy" extends="view">
-		<attribute name="bgcolor" value="lightblue"/>
+		<attribute name="bgcolor" value="#1881B5"/>
 		<sharedObjectMediators name="mediators" />
 		<sharedObjectChatRoom id="soChatRoom"> 
 			<handler name="onstage" reference="conn">
@@ -18,9 +18,9 @@
 				<image name="logo" source="resources/icons/logo.png"></image>
 				<text name="roomname" text="myroom" fgcolor="white"></text>
 			</view>
-			<view name="center" height="${parent.height}"  bgcolor="#808080"></view>
-			<view name="right" width="${username.width+button_exit.width+10}" height="${parent.height}" bgcolor="#585858">
-				<text name="username" clickable="true" valign="middle" fontsize="24" fgcolor="white" x="${parent.button_exit.x-this.width-10}" >
+			<view name="center" height="${parent.height}" ></view>
+			<view name="right" width="32" height="32" bgcolor="#585858">
+				<text name="username" clickable="true" valign="middle" fontsize="24" fgcolor="white" x="${parent.button_exit.x-this.width-10}" visible="false">
 				</text>
 				<button name="button_exit" height="${parent.height}" width="${parent.height}" align="right" valign="middle">
 					<image source="resources/icons/exit.png" valign="middle"></image>
@@ -46,29 +46,31 @@
 					</tabpane>
 				</tabs>
 			</view>
-			<view name="center" width="300" height="${parent.height-2}">
-				<tabslider name="center_tabslider" height="100%" width="100%">
-					<tabelement name="tab_broadcast" text="Broadcast" height="300">
+			<view name="center" width="300" height="${parent.height-30}">
+				<view name="inf" width="250" height="28" align="right">
+					<image src="resources/icons/user_normal.png" height="24" width="24" align="right" valign="middle"></image>
+					<text name="username2" align="right" y="5" text="1232321"></text>
+				</view>
+				<tabslider name="center_tabslider" height="100%" width="100%" y="28">
+					<tabelement name="tab_broadcast" text="Broadcast" height="300"  selected="true">
 						<simplelayout axis="y" spacing="5"></simplelayout>
 						<roomSharingEnter id="myShareEnter" height="100%" width="100%"></roomSharingEnter>
 						<roomPublisher id="myRoomPublisher" height="100%" width="100%" align="center" valign="middle"></roomPublisher>
 					</tabelement>
-					<tabelement name="tab_streams" text="Streams" selected="true">
+					<tabelement name="tab_streams" text="Streams">
 						<roomSubscribers id="myRoomSubs" width="100%" height="100%"></roomSubscribers>
 					</tabelement>
 				</tabslider>
 			</view>
 			<view name="right" width="${parent.width-parent.left.width-parent.center.width}" height="${parent.height}">
-				<view id="whiteboard" height="${parent.height-parent.bottom.height-2}" width="100%" bgcolor="yellow"></view>
-				<view name="hr" height="1" width="100%" bgcolor="grey"/>
+				<view id="whiteboard" height="${parent.height-parent.bottom.height-2}" width="100%" bgcolor="white"></view>
 				<view name="bottom" height="150" width="100%">
-					<roomChat name="myRoomChat" height="${parent.parent.bottom.height}" width="${parent.parent.bottom.width}"></roomChat>
+					<roomChat name="myRoomChat" height="${parent.parent.bottom.height}" width="${parent.parent.bottom.width}" bgcolor="#B6C4FC"></roomChat>
 				</view>
 			<simplelayout axis="y"/>
 			</view>	
 		<simplelayout axis="x"/>
 		</view>
-		<view height="5" width="100%" bgcolor="green"></view>
 		<method name="setRoomName" args="roomname">
 			this.head.left.roomname.setAttribute("text", roomname);
 		</method>
@@ -84,6 +86,7 @@
 		</method>
 		<method name="setUserName" args="n">
 			this.head.right.username.setAttribute("text", n);
+			this.main.center.inf.username2.setAttribute("text", n+"      ");
 		</method>
 		<method name="openInviteTab">
 			roomUserList.setAttribute("visible", false);
