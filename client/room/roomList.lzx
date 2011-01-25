@@ -138,7 +138,7 @@
 			roomScreen2.setRoomName(name);
 			roomScreen2.animate("opacity", "1", "700");
 			roomScreen2.setUserName(loginScreen.getUsername());
-			
+			roomFileList.refreshList()
 			//RoomService invoke...
 			conn._nc.call("roomservice.addUserToRoom", conn.responder, loginScreen.getUsername(), name);
 		</method>

@@ -2,6 +2,7 @@ package org.red5.fi6en.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,11 @@ import org.hibernate.Transaction;
 import org.red5.fi6en.core.Application;
 import org.red5.fi6en.util.HibernateUtil;
 import org.red5.logging.Red5LoggerFactory;
+import org.red5.server.api.IClient;
+import org.red5.server.api.IConnection;
+import org.red5.server.api.IScope;
+import org.red5.server.api.Red5;
+import org.red5.server.api.service.IServiceCapableConnection;
 import org.slf4j.Logger;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -24,14 +30,15 @@ public class MyServlet extends HttpServlet {
 	
 	static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 	private static Logger log = Red5LoggerFactory.getLogger(Application.class,"sodeneme");
-	
+	private String roomname = "";
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		roomname = request.getParameter("roomname");
 		response.setContentType("text/html;charset=UTF-8");
 		log.info("#başladı.");
 
 		try {
-			MultipartRequest multipartRequest = new MultipartRequest(request, getServletContext().getRealPath("/"), 1024 * 1024, new DefaultFileRenamePolicy()); //1MB
+			MultipartRequest multipartRequest = new MultipartRequest(request, getServletContext().getRealPath("/"), 1024 * 2048, new DefaultFileRenamePolicy()); //1MB
 			//if (multipartRequest.getParameter("save") != null) {
 				
 				upload(request, response, multipartRequest);
@@ -77,7 +84,7 @@ public class MyServlet extends HttpServlet {
 		try {
 			FileBean f = new FileBean();
 			f.setFname(uploadedFile.getName());
-			f.setRname("");
+			f.setRname(roomname);
 			f.setType("pdf");
 			f.setOwner("kozdincer");
 			f.setDescription("description");

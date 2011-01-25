@@ -391,6 +391,26 @@ public class RoomService {
 			}
 		}
 	}
+	public void refreshFileList(String none) {
+		IConnection conn = Red5.getConnectionLocal();
+		IClient client = conn.getClient();
+		IScope scope = conn.getScope();
+		String clientId = client.getId();
+		String scopeName = scope.getName();
+		Set<IClient> myclients = scope.getClients();
+		for (IClient i: myclients) {
+			try {
+				String clientScopeName = i.getScopes().iterator().next().getName();
+				if (clientScopeName == scopeName) {
+					IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
+					Object[]user  = new Object[]{""};
+					isc.invoke("serverRefreshFileList", user);
+				}
+			} catch (Exception e) {
+				continue;
+			}
+		}
+	}
 	
 	public void addRoomFromAdmin(Map<String, Object> r) {
 		Session session = sessionFactory.openSession();

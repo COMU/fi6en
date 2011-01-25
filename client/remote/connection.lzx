@@ -30,6 +30,9 @@
 			this.serverRefreshUserList = function(message){
 				this._serverRefreshUserList(message);
 			}
+			this.serverRefreshFileList = function(message){
+				this._serverRefreshFileList(message);
+			}
 			this.kickMe = function(message){
 				this._kickMe(message);
 			}
@@ -120,6 +123,9 @@
 			welcome.addText("<b><font>" + ' ' + firstname + ' ' + lastname
 					+ "</font></b>");
 		]]>
+		</method>
+		<method name="_serverRefreshFileList" args="arg">
+			roomFileList.refreshList();
 		</method>
 		<method name="_serverRefreshRoomList" args="arg">
 			roomListView.refreshList();

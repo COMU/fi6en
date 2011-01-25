@@ -44,10 +44,9 @@ public class FileListServlet extends HttpServlet {
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response){
 		response.setContentType("text/html;charset=UTF-8");
-		
 		try {
 			PrintWriter out = response.getWriter();
-			out.print(getFiles("oda"));
+			out.print(getFiles(request.getParameter("roomname")));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,7 +61,7 @@ public class FileListServlet extends HttpServlet {
 		
 		//Select * from files
 		Session session = sessionFactory.openSession();
-		String sql = "select * from files";
+		String sql = "select * from files where rname = '"+scopeName+"'";
 		
 		SQLQuery query = session.createSQLQuery(sql);
         query.addEntity("filebean", FileBean.class);
@@ -76,6 +75,7 @@ public class FileListServlet extends HttpServlet {
 			sb.append("<file>");
 			
 			sb.append("<fname>" + f.getFname() + "</fname>");
+			sb.append("<id>" + f.getId() + "</id>");
 			sb.append("<rname>" + f.getRname() + "</rname>");
 			sb.append("<typ>" + f.getType() + ".png" + "</typ>");
 			sb.append("<type>" + f.getType() + "</type>");

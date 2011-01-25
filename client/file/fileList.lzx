@@ -5,11 +5,6 @@
 		<simplelayout axis="y" spacing="5" />
 		<view name="mod">
 			<menubar name="mymenubar" width="235">
-				<menu name="normalMenu" text="Actions" enabled="false">
-					<menuitem text="Open File"></menuitem>
-					<menuitem text="Delete File"></menuitem>
-					<menuitem text="İnformation"></menuitem>
-				</menu>
 				<menu name="uploadMenu" text="Upload">
 					<menuitem text="File Upload">
 						<handler name="onselect">
@@ -38,7 +33,7 @@
 						parent.parent.progressBar.setText("");
 
 						parent.parent.progressBar.setValue(100);
-						classroot.refreshList();
+						conn._nc.call("roomservice.refreshFileList", null, "");
 						classroot.hideUpload();
 					</method>
 					<method name="onProgress" args="objDummy, bytesLoaded, bytesTotal">
@@ -55,16 +50,15 @@
 		
 				<button name="button_browse" text="Browse">
 					<handler name="onclick">
-						Debug.debug(fileType.getSelection()[0]);
-						//parent.file_uploader.browse();
-						//parent.parent.progressBar.setValue(0);
+						parent.file_uploader.browse();
+						parent.parent.progressBar.setValue(0);
 					</handler>
 				</button>
 	
 				<button name="button_upload" text="Upload" enabled="false">
 					<handler name="onclick">
 						parent.file_uploader
-								.upload('http://localhost:5080/fi6en/MyServlet');
+								.upload('http://localhost:5080/fi6en/MyServlet?roomname='+roomScreen2.getRoomName());
 					</handler>
 				</button>
 				
@@ -73,7 +67,7 @@
 			<view name="progressBar" width="235" height="25" bgcolor="#666666">
 				<view x="1" y="1" width="233" height="23" bgcolor="#FFFFFF"/>
 				<view name="status" x="1" y="1" height="23" bgcolor="#BBBBFF"/>
-				<text name="percent" text="Select A File. (Max 1MB)" x="5" fontstyle="italic" fgcolor="#6666FF" valign="middle"  maxlength="40"/>
+				<text name="percent" text="Select A File. (Max 2MB)" x="5" fontstyle="italic" fgcolor="#6666FF" valign="middle"  maxlength="40"/>
 
 				<method name="setValue" args="value"><![CDATA[
 					status.setAttribute('width', value * 233 / 100);
@@ -102,16 +96,35 @@
 				<text datapath="fname/text()" valign="middle" align="left" maxlength="20"></text>
 			</gridcolumn>
 			<handler name="onselect">
-				classroot.mod.mymenubar.normalMenu.setAttribute("enabled", true);
+				var d = new Date();
+					var thisclick = d.getTime();
+					var sel = this.getSelection();
+					if(sel.length==1){  // i.e. second click on same row as first...
+   						var interval = thisclick - this.lastclick;
+   						if(interval &lt; 500){   // less than a half second after last click
+       						var dp = sel[0];
+       						var filename = dp.xpathQuery("fname/text()");
+       						var filetype = dp.xpathQuery("type/text()");
+       						var fileid = dp.xpathQuery("id/text()");
+       						
+       						var i = new lz.filePicView(whiteboard);
+       						i.setAttribute("title", filename);
+       						i.setAttribute("im", "http://localhost:5080/fi6en/"+fileid);
+   							
+   						} else {
+       						this.setAttribute ('lastclick', thisclick);
+   						}
+					}
 			</handler>
 		</grid>
+		<edittext id="file_information_name"/>
 		<alert name="alert_file_information"></alert>
 		<method name="refreshList">
 			lz.Timer.addTimer( new LzDelegate( this, "refreshTimer" ), 500 );
 		</method>
 		<method name="refreshTimer" args="msg">
+			dset.setQueryParam("roomname", roomScreen2.getRoomName());
 			dset.doRequest();
-			mod.mymenubar.normalMenu.setAttribute("enabled", false);
 		</method>
 		<method name="hideUpload">
 			lz.Timer.addTimer( new LzDelegate( this, "hideTimer" ), 500 );

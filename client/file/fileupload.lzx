@@ -64,10 +64,8 @@
       -->
       <method name="browse">
       <![CDATA[
-
-	    #passthrough  {
-		   file_reference.browse();
-	    }#
+      
+			file_reference.browse();
 
       ]]>
       </method>
