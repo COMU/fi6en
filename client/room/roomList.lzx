@@ -114,7 +114,10 @@
 		</button>
 		-->
 		<method name="refreshList">
-			chatScreen.soRooms.refreshListSend("");
+			lz.Timer.addTimer( new LzDelegate( this, "requset" ), 500 );
+		</method>
+		<method name="requset" args="n">
+			dset.doRequest();
 		</method>
 		<method name="enter" args="name">
 			var newUrl = conn.src+'/'+name;

@@ -23,6 +23,25 @@
 		<attribute name="port" type="text"/>
 		<attribute name="webapprootkey" type="text"/>
 		<attribute name="httpport" type="text"/>
+		<handler name="oninit">
+			this.serverRefreshRoomList = function(message){
+				this._serverRefreshRoomList(message);
+			}
+			this.serverRefreshUserList = function(message){
+				this._serverRefreshUserList(message);
+			}
+			this.kickMe = function(message){
+				this._kickMe(message);
+			}
+			this.modMe = function(message){
+				this._modMe(message);
+			}
+			this.inviteMe = function(message){
+				this._inviteMe(message);
+			}
+			
+
+		</handler>
 		<!--here is handling the rtmp connection-->		
 		<handler name="onstage" reference="this">
 			switch (this.stage) {
@@ -102,14 +121,14 @@
 					+ "</font></b>");
 		]]>
 		</method>
-		<method name="serverRefreshRoomList" args="arg">
-			chatScreen.serverRefreshRoomList(arg);
+		<method name="_serverRefreshRoomList" args="arg">
+			roomListView.refreshList();
 		</method>
-		<method name="serverRefreshUserList" args="arg">
+		<method name="_serverRefreshUserList" args="arg">
 			userList.refreshList();
 			roomUserList.refreshList();
 		</method>
-		<method name="kickMe" args="arg">
+		<method name="_kickMe" args="arg">
 			roomScreen2.quitRoom();
 			var myAlert = new lz.alert(canvas, {
 						text : "Moderator tarafından odadan atıldınız.",
@@ -117,14 +136,14 @@
 					});
 			myAlert.open();
 		</method>
-		<method name="modMe" args="arg">
+		<method name="_modMe" args="arg">
 			var myAlert = new lz.alert(canvas, {
 						text : "Odanın moderatorü yapıldınız.",
 						stretches : 'both'
 					});
 			myAlert.open();
 		</method>
-		<method name="inviteMe" args="roomname">
+		<method name="_inviteMe" args="roomname">
 			var i = new lz.roomInviteDialog();
 			i.setAttribute("roomname", roomname);
 			i.open();

@@ -1,10 +1,14 @@
 <canvas debug="true">
-	<include href="roomInviteDialog.lzx"/>
+	<include href="deneme3.lzx"/>
+	<simplelayout axis="y" spacing="10"></simplelayout>
+	<combobox id="fileType" width="80" height="20" defaulttext="File Type" editable="false">
+		<textlistitem name="presentation">Presentation</textlistitem>
+		<textlistitem name="pdf">PDF</textlistitem>
+		<textlistitem>Picture</textlistitem>
+	</combobox>
 	<button>
 		<handler name="onclick">
-			var i = new lz.roomInviteDialog();
-			i.setAttribute("roomname", "myrroomname123");
-			i.open();
+			Debug.debug(fileType.getSelection()[0]);
 		</handler>
 	</button>
 </canvas>

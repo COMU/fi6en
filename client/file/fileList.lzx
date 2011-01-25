@@ -47,17 +47,17 @@
 					</method>
 		
 				</fileUploader>
-				<combobox width="80" height="20" defaulttext="File Type" editable="false">
-					<textlistitem>OpenOffice</textlistitem>
-					<textlistitem>PDF</textlistitem>
-					<textlistitem>Image</textlistitem>
-					<textlistitem>MS Office</textlistitem>
+				<combobox id="fileType" width="80" height="20" defaulttext="File Type" editable="false">
+					<textlistitem name="presentation">Presentation</textlistitem>
+					<textlistitem name="pdf">PDF</textlistitem>
+					<textlistitem>Picture</textlistitem>
 				</combobox>
 		
 				<button name="button_browse" text="Browse">
 					<handler name="onclick">
-						parent.file_uploader.browse();
-						parent.parent.progressBar.setValue(0);
+						Debug.debug(fileType.getSelection()[0]);
+						//parent.file_uploader.browse();
+						//parent.parent.progressBar.setValue(0);
 					</handler>
 				</button>
 	
