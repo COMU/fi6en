@@ -5,7 +5,12 @@
 			dset2.setQueryParam("username", "kozdincer");
 			dset2.doRequest();
 		</handler>
-		<dataset name="dset2" src="http://localhost:5080/fi6en/getuser" request="true" type="http" />
+		<dataset name="dset2" request="true" type="http">
+			<handler name="oninit">
+				var datapntr = dsetConf.getPointer();
+				this.setAttribute("src", datapntr.xpathQuery('config/roomprofile/text()'));
+			</handler>
+		</dataset>
 		<view name="update" width="235">
 			<simplelayout axis="y" spacing="10" />
 			<view name="information">

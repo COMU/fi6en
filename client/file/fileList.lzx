@@ -1,7 +1,12 @@
 <library>
 	<include href="fileupload.lzx"/>
 	<class name="fileList" extends="view">
-		<dataset name="dset" src="http://localhost:5080/fi6en/FileListServlet" request="true" type="http"></dataset>
+		<dataset name="dset" request="true" type="http">
+			<handler name="oninit">
+				var datapntr = dsetConf.getPointer();
+				this.setAttribute("src", datapntr.xpathQuery('config/filelist/text()'));
+			</handler>
+		</dataset>
 		<simplelayout axis="y" spacing="5" />
 		<view name="mod">
 			<menubar name="mymenubar" width="235">
@@ -28,6 +33,7 @@
 						parent.button_upload.setAttribute("enabled", true);
 					</method>
 					<method name="onComplete" args="ev=null">
+						parent.parent.progressBar.setText("File Converting...");
 						parent.button_upload.setAttribute("enabled", false);
 						//parent.edittext_filename.clearText();
 						parent.parent.progressBar.setText("");
@@ -57,8 +63,10 @@
 	
 				<button name="button_upload" text="Upload" enabled="false">
 					<handler name="onclick">
+						var datapntr = dsetConf.getPointer();
+						var upServlet = datapntr.xpathQuery('config/fileupload/text()');
 						parent.file_uploader
-								.upload('http://localhost:5080/fi6en/MyServlet?roomname='+roomScreen2.getRoomName());
+								.upload(upServlet+roomScreen2.getRoomName());
 					</handler>
 				</button>
 				
@@ -107,9 +115,21 @@
        						var filetype = dp.xpathQuery("type/text()");
        						var fileid = dp.xpathQuery("id/text()");
        						
-       						var i = new lz.filePicView(whiteboard);
-       						i.setAttribute("title", filename);
-       						i.setAttribute("im", "http://localhost:5080/fi6en/"+fileid);
+       						//
+       						var datapntr = dsetConf.getPointer();
+							var base = datapntr.xpathQuery('config/filebase/text()');
+       						
+							if (filetype == "png" || filetype == "jpg" || filetype == "gif") {
+       							var i = new lz.filePicView(whiteboard);
+       							i.setAttribute("title", filename);
+       							i.setAttribute("im", base+fileid);
+							}else if (filetype == "ppt" || filetype == "odp") {
+								var i = new lz.fileSwfView(whiteboard, {"title":filename,
+												"height":"300",
+												"width":"300",
+												"im":"http://localhost:5080/fi6en/"+fileid
+												});
+							}
    							
    						} else {
        						this.setAttribute ('lastclick', thisclick);
@@ -130,6 +150,7 @@
 		</method>
 		<method name="hideTimer" args="msg">
 			file_upload_view.setAttribute("visible", false);
+			file_upload_view.progressBar.setText("Select A File. (Max 2MB)");
 		</method>
 	</class>
 </library>

@@ -22,6 +22,10 @@ import org.red5.server.api.Red5;
 import org.red5.server.api.service.IServiceCapableConnection;
 import org.slf4j.Logger;
 
+import com.artofsolving.jodconverter.DocumentConverter;
+import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
+import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
+import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -77,6 +81,10 @@ public class MyServlet extends HttpServlet {
 		
 		
 		File uploadedFile = multipartRequest.getFile(multipartRequest.getFileNames().nextElement().toString());
+		String name = uploadedFile.getName();
+		int dot = name.lastIndexOf(".");
+		String extension = name.substring(dot + 1);
+		extension = extension.toLowerCase();
 		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -85,8 +93,8 @@ public class MyServlet extends HttpServlet {
 			FileBean f = new FileBean();
 			f.setFname(uploadedFile.getName());
 			f.setRname(roomname);
-			f.setType("pdf");
-			f.setOwner("kozdincer");
+			f.setType(extension);
+			f.setOwner(roomname);
 			f.setDescription("description");
 			f.setMd5("md5");
 			f.setDate(null);
@@ -105,11 +113,28 @@ public class MyServlet extends HttpServlet {
 		
 		log.info("#upload finish");
 		
-		//File Renaming for id.
+		try {
+			//Converting
+			OpenOfficeConnection connection = new SocketOpenOfficeConnection(
+					8100);
+			connection.connect();
+			File uploadedFile2 = new File(id.toString() + ".swf");
+			DocumentConverter converter = new OpenOfficeDocumentConverter(
+					connection);
+			converter.convert(uploadedFile, uploadedFile2);
+			//File Renaming
+			uploadedFile2.renameTo(new File(getServletContext()
+					.getRealPath("/")
+					+ id.toString()));
+			//File Deleting
+			uploadedFile.delete();
+		} catch (Exception e) {
+			// TODO: handle exception
+			uploadedFile.renameTo(new File(getServletContext()
+					.getRealPath("/")
+					+ id.toString()));
+		}
 		
-		uploadedFile.renameTo(new File(getServletContext().getRealPath("/") + id.toString()));
-		
-
 	}
 
 }

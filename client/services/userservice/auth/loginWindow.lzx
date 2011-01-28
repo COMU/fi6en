@@ -82,29 +82,6 @@
 				 </handler>-->
 			<!--<text text="Email"><edittext name="email"></edittext>-->	
 		</view>
-		<view align="center">
-			<text name="tryText" fgcolor="red" text="Just Try!" />
-			<handler name="onclick">
-				if (parent.tryLoginView.visible) {
-					this.tryText.setAttribute('text','Just Try!');
-					classroot.animate('height', classroot.height - 100, 1000);
-					parent.tryLoginView.setAttribute('visible', false);
-					parent.buttonsView.registerButton.setAttribute('enabled' , true);
-					parent.buttonsView.loginButton.setAttribute('enabled' , true);
-					usernameLogin.setAttribute('enabled' , true);
-					passwordLogin.setAttribute('enabled' , true);					
-				}
-				else {
-					this.tryText.setAttribute('text','Cancel');
-					parent.tryLoginView.setAttribute('visible', true);
-					classroot.animate('height', classroot.height + 100, 1000);
-					parent.buttonsView.registerButton.setAttribute('enabled' , false);
-					parent.buttonsView.loginButton.setAttribute('enabled' , false);
-					usernameLogin.setAttribute('enabled' , false);
-					passwordLogin.setAttribute('enabled' , false);
-				}
-			</handler>
-		</view>
 		
 		<view name="tryLoginView" align="center" visible="false">
 			<simplelayout spacing="10"/>

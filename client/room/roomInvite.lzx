@@ -1,6 +1,11 @@
 <library>
 	<class name="roomInvite" extends="view">
-		<dataset name="dset" src="http://localhost:5080/fi6en/userlist" request="true" type="http" />
+		<dataset name="dset" request="true" type="http">
+			<handler name="oninit">
+				var datapntr = dsetConf.getPointer();
+				this.setAttribute("src", datapntr.xpathQuery('config/roominvite/text()'));
+			</handler>
+		</dataset>
 		<simplelayout axis="y" spacing="5"></simplelayout>
 		<view name="buttons">
 			<simplelayout axis="x" spacing="5"/>

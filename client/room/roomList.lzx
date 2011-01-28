@@ -1,6 +1,11 @@
 <library>
 	<class name="roomList" extends="view">
-		<dataset name="dset" src="http://localhost:5080/fi6en/roomlist" request="true" type="http" />
+		<dataset name="dset" request="true" type="http">
+			<handler name="oninit">
+				var datapntr = dsetConf.getPointer();
+				this.setAttribute("src", datapntr.xpathQuery('config/roomlist/text()'));
+			</handler>
+		</dataset>
 		<switch>
 			<when property="$as3">
 				<passthrough>

@@ -42,5 +42,13 @@
 	http://fi6en.comu.edu.tr/fi6en
 	http://localhost:8080/lps-4.7.2/client/videoconference.lzx?lzr=swf10
 	-->
-	<appurl>http://cem.comu.edu.tr/fi6en</appurl>
+	<appurl>http://fi6en.comu.edu.tr/fi6en</appurl>
+	<roomlist>http://localhost:5080/fi6en/roomlist</roomlist>
+	<roomprofile>http://localhost:5080/fi6en/getuser</roomprofile>
+	<roominvite>http://localhost:5080/fi6en/userlist</roominvite>
+	<filelist>http://localhost:5080/fi6en/FileListServlet</filelist>
+	<fileupload>http://localhost:5080/fi6en/MyServlet?roomname=</fileupload>
+	<filebase>http://localhost:5080/fi6en/</filebase>
+	<roomuserlist>http://localhost:5080/fi6en/userlist</roomuserlist>
+	<chatuserlist>http://localhost:5080/fi6en/userlist</chatuserlist>
 </config>
