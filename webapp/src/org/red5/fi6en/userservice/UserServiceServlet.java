@@ -57,6 +57,12 @@ public class UserServiceServlet extends HttpServlet {
 			if (isM == false) micon += "user_normal.png";
 			else micon += "user_admin.png";
 			
+			//Desktop icon selection red | green
+			Boolean isD = u.getDesktop();
+			String dicon = "";
+			if (isD == true) dicon += "desktop.png";
+			else dicon += "desktop2.png";
+			
 			sb.append("<user>");
 			
 			sb.append("<id>" + u.getId() + "</id>");
@@ -65,6 +71,8 @@ public class UserServiceServlet extends HttpServlet {
 			sb.append("<icon>" + icon + "</icon>");
 			sb.append("<moderator>" + isM + "</moderator>");
 			sb.append("<micon>" + micon + "</micon>");
+			sb.append("<desktop>" + u.getDesktop() + "</desktop>");
+			sb.append("<dicon>" + dicon + "</dicon>");
 			
 			sb.append("</user>");
 		}

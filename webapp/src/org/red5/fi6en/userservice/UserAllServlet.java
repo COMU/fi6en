@@ -55,6 +55,12 @@ public class UserAllServlet extends HttpServlet {
 			if (isM == true) micon += "user_online.png";
 			else micon += "user_offline.png";
 			
+			//Desktop icon selection red | green
+			Boolean isD = u.getDesktop();
+			String dicon = "";
+			if (isD == true) dicon += "desktop.png";
+			else dicon += "desktop2.png";
+			
 			sb.append("<user>");
 			
 			sb.append("<id>" + u.getId() + "</id>");
@@ -63,6 +69,8 @@ public class UserAllServlet extends HttpServlet {
 			sb.append("<icon>" + icon + "</icon>");
 			sb.append("<moderator>" + isM + "</moderator>");
 			sb.append("<micon>" + micon + "</micon>");
+			sb.append("<desktop>" + u.getDesktop() + "</desktop>");
+			sb.append("<dicon>" + dicon + "</dicon>");
 			
 			sb.append("</user>");
 		}

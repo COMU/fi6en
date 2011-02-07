@@ -194,7 +194,6 @@ public class Application extends ApplicationAdapter {
 		log.info("PublishName: " + stream.getConnection().getAttribute("pname"));
 		log.info("********************");
 		log.info("");*/
-		log.info("#### Type: " + stream.getConnection().getType());
 		
 		
 		
@@ -234,13 +233,30 @@ public class Application extends ApplicationAdapter {
 	public void streamBroadcastStart(IBroadcastStream stream) {
 		super.streamBroadcastStart(stream);
 		
-		
+		IBroadcastStream ib = (IBroadcastStream) stream;
+		String pname = ib.getPublishedName();
+		if (pname.indexOf("deskshare") == 0) {
+			String desk = pname.split("-")[0];
+			String name = pname.split("-")[1];
+			new RoomService().setUserDesktop(name, true);
+			return;
+		}
+
 	}
 	
 	@Override
 	public void streamBroadcastClose(IBroadcastStream bstream) {
 		
 		super.streamBroadcastClose(bstream);
+		
+		IBroadcastStream ib = (IBroadcastStream) bstream;
+		String pname = ib.getPublishedName();
+		if (pname.indexOf("deskshare") == 0) {
+			String desk = pname.split("-")[0];
+			String name = pname.split("-")[1];
+			new RoomService().setUserDesktop(name, false);
+			return;
+		}
 		
 		ClientBroadcastStream stream = (ClientBroadcastStream) bstream;
 		IClientBroadcastStreamStatistics istats = (IClientBroadcastStreamStatistics) bstream;

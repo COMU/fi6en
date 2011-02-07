@@ -312,30 +312,33 @@ public class RoomService {
 		} finally {
 			session.close();
 		}
-		/*Set<IClient> clients = Red5.getConnectionLocal().getScope().getClients();
-		for (IClient c : clients) {
-			for (IScope s : c.getScopes()) {
-				System.out.println(c.getId() + " -> " + s.getName() + " : " + s.getPath() + " : " + c.getAttributes().toString()); 
-			}
-		}
-		System.out.println(Red5.getConnectionLocal().getScope().getName());*/
-		/////deneme2
-		/*String myScopeName = Red5.getConnectionLocal().getScope().getName();
-		Set<IClient> clients = Red5.getConnectionLocal().getScope().getClients();
-		for (IClient c : clients) {
-			IScope s = c.getScopes().iterator().next();
-			if (s.getName() == myScopeName) {
-				IConnection cc = c.getConnections().iterator().next();
-				IServiceCapableConnection scc = (IServiceCapableConnection) cc;
-				scc.invoke("deneme");
-				System.out.println(c.getId()+" : "+s.getName()+" : ");
-			}
-		} */
-		//Client invokes
 		refreshClientUserList("");
-		
-		
 	}
+	
+	public void setUserDesktop(String username, Boolean b) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			//Set broadcast in userstatus table
+			Query q = session.createQuery("Update UserStatus set desktop = :isBroadcasting where username = :userName");
+			q.setParameter("userName", username);
+			q.setParameter("isBroadcasting", b);
+			q.executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+			log.error("error during database operation for making user status as broadcasting : "
+					+ e.getMessage());
+		} finally {
+			session.close();
+		}
+		refreshClientUserList("");
+	}
+	
+	
+	
 	public void setUserModerator(String username, Boolean b) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();

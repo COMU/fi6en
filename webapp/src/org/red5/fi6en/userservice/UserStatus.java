@@ -18,6 +18,7 @@ public class UserStatus {
 	private Boolean is_online;
 	private Boolean broadcast;
 	private Boolean moderator;
+	private Boolean desktop;
 	
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
@@ -69,5 +70,12 @@ public class UserStatus {
 	}
 	public Boolean getModerator() {
 		return moderator;
+	}
+	@Column (name="desktop", nullable=true)
+	public void setDesktop(Boolean desktop) {
+		this.desktop = desktop;
+	}
+	public Boolean getDesktop() {
+		return desktop;
 	}
 }

@@ -86,4 +86,12 @@
 		<servlet-name>FileListServlet</servlet-name>
 		<url-pattern>/FileListServlet</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>JnlpServlet</servlet-name>
+		<servlet-class>org.red5.fi6en.roomservice.JnlpServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JnlpServlet</servlet-name>
+		<url-pattern>/jnlp</url-pattern>
+	</servlet-mapping>
 </web-app>

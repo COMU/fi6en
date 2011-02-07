@@ -44,7 +44,8 @@ public class DatabaseOperation {
 		 * for (int i = 0; i < params.length; i++) { log.info(i + " : " +
 		 * params[i].toString() + "\n"); }
 		 */
-
+		Long userId = null;
+		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
@@ -55,7 +56,7 @@ public class DatabaseOperation {
 			user.setLastname(lastname);
 			user.setEmail(email);
 			user.setLocation(location);
-			Long userId = (Long) session.save(user);
+			userId = (Long) session.save(user);
 			log.info("users id : " + userId);
 			
 			tx.commit();
@@ -74,13 +75,14 @@ public class DatabaseOperation {
 		try {
 			UserStatus u = new UserStatus();
 			u.setBroadcast(false);
-			u.setClient_id(null);
+			u.setClient_id(userId);
 			u.setIs_online(false);
 			u.setModerator(false);
+			u.setDesktop(false);
 			u.setRoomname("");
 			u.setUsername(username);
-			Long userId = (Long) session2.save(u);
-			log.info("users id : " + userId);
+			Long userId2 = (Long) session2.save(u);
+			log.info("users id : " + userId2);
 			
 			tx2.commit();
 		} catch (Exception e) {
