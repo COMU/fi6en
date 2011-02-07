@@ -46,10 +46,24 @@
 						myRoomPublisher.publish(roomScreen2.getUserName());
 					</handler>
 				</button>
-				<button name="button_desktop" width="${classroot.width}" height="32" text="Start Desktop Sharing" enabled="false">
+				<button name="button_desktop" width="${classroot.width}" height="32" text="Start Desktop Sharing">
 							<image src="resources/icons/desktop.png"></image>
 							<image src="resources/icons/play.png" align="right" valign="middle"></image>
-						</button>
+							<handler name="onclick">
+								<![CDATA[
+								var datapntr = dsetConf.getPointer();
+								
+								var url = datapntr.xpathQuery('config/deskshare/text()');
+								var host = datapntr.xpathQuery('config/host/text()');
+								var name = "deskshare-" + loginScreen.getUsername();
+								var scope = "fi6en/" + roomScreen2.getRoomName();
+								url = url + "?url=" + host;
+								url = url + "&name=" +name;
+								url = url + "&scope=" + scope;
+								lz.Browser.loadURL(url, '_blank');
+								]]>
+							</handler>
+				</button>
 			</view>
 		</view>
 	</class>

@@ -1,0 +1,7 @@
+<canvas>
+	<include href="../room/roomSubscriber.lzx"/>
+	<button>
+		<handler name="onclick">
+		</handler>
+	</button>
+</canvas>

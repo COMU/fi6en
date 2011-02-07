@@ -51,4 +51,5 @@
 	<filebase>http://localhost:5080/fi6en/</filebase>
 	<roomuserlist>http://localhost:5080/fi6en/userlist</roomuserlist>
 	<chatuserlist>http://localhost:5080/fi6en/userlist</chatuserlist>
+	<deskshare>http://localhost:5080/fi6en/jnlp</deskshare>
 </config>
