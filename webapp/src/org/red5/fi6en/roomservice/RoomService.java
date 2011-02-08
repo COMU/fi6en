@@ -104,15 +104,26 @@ public class RoomService {
 	}
 	
 	public void addUserToRoom(String userName, String roomName){
+		Boolean isMod = false;
+		IConnection conn = Red5.getConnectionLocal();
+		IScope scope = conn.getScope();
+		Set<IClient> clients = scope.getClients();
+		if (clients.size() == 1) {
+			isMod = true;
+		}
+		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			//Set roomname in userstatus table
-			Query q = session.createQuery("Update UserStatus set roomname = :roomName, client_id = :clientID, is_online = :isOnline where username = :userName");
+			Query q = session.createQuery("Update UserStatus set roomname = :roomName, client_id = :clientID, is_online = :isOnline, broadcast = :bb, moderator = :mm, desktop = :dd where username = :userName");
 			q.setParameter("roomName", roomName);
 			q.setParameter("clientID", Long.parseLong(Red5.getConnectionLocal().getClient().getId()));
 			q.setParameter("isOnline", true);
 			q.setParameter("userName", userName);
+			q.setParameter("bb", false);
+			q.setParameter("mm", isMod);
+			q.setParameter("dd", false);
 			q.executeUpdate();
 			log.info("User Added -> " + userName + " To Room -> " + roomName);
 			tx.commit();
@@ -125,6 +136,7 @@ public class RoomService {
 		} finally {
 			session.close();
 		}
+		
 		
 		//Client invokes
 		refreshClientUserList("");
@@ -151,7 +163,6 @@ public class RoomService {
 	}
 	
 	public void inviteUser(String userName, String roomName) {
-		System.out.println("dsadsadasdsadas21312312");
 		IScope scope = Red5.getConnectionLocal().getScope().getParent();
 		Set<IClient> clients = scope.getClients();
 		Long id = getUserClienID(userName);
@@ -221,10 +232,13 @@ public class RoomService {
 		Transaction tx = session.beginTransaction();
 		try {
 			//Set roomname in userstatus table
-			Query q = session.createQuery("UPDATE UserStatus SET roomname = :roomName, client_id = :clientID, is_online = :isOnline WHERE client_id = :c");
+			Query q = session.createQuery("UPDATE UserStatus SET roomname = :roomName, client_id = :clientID, is_online = :isOnline, broadcast = :bb, moderator = :mm, desktop = :dd WHERE client_id = :c");
 			q.setParameter("roomName", "");
 			q.setParameter("clientID", null);
 			q.setParameter("isOnline", false);
+			q.setParameter("bb", false);
+			q.setParameter("mm", false);
+			q.setParameter("dd", false);
 			q.setParameter("c", client_id);
 			q.executeUpdate();
 			log.info("User DisConnected: " + client_id);
@@ -369,9 +383,13 @@ public class RoomService {
 		//args.add("Server ");
 		//so.sendMessage("serverRefresh", args);
 		IConnection conn= Red5.getConnectionLocal();
-		Object[] user  = new Object[]{""};
-		IServiceCapableConnection service = (IServiceCapableConnection)conn;
-		service.invoke("serverRefreshRoomList", user);
+		IScope scope = conn.getScope();
+		Set<IClient> clients = scope.getClients();
+		for (IClient i: clients) {
+			IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
+			Object[]user  = new Object[]{""};
+			isc.invoke("serverRefreshRoomList", user);
+		}
 	}
 	
 	public void refreshClientUserList(String none) {

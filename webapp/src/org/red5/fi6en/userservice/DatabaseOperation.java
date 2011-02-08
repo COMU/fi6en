@@ -75,7 +75,8 @@ public class DatabaseOperation {
 		try {
 			UserStatus u = new UserStatus();
 			u.setBroadcast(false);
-			u.setClient_id(userId);
+			u.setUid(userId);
+			u.setClient_id(null);
 			u.setIs_online(false);
 			u.setModerator(false);
 			u.setDesktop(false);

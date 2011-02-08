@@ -134,7 +134,6 @@
 			var un = getUsername();
 			if (un == "admin") {
 				if (returnvalue) {
-					Debug.debug("oldu");
 					new lz.adminView(canvas);
 					return;
 				}

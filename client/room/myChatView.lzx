@@ -31,7 +31,7 @@
 			</view>
 		<stableborderlayout axis="x" />
 		</view>
-		<view name="main" height="93%" width="100%">
+		<view name="main" height="${parent.height-30}" width="100%">
 			<view name="left" width="250" height="${parent.height}">
 				<tabs name="left_tabs" height="100%" width="100%" align="center" valign="middle">
 					<tabpane name="tab_userlist" text="Users" >

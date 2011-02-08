@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Table (name="user_status")
 public class UserStatus {
 	private long id;
+	private long uid;
 	private Long client_id;
 	private String username;
 	private String roomname;
@@ -77,5 +78,12 @@ public class UserStatus {
 	}
 	public Boolean getDesktop() {
 		return desktop;
+	}
+	@Column (name="uid", nullable=true)
+	public void setUid(long uid) {
+		this.uid = uid;
+	}
+	public long getUid() {
+		return uid;
 	}
 }

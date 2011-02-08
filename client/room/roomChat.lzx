@@ -1,5 +1,14 @@
 <library>
 	<class name="roomChat" extends="view">
+		<command name="enterKey" key="['Enter']" active="${classroot.isMouseOver()}">
+			<handler name="onselect">
+				var message2 = "23423";
+				if (message2 != "") {
+					classroot.sendMessage(parent.chat.buttonView.buttonViewInside1.message.text);
+					parent.chat.buttonView.buttonViewInside1.message.clearText();
+				}
+			</handler>  
+		</command>
 		<view name="chat" layout="axis:y;spacing:1" >
 			<view name="messageAreaView" width="${classroot.width}" height="${classroot.height-30}" clip="true"
 				focusable="true" clickable="true">
