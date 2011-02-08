@@ -60,9 +60,6 @@
 			<roomList id="roomListView"></roomList>
 			<planMeetingView id="planMeetingView" visible="false"></planMeetingView>
 		</view>
-		<method name="createRoom" args="roomname, password">
-			Debug.debug("Room create: " + roomname + " - Password: " + password);
-		</method>
 		<command name="esc" key="['ESC']" active="${classroot.main.windowCreate.visible}">
 			<handler name="onselect">
 				classroot.main.windowCreate.buttons.buttonClose.doEnterDown();

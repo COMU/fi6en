@@ -164,7 +164,6 @@
 				enter(roomname);
 				passwd.setAttribute("visible", false);
 				passwd.password.clearText();
-				Debug.debug(returnvalue);
 			}
 			else {
 				alertMsg("Yanlış Parola");

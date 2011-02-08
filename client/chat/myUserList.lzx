@@ -75,16 +75,5 @@
 				}
 			} while (dp.selectNext());
 		</method>
-		
-		<!-- Others -->
-		<method name="watchStream">
-			Debug.debug("yayın izlensin efem..");
-		</method>
-		<method name="watchDesktop">
-			Debug.debug("desktop izleniyor")
-		</method>
-		<method name="kickUser">
-			Debug.debug("UserKicked");
-		</method>
 	</class>
 </library>
