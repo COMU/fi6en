@@ -1,20 +1,39 @@
-<canvas bgcolor="grey" debug="true">
+<library>
 	<include href="library.lzx"/>
-	<include href="../remote/connection.lzx"/>
-	<dataset name="dsetConf" id="dsetConf"  src="../config.xml"/>
-	<connection id="conn" autoconnect="false">
-		<handler name="oninit">
-			var datapntr = dsetConf.getPointer();
-			this.setAttribute('type',datapntr.xpathQuery('config/connectiontype/text()'));
-			this.setAttribute('host',datapntr.xpathQuery('config/host/text()'));
-			this.setAttribute('port',datapntr.xpathQuery('config/'+type+'port/text()'));
-			this.setAttribute('webapprootkey',datapntr.xpathQuery('config/webapprootkey/text()'));
-			this.setAttribute('httpport',datapntr.xpathQuery('config/httpport/text()'));
-			this.setAttribute('src',type+'://'+host + ':'+port +'/'+webapprootkey);
-			//Debug.write("connection src:",connectiontype+'://'+host+':'+port+'/'+webapprootkey);
-			this.connect();
-		</handler>		
-	</connection>
-	<simplelayout axis="x" spacing="40" />
-	<adminRoomList name="roomList"></adminRoomList>
-</canvas>
+	<class name="adminView" extends="window">
+		<attribute name="title" value="Admin Panel"/>
+		<attribute name="align" value="center"/>
+		<attribute name="valign" value="middle"/>
+		<attribute name="width" value="540"/>
+		<attribute name="height" value="500"/>
+		<attribute name="allowdrag" value="false"/>
+		<simplelayout axis="y" spacing="2"></simplelayout>
+		<menubar name="mymenubar" width="100%">
+			<menu name="menu" text="Menu">
+				<menuitem text="Users">
+					<handler name="onselect">
+						adminUserMenu.setAttribute("visible", true);
+						adminRoomMenu.setAttribute("visible", false);
+					</handler>
+				</menuitem>
+				<menuitem text="Rooms">
+					<handler name="onselect">
+						adminUserMenu.setAttribute("visible", false);
+						adminRoomMenu.setAttribute("visible", true);
+					</handler>
+				</menuitem>
+				<menuitem text="Exit">
+					<handler name="onselect">
+					<![CDATA[
+						var location = dsetConf.getPointer()
+								.xpathQuery('config/appurl/text()');
+						lz.Browser.loadURL(location, '_self');
+					]]>
+					</handler>
+				</menuitem>
+			</menu>
+		</menubar>
+		<adminUserList id="adminUserMenu" align="center"></adminUserList>
+		<adminRoomList id="adminRoomMenu" align="center" visible="false"></adminRoomList>
+	</class>
+</library>

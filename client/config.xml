@@ -42,7 +42,7 @@
 	http://fi6en.comu.edu.tr/fi6en
 	http://localhost:8080/lps-4.7.2/client/videoconference.lzx?lzr=swf10
 	-->
-	<appurl>http://fi6en.comu.edu.tr/fi6en</appurl>
+	<appurl>http://localhost:8080/lps-4.8.0/workspace_laszlo/client/videoconference.lzx?lzr=swf10</appurl>
 	<roomlist>http://localhost:5080/fi6en/roomlist</roomlist>
 	<roomprofile>http://localhost:5080/fi6en/getuser</roomprofile>
 	<roominvite>http://localhost:5080/fi6en/userlist</roominvite>

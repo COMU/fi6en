@@ -7,4 +7,5 @@
 	<include href="services/library.lzx" />
 	<include href="util/library.lzx" />
 	<include href="file/library.lzx"/>
+	<include href="admin/library.lzx" />
 </library>

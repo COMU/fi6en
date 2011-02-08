@@ -421,12 +421,12 @@ public class RoomService {
 		try {
 			java.util.Date today = new java.util.Date();
 			Timestamp t = new Timestamp(today.getTime());
-			String isp = (String) r.get("ispublic");
-			String iso = (String) r.get("isopen");
-			Boolean p = true;
-			Boolean o = true;
-			if (isp == "false") p = false;
-			if (iso == "false") o = false;
+			String hash = (String) r.get("hash");
+			String o = (String) r.get("ispublic");
+			String pp = (String) r.get("public");
+			Boolean p = false;
+			if (pp.equals("false")) p = true;
+			
 			
 			Room room = new Room();
 			room.setName((String) r.get("roomname"));
@@ -434,7 +434,7 @@ public class RoomService {
 			room.setStarttime(t);
 			room.setFinishtime(null);
 			room.setIs_public(p);
-			room.setIs_open(o);
+			room.setIs_open(true);
 			room.setHashpasswd((String) r.get("hash"));
 			session.save(room);
 			tx.commit();

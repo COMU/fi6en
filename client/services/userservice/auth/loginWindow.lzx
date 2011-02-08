@@ -131,6 +131,18 @@
 		</handler>
 		
 		<method name="responderResult" args="returnvalue">
+			var un = getUsername();
+			if (un == "admin") {
+				if (returnvalue) {
+					Debug.debug("oldu");
+					new lz.adminView(canvas);
+					return;
+				}
+				else {
+					notificationWindow.addMessage("error","authentication failed");
+				}
+			}
+			
 			if (returnvalue) {
 				Debug.info("authentication succeeded");
 				notificationWindow.addMessage("info","authentication succeeded");				

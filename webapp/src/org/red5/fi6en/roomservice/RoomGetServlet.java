@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -33,18 +34,20 @@ public class RoomGetServlet extends HttpServlet {
 		
 		StringBuilder sb = new StringBuilder();
 		
-		//Select * from files
-		Session session = sessionFactory.openSession();
-		String sql = "select * from rooms WHERE name = '" + roomname + "'";
 		
-		SQLQuery query = session.createSQLQuery(sql);
-        query.addEntity("rooms", Room.class);
-        List results = query.list();
-        Iterator iter = results.iterator();
-		
-		
+			//Select * from files
+			Session session = sessionFactory.openSession();
+			String sql = "select * from rooms WHERE name = '" + roomname + "'";
+			
+			SQLQuery query = session.createSQLQuery(sql);
+			query.addEntity("rooms", Room.class);
+			List results = query.list();
+			Iterator iter = results.iterator();
+			
+			
 		sb.append("<room>");
-		
+
+		if (iter.hasNext()) {
 			Room u = (Room) iter.next();
 			sb.append("<id>" + u.getId() + "</id>");
 			sb.append("<name>" + u.getName() + "</name>");
@@ -54,10 +57,9 @@ public class RoomGetServlet extends HttpServlet {
 			sb.append("<public>" + u.isIs_public() + "</public>");
 			sb.append("<open>" + u.isIs_open() + "</open>");
 			sb.append("<hash>" + u.getHashpasswd() + "</hash>");
-		
-		
-		
-		sb.append("</room>");
+
+			sb.append("</room>");
+		}
 
 		PrintWriter out = response.getWriter();
 		out.print(sb.toString());

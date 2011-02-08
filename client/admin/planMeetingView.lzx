@@ -1,11 +1,11 @@
-<class name="planMeetingView">
-	<simplelayout axis="y" spacing="1"></simplelayout>
+<class name="adminPlanMeetingView">
+	<simplelayout axis="y"></simplelayout>
 	<text>Oda Adı:</text>
 	<edittext name="roomname" width="${classroot.time.width}"></edittext>
 	<text>Parola:</text>
 	<edittext name="password" password="true" width="${classroot.time.width}"></edittext>
 	<text>İçerik:</text>
-	<edittext name="about" multiline="true" width="${classroot.time.width}" height="${(classroot.password.height*2)}"></edittext>
+	<edittext name="about" multiline="true" width="${classroot.time.width}" height="${(classroot.password.height*1.5)}"></edittext>
 	<text>Tarih:</text>
 	<datepicker name="date" startAsIcon="false" selecteddate="new Date()" allowdrag="false">
 		<handler name="onselecteddate">
@@ -44,7 +44,7 @@
 			<textlistitem>50</textlistitem>
 		</combobox>
 	</view>
-	<view name="buttons" yoffset="-10">
+	<view name="buttons" yoffset="-4">
 		<simplelayout axis="x" spacing="5"></simplelayout>
 		<button name="ok" text="Oluştur" width="${(classroot.time.width-38)}">
 			<handler name="onclick">

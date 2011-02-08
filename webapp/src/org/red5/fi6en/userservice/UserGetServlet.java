@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,25 +33,27 @@ public class UserGetServlet extends HttpServlet {
 		if (roomname == null) roomname = "";
 		
 		StringBuilder sb = new StringBuilder();
-		
-		//Select * from files
+
+		// Select * from files
 		Session session = sessionFactory.openSession();
 		String sql = "select * from users WHERE USERNAME = '" + roomname + "'";
-		
+
 		SQLQuery query = session.createSQLQuery(sql);
-        query.addEntity("users", User.class);
-        List results = query.list();
-        Iterator iter = results.iterator();
-		
-		User u = (User) iter.next();
-		sb.append("<user>");
-		sb.append("<id>" + u.getId() + "</id>");
-		sb.append("<username>" + u.getUsername() + "</username>");
-		sb.append("<email>" + u.getEmail() + "</email>");
-		sb.append("<firstname>" + u.getFirstname() + "</firstname>");
-		sb.append("<lastname>" + u.getLastname() + "</lastname>");
-		sb.append("<location>" + u.getLocation() + "</location>");
-		sb.append("</user>");
+		query.addEntity("users", User.class);
+		List results = query.list();
+		Iterator iter = results.iterator();
+
+		if (iter.hasNext()) {
+			User u = (User) iter.next();
+			sb.append("<user>");
+			sb.append("<id>" + u.getId() + "</id>");
+			sb.append("<username>" + u.getUsername() + "</username>");
+			sb.append("<email>" + u.getEmail() + "</email>");
+			sb.append("<firstname>" + u.getFirstname() + "</firstname>");
+			sb.append("<lastname>" + u.getLastname() + "</lastname>");
+			sb.append("<location>" + u.getLocation() + "</location>");
+			sb.append("</user>");
+		}
 
 		PrintWriter out = response.getWriter();
 		out.print(sb.toString());
