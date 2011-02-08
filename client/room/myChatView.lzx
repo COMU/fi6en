@@ -23,10 +23,14 @@
 				<text name="username" clickable="true" valign="middle" fontsize="24" fgcolor="white" x="${parent.button_exit.x-this.width-10}" visible="false">
 				</text>
 				<button name="button_exit" height="${parent.height}" width="${parent.height}" align="right" valign="middle">
-					<image source="resources/icons/exit.png" valign="middle"></image>
-					<handler name="onclick">
-						classroot.quitRoom();
-					</handler>
+					<image source="resources/icons/exit.png" valign="middle">
+						<handler name="onclick">
+							classroot.quitRoom();
+							classroot.reset();
+							
+						</handler>
+					</image>
+					
 				</button>
 			</view>
 		<stableborderlayout axis="x" />
@@ -63,7 +67,12 @@
 				</tabslider>
 			</view>
 			<view name="right" width="${parent.width-parent.left.width-parent.center.width}" height="${parent.height}">
-				<view id="whiteboard" height="${parent.height-parent.bottom.height-2}" width="100%" bgcolor="white"></view>
+				<view id="whiteboard" height="${parent.height-parent.bottom.height-2}" width="100%" bgcolor="white">
+					<attribute name="mylist"/>
+					<handler name="oninit">
+						this.mylist = new Array();
+					</handler>
+				</view>
 				<view name="bottom" height="150" width="100%">
 					<roomChat name="myRoomChat" height="${parent.parent.bottom.height}" width="${parent.parent.bottom.width}" bgcolor="#B6C4FC"></roomChat>
 				</view>
@@ -96,6 +105,27 @@
 		<method name="closeInviteTab">
 			roomUserList.setAttribute("visible", true);
 			main.left.left_tabs.tab_userlist.roomInvite.setAttribute("visible", false);
+		</method>
+		<method name="reset">
+			<![CDATA[
+			this.main.right.bottom.myRoomChat.clearBox();
+			this.main.left.left_tabs.tab_userlist.setAttribute("selected", true);
+			this.main.center.center_tabslider.tab_broadcast.setAttribute("selected", true);
+			while (whiteboard.mylist.length > 0) {
+				var iii = whiteboard.mylist.pop();
+				iii.destroy();
+			}
+			while (allsubs.mylist.length > 0) {
+				var iiii = allsubs.mylist.pop();
+				iiii.destroy();
+			}
+			
+			myRoomPublisher.reset();
+			
+			
+			roomFileList.hideUpload();
+			
+			]]>
 		</method>
 	</class>
 </library>

@@ -31,6 +31,7 @@
 		<mapping class="org.red5.fi6en.traffic.Subscribe" />
 		<mapping class="org.red5.fi6en.traffic.Broadcast" />
 		<mapping class="org.red5.fi6en.roomservice.Room" />
+		<mapping class="org.red5.fi6en.roomservice.RoomC" />
 		<mapping class="org.red5.fi6en.file.FileBean" />
 		<mapping class="org.red5.fi6en.roomservice.JnlpServlet" />
 

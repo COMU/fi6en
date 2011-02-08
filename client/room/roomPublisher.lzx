@@ -15,10 +15,28 @@
 			<videoview name="broadcasting" width="256" height="256" type="rtmp"> 
 				<camera name="mycam" />
 			</videoview>
-			<button name="stopbutton" text="Stop Broadcasting" width="256" height="32" visible="false" onclick="classroot.stopPublishing()">
+			<button id="stopbutton" name="stopbutton" text="Stop Broadcasting" width="256" height="32" visible="false" onclick="classroot.stopPublishing()">
 				<image src="resources/icons/broadcast.png"></image>
 				<image src="resources/icons/stop.png" align="right" valign="middle"></image>
 			</button>
+			<button name="button_desktop" height="32" width="256" text="Start Desktop Sharing" visible="false">
+							<image src="resources/icons/desktop.png"></image>
+							<image src="resources/icons/play.png" align="right" valign="middle"></image>
+							<handler name="onclick">
+								<![CDATA[
+								var datapntr = dsetConf.getPointer();
+								
+								var url = datapntr.xpathQuery('config/deskshare/text()');
+								var host = datapntr.xpathQuery('config/host/text()');
+								var name = "deskshare-" + loginScreen.getUsername();
+								var scope = "fi6en/" + roomScreen2.getRoomName();
+								url = url + "?url=" + host;
+								url = url + "&name=" +name;
+								url = url + "&scope=" + scope;
+								lz.Browser.loadURL(url, '_blank');
+								]]>
+							</handler>
+				</button>
 		</view>	
 			
 		<!--publish video-->
@@ -32,6 +50,7 @@
 			broadcastView.broadcasting.mycam.setAttribute("show",true);
 			broadcastView.broadcasting.setAttribute("visible", true);
 			broadcastView.stopbutton.setAttribute("visible", true);
+			broadcastView.button_desktop.setAttribute("visible", true);
 			myShareEnter.setAttribute("visible", false);
 			streamPublish.broadcast();
 			Debug.info("started broadcasting:", streamPublish.url);
@@ -46,6 +65,15 @@
 			broadcastView.broadcasting.mycam.setAttribute('show', false);
 			broadcastView.broadcasting.setAttribute("visible", false);
 			broadcastView.stopbutton.setAttribute("visible", false);
+			broadcastView.button_desktop.setAttribute("visible", false);
+			myShareEnter.setAttribute("visible", true);
+			conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), false);
+		</method>
+		<method name="reset">
+			broadcastView.broadcasting.mycam.setAttribute('show', false);
+			broadcastView.broadcasting.setAttribute("visible", false);
+			broadcastView.stopbutton.setAttribute("visible", false);
+			broadcastView.button_desktop.setAttribute("visible", false);
 			myShareEnter.setAttribute("visible", true);
 			conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), false);
 		</method>

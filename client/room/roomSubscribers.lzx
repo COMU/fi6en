@@ -5,7 +5,11 @@
 		<view name="main" width="100%" height="100%" clip="true">
 			<scrollbar/>
 			
-			<view name="subscribers" align="center" >
+			<view id="allsubs" name="subscribers" align="center" >
+				<attribute name="mylist"/>
+				<handler name="oninit">
+					this.mylist = new Array();
+				</handler>
 				<wrappinglayout name="myLayout" axis="x" spacing="4"/>
 				<view name="hr" width="${classroot.main.width}" height="1"></view>
 			</view>
@@ -18,6 +22,7 @@
 						"title" : name
 					});
 			s.main.main2.body.mySub.playStream(name);
+			allsubs.mylist.push(s);
 		</method>
 	</class>
 </library>

@@ -20,9 +20,9 @@
 			</menubar>
 		</view>
 		<view name="list">
-			<grid name="table_users" datapath="local:classroot.dset:/users" height="200" width="250" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">
+			<grid name="table_users" datapath="local:classroot.dset:/users" height="300" width="250" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">
 				<gridcolumn name="column_empty" width="42" resizable="false" sortable="true" clickable="true">
-					<image prefix="resources/icons/" datapath="micon/text()" valign="middle" clickable="true"></image>
+					<image src="resources/icons/user_normal.png" valign="middle" clickable="true"></image>
 				</gridcolumn>
 				<gridcolumn name="column_username" text="User List" width="150" resizable="false" sortable="true" clickable="true">
 					<text datapath="username/text()" valign="middle" align="left" maxlength="20" />

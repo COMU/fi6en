@@ -123,12 +123,14 @@
        							var i = new lz.filePicView(whiteboard);
        							i.setAttribute("title", filename);
        							i.setAttribute("im", base+fileid);
+       							whiteboard.mylist.push(i);
 							}else if (filetype == "ppt" || filetype == "odp") {
 								var i = new lz.fileSwfView(whiteboard, {"title":filename,
 												"height":"300",
 												"width":"300",
 												"im":"http://localhost:5080/fi6en/"+fileid
 												});
+								whiteboard.mylist.push(i);
 							}
    							
    						} else {

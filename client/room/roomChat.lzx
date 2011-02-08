@@ -51,6 +51,9 @@
 				</view>
 			</view>
 		</view>
+		<method name="clearBox">
+			this.chat.messageAreaView.messageArea.clearText();
+		</method>
 		<method name="sendMessage" args="message">
 			soChatRoom.writeSharedObject(message);
 		</method>

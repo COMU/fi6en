@@ -62,7 +62,7 @@
 		
 		<!--audio, video, chat view-->		
 		<view name="mainChatView">
-			<simplelayout axis="x" spacing="10" />			
+			<simplelayout axis="x" spacing="2" />			
 			<!--view for creating and entering the rooms-->
 			<view name="roomsView">
 				<simplelayout spacing="7"/>
@@ -101,14 +101,20 @@
 						if (this.text == publishText.text) {
 							publishUser.publish(loginScreen.getUsername());
 							this.setAttribute('text', stopText.text);
-							conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), true);
+							conn._nc.call("roomservice.setUserBroadcast",
+									conn.responder, loginScreen.getUsername(),
+									true);
 							publishUser.setAttribute('visible', true);
 						} else {
 							publishUser.stopPublishing();
 							this.setAttribute('text', publishText.text);
-							conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), false);
+							conn._nc.call("roomservice.setUserBroadcast",
+									conn.responder, loginScreen.getUsername(),
+									false);
 							publishUser.setAttribute('visible', false);
-							classroot.soChat.send("writeInfo",loginScreen.getUsername()+" stopped broadcasting");
+							classroot.soChat.send("writeInfo", loginScreen
+											.getUsername()
+											+ " stopped broadcasting");
 						}
 					</handler>
 				</button>
@@ -120,7 +126,7 @@
 			<view name="chat" layout="axis:y;spacing:10" >
 				<edittext name="message" width="300" height="20" resizable="true" />
 				
-				<view name="messageAreaView" bgcolor="#9999CC" width="300" height="300" clip="true"
+				<view name="messageAreaView" bgcolor="#9999CC" width="300" height="280" clip="true"
 					focusable="true" clickable="true"
 					cornerradius="10">
 					<attribute name="usernameColor" type="color"/>
@@ -140,20 +146,23 @@
 									//Debug.write("Message sent!");									
 									classroot.sendMessage(message.text);
 									message.clearText();
-									parent.parent.parent.messageAreaView.vscrollbarChat.page(1);
+									parent.parent.parent.messageAreaView.vscrollbarChat
+											.page(1);
 								}
 							</method>
 						</button>
 						<button name="clearButton"
 							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
 							<handler name="onclick">
-								classroot.mainChatView.chat.messageAreaView.messageArea.clearText();
+								classroot.mainChatView.chat.messageAreaView.messageArea
+										.clearText();
 							</handler>
 						</button>
 						<button name="printButton" text="Cıktı Al">
 							<handler name="onclick">
 							<![CDATA[
-								var msg = classroot.mainChatView.chat.messageAreaView.messageArea.getText();
+								var msg = classroot.mainChatView.chat.messageAreaView.messageArea
+										.getText();
 								Debug.debug(msg);
 							]]>
 							</handler>
@@ -163,7 +172,7 @@
 			</view>
 						
 			<!--view for user1 (other user)-->
-			<view name="videoViewPlay" layout="axis:y; spacing:10" width="200" bgcolor="yellow" opacity="20">
+			<view name="videoViewPlay" layout="axis:y; spacing:10" width="50" bgcolor="yellow" opacity="20">
 				<button visible="false" name="showUserCam" 
 					datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"
 					align="center">
@@ -177,12 +186,11 @@
 					<handler name="onclick">
 						var streamToPlay = "";
 						streamToPlay = userList.getSelectedUserName();
-						
+
 						if (userList.getSelectedIsBroadcast() == "false") {
 							msg = "Selected user isn't broadcasting now."
 							notificationWindow.addMessage("warn", msg);
-						}
-						else if (userList.getSelectedIsBroadcast()) {
+						} else if (userList.getSelectedIsBroadcast()) {
 							var subscriber = new lz.subscriber(canvas, {
 										stretches : 'both',
 										title : streamToPlay,
@@ -193,12 +201,13 @@
 										resizable : true
 									});
 							subscriberpositionyY = subscriberpositionyY + 50;
-							Debug.info("selected user to play => %w", streamToPlay);
-							var msg= "selected user to play => "+streamToPlay;
-							notificationWindow.addMessage("info",msg);
+							Debug.info("selected user to play => %w",
+									streamToPlay);
+							var msg = "selected user to play => "
+									+ streamToPlay;
+							notificationWindow.addMessage("info", msg);
 							subscriber.playStream(streamToPlay);
-						}
-						else {
+						} else {
 							msg = "Please select a user for watching stream."
 							notificationWindow.addMessage("warn", msg);
 						}
@@ -234,9 +243,9 @@
   				return super.determinePlacement(aSub, placement, args);
   			}
   		</method>
-  		<method name="serverRefreshRoomList" args="msg" >
-  			this.soRooms.serverRefresh(msg);
-  		</method>						
+		<method name="serverRefreshRoomList" args="msg" >
+			this.soRooms.serverRefresh(msg);
+		</method>						
 	</class>	
 	
 </library>

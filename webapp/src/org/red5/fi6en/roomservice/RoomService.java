@@ -94,8 +94,17 @@ public class RoomService {
 			log.error("error during database operation for adding user to room : "
 					+ e.getMessage());
 		} finally {
-			session.close();
 		}
+		Query q2 = session.createSQLQuery("insert rooms_closed select * from rooms where name = '" + name +"'");
+		q2.executeUpdate();
+		
+		Query q3 = session.createSQLQuery("delete from rooms where name = '" + name +"'");
+		q3.executeUpdate();
+		
+		Query q4 = session.createSQLQuery("delete from files where rname = '" + name +"'");
+		q4.executeUpdate();
+		
+		session.close();
 		
 		//Client Invoke.
 		refreshClientRoomList("roomlist");
@@ -382,13 +391,18 @@ public class RoomService {
 		//List<String> args = new ArrayList<String>();
 		//args.add("Server ");
 		//so.sendMessage("serverRefresh", args);
-		IConnection conn= Red5.getConnectionLocal();
-		IScope scope = conn.getScope();
-		Set<IClient> clients = scope.getClients();
-		for (IClient i: clients) {
-			IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
-			Object[]user  = new Object[]{""};
-			isc.invoke("serverRefreshRoomList", user);
+		try {
+			IConnection conn= Red5.getConnectionLocal();
+			IScope scope = conn.getScope();
+			Set<IClient> clients = scope.getClients();
+			for (IClient i: clients) {
+				IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
+				Object[]user  = new Object[]{""};
+				isc.invoke("serverRefreshRoomList", user);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
