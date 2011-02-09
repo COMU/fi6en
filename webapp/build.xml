@@ -1,0 +1,86 @@
+<project name="fi6en" default="dist" basedir=".">
+	<description>
+        Fi6en build file
+    </description>
+	<!-- set global properties for this build -->
+	<property name="src.dir" location="src" />
+	<property name="classes.dir" location="build/classes" />
+	<property name="lib.dir" location="${basedir}/WebContent/WEB-INF/lib" />
+	<property name="dist.dir" location="dist/fi6en" />
+	<property name="dist.lib.dir" location="${dist.dir}/WEB-INF/lib" />
+	<property name="dist.classes.dir" location="${dist.dir}/WEB-INF/classes" />
+
+	<path id="compile.classpath">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+	</path>
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${classes.dir}" />
+	</target>
+	
+	<!-- Compile the java code from ${src} into ${build} -->
+	<target name="compile" depends="init" description="compile the source ">		
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<!--create *.jar files-->
+	<target name="jar" description="making jars">
+		<tstamp prefix="build">
+			<format property="TODAY" pattern="d-MMMM-yyyy" locale="en" />
+		</tstamp>
+		<!-- Put everything in ${classes.dir} into the fi6en.jar file -->
+		<jar destfile="${dist.lib.dir}/fi6en.jar" basedir="${classes.dir}" includes="**/*.class">
+			<manifest>
+				<attribute name="Built-By" value="Cem SÖNMEZ - http://fi6en.comu.edu.tr" />
+				<attribute name="Built-On" value="${build.TODAY}" />
+			</manifest>
+		</jar>
+	</target>
+	<!--prepare fi6en distribution directory-->
+	<target name="dist" depends="compile" description="generate the distribution">
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.lib.dir}" />
+		<mkdir dir="${dist.classes.dir}" />
+
+		<antcall target="jar" />
+		<!-- Put other *.jar files to the fi6en dist web directory-->
+		<copy todir="${dist.lib.dir}">
+			<fileset dir="${lib.dir}">
+				<patternset>
+					<include name="*.jar" />
+					<exclude name="red5.jar" />
+				</patternset>
+			</fileset>
+		</copy>
+		<copy todir="${dist.classes.dir}">
+			<fileset dir="${basedir}/WebContent/WEB-INF">
+				<include name="c3p0.properties" />
+				<include name="hibernate.cfg.xml" />
+				<include name="logback-fi6en.xml" />
+			</fileset>
+			<fileset dir="${classes.dir}" includes="**" />
+		</copy>
+		<copy todir="${dist.dir}/WEB-INF">
+			<fileset dir="${basedir}/WebContent/WEB-INF">
+				<include name="red5-web.properties" />
+				<include name="red5-web.xml" />
+				<include name="web.xml" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.dir}">
+			<fileset dir="${basedir}/WebContent" includes="*.jsp" />
+		</copy>
+	</target>
+	<!--clean temp build directories-->
+	<target name="clean" description="clean up">
+		<delete dir="${classes.dir}/.." />
+		<delete dir="${dist.dir}/.." />
+	</target>
+
+	<target name="build_project" depends="clean, dist" />
+</project>
