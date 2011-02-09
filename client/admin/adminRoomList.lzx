@@ -9,7 +9,7 @@
 		<view name="left">
 			<grid name="table_users" datapath="local:classroot.dset:/rooms" height="400" width="250" contentdatapath="room" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">
 				<gridcolumn name="column_empty" width="42" resizable="false" sortable="true" clickable="true">
-					<image prefix="../" datapath="icon/text()" valign="middle" clickable="true"></image>
+					<image datapath="icon/text()" valign="middle" clickable="true"></image>
 				</gridcolumn>
 				<gridcolumn name="column_roomname" width="150" resizable="false" sortable="true" clickable="true">
 					<text datapath="name/text()" valign="middle" align="left" maxlength="20" />

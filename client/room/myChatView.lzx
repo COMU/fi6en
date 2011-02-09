@@ -27,7 +27,6 @@
 						<handler name="onclick">
 							classroot.quitRoom();
 							classroot.reset();
-							
 						</handler>
 					</image>
 					

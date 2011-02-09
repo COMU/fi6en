@@ -2,7 +2,8 @@
 	<include href="../remote/connection.lzx"></include>
 	<script src="../services/userservice/auth/md5.js"/>	
 	<class name="adminUserList">
-		<dataset name="dset" src="http://localhost:5080/fi6en/allusers" request="true" type="http" />
+		<dataset name="dset" src="http://localhost:5080/fi6en/allusers" request="true" type="http">
+		</dataset>
 		<dataset name="dset2" src="http://localhost:5080/fi6en/getuser" request="true" type="http" />
 		<simplelayout axis="x" spacing="40"/>
 		<view name="left">

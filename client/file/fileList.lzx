@@ -128,7 +128,7 @@
 								var i = new lz.fileSwfView(whiteboard, {"title":filename,
 												"height":"300",
 												"width":"300",
-												"im":"http://localhost:5080/fi6en/"+fileid
+												"im": base + fileid
 												});
 								whiteboard.mylist.push(i);
 							}
