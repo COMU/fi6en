@@ -138,7 +138,8 @@
 								var i = new lz.fileSwfView(whiteboard, {"title":filename,
 												"height":"300",
 												"width":"300",
-												"im": base + fileid
+												"im": base + fileid,
+												"ft" : filetype
 												});
 								whiteboard.mylist.push(i);
 							} else {

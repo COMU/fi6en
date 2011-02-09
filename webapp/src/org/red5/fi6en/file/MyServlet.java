@@ -127,7 +127,9 @@ public class MyServlet extends HttpServlet {
 					.getRealPath("/")
 					+ id.toString()));
 			//File Deleting
-			uploadedFile.delete();
+			uploadedFile.renameTo(new File(getServletContext()
+					.getRealPath("/")
+					+ id.toString() + "." + extension));
 		} catch (Exception e) {
 			// TODO: handle exception
 			uploadedFile.renameTo(new File(getServletContext()

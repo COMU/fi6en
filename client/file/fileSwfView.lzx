@@ -1,16 +1,18 @@
 <library>
 	<class name="fileSwfView" extends="window">
 		<attribute name="im" type="string"/>
+		<attribute name="ft" type="string"/>
 		<attribute name="resizable" value="true"/>
 		<attribute name="closeable" value="true"/>
-		<attribute name="clickable" value="true"/>
 		<view resource="${classroot.im}" stretches="both" height="${classroot.height}" width="${classroot.width}">
 		</view>
 		<view clickable="true" align="right" valign="bottom" height="32" width="32">
 			<image src="resources/icons/download.png" valign="middle" align="right">
 				<tooltip>Download</tooltip>
 				<handler name="onclick">
-					lz.Browser.loadURL(classroot.im, '_blank');
+					var i = "";
+					i = i.concat(classroot.im, ".", classroot.ft);
+					lz.Browser.loadURL(i, '_blank');
 				</handler>
 			</image>
 		</view>
