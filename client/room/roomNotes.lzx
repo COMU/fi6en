@@ -1,0 +1,13 @@
+<library>
+	<class name="roomNotes" extends="window">
+		<attribute name="height" value="250"/>
+		<attribute name="width" value="200"/>
+		<attribute name="closeable" value="true"/>
+		<attribute name="resizable" value="true"/>
+		<attribute name="title" value="Notes"/>
+		<view stretches="true" bgcolor="red" height="${classroot.height}" width="${classroot.width}">
+			<edittext multiline="true" height="${classroot.height}" width="${classroot.width}">
+			</edittext>
+		</view>
+	</class>
+</library>

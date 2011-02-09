@@ -19,4 +19,5 @@
 	<include href="roomInvite.lzx"/>
 	<include href="roomInviteDialog.lzx"/>
 	<include href="roomImage.lzx"/>
+	<include href="roomNotes.lzx"/>
 </library>

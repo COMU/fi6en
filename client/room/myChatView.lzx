@@ -74,7 +74,12 @@
 					<view align="right" valign="top">
 						<simplelayout axis="y" spacing="1"></simplelayout>
 						<view height="1"></view>
-						<button name="notes">Take Notes</button>
+						<button name="notes" text="Take Notes">
+							<handler name="onclick">
+								var n = new lz.roomNotes(whiteboard);
+								whiteboard.mylist.push(n);
+							</handler>
+						</button>
 						<button width="${parent.notes.width}">Drawing</button>
 					</view>
 				</view>
