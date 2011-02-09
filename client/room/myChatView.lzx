@@ -84,6 +84,7 @@
 		</method>
 		<method name="quitRoom">
 			myMenuBar.gotoLoby();
+			myMenuBar.setAttribute("visible", true);
 			this.animate("opacity", "0", "700");
 		</method>
 		<method name="getRoomName">
