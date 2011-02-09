@@ -64,7 +64,6 @@
       -->
       <method name="browse">
       <![CDATA[
-      
 			file_reference.browse();
 
       ]]>

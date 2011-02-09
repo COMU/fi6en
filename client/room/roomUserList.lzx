@@ -29,6 +29,7 @@
 										resizable : true
 									});
 							subscriber.playStream("deskshare-kozdincer");
+							whiteboard.mylist.push(subscriber);
 						</handler>
 					</menuitem>
 				</menu>

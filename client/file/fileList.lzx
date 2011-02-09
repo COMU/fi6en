@@ -27,8 +27,18 @@
 				<fileUploader name="file_uploader">
 					<method name="onSelect" args="ev=null">
 						//parent.edittext_filename.setAttribute("text", parent.file_uploader.getName());
-						parent.parent.progressBar.setText(parent.file_uploader
-								.getName());
+						var i = parent.file_uploader.getName();
+						var e = i.split('.').pop();
+						e = e.toLowerCase();
+						var ex = new Array("jpg", "jpeg", "png", "gif", "pdf", "odp", "ppt");
+						if (!(e == "jpg" || e == "jpeg" || e == "png" || e == "gif" || e == "pdf" || e == "odp" || e == "ppt")) {
+							parent.parent.progressBar.setText("File must be: Images, PDF, ODP or PPT");
+							return;
+						}
+
+						
+						
+						parent.parent.progressBar.setText(i);
 
 						parent.button_upload.setAttribute("enabled", true);
 					</method>
