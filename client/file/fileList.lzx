@@ -141,6 +141,8 @@
 												"im": base + fileid
 												});
 								whiteboard.mylist.push(i);
+							} else {
+								lz.Browser.loadURL(base+fileid, '_blank');
 							}
    							
    						} else {
