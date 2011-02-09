@@ -1,7 +1,7 @@
 <library>
 	<include href="library.lzx"/>
 	<class name="mymymy" extends="view">
-		<attribute name="bgcolor" value="#1881B5"/>
+		<attribute name="bgcolor" value="#B6C4FC"/>
 		<sharedObjectMediators name="mediators" />
 		<sharedObjectChatRoom id="soChatRoom"> 
 			<handler name="onstage" reference="conn">
@@ -12,8 +12,8 @@
 			</handler>
 		</sharedObjectChatRoom>
 		<simplelayout axis="y" spacing="1" />
-		<view name="head" height="32" width="100%" bgcolor="grey">
-			<view name="left" width="300" height="${parent.height}" bgcolor="#A0A0A0">
+		<view name="head" height="32" width="100%" bgcolor="#1881B5">
+			<view name="left" width="300" height="${parent.height}">
 			<simplelayout axis="x"/>
 				<image name="logo" source="resources/icons/logo.png"></image>
 				<text name="roomname" text="myroom" fgcolor="white"></text>
@@ -35,7 +35,7 @@
 		<stableborderlayout axis="x" />
 		</view>
 		<view name="main" height="${parent.height-30}" width="100%">
-			<view name="left" width="250" height="${parent.height}">
+			<view name="left" width="250" height="${parent.center.height+30}">
 				<tabs name="left_tabs" height="100%" width="100%" align="center" valign="middle">
 					<tabpane name="tab_userlist" text="Users" >
 						<roomUserList id="roomUserList" height="100%" width="100%"></roomUserList>

@@ -1,5 +1,6 @@
 <library>
 	<class name="roomSubs" extends="view">
+		<attribute name="align" value="center"/>
 		<attribute name="title"/>
 		<handler name="ondestroy">
 			this.main.main2.body.mySub.closeStream();

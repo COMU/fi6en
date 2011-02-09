@@ -1,12 +1,8 @@
 <canvas debug="true">
 	<include href="deneme2.lzx"/>
-	<simplelayout axis="x" spacing="10"></simplelayout>
-		<edittext id="my">dsadas.dsada2.dsa</edittext>
 	<button>
 		<handler name="onclick">
-			var i = my.value;
-			i = i.substring(0,i.lastIndexOf("."))
-			Debug.debug(i);
+			var i = new lz.dene(canvas);
 		</handler>
 	</button>
 </canvas>

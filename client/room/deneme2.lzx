@@ -1,18 +1,13 @@
 <library>
-	<class name="fileSwfView" extends="window">
-		<attribute name="im" type="string"/>
+	<class name="dene" extends="window">
+		<attribute name="height" value="250"/>
+		<attribute name="width" value="200"/>
+		<attribute name="closable" value="true"/>
 		<attribute name="resizable" value="true"/>
-		<attribute name="closeable" value="true"/>
-		<attribute name="clickable" value="true"/>
-		<view resource="${classroot.im}" stretches="both" height="${classroot.height}" width="${classroot.width}">
-		</view>
-		<view clickable="true" align="right" valign="bottom" height="32" width="32">
-			<image prefix="../" src="resources/icons/download.png" valign="middle" align="right">
-				<tooltip>Download</tooltip>
-				<handler name="onclick">
-					var i = new lz.Browser.loadURL(classroot.im, '_blank');
-				</handler>
-			</image>
+		<attribute name="title" value="Notes"/>
+		<view stretches="true" bgcolor="red" height="${classroot.height}" width="${classroot.width}">
+			<edittext multiline="true" height="${classroot.height}" width="${classroot.width}">
+			</edittext>
 		</view>
 	</class>
 </library>
