@@ -45,7 +45,7 @@
 						<fileList id="roomFileList" height="100%" width="100%"></fileList>
 					</tabpane>
 					<tabpane name="tab_profile" text="Profile">
-						<roomProfile name="roomProfile"></roomProfile>
+						<roomProfile id="roomProfile" name="roomProfile"></roomProfile>
 					</tabpane>
 				</tabs>
 			</view>

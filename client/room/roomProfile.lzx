@@ -1,12 +1,8 @@
 <library>
 	<script src="../services/userservice/auth/md5.js"/>	
 	<class name="roomProfile" extends="view">
-		<handler name="oninit">
-			dset2.setQueryParam("username", "kozdincer");
-			dset2.doRequest();
-		</handler>
 		<dataset name="dset2" request="true" type="http">
-			<handler name="oninit">
+			<handler name="onconstruct">
 				var datapntr = dsetConf.getPointer();
 				this.setAttribute("src", datapntr.xpathQuery('config/roomprofile/text()'));
 			</handler>
@@ -74,6 +70,11 @@
 		<method name="reset">
 			update.pass.pass1.setAttribute("text", "");
 			update.pass.pass2.setAttribute("text", "");
+		</method>
+		<method name="refresh">
+			var i = loginScreen.getUsername();
+			dset2.setQueryParam("username", i);
+			dset2.doRequest();
 		</method>
 	</class>
 </library>

@@ -1,5 +1,5 @@
 <library>
-	<class name="dene" extends="window">
+	<class name="roomNotes" extends="window">
 		<attribute name="height" value="250"/>
 		<attribute name="width" value="200"/>
 		<attribute name="closable" value="true"/>

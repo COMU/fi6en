@@ -21,14 +21,16 @@
 					</menuitem>
 					<menuitem text="Masaüstünü İzle">
 						<handler name="onclick">
+							var i = loginScreen.getUsername();
+							var ii = "deskshare-" + i;
 							var subscriber = new lz.subscriber(whiteboard, {
 										stretches : 'both',
-										title : "deskshare-kozdincer",
+										title : ii,
 										width : "172",
 										height : "183",
 										resizable : true
 									});
-							subscriber.playStream("deskshare-kozdincer");
+							subscriber.playStream(ii);
 							whiteboard.mylist.push(subscriber);
 						</handler>
 					</menuitem>
