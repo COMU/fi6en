@@ -1,7 +1,7 @@
 <canvas>
 	<include href="deneme2.lzx"/>
 	<simplelayout axis="x" spacing="10"></simplelayout>
-		<edittext id="my">162</edittext>
+		<edittext id="my">205</edittext>
 	<button>
 		<handler name="onclick">
 			var i = new lz.fileSwfView(canvas, {"title":"oldu",

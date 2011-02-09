@@ -16,6 +16,14 @@
 					classroot.setAttribute("width", 400);
 				}
 			</handler>
+			<view clickable="true" align="right" valign="bottom" height="32" width="32">
+				<image src="resources/icons/download.png" valign="middle" align="right">
+					<tooltip>Download</tooltip>
+					<handler name="onclick">
+						lz.Browser.loadURL(classroot.im, '_blank');
+					</handler>
+				</image>
+			</view>
 		</view>
 		<attribute name="im" type="string"/>
 		<attribute name="resizable" value="true"/>
