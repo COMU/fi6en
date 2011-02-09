@@ -80,7 +80,12 @@
 								whiteboard.mylist.push(n);
 							</handler>
 						</button>
-						<button width="${parent.notes.width}">Drawing</button>
+						<button width="${parent.notes.width}" text="White Board">
+							<handler name="onclick">
+								var w = new lz.roomWhiteBoard(whiteboard);
+								whiteboard.mylist.push(w);
+							</handler>
+						</button>
 					</view>
 				</view>
 				<view name="bottom" height="150" width="100%">

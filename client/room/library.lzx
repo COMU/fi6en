@@ -20,4 +20,5 @@
 	<include href="roomInviteDialog.lzx"/>
 	<include href="roomImage.lzx"/>
 	<include href="roomNotes.lzx"/>
+	<include href="roomWhiteBoard.lzx"/>
 </library>

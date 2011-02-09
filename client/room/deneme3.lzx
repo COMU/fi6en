@@ -2,7 +2,7 @@
 	<include href="deneme2.lzx"/>
 	<button>
 		<handler name="onclick">
-			var i = new lz.dene(canvas);
+			var i = new lz.roomWhiteBoard(canvas);
 		</handler>
 	</button>
 </canvas>

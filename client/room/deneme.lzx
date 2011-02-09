@@ -1,4 +1,4 @@
-<canvas height="500" width="100%" debug="false">
+<canvas height="500" width="100%" debug="true">
 	<debug y="300"/>
 	<drawview width="600" height="400" bgcolor="red" clickable="true" cachebitmap="true">
 		<attribute name="mx" type="number" value="0"/>
@@ -10,12 +10,8 @@
 
 		<attribute name="mouseupdown" value="null"/>
 
-		<text name="display"/>
+		<text name="display" height="${parent.height}" width="${parent.width}"/>
 		<attribute name="counter" value="0"/>
-
-		<handler name="onidle" reference="LzIdleService.LzIdle">
-			display.format("Received %d idle events", ++counter);
-		</handler>
 
 		<handler name="onmousedown">
 
