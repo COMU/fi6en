@@ -4,7 +4,8 @@
 		<attribute name="width" value="350"/>
 		<attribute name="closeable" value="true"/>
 		<attribute name="resizable" value="true"/>
-		<attribute name="title" value="White Board"/>
+		<text visible="false" name="ttt" datapath="dsetLang:/language/string[@id='93']" text="$path{'value/text()'}"></text>
+		<attribute name="title" value="${ttt.text}" />
 		<drawview name="drawing" width="${classroot.width}" height="${classroot.height}" bgcolor="white" clickable="true" cachebitmap="true">
 			<attribute name="mx" type="number" value="0"/>
 			<attribute name="my" type="number" value="0"/>

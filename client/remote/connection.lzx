@@ -134,10 +134,11 @@
 			userList.refreshList();
 			roomUserList.refreshList();
 		</method>
+		<text visible="false" name="kickbymod" datapath="dsetLang:/language/string[@id='91']" text="$path{'value/text()'}" />
 		<method name="_kickMe" args="arg">
 			roomScreen2.quitRoom();
 			var myAlert = new lz.alert(canvas, {
-						text : "Moderator tarafından odadan atıldınız.",
+						text : kickbymod,
 						stretches : 'both'
 					});
 			myAlert.open();
