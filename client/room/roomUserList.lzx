@@ -9,8 +9,8 @@
 		<simplelayout axis="y" spacing="5"></simplelayout>
 		<view name="mod">
 			<menubar name="mymenubar" width="235">
-				<menu name="normalMenu" text="Actions" enabled="false">
-					<menuitem text="Yayını İzle">
+				<menu name="normalMenu" text="Menu" enabled="false">
+					<menuitem datapath="dsetLang:/language/string[@id='85']" text="$path{'value/text()'}">
 						<handler name="onclick">
 							var username = roomUserList.getSelectedUserName();
 							var isb = roomUserList.isUserBroadcast(username);
@@ -19,7 +19,7 @@
 							}
 						</handler>
 					</menuitem>
-					<menuitem text="Masaüstünü İzle">
+					<menuitem datapath="dsetLang:/language/string[@id='86']" text="$path{'value/text()'}">
 						<handler name="onclick">
 							var i = loginScreen.getUsername();
 							var ii = "deskshare-" + i;

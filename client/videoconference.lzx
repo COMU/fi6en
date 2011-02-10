@@ -46,7 +46,7 @@
 		<simplelayout axis="x" spacing="10" />
 		<!--welcome message-->
 		<text id="welcome" fontsize="13" fgcolor="#FF9933" visible="false" 
-			datapath="dsetLang:/language/string[@id='33']" text="$path{'value/text()'}" />	
+			datapath="dsetLang:/language/string[@id='86']" text="$path{'value/text()'}" />	
 		<!--combobox for language selection-->
 		<languageSelector id="langSelector" width="130"/>
 	</view>

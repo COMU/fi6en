@@ -251,6 +251,12 @@
 	<string id="84">
 		<value>Start Broadcast</value>
 	</string>
+	<string id="85">
+		<value>Watch Stream</value>
+	</string>
+	<string id="86">
+		<value>Watch Screen Sharing</value>
+	</string>
 	
 	
 </language>
