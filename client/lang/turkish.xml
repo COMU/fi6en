@@ -153,5 +153,38 @@
 	<string id="51">
 		<value>Parola:</value>
 	</string>
+	<string id="52">
+		<value>Kullanıcıyı Güncelle</value>
+	</string>
+	<string id="53">
+		<value>Kullanıcı Adı:</value>
+	</string>
+	<string id="54">
+		<value>E-Posta:</value>
+	</string>
+	<string id="55">
+		<value>İsim:</value>
+	</string>
+	<string id="56">
+		<value>Soyisim:</value>
+	</string>
+	<string id="57">
+		<value>Yerleşim:</value>
+	</string>
+	<string id="58">
+		<value>Yeni Kullanıcı Ekle</value>
+	</string>
+	<string id="59">
+		<value>Kullanıcılar</value>
+	</string>
+	<string id="60">
+		<value>Odalar</value>
+	</string>
+	<string id="61">
+		<value>Çıkış</value>
+	</string>
+	<string id="62">
+		<value>Yayını İzle</value>
+	</string>
 			
 </language>

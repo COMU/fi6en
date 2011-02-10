@@ -152,8 +152,39 @@
 	<string id="51">
 		<value>Password:</value>
 	</string>
-	
-	
+	<string id="52">
+		<value>Update User</value>
+	</string>
+	<string id="53">
+		<value>Username:</value>
+	</string>
+	<string id="54">
+		<value>E-Mail:</value>
+	</string>
+	<string id="55">
+		<value>First Name:</value>
+	</string>
+	<string id="56">
+		<value>Last Name:</value>
+	</string>
+	<string id="57">
+		<value>Location:</value>
+	</string>
+	<string id="58">
+		<value>Add New User</value>
+	</string>
+	<string id="59">
+		<value>Users</value>
+	</string>
+	<string id="60">
+		<value>Rooms</value>
+	</string>
+	<string id="61">
+		<value>Exit</value>
+	</string>
+	<string id="62">
+		<value>Watch Stream</value>
+	</string>
 	
 	
 </language>
