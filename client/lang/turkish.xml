@@ -204,5 +204,23 @@
 	<string id="68">
 		<value>Yükleniyor...</value>
 	</string>
+	<string id="69">
+		<value>Dosyalar</value>
+	</string>
+	<string id="70">
+		<value>Profil</value>
+	</string>
+	<string id="71">
+		<value>Kamera ve Ekran Paylaşımı</value>
+	</string>
+	<string id="72">
+		<value>Yayınlar</value>
+	</string>
+	<string id="73">
+		<value>Not Al</value>
+	</string>
+	<string id="74">
+		<value>Çizim Yap</value>
+	</string>
 			
 </language>

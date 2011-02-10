@@ -37,14 +37,14 @@
 		<view name="main" height="${parent.height-30}" width="100%">
 			<view name="left" width="250" height="${parent.center.height+30}">
 				<tabs name="left_tabs" height="100%" width="100%" align="center" valign="middle">
-					<tabpane name="tab_userlist" text="Users" >
+					<tabpane name="tab_userlist" datapath="dsetLang:/language/string[@id='59']" text="$path{'value/text()'}">
 						<roomUserList id="roomUserList" height="100%" width="100%"></roomUserList>
 						<roomInvite name="roomInvite" visible="false" height="100%" width="100%"></roomInvite>
 					</tabpane>
-					<tabpane name="tab_filelist" text="Files">
+					<tabpane name="tab_filelist" datapath="dsetLang:/language/string[@id='69']" text="$path{'value/text()'}">
 						<fileList id="roomFileList" height="100%" width="100%"></fileList>
 					</tabpane>
-					<tabpane name="tab_profile" text="Profile">
+					<tabpane name="tab_profile" datapath="dsetLang:/language/string[@id='70']" text="$path{'value/text()'}">
 						<roomProfile id="roomProfile" name="roomProfile"></roomProfile>
 					</tabpane>
 				</tabs>
@@ -55,12 +55,12 @@
 					<text name="username2" align="right" y="5" text="1232321"></text>
 				</view>
 				<tabslider name="center_tabslider" height="100%" width="100%" y="28">
-					<tabelement name="tab_broadcast" text="Broadcast" height="300"  selected="true">
+					<tabelement name="tab_broadcast" datapath="dsetLang:/language/string[@id='71']" text="$path{'value/text()'}" height="300"  selected="true">
 						<simplelayout axis="y" spacing="5"></simplelayout>
 						<roomSharingEnter id="myShareEnter" height="100%" width="100%"></roomSharingEnter>
 						<roomPublisher id="myRoomPublisher" height="100%" width="100%" align="center" valign="middle"></roomPublisher>
 					</tabelement>
-					<tabelement name="tab_streams" text="Streams">
+					<tabelement name="tab_streams" datapath="dsetLang:/language/string[@id='72']" text="$path{'value/text()'}">
 						<roomSubscribers id="myRoomSubs" width="100%" height="100%"></roomSubscribers>
 					</tabelement>
 				</tabslider>
@@ -74,13 +74,13 @@
 					<view align="right" valign="top">
 						<simplelayout axis="y" spacing="1"></simplelayout>
 						<view height="1"></view>
-						<button name="notes" text="Take Notes">
+						<button name="notes" datapath="dsetLang:/language/string[@id='73']" text="$path{'value/text()'}">
 							<handler name="onclick">
 								var n = new lz.roomNotes(whiteboard);
 								whiteboard.mylist.push(n);
 							</handler>
 						</button>
-						<button width="${parent.notes.width}" text="White Board">
+						<button width="${parent.notes.width}" datapath="dsetLang:/language/string[@id='74']" text="$path{'value/text()'}">
 							<handler name="onclick">
 								var w = new lz.roomWhiteBoard(whiteboard);
 								whiteboard.mylist.push(w);

@@ -203,5 +203,23 @@
 	<string id="68">
 		<value>Loading...</value>
 	</string>
+	<string id="69">
+		<value>Files</value>
+	</string>
+	<string id="70">
+		<value>Profile</value>
+	</string>
+	<string id="71">
+		<value>Webcam and Screen Sharing</value>
+	</string>
+	<string id="72">
+		<value>Streams</value>
+	</string>
+	<string id="73">
+		<value>Take Notes</value>
+	</string>
+	<string id="74">
+		<value>Drawing</value>
+	</string>
 	
 </language>
