@@ -158,15 +158,6 @@
 										.clearText();
 							</handler>
 						</button>
-						<button name="printButton" text="Cıktı Al">
-							<handler name="onclick">
-							<![CDATA[
-								var msg = classroot.mainChatView.chat.messageAreaView.messageArea
-										.getText();
-								Debug.debug(msg);
-							]]>
-							</handler>
-						</button>
 					</view>
 				</view>
 			</view>

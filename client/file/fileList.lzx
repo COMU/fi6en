@@ -10,8 +10,8 @@
 		<simplelayout axis="y" spacing="5" />
 		<view name="mod">
 			<menubar name="mymenubar" width="235">
-				<menu name="uploadMenu" text="Upload">
-					<menuitem text="File Upload">
+				<menu name="uploadMenu" text="Menu">
+					<menuitem datapath="dsetLang:/language/string[@id='63']" text="$path{'value/text()'}">
 						<handler name="onselect">
 							file_upload_view.setAttribute("visible", true);
 						</handler>
@@ -58,20 +58,20 @@
 					</method>
 		
 				</fileUploader>
-				<combobox id="fileType" width="80" height="20" defaulttext="File Type" editable="false">
-					<textlistitem name="presentation">Presentation</textlistitem>
+				<combobox id="fileType" width="80" height="20" datapath="dsetLang:/language/string[@id='64']" defaulttext="$path{'value/text()'}" editable="false">
+					<textlistitem name="presentation">OPD, PPT</textlistitem>
 					<textlistitem name="pdf">PDF</textlistitem>
-					<textlistitem>Picture</textlistitem>
+					<textlistitem>PNG, JPG, GIF</textlistitem>
 				</combobox>
 		
-				<button name="button_browse" text="Browse">
+				<button name="button_browse" datapath="dsetLang:/language/string[@id='65']" text="$path{'value/text()'}">
 					<handler name="onclick">
 						parent.file_uploader.browse();
 						parent.parent.progressBar.setValue(0);
 					</handler>
 				</button>
 	
-				<button name="button_upload" text="Upload" enabled="false">
+				<button name="button_upload" datapath="dsetLang:/language/string[@id='66']" text="$path{'value/text()'}" enabled="false">
 					<handler name="onclick">
 						var datapntr = dsetConf.getPointer();
 						var upServlet = datapntr.xpathQuery('config/fileupload/text()');
@@ -85,7 +85,7 @@
 			<view name="progressBar" width="235" height="25" bgcolor="#666666">
 				<view x="1" y="1" width="233" height="23" bgcolor="#FFFFFF"/>
 				<view name="status" x="1" y="1" height="23" bgcolor="#BBBBFF"/>
-				<text name="percent" text="Select A File. (Max 2MB)" x="5" fontstyle="italic" fgcolor="#6666FF" valign="middle"  maxlength="40"/>
+				<text name="percent" datapath="dsetLang:/language/string[@id='67']" text="$path{'value/text()'}" x="5" fontstyle="italic" fgcolor="#6666FF" valign="middle"  maxlength="40"/>
 
 				<method name="setValue" args="value"><![CDATA[
 					status.setAttribute('width', value * 233 / 100);
@@ -110,7 +110,7 @@
 				<image prefix="resources/icons/" datapath="typ/text()" valign="middle" clickable="true">
 				</image>
 			</gridcolumn>
-			<gridcolumn name="column_name" width="180" text="Name" resizable="false" >
+			<gridcolumn name="column_name" width="180" resizable="false" >
 				<text datapath="fname/text()" valign="middle" align="left" maxlength="20"></text>
 			</gridcolumn>
 			<handler name="onselect">
@@ -165,7 +165,7 @@
 		</method>
 		<method name="hideTimer" args="msg">
 			file_upload_view.setAttribute("visible", false);
-			file_upload_view.progressBar.setText("Select A File. (Max 2MB)");
+			file_upload_view.progressBar.setText(file_upload_view.progressBar.percent.text);
 		</method>
 	</class>
 </library>

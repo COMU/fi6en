@@ -186,5 +186,20 @@
 	<string id="62">
 		<value>Yayını İzle</value>
 	</string>
+	<string id="63">
+		<value>Dosya Yükle</value>
+	</string>
+	<string id="64">
+		<value>Dosya Tipi</value>
+	</string>
+	<string id="65">
+		<value>Göster</value>
+	</string>
+	<string id="66">
+		<value>Yükle</value>
+	</string>
+	<string id="67">
+		<value>Dosya Seç. (Maks 2MB)</value>
+	</string>
 			
 </language>

@@ -185,6 +185,21 @@
 	<string id="62">
 		<value>Watch Stream</value>
 	</string>
+	<string id="63">
+		<value>YFile Upload</value>
+	</string>
+	<string id="64">
+		<value>File Type</value>
+	</string>
+	<string id="65">
+		<value>Browse</value>
+	</string>
+	<string id="66">
+		<value>Upload</value>
+	</string>
+	<string id="67">
+		<value>Select File. (Max 2MB)</value>
+	</string>
 	
 	
 </language>
