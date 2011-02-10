@@ -35,23 +35,23 @@
 						</handler>
 					</menuitem>
 				</menu>
-				<menu name="modMenu" text="Mod Actions" enabled="false">
-					<menuitem text="Kick User">
+				<menu name="modMenu" text="Mod Menu" enabled="false">
+					<menuitem datapath="dsetLang:/language/string[@id='87']" text="$path{'value/text()'}" >
 						<handler name="onclick">
 							var username = roomUserList.getSelectedUserName();
 							var roomname = roomScreen2.getRoomName();
 							conn._nc.call("roomservice.kickUser", conn.responder, username, roomname);
 						</handler>
 					</menuitem>
-					<menuitem text="Set User As Moderator">
+					<menuitem datapath="dsetLang:/language/string[@id='88']" text="$path{'value/text()'}" >
 						<handler name="onclick">
 							var username = roomUserList.getSelectedUserName();
 							conn._nc.call("roomservice.setUserModerator", conn.responder, username, true);
 						</handler>
 					</menuitem>
 				</menu>
-				<menu name="inviteMenu" text="Invite" enabled="true">
-					<menuitem text="invite buddy">
+				<menu name="inviteMenu" datapath="dsetLang:/language/string[@id='89']" text="$path{'value/text()'}" enabled="true">
+					<menuitem datapath="dsetLang:/language/string[@id='90']" text="$path{'value/text()'}" >
 						<handler name="onclick">
 							roomScreen2.openInviteTab();
 						</handler>

@@ -258,5 +258,17 @@
 	<string id="86">
 		<value>Ekran Paylaşımını İzle</value>
 	</string>
+	<string id="87">
+		<value>Kullanıcıyı Odadan At</value>
+	</string>
+	<string id="88">
+		<value>Kullanıcıyı Moderator Yap</value>
+	</string>
+	<string id="89">
+		<value>Davet</value>
+	</string>
+	<string id="90">
+		<value>Kullanıcıyı Davet Et</value>
+	</string>
 			
 </language>

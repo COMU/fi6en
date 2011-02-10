@@ -186,7 +186,7 @@
 		<value>Watch Stream</value>
 	</string>
 	<string id="63">
-		<value>YFile Upload</value>
+		<value>File Upload</value>
 	</string>
 	<string id="64">
 		<value>File Type</value>
@@ -256,6 +256,18 @@
 	</string>
 	<string id="86">
 		<value>Watch Screen Sharing</value>
+	</string>
+	<string id="87">
+		<value>Kick User</value>
+	</string>
+	<string id="88">
+		<value>Set User As Moderator</value>
+	</string>
+	<string id="89">
+		<value>Invite</value>
+	</string>
+	<string id="90">
+		<value>Invite Buddy</value>
 	</string>
 	
 	
