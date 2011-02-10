@@ -1,6 +1,6 @@
 <library>
 	<class name="filePicView" extends="window">
-		<text>Loading...</text>
+		<text datapath="dsetLang:/language/string[@id='68']" text="$path{'value/text()'}"></text>
 		<view name="myimage" resource="${classroot.im}" stretches="both">
 			<handler name="onheight">
 				classroot.setAttribute("height", this.height);

@@ -201,5 +201,8 @@
 	<string id="67">
 		<value>Dosya Seç. (Maks 2MB)</value>
 	</string>
+	<string id="68">
+		<value>Yükleniyor...</value>
+	</string>
 			
 </language>

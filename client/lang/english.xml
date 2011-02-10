@@ -200,6 +200,8 @@
 	<string id="67">
 		<value>Select File. (Max 2MB)</value>
 	</string>
-	
+	<string id="68">
+		<value>Loading...</value>
+	</string>
 	
 </language>
