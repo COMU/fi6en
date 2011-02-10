@@ -1,12 +1,12 @@
 <class name="planMeetingView">
 	<simplelayout axis="y" spacing="1"></simplelayout>
-	<text>Oda Adı:</text>
+	<text datapath="dsetLang:/language/string[@id='41']" text="$path{'value/text()'}"></text>
 	<edittext name="roomname" width="${classroot.time.width}"></edittext>
-	<text>Parola:</text>
+	<text datapath="dsetLang:/language/string[@id='51']" text="$path{'value/text()'}"></text>
 	<edittext name="password" password="true" width="${classroot.time.width}"></edittext>
-	<text>İçerik:</text>
+	<text datapath="dsetLang:/language/string[@id='42']" text="$path{'value/text()'}"></text>
 	<edittext name="about" multiline="true" width="${classroot.time.width}" height="${(classroot.password.height*2)}"></edittext>
-	<text>Tarih:</text>
+	<text datapath="dsetLang:/language/string[@id='75']" text="$path{'value/text()'}"></text>
 	<datepicker name="date" startAsIcon="false" selecteddate="new Date()" allowdrag="false">
 		<handler name="onselecteddate">
 			<![CDATA[
@@ -46,7 +46,7 @@
 	</view>
 	<view name="buttons" yoffset="-10">
 		<simplelayout axis="x" spacing="5"></simplelayout>
-		<button name="ok" text="Oluştur" width="${(classroot.time.width-38)}">
+		<button name="ok" datapath="dsetLang:/language/string[@id='76']" text="$path{'value/text()'}" width="${(classroot.time.width-38)}">
 			<handler name="onclick">
 				<![CDATA[
 				var i = parent.parent.datetext.getText();

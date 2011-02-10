@@ -221,5 +221,11 @@
 	<string id="74">
 		<value>Drawing</value>
 	</string>
+	<string id="75">
+		<value>Date:</value>
+	</string>
+	<string id="76">
+		<value>Create</value>
+	</string>
 	
 </language>
