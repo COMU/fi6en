@@ -13,12 +13,12 @@
 				<simplelayout axis="x" spacing="5" />
 				<view name="attributes">
 					<simplelayout axis="y" spacing="13"/>
-					<text>Username:</text>
-					<text>Email:</text>
-					<text>First Name:</text>
-					<text>Last Name:</text>
-					<text>Location:</text>
-					<button text="Save" onclick="classroot.updateUser()">
+					<text datapath="dsetLang:/language/string[@id='53']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='54']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='55']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='56']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='57']" text="$path{'value/text()'}">Location:</text>
+					<button datapath="dsetLang:/language/string[@id='49']" text="$path{'value/text()'}" onclick="classroot.updateUser()">
 					</button>
 				</view>
 				<view name="edittexts" datapath="local:classroot.dset2:/user">
@@ -33,11 +33,11 @@
 			</view>
 			<view name="pass">
 				<simplelayout axis="y" spacing="5"/>
-				<text fontsize="16" fontstyle="bold">Change Password</text>
+				<text fontsize="16" fontstyle="bold" datapath="dsetLang:/language/string[@id='47']" text="$path{'value/text()'}"></text>
 				<edittext name="pass1" password="true"></edittext>
-				<text>Re-Type</text>
+				<text datapath="dsetLang:/language/string[@id='48']" text="$path{'value/text()'}"></text>
 				<edittext name="pass2" password="true"></edittext>
-				<button text="Change" onclick="classroot.changePassword()">
+				<button datapath="dsetLang:/language/string[@id='49']" text="$path{'value/text()'}" onclick="classroot.changePassword()">
 				</button>
 			</view>
 		</view>
