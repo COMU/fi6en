@@ -231,5 +231,8 @@
 	<string id="77">
 		<value>Gönder</value>
 	</string>
+	<string id="78">
+		<value>İsimli odadan davet edildiniz. Girmek İstiyormusunuz?</value>
+	</string>
 			
 </language>
