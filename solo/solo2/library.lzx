@@ -1,0 +1,11 @@
+<library>
+	<include href="chat/library.lzx" />
+	<include href="components/library.lzx" />
+	<include href="record/library.lzx" />
+	<include href="remote/library.lzx" />
+	<include href="room/library.lzx" />
+	<include href="services/library.lzx" />
+	<include href="util/library.lzx" />
+	<include href="file/library.lzx"/>
+	<include href="admin/library.lzx" />
+</library>

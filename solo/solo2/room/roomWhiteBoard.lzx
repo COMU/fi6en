@@ -1,0 +1,118 @@
+<library>
+	<class name="roomWhiteBoard" extends="window">
+		<attribute name="height" value="274"/>
+		<attribute name="width" value="350"/>
+		<attribute name="closeable" value="true"/>
+		<attribute name="resizable" value="true"/>
+		<text visible="false" name="ttt" datapath="dsetLang:/language/string[@id='93']" text="$path{'value/text()'}"></text>
+		<attribute name="title" value="${ttt.text}" />
+		<drawview name="drawing" width="${classroot.width}" height="${classroot.height}" bgcolor="white" clickable="true" cachebitmap="true">
+			<attribute name="mx" type="number" value="0"/>
+			<attribute name="my" type="number" value="0"/>
+			<attribute name="prevx" type="number" value="0"/>
+			<attribute name="prevy" type="number" value="0"/>
+			<attribute name="pointsArray" value="null"/>
+			<attribute name="moustracker_del" value="$once{ new LzDelegate( this, 'trackmouse' )}"/>
+
+			<attribute name="mouseupdown" value="null"/>
+
+			<text name="display" height="${parent.height}" width="${parent.width}"/>
+			<attribute name="counter" value="0"/>
+			
+			<handler name="onmousedown">
+				//this.pointsArray = new Array();
+				moustracker_del.register(lz.Idle, 'onidle');
+				//if($debug) Debug.write("%s %d %d", "mousex, mousey:", this.getMouse('x'),this.getMouse('y'));
+			</handler>
+
+			<handler name="onmouseup">
+			<![CDATA[
+				moustracker_del.unregisterAll();
+
+				this.prevx = 0;
+				this.prevy = 0;
+				//for (var eg=0;eg<this.pointsArray.length;eg++) {
+				// this.drawline(this.pointsArray[eg][1],this.pointsArray[eg][2],this.pointsArray[eg][3],this.pointsArray[eg][4]);
+				//}
+				//this.stroke();
+				//this.pointsArray = null;
+				//if($debug) Debug.write("%s %d %d", "mousex, mousey:", this.getMouse('x'),this.getMouse('y'));
+			]]>
+			</handler>
+
+			<method name="trackmouse" args="v">
+
+				this.mx = this.getMouse('x');
+				this.my = this.getMouse('y');
+
+				//if($debug) Debug.write("%s %d %d", "mousex, mousey:", this.mx,this.my);
+
+				if (this.mx != this.prevx || this.my != this.prevy) {
+					if (this.prevx == 0) {
+						this.prevx = this.mx;
+					}
+					if (this.prevy == 0) {
+						this.prevy = this.my;
+					}
+					var px = this.prevx;
+					var py = this.prevy;
+
+					this.drawline(px, py, this.mx, this.my);
+					//this.drawlineRegisterPaint(px,py,this.mx,this.my);
+
+					this.prevx = this.mx;
+					this.prevy = this.my;
+				}
+			</method>
+
+			<method name="drawline" args="x1,y1,x2,y2">
+			<![CDATA[
+				this.beginPath();
+				this.moveTo(x1, y1);
+				this.lineTo(x2, y2);
+				//this.closePath();
+				this.stroke();
+			]]>
+			</method>
+			<method name="drawlineRegisterPaint" args="x1,y1,x2,y2">
+				var actionObject = new Array();
+				actionObject[0] = 'point';
+				actionObject[1] = x1;
+				actionObject[2] = y1;
+				actionObject[3] = x2;
+				actionObject[4] = y2;
+				this.pointsArray.push(actionObject);
+			</method>
+		</drawview>
+		<view height="24" width="${classroot.width}" valign="bottom" align="center">
+			<simplelayout axis="x"></simplelayout>
+			<view bgcolor="black" height="${parent.height}" width="${parent.height+10}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view bgcolor="grey" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view bgcolor="lightgrey" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view bgcolor="white" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view bgcolor="yellow" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view bgcolor="orange" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view bgcolor="red" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view bgcolor="purple" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view bgcolor="blue" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view bgcolor="green" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view width="10"></view>
+			<slider width="30" maxvalue="10" value="1" showrange="false" valign="middle">
+				<handler name="onvalue">
+					classroot.drawing.lineWidth = this.value;
+					parent.sample.setAttribute("height", this.value);
+					parent.sample.setAttribute("width", this.value);
+				</handler>
+			</slider>
+			<view width="10"></view>
+			<view name="sample" valign="middle" bgcolor="black"></view>
+		</view>
+		<view align="right" valign="bottom" clickable="true" height="24" width="24">
+			<image src="resources/icons/clear.png">
+				<handler name="onclick">
+					classroot.drawing.clear();
+				</handler>
+			</image>
+		</view>
+	</class>
+</library>

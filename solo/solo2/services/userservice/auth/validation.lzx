@@ -1,0 +1,89 @@
+<!--class to do validation opertion-->
+<library>
+	<class name="validation">
+		<attribute name="validationAlert" value="null"/>
+		<attribute name="error" type="string" value="null"/>
+		<!--attribute represents the validity of all the fiels on the registration window -->
+		<attribute name="valid" type="boolean" value="false"/>
+		<!--error messages will be shown to the user-->
+		<text name="checkFields" datapath="dsetLang:/language/string[@id='13']" text="$path{'value/text()'}"  visible="false"/>
+		<text name="unmatchedPass" datapath="dsetLang:/language/string[@id='14']" text="$path{'value/text()'}"  visible="false"/>
+		<text name="invalidEmail" datapath="dsetLang:/language/string[@id='15']" text="$path{'value/text()'}"  visible="false"/>
+		
+		<method name="validate" args="form">
+			//Debug.write("validate : %w",form);
+			var password = form['password'];
+			var passwordRe = form['passwordRe'];
+			var email = form['email'];
+			var dizi= [form['username'],form['firstname'], 
+					form['lastname'], form['password'], 
+					form['passwordRe'], form['email'], form['location']];
+			//checking the values whether they have valid values
+			if (checkAllFields(dizi)) {
+				if (comparePasswords(password, passwordRe)) {
+					if (checkEmail(email)) {
+						Debug.info("Validation is ok");
+						notificationWindow.addMessage("info","Validation is ok");
+						this.setAttribute('valid', true);
+						return valid;
+					}
+				}
+			}
+		</method>
+		
+		<!--check the fields if they are null-->
+		<method name="checkAllFields" args="form"> <![CDATA[
+			var isValid = true;
+			//Debug.write("array length : ", form.length);
+			for (var i = 0; i < form.length; i++) {
+				//Debug.write(i + " : " +form[i]);
+				if (form[i] == '') {
+					error = checkFields.text;
+					validationAlert = new lz.alert(canvas, {
+								text : error,
+								stretches : 'both'
+							});
+					isValid = false;
+					validationAlert.open();
+					return;
+				}
+			}
+			return isValid;
+		]]>
+		</method>
+		
+		<!--compare the passwords whether they are same-->
+		<method name="comparePasswords" args="password, passwordRe">
+			var isValid = true;
+			if (password != passwordRe) {
+				error = unmatchedPass.text;
+				validationAlert = new lz.alert(canvas, {
+							text : error,
+							stretches : 'both'
+						});
+				validationAlert.open();
+				isValid = false;
+				return;
+			}
+			return isValid;
+		</method>
+		
+		<!--check email if it contains @ character-->
+		<method name="checkEmail" args="email"><![CDATA[
+			var isValid = true;
+			var st2 = new RegExp("@");
+			if (!(st2.test(email))) {
+				error =invalidEmail.text;
+				validationAlert = new lz.alert(canvas, {
+							text : error,
+							stretches : 'both'
+						});
+				validationAlert.open();
+				isValid = false;
+				return;
+			}
+			return isValid;
+		]]>
+		</method>
+	</class>
+</library>

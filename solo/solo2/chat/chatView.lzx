@@ -1,0 +1,242 @@
+<library>
+	<include href="../remote/sharedObjectMediators.lzx" />
+	<resource name="icon_webcam" src="../resources/icons/webcam-icon.png" />
+		
+	<class name="chatView" extends="view">
+		<!--indicates if the client is the first user for the application-->	
+		<attribute name="isFirstUser" type="boolean" value="false"/>
+		<!--class to use the functions of the shared object classes in non-debug mode-->
+		<sharedObjectMediators name="mediators" />
+		<!--shared object for chat-->
+		<!--SharedObjectChatMediator class comes from sharedObjectMediators class impl.-->
+		<sharedObjectChat name="soChat"> 
+			<handler name="onstage" reference="conn">
+				if (conn.stage == 2) {
+					this.connect("chat", conn._nc, true);
+					this.so.client = new SharedObjectChatMediator(this);
+				}
+			</handler>
+		</sharedObjectChat>
+		<!-- imports for Chat Print -->
+		<switch>
+			<when property="$as3">
+				<passthrough>
+					import flash.net.navigateToURL;  
+					import flash.net.URLRequest;  
+					import flash.net.URLVariables; 
+				</passthrough>
+			</when>
+		</switch>
+		<!--shared object for the usersList(List)
+			@param usersList : name of the shared object at the server side
+			-->
+		<!--SharedObjectUserMediator class comes from sharedObjectMediators class impl.-->	
+		<sharedObjectUserlist name="soUsers"> 
+			<handler name="onstage" reference="conn">
+				if (conn.stage == 2) {
+					this.connect("userlist", conn._nc, false);
+					this.so.client = new SharedObjectUserMediator(this);
+				}
+			</handler>
+		</sharedObjectUserlist>
+		<!--shared object for the roomList(List) -->
+		<!--SharedObjectRoomMediator class comes from sharedObjectMediators class impl.-->
+		<sharedObjectRoomList name="soRooms">
+			<handler name="onstage" reference="conn">
+				if (conn.stage == 2) {
+					this.connect("roomlist", conn._nc, false);
+					this.so.client = new SharedObjectRoomMediator(this);
+				}
+			</handler>		
+		</sharedObjectRoomList>
+		
+		<!--netStream object for play operation-->
+		<netStream name="streamPlay" />
+
+		<command name="enterKey" key="['Enter']" active="${classroot.mainChatView.chat.isMouseOver()}">
+			<handler name="onselect">
+				classroot.mainChatView.chat.buttonView.buttonViewInside1.sendButton
+						.sendClicked();
+			</handler>  
+		</command>
+		
+		<!--audio, video, chat view-->		
+		<view name="mainChatView">
+			<simplelayout axis="x" spacing="2" />			
+			<!--view for creating and entering the rooms-->
+			<view name="roomsView">
+				<simplelayout spacing="7"/>
+				<rooms name="roomInnerView" />
+				<view name="roomList" align="center">
+					<attribute name="lastposition" type="number"/>
+					<simplelayout spacing="7"/>
+				</view>
+			</view>			
+			
+			<!--<window x="10" y="10" >
+				  <statictext fontstyle="bold" >
+					My new name is ...
+				  </statictext>
+				  <combobox id="cbox" width="175" editable="false" 
+							defaulttext="test" >
+					<textlistitem text="Oda1" />
+					<textlistitem text="Oda2"/>
+					<textlistitem text="Oda3" />
+				  </combobox>
+				  <button onclick="conn.initConnection(cbox.value)">Katıl
+				  </button>
+				  </window>-->
+			
+			<!--view for user1 (you)-->
+			<view name="videoViewBroadcast" width="250">
+				<simplelayout axis="y" spacing="30" />
+				
+				<button name="publishButton" align="center"
+					datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}">
+					<text name="publishText" visible="false"
+						datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}"/>
+					<text name="stopText" visible="false"
+						datapath="dsetLang:/language/string[@id='25']" text="$path{'value/text()'}"/>	
+					<handler name="onclick">
+						if (this.text == publishText.text) {
+							publishUser.publish(loginScreen.getUsername());
+							this.setAttribute('text', stopText.text);
+							conn._nc.call("roomservice.setUserBroadcast",
+									conn.responder, loginScreen.getUsername(),
+									true);
+							publishUser.setAttribute('visible', true);
+						} else {
+							publishUser.stopPublishing();
+							this.setAttribute('text', publishText.text);
+							conn._nc.call("roomservice.setUserBroadcast",
+									conn.responder, loginScreen.getUsername(),
+									false);
+							publishUser.setAttribute('visible', false);
+							classroot.soChat.send("writeInfo", loginScreen
+											.getUsername()
+											+ " stopped broadcasting");
+						}
+					</handler>
+				</button>
+				<!--publish video view for you-->
+				<publisher id="publishUser" align="center"/>	
+			</view>
+			
+			<!--main chat area-->
+			<view name="chat" layout="axis:y;spacing:10" >
+				<edittext name="message" width="300" height="20" resizable="true" />
+				
+				<view name="messageAreaView" bgcolor="#9999CC" width="300" height="280" clip="true"
+					focusable="true" clickable="true"
+					cornerradius="10">
+					<attribute name="usernameColor" type="color"/>
+					<text name="messageArea" multiline="true" selectable="true" clickable="true"/>
+					<vscrollbar name="vscrollbarChat" visible="${scrollable}"/>	
+				</view>
+						
+				<view name="buttonView" align="center">
+					<stableborderlayout axis="x"></stableborderlayout>
+					<view name="buttonViewInside1" layout="axis:x; spacing:15" align="center">
+						<button name="sendButton"
+							datapath="dsetLang:/language/string[@id='18']" text="$path{'value/text()'}">
+							<handler name="onclick" method="sendClicked" />
+							<method name="sendClicked" args="v=0">
+								var message = classroot.mainChatView.chat.message;
+								if (message.text != "") {
+									//Debug.write("Message sent!");									
+									classroot.sendMessage(message.text);
+									message.clearText();
+									parent.parent.parent.messageAreaView.vscrollbarChat
+											.page(1);
+								}
+							</method>
+						</button>
+						<button name="clearButton"
+							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
+							<handler name="onclick">
+								classroot.mainChatView.chat.messageAreaView.messageArea
+										.clearText();
+							</handler>
+						</button>
+					</view>
+				</view>
+			</view>
+						
+			<!--view for user1 (other user)-->
+			<view name="videoViewPlay" layout="axis:y; spacing:10" width="50" bgcolor="yellow" opacity="20">
+				<button visible="false" name="showUserCam" 
+					datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"
+					align="center">
+					<text name="playText" visible="false"
+						datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"/>
+					<text name="stopText" visible="false"
+						datapath="dsetLang:/language/string[@id='34']" text="$path{'value/text()'}"/>
+					
+					<attribute name="subscriberpositionX" type="number" value="${parent.x+60}"/>
+					<attribute name="subscriberpositionyY" type="number" value="${parent.y+96}"/>
+					<handler name="onclick">
+						var streamToPlay = "";
+						streamToPlay = userList.getSelectedUserName();
+
+						if (userList.getSelectedIsBroadcast() == "false") {
+							msg = "Selected user isn't broadcasting now."
+							notificationWindow.addMessage("warn", msg);
+						} else if (userList.getSelectedIsBroadcast()) {
+							var subscriber = new lz.subscriber(canvas, {
+										stretches : 'both',
+										title : streamToPlay,
+										x : subscriberpositionX,
+										y : subscriberpositionyY,
+										width : "172",
+										height : "183",
+										resizable : true
+									});
+							subscriberpositionyY = subscriberpositionyY + 50;
+							Debug.info("selected user to play => %w",
+									streamToPlay);
+							var msg = "selected user to play => "
+									+ streamToPlay;
+							notificationWindow.addMessage("info", msg);
+							subscriber.playStream(streamToPlay);
+						} else {
+							msg = "Please select a user for watching stream."
+							notificationWindow.addMessage("warn", msg);
+						}
+					</handler>
+				</button>				
+			</view>
+						
+			<view name="rightBar">
+				<simplelayout spacing="20"/>
+				<myUserList id="userList"></myUserList>
+			</view>
+		</view>
+		
+		<!--<window name="camerasWindow" title="cameras window"
+							width="400" height="400"
+							bgcolor="#BBBBBB" visible="false">
+				<wrappinglayout axis="x" spacing="10" />
+			</window>-->
+		
+		<!--sending the given parameter to the "writeSharedObject" function-->
+		<method name="sendMessage" args="message">
+			soChat.writeSharedObject(message);
+			//messageArea.addText(loginScreen.getUsername()+" : "+message+"\n");
+			//conn._conn.call("sendMessage",null,message);
+		</method>
+		
+		<!--overrides the determinePlacement method to handle the placement attribute-->
+		<method name="determinePlacement" args="aSub, placement, args">
+  			if (placement == 'canvas') {    
+  				return canvas;
+  			}
+  			else {
+  				return super.determinePlacement(aSub, placement, args);
+  			}
+  		</method>
+		<method name="serverRefreshRoomList" args="msg" >
+			this.soRooms.serverRefresh(msg);
+		</method>						
+	</class>	
+	
+</library>

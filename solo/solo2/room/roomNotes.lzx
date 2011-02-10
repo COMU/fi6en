@@ -1,0 +1,14 @@
+<library>
+	<class name="roomNotes" extends="window">
+		<attribute name="height" value="250"/>
+		<attribute name="width" value="200"/>
+		<attribute name="closeable" value="true"/>
+		<attribute name="resizable" value="true"/>
+		<text visible="false" name="ttt" datapath="dsetLang:/language/string[@id='92']" text="$path{'value/text()'}"></text>
+		<attribute name="title" value="${ttt.text}"/>
+		<view stretches="true" bgcolor="red" height="${classroot.height}" width="${classroot.width}">
+			<edittext multiline="true" height="${classroot.height}" width="${classroot.width}">
+			</edittext>
+		</view>
+	</class>
+</library>

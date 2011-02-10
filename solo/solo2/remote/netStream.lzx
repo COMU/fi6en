@@ -1,0 +1,5 @@
+<library>
+	<class name="netStream" extends="mediastream">
+		<attribute name="recordingg" type="boolean"/>		
+	</class>	
+</library>

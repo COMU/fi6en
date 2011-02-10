@@ -1,0 +1,85 @@
+<class name="planMeetingView">
+	<simplelayout axis="y" spacing="1"></simplelayout>
+	<text datapath="dsetLang:/language/string[@id='41']" text="$path{'value/text()'}"></text>
+	<edittext name="roomname" width="${classroot.time.width}"></edittext>
+	<text datapath="dsetLang:/language/string[@id='51']" text="$path{'value/text()'}"></text>
+	<edittext name="password" password="true" width="${classroot.time.width}"></edittext>
+	<text datapath="dsetLang:/language/string[@id='42']" text="$path{'value/text()'}"></text>
+	<edittext name="about" multiline="true" width="${classroot.time.width}" height="${(classroot.password.height*2)}"></edittext>
+	<text datapath="dsetLang:/language/string[@id='75']" text="$path{'value/text()'}"></text>
+	<datepicker name="date" startAsIcon="false" selecteddate="new Date()" allowdrag="false">
+		<handler name="onselecteddate">
+			<![CDATA[
+			var year = this.selecteddate.getFullYear();
+			var month = this.selecteddate.getMonth();
+			month = month + 1;
+			if (month<10) month = "0" + month;
+			var day = this.selecteddate.getDate();
+			if (day<10) day = "0" + day;
+			var s = year + "-" + month + "-" + day;
+			parent.datetext.setAttribute("text", s)
+			]]>
+		</handler>
+	</datepicker>
+	<edittext name="datetext" visible="false" width="${classroot.time.width}"></edittext>
+	<view name="time">
+		<simplelayout axis="x" spacing="1"></simplelayout>
+		<combobox name="ampm" width="50">
+			<textlistitem selected="true">AM</textlistitem><textlistitem>PM</textlistitem>
+		</combobox>
+		<combobox name="hours" width="50">
+			<textlistitem>01</textlistitem><textlistitem>02</textlistitem>
+			<textlistitem>03</textlistitem><textlistitem>04</textlistitem>
+			<textlistitem>05</textlistitem><textlistitem>06</textlistitem>
+			<textlistitem>07</textlistitem><textlistitem>08</textlistitem>
+			<textlistitem>09</textlistitem><textlistitem>10</textlistitem>
+			<textlistitem>11</textlistitem><textlistitem>12</textlistitem>
+		</combobox>
+		<combobox name="minutes" width="50">
+			<textlistitem>00</textlistitem>
+			<textlistitem>10</textlistitem>
+			<textlistitem>20</textlistitem>
+			<textlistitem>30</textlistitem>
+			<textlistitem>40</textlistitem>
+			<textlistitem>50</textlistitem>
+		</combobox>
+	</view>
+	<view name="buttons" yoffset="-10">
+		<simplelayout axis="x" spacing="5"></simplelayout>
+		<button name="ok" datapath="dsetLang:/language/string[@id='76']" text="$path{'value/text()'}" width="${(classroot.time.width-38)}">
+			<handler name="onclick">
+				<![CDATA[
+				var i = parent.parent.datetext.getText();
+				var ampm = parent.parent.time.ampm.getText();
+				var hours = parseInt(parent.parent.time.hours.getText());
+				var minutes = parent.parent.time.minutes.getText();
+				if (ampm == "AM") hours = hours + 12;
+				if (hours < 10) hours = "0" + hours;
+				var s = hours + ":" + minutes + ":" + "00";
+				s = i + " " + s;
+				parent.parent.setAttribute("visible", false);
+				roomListView.setAttribute("visible", true);
+				var rn = classroot.roomname.value;
+				var password = classroot.password.value;
+				var content = classroot.about.value;
+				var hashpasswd = hex_md5(password);
+				conn._nc.call("roomservice.planAMeeting", null, rn, content, hashpasswd, s);
+				parent.parent.reset();
+				]]>
+			</handler>
+		</button>
+		<button name="cancel" text="X">
+			<handler name="onclick">
+				parent.parent.setAttribute("visible", false);
+				parent.parent.reset();
+				roomListView.setAttribute("visible", true);
+			</handler>
+		</button>
+	</view>
+	<method name="reset">
+		roomname.setAttribute("text", "");
+		password.setAttribute("text", "");
+		about.setAttribute("text", "");
+		date.selecteddate = new Date();
+	</method>
+</class>

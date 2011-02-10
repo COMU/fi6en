@@ -1,0 +1,171 @@
+<library>
+	<include href="fileupload.lzx"/>
+	<class name="fileList" extends="view">
+		<dataset name="dset" request="true" type="http">
+			<handler name="oninit">
+				var datapntr = dsetConf.getPointer();
+				this.setAttribute("src", datapntr.xpathQuery('config/filelist/text()'));
+			</handler>
+		</dataset>
+		<simplelayout axis="y" spacing="5" />
+		<view name="mod">
+			<menubar name="mymenubar" width="235">
+				<menu name="uploadMenu" text="Menu">
+					<menuitem datapath="dsetLang:/language/string[@id='63']" text="$path{'value/text()'}">
+						<handler name="onselect">
+							file_upload_view.setAttribute("visible", true);
+						</handler>
+					</menuitem>
+				</menu>
+			</menubar>
+		</view>
+		<view id="file_upload_view" width="235" visible="false">
+			<simplelayout axis="y" spacing="5" />
+			<view name="view_button_row">
+				<simplelayout axis="x" spacing="2" />
+					
+				<fileUploader name="file_uploader">
+					<method name="onSelect" args="ev=null">
+						//parent.edittext_filename.setAttribute("text", parent.file_uploader.getName());
+						var i = parent.file_uploader.getName();
+						var e = i.split('.').pop();
+						e = e.toLowerCase();
+						var ex = new Array("jpg", "jpeg", "png", "gif", "pdf", "odp", "ppt");
+						if (!(e == "jpg" || e == "jpeg" || e == "png" || e == "gif" || e == "pdf" || e == "odp" || e == "ppt")) {
+							parent.parent.progressBar.setText("File must be: Images, PDF, ODP or PPT");
+							return;
+						}
+
+						
+						
+						parent.parent.progressBar.setText(i);
+
+						parent.button_upload.setAttribute("enabled", true);
+					</method>
+					<method name="onComplete" args="ev=null">
+						parent.parent.progressBar.setText("File Converting...");
+						parent.button_upload.setAttribute("enabled", false);
+						//parent.edittext_filename.clearText();
+						parent.parent.progressBar.setText("");
+
+						parent.parent.progressBar.setValue(100);
+						conn._nc.call("roomservice.refreshFileList", null, "");
+						classroot.hideUpload();
+					</method>
+					<method name="onProgress" args="objDummy, bytesLoaded, bytesTotal">
+						parent.parent.progressBar.setValue(bytesLoaded * 100
+								/ bytesTotal);
+					</method>
+		
+				</fileUploader>
+				<combobox id="fileType" width="80" height="20" datapath="dsetLang:/language/string[@id='64']" defaulttext="$path{'value/text()'}" editable="false">
+					<textlistitem name="presentation">OPD, PPT</textlistitem>
+					<textlistitem name="pdf">PDF</textlistitem>
+					<textlistitem>PNG, JPG, GIF</textlistitem>
+				</combobox>
+		
+				<button name="button_browse" datapath="dsetLang:/language/string[@id='65']" text="$path{'value/text()'}">
+					<handler name="onclick">
+						parent.file_uploader.browse();
+						parent.parent.progressBar.setValue(0);
+					</handler>
+				</button>
+	
+				<button name="button_upload" datapath="dsetLang:/language/string[@id='66']" text="$path{'value/text()'}" enabled="false">
+					<handler name="onclick">
+						var datapntr = dsetConf.getPointer();
+						var upServlet = datapntr.xpathQuery('config/fileupload/text()');
+						parent.file_uploader
+								.upload(upServlet+roomScreen2.getRoomName());
+					</handler>
+				</button>
+				
+			</view>
+	
+			<view name="progressBar" width="235" height="25" bgcolor="#666666">
+				<view x="1" y="1" width="233" height="23" bgcolor="#FFFFFF"/>
+				<view name="status" x="1" y="1" height="23" bgcolor="#BBBBFF"/>
+				<text name="percent" datapath="dsetLang:/language/string[@id='67']" text="$path{'value/text()'}" x="5" fontstyle="italic" fgcolor="#6666FF" valign="middle"  maxlength="40"/>
+
+				<method name="setValue" args="value"><![CDATA[
+					status.setAttribute('width', value * 233 / 100);
+					percent.setAttribute("text", Math.round(value) + '%');
+				]]>
+				</method>
+
+				<method name="initValue"><![CDATA[
+					status.setAttribute('width', 0);
+					percent.seAttribute("text", '');
+				]]>
+				</method>
+				<method name="setText" args="t">
+					percent.setAttribute("text", t);
+				</method>
+            
+			</view>
+		</view>
+		
+		<grid name="table_files" datapath="local:classroot.dset:/files" height="${classroot.parent.height-75}" width="235" contentdatapath="file" rowheight="32" layout="spacing:2;" showhscroll="false">
+			<gridcolumn name="column_image" width="40" resizable="false" sortable="false" clickable="true">
+				<image prefix="resources/icons/" datapath="typ/text()" valign="middle" clickable="true">
+				</image>
+			</gridcolumn>
+			<gridcolumn name="column_name" width="180" resizable="false" >
+				<text datapath="fname/text()" valign="middle" align="left" maxlength="20"></text>
+			</gridcolumn>
+			<handler name="onselect">
+				var d = new Date();
+					var thisclick = d.getTime();
+					var sel = this.getSelection();
+					if(sel.length==1){  // i.e. second click on same row as first...
+   						var interval = thisclick - this.lastclick;
+   						if(interval &lt; 500){   // less than a half second after last click
+       						var dp = sel[0];
+       						var filename = dp.xpathQuery("fname/text()");
+       						var filetype = dp.xpathQuery("type/text()");
+       						var fileid = dp.xpathQuery("id/text()");
+       						
+       						//
+       						var datapntr = dsetConf.getPointer();
+							var base = datapntr.xpathQuery('config/filebase/text()');
+       						
+							if (filetype == "png" || filetype == "jpg" || filetype == "gif") {
+       							var i = new lz.filePicView(whiteboard);
+       							i.setAttribute("title", filename);
+       							i.setAttribute("im", base+fileid);
+       							whiteboard.mylist.push(i);
+							}else if (filetype == "ppt" || filetype == "odp") {
+								var i = new lz.fileSwfView(whiteboard, {"title":filename,
+												"height":"300",
+												"width":"300",
+												"im": base + fileid,
+												"ft" : filetype
+												});
+								whiteboard.mylist.push(i);
+							} else {
+								lz.Browser.loadURL(base+fileid, '_blank');
+							}
+   							
+   						} else {
+       						this.setAttribute ('lastclick', thisclick);
+   						}
+					}
+			</handler>
+		</grid>
+		<alert name="alert_file_information"></alert>
+		<method name="refreshList">
+			lz.Timer.addTimer( new LzDelegate( this, "refreshTimer" ), 500 );
+		</method>
+		<method name="refreshTimer" args="msg">
+			dset.setQueryParam("roomname", roomScreen2.getRoomName());
+			dset.doRequest();
+		</method>
+		<method name="hideUpload">
+			lz.Timer.addTimer( new LzDelegate( this, "hideTimer" ), 500 );
+		</method>
+		<method name="hideTimer" args="msg">
+			file_upload_view.setAttribute("visible", false);
+			file_upload_view.progressBar.setText(file_upload_view.progressBar.percent.text);
+		</method>
+	</class>
+</library>

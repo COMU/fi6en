@@ -1,0 +1,147 @@
+<library>
+	<include href="library.lzx"/>
+	<class name="mymymy" extends="view">
+		<attribute name="bgcolor" value="#B6C4FC"/>
+		<sharedObjectMediators name="mediators" />
+		<sharedObjectChatRoom id="soChatRoom"> 
+			<handler name="onstage" reference="conn">
+				if (conn.stage==2) {
+					this.connect("chatRoom", conn._nc, true);
+					this.so.client = new SharedObjectChatRoomMediator(this);
+				}
+			</handler>
+		</sharedObjectChatRoom>
+		<simplelayout axis="y" spacing="1" />
+		<view name="head" height="32" width="100%" bgcolor="#1881B5">
+			<view name="left" width="300" height="${parent.height}">
+			<simplelayout axis="x"/>
+				<image name="logo" source="resources/icons/logo.png"></image>
+				<text name="roomname" text="myroom" fgcolor="white"></text>
+			</view>
+			<view name="center" height="${parent.height}" ></view>
+			<view name="right" width="32" height="32" bgcolor="#585858">
+				<text name="username" clickable="true" valign="middle" fontsize="24" fgcolor="white" x="${parent.button_exit.x-this.width-10}" visible="false">
+				</text>
+				<button name="button_exit" height="${parent.height}" width="${parent.height}" align="right" valign="middle">
+					<image source="resources/icons/exit.png" valign="middle">
+						<handler name="onclick">
+							classroot.quitRoom();
+							classroot.reset();
+						</handler>
+					</image>
+					
+				</button>
+			</view>
+		<stableborderlayout axis="x" />
+		</view>
+		<view name="main" height="${parent.height-30}" width="100%">
+			<view name="left" width="250" height="${parent.height}">
+				<tabs name="left_tabs" height="${parent.height}" width="100%" align="center" valign="middle">
+					<tabpane height="${parent.height}" name="tab_userlist" datapath="dsetLang:/language/string[@id='59']" text="$path{'value/text()'}">
+						<roomUserList id="roomUserList" height="${parent.height}" width="100%"></roomUserList>
+						<roomInvite name="roomInvite" visible="false" height="${parent.height}" width="100%"></roomInvite>
+					</tabpane>
+					<tabpane name="tab_filelist" height="${parent.height}" datapath="dsetLang:/language/string[@id='69']" text="$path{'value/text()'}">
+						<fileList id="roomFileList" height="${parent.height}" width="100%"></fileList>
+					</tabpane>
+					<tabpane name="tab_profile" height="${parent.height}" datapath="dsetLang:/language/string[@id='70']" text="$path{'value/text()'}">
+						<roomProfile height="${parent.height}" id="roomProfile" name="roomProfile"></roomProfile>
+					</tabpane>
+				</tabs>
+			</view>
+			<view name="center" width="300" height="${parent.height-30}">
+				<view name="inf" width="250" height="28" align="right">
+					<image src="resources/icons/user_normal.png" height="24" width="24" align="right" valign="middle"></image>
+					<text name="username2" align="right" y="5" text="1232321"></text>
+				</view>
+				<tabslider id="center_tabslider" name="center_tabslider" height="100%" width="100%" y="28">
+					<tabelement name="tab_broadcast" datapath="dsetLang:/language/string[@id='71']" text="$path{'value/text()'}" height="300"  selected="true">
+						<simplelayout axis="y" spacing="5"></simplelayout>
+						<roomSharingEnter id="myShareEnter" height="100%" width="100%"></roomSharingEnter>
+						<roomPublisher id="myRoomPublisher" height="100%" width="100%" align="center" valign="middle"></roomPublisher>
+					</tabelement>
+					<tabelement name="tab_streams" datapath="dsetLang:/language/string[@id='72']" text="$path{'value/text()'}">
+						<roomSubscribers id="myRoomSubs" width="100%" height="100%"></roomSubscribers>
+					</tabelement>
+				</tabslider>
+			</view>
+			<view name="right" width="${parent.width-parent.left.width-parent.center.width}" height="${parent.height}">
+				<view id="whiteboard" height="${parent.height-parent.bottom.height-2}" width="100%" bgcolor="white">
+					<attribute name="mylist"/>
+					<handler name="oninit">
+						this.mylist = new Array();
+					</handler>
+					<view align="right" valign="top">
+						<simplelayout axis="y" spacing="1"></simplelayout>
+						<view height="1"></view>
+						<button name="notes" datapath="dsetLang:/language/string[@id='73']" text="$path{'value/text()'}">
+							<handler name="onclick">
+								var n = new lz.roomNotes(whiteboard);
+								whiteboard.mylist.push(n);
+							</handler>
+						</button>
+						<button width="${parent.notes.width}" datapath="dsetLang:/language/string[@id='74']" text="$path{'value/text()'}">
+							<handler name="onclick">
+								var w = new lz.roomWhiteBoard(whiteboard);
+								whiteboard.mylist.push(w);
+							</handler>
+						</button>
+					</view>
+				</view>
+				<view name="bottom" height="150" width="100%">
+					<roomChat name="myRoomChat" height="${parent.parent.bottom.height}" width="${parent.parent.bottom.width}" bgcolor="#B6C4FC"></roomChat>
+				</view>
+			<simplelayout axis="y"/>
+			</view>	
+		<simplelayout axis="x"/>
+		</view>
+		<method name="setRoomName" args="roomname">
+			this.head.left.roomname.setAttribute("text", roomname);
+		</method>
+		<method name="quitRoom">
+			myMenuBar.gotoLoby();
+			myMenuBar.setAttribute("visible", true);
+			this.animate("opacity", "0", "700");
+		</method>
+		<method name="getRoomName">
+			return this.head.left.roomname.text;
+		</method>
+		<method name="getUserName">
+			return this.head.right.username.text;
+		</method>
+		<method name="setUserName" args="n">
+			this.head.right.username.setAttribute("text", n);
+			this.main.center.inf.username2.setAttribute("text", n+"      ");
+		</method>
+		<method name="openInviteTab">
+			roomUserList.setAttribute("visible", false);
+			main.left.left_tabs.tab_userlist.roomInvite.setAttribute("visible", true);
+			main.left.left_tabs.tab_userlist.roomInvite.refreshList();
+		</method>
+		<method name="closeInviteTab">
+			roomUserList.setAttribute("visible", true);
+			main.left.left_tabs.tab_userlist.roomInvite.setAttribute("visible", false);
+		</method>
+		<method name="reset">
+			<![CDATA[
+			this.main.right.bottom.myRoomChat.clearBox();
+			this.main.left.left_tabs.tab_userlist.setAttribute("selected", true);
+			this.main.center.center_tabslider.tab_broadcast.setAttribute("selected", true);
+			while (whiteboard.mylist.length > 0) {
+				var iii = whiteboard.mylist.pop();
+				iii.destroy();
+			}
+			while (allsubs.mylist.length > 0) {
+				var iiii = allsubs.mylist.pop();
+				iiii.destroy();
+			}
+			
+			myRoomPublisher.reset();
+			
+			
+			roomFileList.hideUpload();
+			
+			]]>
+		</method>
+	</class>
+</library>

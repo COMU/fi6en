@@ -1,0 +1,137 @@
+<library>
+	<class name="roomUserList" extends="view">
+		<dataset name="dset" request="true" type="http">
+			<handler name="oninit">
+				var datapntr = dsetConf.getPointer();
+				this.setAttribute("src", datapntr.xpathQuery('config/roomuserlist/text()'));
+			</handler>
+		</dataset>
+		<simplelayout axis="y" spacing="5"></simplelayout>
+		<view name="mod">
+			<menubar name="mymenubar" width="235">
+				<menu name="normalMenu" text="Menu" enabled="false">
+					<menuitem datapath="dsetLang:/language/string[@id='85']" text="$path{'value/text()'}">
+						<handler name="onclick">
+							var username = roomUserList.getSelectedUserName();
+							var isb = roomUserList.isUserBroadcast(username);
+							if (isb) {
+								myRoomSubs.createSubs(username);
+								center_tabslider.tab_streams.setAttribute("selected", true);
+							}
+						</handler>
+					</menuitem>
+					<menuitem datapath="dsetLang:/language/string[@id='86']" text="$path{'value/text()'}">
+						<handler name="onclick">
+							var i = loginScreen.getUsername();
+							var ii = "deskshare-" + i;
+							var subscriber = new lz.subscriber(whiteboard, {
+										stretches : 'both',
+										title : ii,
+										width : "172",
+										height : "183",
+										resizable : true
+									});
+							subscriber.playStream(ii);
+							whiteboard.mylist.push(subscriber);
+						</handler>
+					</menuitem>
+				</menu>
+				<menu name="modMenu" text="Mod Menu" enabled="false">
+					<menuitem datapath="dsetLang:/language/string[@id='87']" text="$path{'value/text()'}" >
+						<handler name="onclick">
+							var username = roomUserList.getSelectedUserName();
+							var roomname = roomScreen2.getRoomName();
+							conn._nc.call("roomservice.kickUser", conn.responder, username, roomname);
+						</handler>
+					</menuitem>
+					<menuitem datapath="dsetLang:/language/string[@id='88']" text="$path{'value/text()'}" >
+						<handler name="onclick">
+							var username = roomUserList.getSelectedUserName();
+							conn._nc.call("roomservice.setUserModerator", conn.responder, username, true);
+						</handler>
+					</menuitem>
+				</menu>
+				<menu name="inviteMenu" datapath="dsetLang:/language/string[@id='89']" text="$path{'value/text()'}" enabled="true">
+					<menuitem datapath="dsetLang:/language/string[@id='90']" text="$path{'value/text()'}" >
+						<handler name="onclick">
+							roomScreen2.openInviteTab();
+						</handler>
+					</menuitem>
+				</menu>
+			</menubar>
+		</view>
+		<view name="list">
+			<grid name="table_users" datapath="local:classroot.dset:/users" height="${classroot.parent.height-75}" width="235" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" >
+				<gridcolumn name="column_empty" width="42" resizable="false" sortable="true" clickable="true">
+					<image prefix="resources/icons/" datapath="micon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<gridcolumn name="column_username" width="103" resizable="false" sortable="true" clickable="true">
+					<text datapath="username/text()" valign="middle" align="left" maxlength="20" />
+				</gridcolumn>
+				<gridcolumn name="column_icon" width="32" resizable="false" sortable="true">
+					<image prefix="resources/icons/" datapath="icon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<gridcolumn name="column_icon2" width="32" resizable="false" sortable="true">
+					<image prefix="resources/icons/" datapath="dicon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<handler name="onselect">
+					
+					classroot.mod.mymenubar.normalMenu.setAttribute("enabled", true);
+					var m = classroot.isUserMod(loginScreen.getUsername());
+					if (m == true) {
+						classroot.mod.mymenubar.modMenu.setAttribute("enabled", true);
+					}
+					
+				</handler>
+			</grid>
+		</view>
+		<method name="refreshList">
+			dset.setQueryParam("roomname", roomScreen2.getRoomName());
+			dset.doRequest();
+		</method>
+		
+		<method name="isUserMod" args="myname">
+			var dp = dset.getPointer();
+			var name="";
+			var ismod="";
+			dp.selectChild(2);
+			do {
+				name = dp.xpathQuery("username/text()");
+				ismod = dp.xpathQuery("moderator/text()");
+				if (name == myname) {
+					if (ismod == "true") {
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			} while (dp.selectNext());
+		</method>
+		<method name="isUserBroadcast" args="myname">
+			var dp = dset.getPointer();
+			var name="";
+			var ismod="";
+			dp.selectChild(2);
+			do {
+				name = dp.xpathQuery("username/text()");
+				ismod = dp.xpathQuery("isBroadcasting/text()");
+				if (name == myname) {
+					if (ismod == "true") {
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			} while (dp.selectNext());
+		</method>
+		<method name="getSelectedUserName">
+			var sel = this.list.table_users.getSelection();
+			var dp = sel[0];
+			var username = "";
+			username = dp.xpathQuery("username/text()");
+			return username;
+		</method>
+	</class>
+</library>

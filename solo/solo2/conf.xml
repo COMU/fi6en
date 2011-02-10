@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!--
+	type of the connection protocol
+	Acceptable types: rtmp, rtmpt and rtmps
+	-->
+	<connectiontype>rtmp</connectiontype>
+	<!--
+	host name/ip for fi6en server application.
+	client application attempts to connect the server application on this host
+	example: 
+	127.0.0.1 or 193.255.97.35
+	-->
+	<host>193.255.97.35</host>
+	<!--
+	fi6en red5 application rtmp port
+	see: $RED5_HOME/conf/red5.properties  
+	-->
+	<rtmpport>1935</rtmpport>
+	<!--
+	fi6en red5 application rtmpt port
+	see: $RED5_HOME/conf/red5.properties  
+	-->
+	<rtmptport>8088</rtmptport>
+	<!--
+	fi6en red5 application rtmpt port
+	see: $RED5_HOME/conf/red5.properties  
+	-->
+	<rtmpsport>8443</rtmpsport>
+	<!--
+	fi6en red5 application http port
+	see: $RED5_HOME/conf/red5.properties
+	-->
+	<httpport>5080</httpport>
+	<!--
+	webAppRootKey for the server application
+	-->
+	<webapprootkey>fi6en</webapprootkey>
+	<!--
+	Url where Fi6en client application locates:
+	example:
+	http://fi6en.comu.edu.tr/fi6en
+	http://193.255.97.35:8080/lps-4.7.2/client/videoconference.lzx?lzr=swf10
+	-->
+	<appurl>http://fi6en.comu.edu.tr/fi6en</appurl>
+	<roomlist>http://193.255.97.35:5080/fi6en/roomlist</roomlist>
+	<roomprofile>http://193.255.97.35:5080/fi6en/getuser</roomprofile>
+	<roominvite>http://193.255.97.35:5080/fi6en/userlist</roominvite>
+	<filelist>http://193.255.97.35:5080/fi6en/FileListServlet</filelist>
+	<fileupload>http://193.255.97.35:5080/fi6en/MyServlet?roomname=</fileupload>
+	<filebase>http://193.255.97.35:5080/fi6en/</filebase>
+	<roomuserlist>http://193.255.97.35:5080/fi6en/userlist</roomuserlist>
+	<chatuserlist>http://193.255.97.35:5080/fi6en/userlist</chatuserlist>
+	<deskshare>http://193.255.97.35:5080/fi6en/jnlp</deskshare>
+	<adminroomlist>http://193.255.97.35:5080/fi6en/roomlist</adminroomlist>
+	<adminroomget>http://193.255.97.35:5080/fi6en/getroom</adminroomget>
+	<adminuserlist>http://193.255.97.35:5080/fi6en/allusers</adminuserlist>
+	<adminuserget>http://193.255.97.35:5080/fi6en/getuser</adminuserget>
+</config>

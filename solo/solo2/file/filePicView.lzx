@@ -1,0 +1,50 @@
+<library>
+	<class name="filePicView" extends="window">
+		<text datapath="dsetLang:/language/string[@id='68']" text="$path{'value/text()'}"></text>
+		<view name="myimage" resource="${classroot.im}" stretches="both">
+			<handler name="onheight">
+				classroot.setAttribute("height", this.height);
+				classroot.setAttribute("flag", true);
+				if (classroot.height > 300) {
+					classroot.setAttribute("height", 260);
+				}
+			</handler>
+			<handler name="onwidth">
+				classroot.setAttribute("width", this.width);
+				classroot.setAttribute("flag", true);
+				if (classroot.width > 400) {
+					classroot.setAttribute("width", 400);
+				}
+			</handler>
+			<view clickable="true" align="right" valign="bottom" height="32" width="32">
+				<image src="resources/icons/download.png" valign="middle" align="right">
+					<handler name="onclick">
+						lz.Browser.loadURL(classroot.im, '_blank');
+					</handler>
+				</image>
+			</view>
+		</view>
+		<attribute name="im" type="string"/>
+		<attribute name="resizable" value="true"/>
+		<attribute name="closeable" value="true"/>
+		<attribute name="minheight"/>
+		<attribute name="flag" type="boolean"/>
+		<attribute name="stretches" value="true"/>
+		<handler name="onheight">
+			if (this.flag) {
+				this.myimage.setAttribute("height", this.height-40);
+			}
+			if (this.height>300) {
+				this.myimage.setAttribute("height", 300);
+			}
+		</handler>
+		<handler name="onwidth">
+			if (this.flag) {
+				this.myimage.setAttribute("width", this.width-20);
+			}
+			if (this.width>400) {
+				this.myimage.setAttribute("width", 400);
+			}
+		</handler>
+	</class>
+</library>

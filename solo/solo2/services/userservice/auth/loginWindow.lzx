@@ -1,0 +1,195 @@
+<library>
+	<include href="registerNewUser.lzx"/>
+	<script src="md5.js" />
+	<!--login window view-->
+	<class name="loginWindow" extends="window"  
+		datapath="dsetLang:/language/string[@id='2']" title="$path{'value/text()'}">
+		<switch>
+			<when property="$as3">
+				<passthrough>
+					import flash.net.*;
+				</passthrough>
+			</when>
+		</switch>	
+		
+		<command name="enter" key="['Enter']" active="${classroot.isMouseOver()}">
+			<handler name="onselect">
+				classroot.loginOpearation(classroot.getUsername(), classroot
+								.getPassword());
+			</handler>  
+		</command>
+			
+		<attribute name="allowdrag" type="boolean" value="false"/>		
+		<attribute name="loginAlert" value="null"/>
+		<text name="incorrectUserPass" datapath="dsetLang:/language/string[@id='23']" text="$path{'value/text()'}"  visible="false"/>
+		<attribute name="error" type="string" value="null"/>
+		<!--responder for the server side-->
+		<attribute name="responder" />
+		<!--register window instance-->
+		<registerNewUser name="registerWindow" placement="canvas" 
+			valign="middle" visible="false" align="center">
+			<!--override cancel method of registerWindow class-->
+			<method name="cancel">
+				classroot.resetPlacement();
+			</method>
+		</registerNewUser>		
+		
+		<handler name="onavailableUsername" reference="registerWindow"><![CDATA[
+			if (registerWindow.availableUsername)
+				resetPlacement();
+		]]>
+		</handler>
+		
+		<simplelayout spacing="10"/>		
+		<view>			
+			<text datapath="dsetLang:/language/string[@id='4']" text="$path{'value/text()'}" x="10" y="22"></text>
+			<edittext id="usernameLogin" x="100" y="20" width="150" text="" />
+		</view>
+		<view>
+			<text datapath="dsetLang:/language/string[@id='5']" text="$path{'value/text()'}" x="10" y="22"></text>
+			<edittext id="passwordLogin" x="100" y="20" password="true" width="150" text="" />
+		</view>
+		
+		<view name="buttonsView" align="center">
+			<simplelayout axis="x" spacing="20" />
+			<button name="registerButton" datapath="dsetLang:/language/string[@id='3']" text="$path{'value/text()'}">
+				<handler name="onclick">
+					classroot.registerWindow.setAttribute('visible', true);
+					classroot.animate('x', classroot.x - 350, 1000);
+					classroot.setAttribute('enabled', false);
+				</handler>
+			</button>
+			<button name="loginButton" datapath="dsetLang:/language/string[@id='2']" text="$path{'value/text()'}">
+				<handler name="onclick"><![CDATA[
+				if (conn.connected) {
+					var username = classroot.getUsername();
+					var password = classroot.getPassword();
+					classroot.loginOpearation(username, password);
+				}
+				else {
+					Debug.warn("Check the connection with the server application!");
+					notificationWindow.addMessage("warn","Check the connection with the server application!");
+				}
+				]]>
+				</handler>
+			</button>
+			<!--when the opacity=0 the loginWindow object is being destroyed-->
+			<!--<handler name="onopacity">
+					 if(opacity == 0) {
+						if ($debug) { Debug.info("opacity: %w => %w.destroy()", opacity, this); }
+						 this.destroy();
+				   }
+				 </handler>-->
+			<!--<text text="Email"><edittext name="email"></edittext>-->	
+		</view>
+		
+		<view name="tryLoginView" align="center" visible="false">
+			<simplelayout spacing="10"/>
+			<view layout="axis:x; spacing:10">
+				<text text="Username" x="10" y="22" />
+				<edittext name="usernameLogin" x="100" y="20" width="150" />
+			</view>
+			<button align="center">Login</button>
+			<text onclick="classroot.animate('height',classroot.height - 100, 1000);">Cancel</text>
+		</view>
+		
+		<method name="getUsername">
+			return usernameLogin.text;
+		</method>
+		<method name="getPassword">
+			return passwordLogin.text;
+		</method>
+		
+		<!--overrides the determinePlacement method to handle the placement attribute-->
+		<method name="determinePlacement" args="aSub, placement, args">
+  			if (placement == 'canvas') {    
+  				return canvas;
+  			}
+  			else {
+  				return super.determinePlacement(aSub, placement, args);
+  			}
+  		</method>
+  		
+		<!--reset the view of the login. Returns to the first placement-->
+		<method name="resetPlacement">
+			this.animate('x', this.x + 350, 1000);
+			this.setAttribute('enabled', true);
+			registerWindow.setAttribute('visible', false);
+		</method>
+		<!--sends the username and encrypted password to the server whether they are matching-->
+		<method name="loginOpearation" args="username, password">
+			var hash = hex_md5(password);
+			conn._nc.call("databaseservice.comparePasswords", this.responder,
+					username, hash);
+		</method>
+		<!--listening connected attribute of the connection-->
+		<handler name="onstage" reference="conn">
+			if (conn.stage==2) {
+				responder = new Responder(this.responderResult,
+						this.responderStatus);
+			}
+		</handler>
+		
+		<method name="responderResult" args="returnvalue">
+			var un = getUsername();
+			if (un == "admin") {
+				if (returnvalue) {
+					new lz.adminView(canvas);
+					return;
+				}
+				else {
+					notificationWindow.addMessage("error","authentication failed");
+				}
+			}
+			
+			if (returnvalue) {
+				Debug.info("authentication succeeded");
+				notificationWindow.addMessage("info","authentication succeeded");				
+				enterConference();
+			} else {
+				error = incorrectUserPass.text;
+				loginAlert = new lz.alert(canvas, {
+							text : error,
+							stretches : 'both'
+						});
+				loginAlert.open();
+				Debug.error("authentication failed");
+				notificationWindow.addMessage("error","authentication failed");
+			}
+		</method>
+		
+		<method name="responderStatus" args="returnvalue">
+			Debug.write("onStatus:" + returnvalue.toString);
+			notificationWindow.addMessage("info",returnvalue);
+		</method>
+		
+		<method name="enterConference">
+			registerWindow.destroy();
+			var username = getUsername();
+			var password = getPassword();
+			chatScreen.soChat.send("writeInfo", username + " logged in");
+			conn._nc.call("userservice.writeUsername", conn.responder,
+					username);
+			//RoomService
+			conn._nc.call("roomservice.connectUser", conn.responder, username);
+			/*getting other users's usernames and adding to the list*/
+			var arrayUserlist = chatScreen.soUsers.getDataSO("arrayUserlist");
+			Debug.write("users : ", arrayUserlist);
+			if (arrayUserlist != null) {
+				chatScreen.soUsers.addToUserlist(arrayUserlist);
+			} else {
+				chatScreen.setAttribute('isFirstUser', true);
+				//Debug.info("you are the first user on the chat application");
+			}
+			chatScreen.soUsers.send("updateUserlist", username);
+			welcome.setAttribute('visible', true);
+			myMenuBar.setAttribute('visible', true);
+			this.animate("opacity", "0", "700");
+			chatScreen.animate("opacity", "1", "700");
+			notificationWindow.setAttribute('visible', true);
+			roomProfile.refresh();
+			
+			//RoomService girişi...
+		</method>
+	</class>
+</library>

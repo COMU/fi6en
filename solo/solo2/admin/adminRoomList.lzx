@@ -1,0 +1,248 @@
+<library>
+	<include href="../remote/connection.lzx"></include>
+	<include href="planMeetingView.lzx"/>
+	<script src="../services/userservice/auth/md5.js"/>	
+	<class name="adminRoomList">
+		<dataset name="dset" src="http://193.255.97.35:5080/fi6en/roomlist" request="true" type="http" />
+		<dataset name="dset2" src="http://193.255.97.35:5080/fi6en/getroom" request="true" type="http" />
+		<simplelayout axis="x" spacing="40"/>
+		<view name="left">
+			<grid name="table_users" datapath="local:classroot.dset:/rooms" height="400" width="250" contentdatapath="room" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">
+				<gridcolumn name="column_empty" width="42" resizable="false" sortable="true" clickable="true">
+					<image datapath="icon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<gridcolumn name="column_roomname" width="150" resizable="false" sortable="true" clickable="true">
+					<text datapath="name/text()" valign="middle" align="left" maxlength="20" />
+				</gridcolumn>
+				<handler name="onselect">
+					classroot.right_new.setAttribute("visible", false);
+					classroot.right_update.setAttribute("visible", true);
+					classroot.dset2.setQueryParam("roomname", classroot.getSelectionName());
+					classroot.dset2.doRequest();
+				</handler>
+			</grid>
+		</view>
+		<view name="right_update" visible="false">
+			<simplelayout axis="y" spacing="10" />
+			<view name="buttons">
+				<simplelayout axis="x" spacing="2"/>
+				<button height="32" width="32">
+					<image src="resources/icons/save.png"></image>
+					<handler name="onclick">
+						classroot.updateRoom();
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="resources/icons/add.png"></image>
+					<handler name="onclick">
+						classroot.right_update.setAttribute("visible", false);
+						classroot.right_new.setAttribute("visible", true);
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="resources/icons/refresh.png"></image>
+					<handler name="onclick">
+						classroot.refreshList();
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="resources/icons/delete.png"></image>
+					<handler name="onclick">
+						classroot.deleteRoom();
+					</handler>
+				</button>
+			</view>
+			<view name="title">
+				<text fontsize="16" fontstyle="bold" datapath="dsetLang:/language/string[@id='40']" text="$path{'value/text()'}"></text>
+			</view>
+			<view name="information">
+				<simplelayout axis="x" spacing="5" />
+				<view name="attributes">
+					<simplelayout axis="y" spacing="13"/>
+					<text>ID:</text>
+					<text datapath="dsetLang:/language/string[@id='41']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='42']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='43']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='44']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='45']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='46']" text="$path{'value/text()'}"></text>
+				</view>
+				<view name="edittexts" datapath="local:classroot.dset2:/room">
+					<simplelayout axis="y" spacing="5"></simplelayout>
+					<edittext name="roomid" enabled="false" datapath="id/text()"></edittext>
+					<edittext name="roomname" enabled="false" datapath="name/text()"></edittext>
+					<edittext name="comment" datapath="comment/text()"></edittext>
+					<edittext name="starttime" datapath="starttime/text()"></edittext>
+					<edittext name="finishtime" datapath="finishtime/text()"></edittext>
+					<edittext name="ispublic" datapath="public/text()"></edittext>
+					<edittext name="isopen" datapath="open/text()"></edittext>
+				</view>
+			</view>
+			<view name="pass">
+				<simplelayout axis="y" spacing="5"/>
+				<text fontsize="16" fontstyle="bold" datapath="dsetLang:/language/string[@id='47']" text="$path{'value/text()'}"></text>
+				<edittext name="pass1" password="true"></edittext>
+				<text datapath="dsetLang:/language/string[@id='48']" text="$path{'value/text()'}"></text>
+				<edittext name="pass2" password="true"></edittext>
+				<button datapath="dsetLang:/language/string[@id='49']" text="$path{'value/text()'}">
+					<handler name="onclick">
+						classroot.changePassword();
+					</handler>
+				</button>
+			</view>
+		</view>
+		<view name="right_new">
+			<simplelayout axis="y" spacing="2" />
+			<view name="buttons">
+				<simplelayout axis="x" spacing="2"/>
+				<button height="32" width="32">
+					<image src="resources/icons/add.png"></image>
+					<handler name="onclick">
+						classroot.right_new.information.setAttribute("visible", true);
+						classroot.right_new.title.setAttribute("visible", true);
+						classroot.right_new.planMeeting.setAttribute("visible", false);
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="resources/icons/add_plan.png"></image>
+					<handler name="onclick">
+						classroot.right_new.information.setAttribute("visible", false);
+						classroot.right_new.title.setAttribute("visible", true);
+						classroot.right_new.planMeeting.setAttribute("visible", true);
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="resources/icons/refresh.png"></image>
+					<handler name="onclick">
+						classroot.refreshList();
+					</handler>
+				</button>
+			</view>
+			<view name="title">
+				<text fontsize="16" fontstyle="bold" datapath="dsetLang:/language/string[@id='50']" text="$path{'value/text()'}"></text>
+			</view>
+			<view name="information">
+				<simplelayout axis="x" spacing="5" />
+				<view name="attributes">
+					<simplelayout axis="y" spacing="13"/>
+					<text datapath="dsetLang:/language/string[@id='41']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='42']" text="$path{'value/text()'}"></text>
+					<text visible="false">Public:</text>
+					<text visible="false">Open:</text>
+					<text datapath="dsetLang:/language/string[@id='51']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='48']" text="$path{'value/text()'}">Re-Type:</text>
+					<button datapath="dsetLang:/language/string[@id='49']" text="$path{'value/text()'}">
+						<handler name="onclick">
+							classroot.addNewRoom();
+						</handler>
+					</button>
+				</view>
+				<view name="edittexts">
+					<simplelayout axis="y" spacing="5"></simplelayout>
+					<edittext name="roomname"></edittext>
+					<edittext name="comment"></edittext>
+					<edittext name="ispublic" visible="false"></edittext>
+					<edittext name="isopen" visible="false"></edittext>
+					<edittext name="pass1" password="true"></edittext>
+					<edittext name="pass2" password="true"></edittext>
+				</view>
+			</view>
+			<view name="planMeeting" visible="false">
+				<adminPlanMeetingView></adminPlanMeetingView>
+			</view>
+		</view>
+		
+		<method name="refreshList">
+			lz.Timer.addTimer( new LzDelegate( this, "refreshTimer" ), 500 );
+		</method>
+		<method name="refreshTimer" args="msg">
+			dset.doRequest();
+		</method>
+		<method name="addNewRoom">
+			var roomname = right_new.information.edittexts.roomname.text;
+			var comment = right_new.information.edittexts.comment.text;
+			var ispublic = right_new.information.edittexts.ispublic.text;
+			var isopen = right_new.information.edittexts.isopen.text;
+			var pass1 = right_new.information.edittexts.pass1.text;
+			var pass2 = right_new.information.edittexts.pass2.text;
+			var form = [];
+			form["roomname"] = roomname;
+			form["comment"] = comment;
+			form["ispublic"] = ispublic;
+			form["isopen"] = isopen;
+			if (pass1 != pass2) {
+				return false;
+			}
+			else {
+				var hash = "";
+				if (pass1 == "") {
+					form["public"] = "false";
+				}
+				else {
+					hash = hex_md5(pass1);
+					form["public"] = "true";
+				}
+				form["hash"] = hash;
+				conn._nc.call("roomservice.addRoomFromAdmin", null, form);
+			}
+			
+			reset();
+			refreshList();
+		</method>
+		<method name="updateRoom">
+			var id = right_update.information.edittexts.roomid.text;
+			var roomname = right_update.information.edittexts.roomname.text;
+			var comment = right_update.information.edittexts.comment.text;
+			var starttime = right_update.information.edittexts.starttime.text;
+			var finishtime = right_update.information.edittexts.finishtime.text;
+			var isopen = right_update.information.edittexts.isopen.text;
+			var ispublic = right_update.information.edittexts.ispublic.text;
+			var form = [];
+			form["id"] = id;
+			form["roomname"] = roomname;
+			form["comment"] = comment;
+			form["starttime"] = starttime;
+			form["finishtime"] = finishtime;
+			form["isopen"] = isopen;
+			form["ispublic"] = ispublic;
+			conn._nc.call("roomservice.updateRoom", null, id, form);
+		</method>
+		<method name="changePassword">
+			var id = right_update.information.edittexts.roomid.text;
+			var pass1 = right_update.pass.pass1.text;
+			var pass2 = right_update.pass.pass2.text;
+			if (pass1 != pass2) {
+				return false;
+			}
+			else {
+				var hash = hex_md5(pass1);
+				conn._nc.call("roomservice.changePassword", null, id, hash);
+			}
+			reset();
+		</method>
+		<method name="deleteRoom">
+			var roomname = right_update.information.edittexts.roomname.text;
+			conn._nc.call("roomservice.deleteRoom", null, roomname);
+			refreshList();
+			right_update.setAttribute("visible", false);
+			right_new.setAttribute("visible", true);
+		</method>
+		<method name="getSelectionName">
+			var roomname = "";
+			var sel = left.table_users.getSelection();
+			var dp = sel[0];
+			var username = dp.xpathQuery("name/text()");
+			return username;
+		</method>
+		<method name="reset">
+			right_new.information.edittexts.roomname.setAttribute("text", "");
+			right_new.information.edittexts.comment.setAttribute("text", "");
+			right_new.information.edittexts.ispublic.setAttribute("text", "");
+			right_new.information.edittexts.isopen.setAttribute("text", "");
+			right_new.information.edittexts.pass1.setAttribute("text", "");
+			right_new.information.edittexts.pass2.setAttribute("text", "");
+			right_update.pass.pass1.setAttribute("text", "");
+			right_update.pass.pass2.setAttribute("text", "");
+		</method>
+	</class>
+</library>

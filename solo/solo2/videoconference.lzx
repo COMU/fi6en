@@ -1,0 +1,75 @@
+<!--main application-->
+<canvas width="100%" height="100%" title="Fi6en" debug="false">
+	<include href="library.lzx"/>
+	<debuggerWindow id="notificationWindow" width="350" height="120" 
+					align="right" valign="bottom" closeable="true"/>
+	<font name="mainFi6enFont" src="./fonts/Clerica.ttf"/>
+	<view width="${canvas.width}" height="${canvas.height}"
+		resource="resources/wallpaper/BlueCurl.jpg" stretches="both" />
+	<text x="40" name="fi6enText" text="FI6EN" 
+		font="mainFi6enFont" y="-30" fontsize="60" fgcolor="#FF6600"/>
+	<!--for swf10 runtime-->
+	<passthrough>
+		import flash.system.Security;
+	</passthrough>
+	<splash>
+		<view resource="initializing.swf" 
+			width="${canvas.width}" height="${canvas.height}">
+		</view>
+	</splash>
+	<menuBar id="myMenuBar" y="${fi6enText.y+90}" visible="false"/>
+	<handler name="oninit">
+		Security.allowDomain("*");
+		//Security.loadPolicyFile("http://193.255.97.35:5080/crossdomain.xml");
+		switch (Security.sandboxType) {
+			case Security.LOCAL_TRUSTED :
+				Debug.write("Local trusted");
+				break;
+			case Security.LOCAL_WITH_FILE :
+				Debug.write("Local with file");
+				break;
+			case Security.LOCAL_WITH_NETWORK :
+				Debug.write("Local with network");
+				break;
+			case Security.REMOTE :
+				Debug.write("Remote");
+				break;
+		}
+		//Debug.write("Security settings : %w",Security.showSettings());					 
+	</handler>
+	<!--dataset for the languages--> 
+	<dataset name="dsetLang" id="dsetLang"  src="lang/turkish.xml"/>
+	<!--dataset of the configuration file-->
+	<dataset name="dsetConf" id="dsetConf"  src="conf.xml"/>
+	<view align="right" valign="top" yoffset="-7" xoffset="10">
+		<simplelayout axis="x" spacing="10" />
+		<!--welcome message-->
+		<text id="welcome" fontsize="13" fgcolor="#FF9933" visible="false" 
+			datapath="dsetLang:/language/string[@id='33']" text="$path{'value/text()'}" />	
+		<!--combobox for language selection-->
+		<languageSelector id="langSelector" width="130"/>
+	</view>
+	<connection id="conn" autoconnect="false">
+		<handler name="oninit">
+			var datapntr = dsetConf.getPointer();
+			this.setAttribute('type',datapntr.xpathQuery('config/connectiontype/text()'));
+			this.setAttribute('host',datapntr.xpathQuery('config/host/text()'));
+			this.setAttribute('port',datapntr.xpathQuery('config/'+type+'port/text()'));
+			this.setAttribute('webapprootkey',datapntr.xpathQuery('config/webapprootkey/text()'));
+			this.setAttribute('httpport',datapntr.xpathQuery('config/httpport/text()'));
+			this.setAttribute('src',type+'://'+host + ':'+port +'/'+webapprootkey);
+			//Debug.write("connection src:",connectiontype+'://'+host+':'+port+'/'+webapprootkey);
+			this.connect();
+		</handler>		
+	</connection>
+	<!--<account name="accountWindow" id="accountWindow" title="Account" 
+		visible="false" stretches="both" 
+		resizable="true" closeable="true"
+		width="200" height="200" />-->
+			 
+	<loginWindow name="loginScreen" align="center" valign="middle" width="300" height="210"/>
+	<accountView id="accountScreen" y="${myMenuBar.y+40}" x="80" opacity="0"/> 
+	<chatView id="chatScreen" y="${myMenuBar.y+40}" align="center" opacity="0"/>
+	<recordsView id="recordsScreen" y="${myMenuBar.y+40}" x="100" opacity="0"/>
+	<mymymy id="roomScreen2" align="center" opacity="0" height="100%" width="100%"></mymymy>
+</canvas>

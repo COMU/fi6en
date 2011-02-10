@@ -1,0 +1,28 @@
+<library>
+	<class name="roomButton" extends="button">
+		<handler name="onclick">
+			
+			var newUrl = conn.src+'/'+this.text;
+			//Debug.write("url : %w",newUrl);
+			/*closing remote shared object connections*/
+			chatScreen.soChat.close();
+			chatScreen.soUsers.close();
+			chatScreen.soRooms.close();
+			conn.setAttribute("src",newUrl);
+			conn._doconnect()
+			enterRoom();
+			
+			
+		</handler>
+		<!--visual steps while entering a room-->
+		<method name="enterRoom">
+			chatScreen.animate("opacity", "0", "700");
+			roomScreen2.setRoomName(this.text);
+			roomScreen2.animate("opacity", "1", "700");
+			notificationWindow.setAttribute("visible", false);
+			
+			//RoomService invoke...
+			conn._nc.call("roomservice.addUserToRoom", conn.responder, loginScreen.getUsername(), this.text);
+		</method>
+	</class>
+</library>

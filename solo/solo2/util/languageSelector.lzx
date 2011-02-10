@@ -1,0 +1,30 @@
+<library>
+	<class name="languageSelector" extends="combobox" editable="false">
+		<!--combobox for the language selection
+			through this combobox implementation application text is being changed dynamically 
+			usage : setting the text property of button with the text of "value" node, which one's id="2" (login) 
+			<button name="myButton" datapath="dsetLang:/language/string[@id='2']" text="$path{'value/text()'}">
+			-->
+		<textlistitem>Turkish</textlistitem>
+		<textlistitem>English</textlistitem>
+		<handler name="onselect">
+			var lang = this.getSelection().text;
+			//Debug.write("lang : " + lang);
+			switch (lang) {
+				case 'Turkish' :
+					dsetLang.setAttribute('src', 'lang/turkish.xml');
+					break;
+				case 'English' :
+					dsetLang.setAttribute('src', 'lang/english.xml');
+					break;
+			}
+			dsetLang.doRequest();
+		</handler>
+		
+		<method name="returnDatapath" args="id">
+			var datapath= 'dsetLang:/language/string[@id='+id+']';
+			Debug.write("datapath : "+datapath);
+			return datapath;
+		</method>
+	</class>
+</library>

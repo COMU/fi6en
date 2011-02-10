@@ -1,0 +1,283 @@
+<language>
+	<string id="1" name="submit">
+		<value>Submit</value>
+	</string>
+	<string id="2" name="login">
+		<value>Log in</value>
+	</string>
+	<string id="3" name="register">
+		<value>Register</value>
+	</string>
+	<string id="4" name="username">
+		<value>Username</value>
+	</string>	
+	<string id="5" name="password">
+		<value>Password</value>
+	</string>
+	<string id="6" name="language">
+		<value>Language</value>
+	</string>
+	<string id="7" name="passwordRE">
+		<value>Password (Retype)</value>
+	</string>
+	<string id="8" name="firstname">
+		<value>Firstname</value>
+	</string>
+	<string id="9" name="lastname">
+		<value>Lastname</value>
+	</string>
+	<string id="10" name="email">
+		<value>Email</value>
+	</string>
+	<string id="11" name="location">
+		<value>Location</value>
+	</string>
+	<string id="12" name="cancel">
+		<value>Cancel</value>
+	</string>	
+	<string id="13" name="fill_all">
+		<value>Fill in all the fields please ! </value>
+	</string>
+	<string id="14" name="passwords_dont_match">
+		<value>Passwords do not match ! </value>
+	</string>
+	<string id="15" name="cancel">
+		<value>Invalid Email ID ! </value>
+	</string>	
+	<string id="16" name="show_my_cam">
+		<value>Show My Cam</value>
+	</string>
+	<string id="17" name="show_user_cam">
+		<value>Watch Streaming</value>
+	</string>
+	<string id="18" name="send">
+		<value>Send</value>
+	</string>
+	<string id="19" name="clear">
+		<value>Clear</value>
+	</string>
+	<string id="20" name="clear_message_history">
+		<value>Clear Chat History</value>
+	</string>
+	<string id="21" name="logout">
+		<value>Log out</value>
+	</string>
+	<string id="22" name="users">
+		<value>USERS</value>
+	</string>	
+	<string id="23" name="incorrect_user_pass">
+		<value>Incorrect user name or password ! </value>
+	</string>	
+	<string id="24" name="duplicate_username">
+		<value>Username is already in use ! </value>
+	</string>	
+	<string id="25" name="stop_my_cam">
+		<value>Stop My Cam</value>
+	</string>
+	<string id="26" name="create_room">
+		<value>Create Room</value>
+	</string>
+	<string id="27" name="back_to_lobby">
+		<value>Back To Lobby</value>
+	</string>
+	<string id="28" name="start_recording">
+		<value>Start Recording</value>
+	</string>
+	<string id="29" name="stop_recording">
+		<value>Stop Recording</value>
+	</string>
+	<string id="30" name="play">
+		<value>Play</value>
+	</string>
+	<string id="31" name="pause">
+		<value>Pause</value>
+	</string>
+	<string id="32" name="stop">
+		<value>Stop</value>
+	</string>
+	<string id="33" name="welcome">
+		<value>Welcome</value>
+	</string>
+	<string id="34" name="stop_playing">
+		<value>Stop Playing</value>
+	</string>	
+	<string id="35" name="lobby">
+		<value>Lobby</value>
+	</string>
+	<string id="36" name="rooms">
+		<value>Plan a Meeting</value>
+	</string>
+	<string id="37" name="records">
+		<value>Records</value>
+	</string>
+	<string id="38" name="profile">
+		<value>Profile</value>
+	</string>
+	<string id="39" name="notification_window">
+		<value>Notification Window</value>
+	</string>
+	<string id="40">
+		<value>Update Room</value>
+	</string>
+	<string id="41">
+		<value>Room Name:</value>
+	</string>
+	<string id="42">
+		<value>Comment:</value>
+	</string>
+	<string id="43">
+		<value>Starting Time:</value>
+	</string>
+	<string id="44">
+		<value>Closing Time:</value>
+	</string>
+	<string id="45">
+		<value>Public:</value>
+	</string>
+	<string id="46">
+		<value>Public:</value>
+	</string>
+	<string id="47">
+		<value>Change Password:</value>
+	</string>
+	<string id="48">
+		<value>Re-Type:</value>
+	</string>
+	<string id="49">
+		<value>Save</value>
+	</string>
+	<string id="50">
+		<value>Add New Room</value>
+	</string>
+	<string id="51">
+		<value>Password:</value>
+	</string>
+	<string id="52">
+		<value>Update User</value>
+	</string>
+	<string id="53">
+		<value>Username:</value>
+	</string>
+	<string id="54">
+		<value>E-Mail:</value>
+	</string>
+	<string id="55">
+		<value>First Name:</value>
+	</string>
+	<string id="56">
+		<value>Last Name:</value>
+	</string>
+	<string id="57">
+		<value>Location:</value>
+	</string>
+	<string id="58">
+		<value>Add New User</value>
+	</string>
+	<string id="59">
+		<value>Users</value>
+	</string>
+	<string id="60">
+		<value>Rooms</value>
+	</string>
+	<string id="61">
+		<value>Exit</value>
+	</string>
+	<string id="62">
+		<value>Watch Stream</value>
+	</string>
+	<string id="63">
+		<value>File Upload</value>
+	</string>
+	<string id="64">
+		<value>File Type</value>
+	</string>
+	<string id="65">
+		<value>Browse</value>
+	</string>
+	<string id="66">
+		<value>Upload</value>
+	</string>
+	<string id="67">
+		<value>Select File. (Max 2MB)</value>
+	</string>
+	<string id="68">
+		<value>Loading...</value>
+	</string>
+	<string id="69">
+		<value>Files</value>
+	</string>
+	<string id="70">
+		<value>Profile</value>
+	</string>
+	<string id="71">
+		<value>Webcam and Screen Sharing</value>
+	</string>
+	<string id="72">
+		<value>Streams</value>
+	</string>
+	<string id="73">
+		<value>Take Notes</value>
+	</string>
+	<string id="74">
+		<value>Drawing</value>
+	</string>
+	<string id="75">
+		<value>Date:</value>
+	</string>
+	<string id="76">
+		<value>Create</value>
+	</string>
+	<string id="77">
+		<value>Send</value>
+	</string>
+	<string id="78">
+		<value>You have been invited. Do you want to enter this room?</value>
+	</string>
+	<string id="79">
+		<value>Wrong Password.</value>
+	</string>
+	<string id="80">
+		<value>Stop Broadcast</value>
+	</string>
+	<string id="81">
+		<value>Start Screen Sharing</value>
+	</string>
+	<string id="82">
+		<value>Choose Webcam:</value>
+	</string>
+	<string id="83">
+		<value>Choose Microphone</value>
+	</string>
+	<string id="84">
+		<value>Start Broadcast</value>
+	</string>
+	<string id="85">
+		<value>Watch Stream</value>
+	</string>
+	<string id="86">
+		<value>Watch Screen Sharing</value>
+	</string>
+	<string id="87">
+		<value>Kick User</value>
+	</string>
+	<string id="88">
+		<value>Set User As Moderator</value>
+	</string>
+	<string id="89">
+		<value>Invite</value>
+	</string>
+	<string id="90">
+		<value>Invite Buddy</value>
+	</string>
+	<string id="91">
+		<value>You kicked from room by Moderator.</value>
+	</string>
+	<string id="92">
+		<value>Notes</value>
+	</string>
+	<string id="93">
+		<value>White Board</value>
+	</string>
+	
+	
+</language>

@@ -1,0 +1,183 @@
+<library>				
+	<class name="roomView" extends="view">
+		<!--class to use the functions of the shared object classes in non-debug mode-->
+		<sharedObjectMediators name="mediators" />		
+		<!--shared object for chat in the room-->
+		<sharedObjectChatRoom name="soChatRoom"> 
+			<handler name="onstage" reference="conn">
+				if (conn.stage==2) {
+					this.connect("chatRoom", conn._nc, true);
+					this.so.client = new SharedObjectChatRoomMediator(this);
+				}
+			</handler>
+		</sharedObjectChatRoom>
+		<!--shared object for the usersList(List) in the room
+			@param usersList : name of the shared object at the server side
+			-->
+		<sharedObjectUserlist name="soUsersRoom"> 
+			<handler name="onstage" reference="conn">
+				if (conn.stage==2) {
+					this.connect("userlistRoom", conn._nc, false);
+					this.so.client = new SharedObjectUserMediator(this);
+				}
+			</handler>
+		</sharedObjectUserlist>
+		<!--netStream object for publish operation-->
+		<netStream name="streamPublish" type="rtmp" rtmp="${conn}"/>
+		
+		<!--netStream object for play operation-->
+		<netStream name="streamPlay" type="rtmp" rtmp="${conn}"/>
+
+		<command name="enterKey" key="['Enter']" active="${classroot.mainChatView.chat.isMouseOver()}">
+			<handler name="onselect">
+				classroot.mainChatView.chat.buttonView.buttonViewInside1.sendButton
+						.sendClicked();
+			</handler>  
+		</command>
+		
+		
+		<text name="roomName" x="10" y="5"
+			  fontsize="14" fgcolor="#33CC66"
+			  placement="canvas" visible="${classroot.visible}" 
+			  />
+			  
+		<!--audio, video, chat view-->
+		<view name="mainChatView">
+			<simplelayout axis="x" spacing="40" />			
+			
+			<!--view for user1 (you)-->
+			<view name="videoViewBroadcast">
+				
+				<simplelayout axis="y" spacing="30" />
+				
+				<button name="publishButton" align="center"
+						datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}">
+					<text name="publishText" visible="false"
+						datapath="dsetLang:/language/string[@id='16']" text="$path{'value/text()'}"/>
+					<text name="stopText" visible="false"
+						datapath="dsetLang:/language/string[@id='25']" text="$path{'value/text()'}"/>	
+					<handler name="onclick">
+						if (this.text==publishText.text) {
+							publishUserRoom.publish(loginScreen
+									.getUsername());
+							this.setAttribute('text',stopText.text);
+							publishUserRoom.setAttribute('visible',true);
+						}
+						else {
+							publishUserRoom.stopPublishing();
+							this.setAttribute('text',publishText.text);
+							publishUserRoom.setAttribute('visible',false);
+						}						
+					</handler>
+				</button>
+				<!--publish video view for you-->
+				<publisher id="publishUserRoom" align="center"/>
+			</view>
+			
+			<!--chat area-->
+			<view name="chat" layout="axis:y;spacing:10" >
+				<edittext name="message" width="300" height="20" resizable="true" />
+				
+				<view name="messageAreaView" bgcolor="#339999" width="300" height="350" clip="true"
+					focusable="true" clickable="true">
+					<text name="messageArea" multiline="true" selectable="true" clickable="true"/>
+					<vscrollbar name="vscrollbarChat" visible="${scrollable}">
+						<handler name="ondata">
+							Debug.write("scrollbar data");
+							this.page(-1);
+						</handler>
+					</vscrollbar>
+				</view>
+						
+				<view name="buttonView" align="center">
+					<simplelayout spacing="20" />
+					<view name="buttonViewInside1" layout="axis:x; spacing:15" align="center">
+						<button name="sendButton"
+							datapath="dsetLang:/language/string[@id='18']" text="$path{'value/text()'}">
+							<handler name="onclick" method="sendClicked" />
+							<method name="sendClicked" args="v=0">
+								var message = classroot.mainChatView.chat.message;
+								if (message != "") {
+									//Debug.write("Message sent!");									
+									classroot.sendMessage(message.text);
+									message.clearText();
+								}
+							</method>
+						</button>
+						<button name="clearButton"
+							datapath="dsetLang:/language/string[@id='19']" text="$path{'value/text()'}">
+							<handler name="onclick">
+								//Debug.write("Clear button clicked");
+								classroot.mainChatView.chat.message.clearText();
+							</handler>
+						</button>
+					</view>
+					<view align="center">
+						<button name="clearTextArea" 
+							datapath="dsetLang:/language/string[@id='20']" text="$path{'value/text()'}">
+							<handler name="onclick">
+								classroot.mainChatView.chat.messageAreaView.messageArea
+										.clearText();
+							</handler>
+						</button>
+					</view>
+				</view>
+			</view>
+			
+			<!--view for user1 (other user)-->
+			<view name="videoViewPlay" layout="axis:y; spacing:10">
+				<button name="showUserCam" datapath="dsetLang:/language/string[@id='17']" text="$path{'value/text()'}"
+					align="center">
+					<handler name="onclick">
+						//Debug.write("play button");
+						//Debug.info ("selected item => %w",usersList.getSelection().text);
+						var streamToPlay = classroot.mainChatView.rightBar.usersList
+								.getSelection().text;
+						classroot.streamPlay.playVideo(streamToPlay);
+						var msg= "selected user to play => "+streamToPlay;
+						notificationWindow.addMessage("info",msg);
+						parent.live._attachStream(classroot.streamPlay.stream);
+					</handler>
+				</button>
+				<videoview name="live" width="220" height="200" type="rtmp"/>
+			</view>
+			
+			<view name="rightBar">
+				<simplelayout spacing="20"/>
+				<text fontsize="12" fgcolor="0XCCCCCC" bgcolor="0XCC0000" align="center"
+					datapath="dsetLang:/language/string[@id='22']" text="$path{'value/text()'}" />
+				<list name="usersList" >
+					<textlistitem visible="false" layout="axis:x" text="1w-*23" resource="icon_webcam" />
+				</list>
+			</view>
+		</view>
+		
+		<!--when user leaves the room, message area text is being cleared-->
+		<handler name="onopacity">
+			if (opacity) {
+				mainChatView.chat.messageAreaView.messageArea.clearText();
+			}
+		</handler>
+		
+		<!--sending the given parameter to the "writeSharedObject" function-->
+		<method name="sendMessage" args="message">
+			soChatRoom.writeSharedObject(message);
+		</method>
+		
+		<!--overrides the determinePlacement method to handle the placement attribute-->
+		<method name="determinePlacement" args="aSub, placement, args">
+  			if (placement == 'canvas') {    
+  				return canvas;
+  			}
+  			else {
+  				return super.determinePlacement(aSub, placement, args);
+  			}
+  		</method>
+  		
+  		<method name="setRoomName" args="roomName">  			 
+  			this.roomName.setAttribute('text',roomName);
+  		</method>		
+	</class>	
+	
+</library>	
+	

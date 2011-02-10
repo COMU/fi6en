@@ -1,0 +1,24 @@
+<library>
+	<include href="rooms.lzx" />
+	<include href="roomButton.lzx" />
+	<include href="roomView.lzx" />
+	<include href="../remote/sharedObject.lzx" />
+	<include href="sharedObjectChatRoom.lzx" />
+	<include href="sharedObjectRoomList.lzx" />
+	<include href="roomList.lzx" />
+	<include href="planMeetingView.lzx"/>
+	<include href="myChatView.lzx"/>
+	<include href="roomUserList.lzx"/>
+	<include href="../file/library.lzx"/>
+	<include href="roomProfile.lzx" />
+	<include href="roomSharingEnter.lzx"/>
+	<include href="roomPublisher.lzx"/>
+	<include href="roomChat.lzx"/>
+	<include href="roomSubscribers.lzx"/>
+	<include href="roomSubscriber.lzx"/>
+	<include href="roomInvite.lzx"/>
+	<include href="roomInviteDialog.lzx"/>
+	<include href="roomImage.lzx"/>
+	<include href="roomNotes.lzx"/>
+	<include href="roomWhiteBoard.lzx"/>
+</library>
