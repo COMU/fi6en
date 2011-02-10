@@ -40,7 +40,7 @@
 	<!--dataset for the languages--> 
 	<dataset name="dsetLang" id="dsetLang"  src="lang/turkish.xml"/>
 	<!--dataset of the configuration file-->
-	<dataset name="dsetConf" id="dsetConf"  src="config.xml"/>
+	<dataset name="dsetConf" id="dsetConf"  src="conf.xml"/>
 	<view align="right" valign="top" yoffset="-7" xoffset="10">
 		<simplelayout axis="x" spacing="10" />
 		<!--welcome message-->
