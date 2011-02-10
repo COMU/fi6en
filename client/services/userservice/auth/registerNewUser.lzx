@@ -8,6 +8,7 @@
 				</passthrough>
 			</when>
 		</switch>
+		<attribute name="hash" type="string"/>
 		<attribute name="width" value="300"/>
 		<attribute name="responder" /><!--responder for the server side-->
 		<validation name="validation" />
@@ -97,7 +98,7 @@
 					Debug.info('Email : %w', email);
 					Debug.info('Location : %w', location);*/
 					//md5 hash of the password that will be saved to the database like that form
-					var hash = hex_md5(this.getPassword());
+					hash = hex_md5(this.getPassword());
 					user = [username, hash, firstname, lastname, email,
 							location];
 					//Debug.debug("md5  %w : %w", password, hash);
@@ -157,8 +158,7 @@
 			 * @param returnvalue indicates duplicate username
 			 * @return boolean  true: duplicate username , false: available username 
 			 */
-			if ($debug)
-				//Debug.write("register result method : " + returnvalue);
+			
 			if (returnvalue) {
 				Debug.error("username is in use");
 				notificationWindow.addMessage("error","username is in use");
@@ -193,7 +193,8 @@
 		</method>
 
 		<method name="saveToDatabase">
-			conn._nc.call("databaseservice.saveToDatabase", null, user);
+			var user2 = [this.getUsername(), hash, this.getFirstname(), this.getLastname(), this.getMail(), this.getLocation()];
+			conn._nc.call("databaseservice.saveToDatabase", null, user2);
 			var username = this.getUsername();
 			var password = this.getPassword();
 			//setting login windows fields with the typed username and password 
