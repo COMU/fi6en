@@ -8,7 +8,6 @@
 		</view>
 		<view clickable="true" align="right" valign="bottom" height="32" width="32">
 			<image src="resources/icons/download.png" valign="middle" align="right">
-				<tooltip>Download</tooltip>
 				<handler name="onclick">
 					var i = "";
 					i = i.concat(classroot.im, ".", classroot.ft);
