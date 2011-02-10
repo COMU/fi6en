@@ -152,37 +152,47 @@ public class RoomService {
 	}
 	
 	public void kickUser(String userName, String roomName) {
-		IConnection conn = Red5.getConnectionLocal();
-		IScope scope = conn.getScope();
-		Set<IClient> clients = scope.getClients();
-		Iterator<IClient> clis = clients.iterator();
-		while (clis.hasNext()) {
-			Long id = getUserClienID(userName);
-			IClient client = clis.next();
-			Long cid = Long.parseLong(client.getId());
-			if (cid == id) {
-				IServiceCapableConnection isc = (IServiceCapableConnection) client.getConnections().iterator().next();
-				Object[]user  = new Object[]{""};
-				isc.invoke("kickMe", user);
-				break;
+		try {
+			IConnection conn = Red5.getConnectionLocal();
+			IScope scope = conn.getScope();
+			Set<IClient> clients = scope.getClients();
+			Iterator<IClient> clis = clients.iterator();
+			while (clis.hasNext()) {
+				Long id = getUserClienID(userName);
+				IClient client = clis.next();
+				Long cid = Long.parseLong(client.getId());
+				if (cid == id) {
+					IServiceCapableConnection isc = (IServiceCapableConnection) client.getConnections().iterator().next();
+					Object[]user  = new Object[]{""};
+					isc.invoke("kickMe", user);
+					break;
+				}
 			}
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		log.info("User Kicked -> " + userName + " From Room -> " + roomName);
 	}
 	
 	public void inviteUser(String userName, String roomName) {
-		IScope scope = Red5.getConnectionLocal().getScope().getParent();
-		Set<IClient> clients = scope.getClients();
-		Long id = getUserClienID(userName);
-		for (IClient client : clients) {
-			Long cid = Long.parseLong(client.getId());
-			if (cid == id) {
-				IServiceCapableConnection isc = (IServiceCapableConnection) client.getConnections().iterator().next();
-				Object[]user  = new Object[]{roomName};
-				isc.invoke("inviteMe", user);
-				break;
+		try {
+			IScope scope = Red5.getConnectionLocal().getScope().getParent();
+			Set<IClient> clients = scope.getClients();
+			Long id = getUserClienID(userName);
+			for (IClient client : clients) {
+				Long cid = Long.parseLong(client.getId());
+				if (cid == id) {
+					IServiceCapableConnection isc = (IServiceCapableConnection) client.getConnections().iterator().next();
+					Object[]user  = new Object[]{roomName};
+					isc.invoke("inviteMe", user);
+					break;
+				}
 			}
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
@@ -407,43 +417,53 @@ public class RoomService {
 	}
 	
 	public void refreshClientUserList(String none) {
-		IConnection conn = Red5.getConnectionLocal();
-		IClient client = conn.getClient();
-		IScope scope = conn.getScope();
-		String clientId = client.getId();
-		String scopeName = scope.getName();
-		Set<IClient> myclients = scope.getClients();
-		for (IClient i: myclients) {
-			try {
-				String clientScopeName = i.getScopes().iterator().next().getName();
-				if (clientScopeName == scopeName) {
-					IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
-					Object[]user  = new Object[]{""};
-					isc.invoke("serverRefreshUserList", user);
+		try {
+			IConnection conn = Red5.getConnectionLocal();
+			IClient client = conn.getClient();
+			IScope scope = conn.getScope();
+			String clientId = client.getId();
+			String scopeName = scope.getName();
+			Set<IClient> myclients = scope.getClients();
+			for (IClient i: myclients) {
+				try {
+					String clientScopeName = i.getScopes().iterator().next().getName();
+					if (clientScopeName == scopeName) {
+						IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
+						Object[]user  = new Object[]{""};
+						isc.invoke("serverRefreshUserList", user);
+					}
+				} catch (Exception e) {
+					continue;
 				}
-			} catch (Exception e) {
-				continue;
 			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	public void refreshFileList(String none) {
-		IConnection conn = Red5.getConnectionLocal();
-		IClient client = conn.getClient();
-		IScope scope = conn.getScope();
-		String clientId = client.getId();
-		String scopeName = scope.getName();
-		Set<IClient> myclients = scope.getClients();
-		for (IClient i: myclients) {
-			try {
-				String clientScopeName = i.getScopes().iterator().next().getName();
-				if (clientScopeName == scopeName) {
-					IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
-					Object[]user  = new Object[]{""};
-					isc.invoke("serverRefreshFileList", user);
+		try {
+			IConnection conn = Red5.getConnectionLocal();
+			IClient client = conn.getClient();
+			IScope scope = conn.getScope();
+			String clientId = client.getId();
+			String scopeName = scope.getName();
+			Set<IClient> myclients = scope.getClients();
+			for (IClient i: myclients) {
+				try {
+					String clientScopeName = i.getScopes().iterator().next().getName();
+					if (clientScopeName == scopeName) {
+						IServiceCapableConnection isc = (IServiceCapableConnection) i.getConnections().iterator().next();
+						Object[]user  = new Object[]{""};
+						isc.invoke("serverRefreshFileList", user);
+					}
+				} catch (Exception e) {
+					continue;
 				}
-			} catch (Exception e) {
-				continue;
 			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
