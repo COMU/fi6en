@@ -234,5 +234,8 @@
 	<string id="78">
 		<value>İsimli odadan davet edildiniz. Girmek İstiyormusunuz?</value>
 	</string>
+	<string id="79">
+		<value>Yanlış Parola.</value>
+	</string>
 			
 </language>

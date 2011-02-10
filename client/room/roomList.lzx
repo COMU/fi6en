@@ -156,6 +156,7 @@
 					});
 			myAlert.open();
 		</method>
+		<text visible="false" name="wrongpass" datapath="dsetLang:/language/string[@id='79']" text="$path{'value/text()'}"></text>
 		<method name="responderResult" args="returnvalue">
 			if (returnvalue == true) {
 				var roomname = "";
@@ -167,7 +168,7 @@
 				passwd.password.clearText();
 			}
 			else {
-				alertMsg("Yanlış Parola");
+				alertMsg(wrongpass);
 			}
 		</method>
 	</class>

@@ -233,5 +233,8 @@
 	<string id="78">
 		<value>You have been invited. Do you want to enter this room?</value>
 	</string>
+	<string id="79">
+		<value>Wrong Password.</value>
+	</string>
 	
 </language>
