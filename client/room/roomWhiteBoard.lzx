@@ -1,7 +1,7 @@
 <library>
 	<class name="roomWhiteBoard" extends="window">
-		<attribute name="height" value="264"/>
-		<attribute name="width" value="320"/>
+		<attribute name="height" value="274"/>
+		<attribute name="width" value="350"/>
 		<attribute name="closeable" value="true"/>
 		<attribute name="resizable" value="true"/>
 		<attribute name="title" value="White Board"/>
@@ -88,6 +88,7 @@
 			<view bgcolor="black" height="${parent.height}" width="${parent.height+10}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
 			<view bgcolor="grey" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
 			<view bgcolor="lightgrey" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
+			<view bgcolor="white" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
 			<view bgcolor="yellow" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
 			<view bgcolor="orange" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
 			<view bgcolor="red" height="${parent.height}" width="${parent.height}" onclick="classroot.drawing.strokeStyle = this.bgcolor"></view>
