@@ -237,5 +237,11 @@
 	<string id="79">
 		<value>Yanlış Parola.</value>
 	</string>
+	<string id="80">
+		<value>Yayını Durdur</value>
+	</string>
+	<string id="81">
+		<value>Ekran Paylaşımını Başlat</value>
+	</string>
 			
 </language>

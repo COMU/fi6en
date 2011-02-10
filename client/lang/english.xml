@@ -236,5 +236,11 @@
 	<string id="79">
 		<value>Wrong Password.</value>
 	</string>
+	<string id="80">
+		<value>Stop Broadcast</value>
+	</string>
+	<string id="81">
+		<value>Start Screen Sharing</value>
+	</string>
 	
 </language>
