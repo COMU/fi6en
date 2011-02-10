@@ -35,17 +35,17 @@
 		<stableborderlayout axis="x" />
 		</view>
 		<view name="main" height="${parent.height-30}" width="100%">
-			<view name="left" width="250" height="${parent.center.height+30}">
-				<tabs name="left_tabs" height="100%" width="100%" align="center" valign="middle">
-					<tabpane name="tab_userlist" datapath="dsetLang:/language/string[@id='59']" text="$path{'value/text()'}">
-						<roomUserList id="roomUserList" height="100%" width="100%"></roomUserList>
-						<roomInvite name="roomInvite" visible="false" height="100%" width="100%"></roomInvite>
+			<view name="left" width="250" height="${parent.height}">
+				<tabs name="left_tabs" height="${parent.height}" width="100%" align="center" valign="middle">
+					<tabpane height="${parent.height}" name="tab_userlist" datapath="dsetLang:/language/string[@id='59']" text="$path{'value/text()'}">
+						<roomUserList id="roomUserList" height="${parent.height}" width="100%"></roomUserList>
+						<roomInvite name="roomInvite" visible="false" height="${parent.height}" width="100%"></roomInvite>
 					</tabpane>
-					<tabpane name="tab_filelist" datapath="dsetLang:/language/string[@id='69']" text="$path{'value/text()'}">
-						<fileList id="roomFileList" height="100%" width="100%"></fileList>
+					<tabpane name="tab_filelist" height="${parent.height}" datapath="dsetLang:/language/string[@id='69']" text="$path{'value/text()'}">
+						<fileList id="roomFileList" height="${parent.height}" width="100%"></fileList>
 					</tabpane>
-					<tabpane name="tab_profile" datapath="dsetLang:/language/string[@id='70']" text="$path{'value/text()'}">
-						<roomProfile id="roomProfile" name="roomProfile"></roomProfile>
+					<tabpane name="tab_profile" height="${parent.height}" datapath="dsetLang:/language/string[@id='70']" text="$path{'value/text()'}">
+						<roomProfile height="${parent.height}" id="roomProfile" name="roomProfile"></roomProfile>
 					</tabpane>
 				</tabs>
 			</view>
