@@ -117,5 +117,41 @@
 	<string id="39" name="notification_window">
 		<value>Bildirim Penceresi</value>
 	</string>
+	<string id="40">
+		<value>Odayı Güncelle</value>
+	</string>
+	<string id="41">
+		<value>Oda Adı:</value>
+	</string>
+	<string id="42">
+		<value>Açıklama:</value>
+	</string>
+	<string id="43">
+		<value>Açılış Saati:</value>
+	</string>
+	<string id="44">
+		<value>Kapanış Saati:</value>
+	</string>
+	<string id="45">
+		<value>Korumasız:</value>
+	</string>
+	<string id="46">
+		<value>Açık:</value>
+	</string>
+	<string id="47">
+		<value>Parolayı Değiştir:</value>
+	</string>
+	<string id="48">
+		<value>Yeniden Gir:</value>
+	</string>
+	<string id="49">
+		<value>Kaydet</value>
+	</string>
+	<string id="50">
+		<value>Yeni Oda Ekle</value>
+	</string>
+	<string id="51">
+		<value>Parola:</value>
+	</string>
 			
 </language>

@@ -116,7 +116,42 @@
 	<string id="39" name="notification_window">
 		<value>Notification Window</value>
 	</string>
-	
+	<string id="40">
+		<value>Update Room</value>
+	</string>
+	<string id="41">
+		<value>Room Name:</value>
+	</string>
+	<string id="42">
+		<value>Comment:</value>
+	</string>
+	<string id="43">
+		<value>Starting Time:</value>
+	</string>
+	<string id="44">
+		<value>Closing Time:</value>
+	</string>
+	<string id="45">
+		<value>Public:</value>
+	</string>
+	<string id="46">
+		<value>Public:</value>
+	</string>
+	<string id="47">
+		<value>Change Password:</value>
+	</string>
+	<string id="48">
+		<value>Re-Type:</value>
+	</string>
+	<string id="49">
+		<value>Save</value>
+	</string>
+	<string id="50">
+		<value>Add New Room</value>
+	</string>
+	<string id="51">
+		<value>Password:</value>
+	</string>
 	
 	
 	

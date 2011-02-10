@@ -53,19 +53,19 @@
 				</button>
 			</view>
 			<view name="title">
-				<text fontsize="16" fontstyle="bold">Update Room</text>
+				<text fontsize="16" fontstyle="bold" datapath="dsetLang:/language/string[@id='40']" text="$path{'value/text()'}"></text>
 			</view>
 			<view name="information">
 				<simplelayout axis="x" spacing="5" />
 				<view name="attributes">
 					<simplelayout axis="y" spacing="13"/>
 					<text>ID:</text>
-					<text>Roomname:</text>
-					<text>Comment:</text>
-					<text>Starting Time:</text>
-					<text>Finishing Time:</text>
-					<text>Public:</text>
-					<text>Open:</text>
+					<text datapath="dsetLang:/language/string[@id='41']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='42']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='43']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='44']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='45']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='46']" text="$path{'value/text()'}"></text>
 				</view>
 				<view name="edittexts" datapath="local:classroot.dset2:/room">
 					<simplelayout axis="y" spacing="5"></simplelayout>
@@ -80,11 +80,11 @@
 			</view>
 			<view name="pass">
 				<simplelayout axis="y" spacing="5"/>
-				<text fontsize="16" fontstyle="bold">Change Password</text>
+				<text fontsize="16" fontstyle="bold" datapath="dsetLang:/language/string[@id='47']" text="$path{'value/text()'}"></text>
 				<edittext name="pass1" password="true"></edittext>
-				<text>Re-Type</text>
+				<text datapath="dsetLang:/language/string[@id='48']" text="$path{'value/text()'}"></text>
 				<edittext name="pass2" password="true"></edittext>
-				<button text="Save">
+				<button datapath="dsetLang:/language/string[@id='49']" text="$path{'value/text()'}">
 					<handler name="onclick">
 						classroot.changePassword();
 					</handler>
@@ -119,19 +119,19 @@
 				</button>
 			</view>
 			<view name="title">
-				<text fontsize="16" fontstyle="bold">Add New Room</text>
+				<text fontsize="16" fontstyle="bold" datapath="dsetLang:/language/string[@id='50']" text="$path{'value/text()'}"></text>
 			</view>
 			<view name="information">
 				<simplelayout axis="x" spacing="5" />
 				<view name="attributes">
 					<simplelayout axis="y" spacing="13"/>
-					<text>Roomname:</text>
-					<text>Comment:</text>
+					<text datapath="dsetLang:/language/string[@id='41']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='42']" text="$path{'value/text()'}"></text>
 					<text visible="false">Public:</text>
 					<text visible="false">Open:</text>
-					<text>Password:</text>
-					<text>Re-Type:</text>
-					<button text="Save">
+					<text datapath="dsetLang:/language/string[@id='42']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='48']" text="$path{'value/text()'}">Re-Type:</text>
+					<button datapath="dsetLang:/language/string[@id='49']" text="$path{'value/text()'}">
 						<handler name="onclick">
 							classroot.addNewRoom();
 						</handler>
