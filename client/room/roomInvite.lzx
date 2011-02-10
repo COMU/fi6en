@@ -12,7 +12,7 @@
 				<gridcolumn name="column_empty" width="42" resizable="false" sortable="true" clickable="true">
 					<image prefix="resources/icons/" datapath="micon/text()" valign="middle" clickable="true"></image>
 				</gridcolumn>
-				<gridcolumn name="column_username" text="Invite A User" width="135" resizable="false" sortable="true" clickable="true">
+				<gridcolumn name="column_username" width="135" resizable="false" sortable="true" clickable="true">
 					<text datapath="username/text()" valign="middle" align="left" maxlength="20" />
 				</gridcolumn>
 				<handler name="onselect" args="sel">
