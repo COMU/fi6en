@@ -24,7 +24,7 @@
 				<view name="buttonViewInside1" layout="axis:x; spacing:5" align="center" valign="middle" height="${parent.parent.messageAreaView.height}">
 					<simplelayout axis="x" spacing="5"/>
 					<edittext name="message" height="${parent.sendButton.height}" width="${classroot.width-170}" />
-					<button name="sendButton" text="Gönder" width="100">
+					<button name="sendButton" datapath="dsetLang:/language/string[@id='77']" text="$path{'value/text()'}" width="100">
 						<image src="resources/icons/send.png" align="right" valign="middle"></image>
 						<handler name="onclick" method="sendClicked" />
 						<method name="sendClicked" args="v=0">
@@ -36,14 +36,12 @@
 						</method>
 					</button>
 					<image src="resources/icons/copy.png" clickable="true">
-						<tooltip>Copy to Clipboard</tooltip>
 						<handler name="onclick">
 							var msg = classroot.chat.messageAreaView.messageArea.text;
 							lz.Browser.setClipboard(msg);
 						</handler>
 					</image>
 					<image src="resources/icons/clear.png" clickable="true">
-						<tooltip>Clear Chat Box</tooltip>
 						<handler name="onclick">
 							classroot.chat.messageAreaView.messageArea.clearText();
 						</handler>
