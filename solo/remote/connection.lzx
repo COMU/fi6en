@@ -1,0 +1,159 @@
+<library>		
+	<!--server connection initialization class-->
+	<class name="connection" extends="rtmpconnection">
+		<switch>
+			<when property="$as3">
+				<passthrough>
+                        import flash.net.NetConnection;
+                        import flash.net.Responder;
+                        import flash.events.ErrorEvent;
+                        import flash.events.StatusEvent;
+                        import flash.events.IOErrorEvent;
+                        import flash.events.NetStatusEvent;
+                        import flash.events.SecurityErrorEvent;
+                        import flash.events.AsyncErrorEvent;
+				</passthrough>
+			</when>
+		</switch>
+		<attribute name="connected" type="boolean" value="false"/>
+		<attribute name="responder" /><!--responder for the server side-->
+		
+		<attribute name="type" type="text"/>
+		<attribute name="host" type="text"/>
+		<attribute name="port" type="text"/>
+		<attribute name="webapprootkey" type="text"/>
+		<attribute name="httpport" type="text"/>
+		<handler name="oninit">
+			this.serverRefreshRoomList = function(message){
+				this._serverRefreshRoomList(message);
+			}
+			this.serverRefreshUserList = function(message){
+				this._serverRefreshUserList(message);
+			}
+			this.serverRefreshFileList = function(message){
+				this._serverRefreshFileList(message);
+			}
+			this.kickMe = function(message){
+				this._kickMe(message);
+			}
+			this.modMe = function(message){
+				this._modMe(message);
+			}
+			this.inviteMe = function(message){
+				this._inviteMe(message);
+			}
+			
+
+		</handler>
+		<!--here is handling the rtmp connection-->		
+		<handler name="onstage" reference="this">
+			switch (this.stage) {
+				case 0 : 
+					Debug.info("Disconnected server application.");
+					notificationWindow.addMessage("info","Disconnected server application.");
+					break;
+				case 1 : 
+					Debug.info("Connecting to the server application...");
+					break;
+				case 2 : 
+					Debug.info("Server connection attempt succeeded.");
+					chatScreen.soRooms.refreshListSend("");
+					notificationWindow.addMessage("info","Server connection attempt succeeded.");
+					this.setAttribute('connected',true);
+					break;
+			}
+		</handler>
+		
+		<!--closing the netconnection and shared objects-->
+		<method name="closeConnection">
+			//_conn.call("deleteUsername",responder,loginScreen.getUsername());
+			Debug.info("closing connection");
+			notificationWindow.addMessage("info","closing connection");
+			chatScreen.soChat.close();
+			chatScreen.soUsers.close();
+			//roomScreen.soChatRoom.close();
+			//roomScreen.soUsersRoom.close();
+			this._nc.close();
+		</method>
+		
+		<!--handler for the errors-->
+		<method name="errorHandler" args="error">
+			Debug.write(error.error);
+			notificationWindow.addMessage("error",error);
+		</method>
+		
+		<method name="responderResult" args="returnvalue">
+			Debug.write("onResult:" + returnvalue);
+			notificationWindow.addMessage("info",returnvalue);
+		</method>
+		
+		<method name="responderStatus" args="returnvalue">
+			Debug.write("onStatus:" + returnvalue.toString);
+		</method>
+		
+		<!--<method name="callRemoteFunction" args="func, obj, params">
+				<![CDATA[
+				//Debug.write("*#* call: func, obj, params",func,obj, typeof (params) , params.length);
+				if (params.length != 0) {
+
+					//Debug.write("params:",params);
+					//Debug.write("arguments:",arg);
+
+					if (params.length==1){
+						this._conn.call(func, obj,params[0]);
+						Debug.info("called function : %w, parameter : %w",func, params[0]);
+					} else if (params.length==2){
+						this._conn.call(func, obj,params[0],params[1]);
+						Debug.info("called function : %w, parameter : %w %w",func, params[0],params[1]);
+					} else if (params.length==3){
+						this._conn.call(func, obj,params[0],params[1],params[2]);
+					} else if (params.length==4 ){
+						this._conn.call(func, obj,params[0],params[1],params[2],params[3]);
+					} 
+
+				} //else {	   
+				  //    Debug.write("this._nc.connected", this.connected);
+				  //    this._conn.call(func, obj);
+				//}
+			]]>
+			</method> -->    
+	    
+		<!--method sets welcome message with the incoming firstname and lastname-->
+		<method name="setWelcomeMessage" args="firstname, lastname"><![CDATA[
+			welcome.addText("<b><font>" + ' ' + firstname + ' ' + lastname
+					+ "</font></b>");
+		]]>
+		</method>
+		<method name="_serverRefreshFileList" args="arg">
+			roomFileList.refreshList();
+		</method>
+		<method name="_serverRefreshRoomList" args="arg">
+			roomListView.refreshList();
+		</method>
+		<method name="_serverRefreshUserList" args="arg">
+			userList.refreshList();
+			roomUserList.refreshList();
+		</method>
+		<text visible="false" name="kickbymod" datapath="dsetLang:/language/string[@id='91']" text="$path{'value/text()'}" />
+		<method name="_kickMe" args="arg">
+			roomScreen2.quitRoom();
+			var myAlert = new lz.alert(canvas, {
+						text : kickbymod,
+						stretches : 'both'
+					});
+			myAlert.open();
+		</method>
+		<method name="_modMe" args="arg">
+			var myAlert = new lz.alert(canvas, {
+						text : "Odanın moderatorü yapıldınız.",
+						stretches : 'both'
+					});
+			myAlert.open();
+		</method>
+		<method name="_inviteMe" args="roomname">
+			var i = new lz.roomInviteDialog();
+			i.setAttribute("roomname", roomname);
+			i.open();
+		</method>
+	</class>	
+</library>

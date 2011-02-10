@@ -1,0 +1,4 @@
+<library>
+	<include href="incubator/roundrectbutton.lzx" />
+	<class name="roundedButton" extends="roundrectbutton" />
+</library>

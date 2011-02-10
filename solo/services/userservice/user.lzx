@@ -1,0 +1,52 @@
+<library>
+	<class name="user" extends="node">
+		<attribute name="username" value="null"/>
+		<attribute name="fistname" value="null"/>
+		<attribute name="lastname" value="null"/>
+		<attribute name="email" value="null"/>
+		<attribute name="location" value="null"/>
+		
+		<!--getters for the attributes-->
+		<method name="getUsername">
+			return this.username;
+		</method>
+		
+		<method name="getFistname">
+			return this.fistname;
+		</method>
+		
+		<method name="getLastname">
+			return this.lastname;
+		</method>
+		
+		<method name="getEmail">
+			return this.email;
+		</method>
+		
+		<method name="getLocation">
+			return this.location;
+		</method>
+		
+		<!--setters for the attributes-->
+		<method name="setUsername" args="username">
+			this.username= username;
+		</method>
+		
+		<method name="setFistname" args="firstname">
+			this.fistname= firstname;
+		</method>
+		
+		<method name="setLastname" args="lastname">
+			this.lastname= lastname;
+		</method>
+		
+		<method name="setEmail" args="email">
+			this.email= email;
+		</method>
+		
+		<method name="setLocation" args="location">
+			this.location= location;
+		</method>
+		
+	</class>
+</library>

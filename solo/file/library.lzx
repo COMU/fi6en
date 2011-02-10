@@ -1,0 +1,6 @@
+<library>
+	<include href="fileList.lzx" />
+	<include href="fileupload.lzx" />
+	<include href="filePicView.lzx" />
+	<include href="fileSwfView.lzx"/>
+</library>

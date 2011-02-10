@@ -1,0 +1,36 @@
+<library>
+	<class name="debuggerWindow" extends="window" 
+		   datapath="dsetLang:/language/string[@id='39']" title="$path{'value/text()'}">
+		<attribute name="resizable" value="true"/>
+		<attribute name="clip" value="true"/>
+		<view name="messageAreaView">
+			<text name="message" visible="false"/>
+			<simplelayout />
+			<text name="messageArea" multiline="true" 
+				selectable="true" clickable="true"
+				width="${parent.width-30}" />		
+		</view>
+		<vscrollbar name="debuggerScrollbar"/>
+		<method name="addMessage" args="type, msg"><![CDATA[
+			switch (type) {
+				case "info" :
+					messageAreaView.messageArea
+							.addText('<font color="#0099FF">info: ' + msg
+									+ '<br/></font>');
+					break;
+				case "error" :
+					messageAreaView.messageArea
+							.addText('<font color="#EE0000">error: ' + msg
+									+ '<br/></font>');
+					break;
+				case "warn" :
+					messageAreaView.messageArea
+							.addText('<font color="#FFCC00">warn: ' + msg
+									+ '<br/></font>');
+					break;
+			}
+			debuggerScrollbar.page(1);
+		]]>
+		</method>	
+	</class>
+</library>

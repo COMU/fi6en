@@ -1,0 +1,37 @@
+<library>
+	<class name="sharedObjectUserlist" extends="sharedObject">
+
+		<!--adds usernames to the usernameList-->
+		<method name="addToUserlist" args="userlist"><![CDATA[
+			//Debug.write("userlist legth : "+userlist.length);
+			//usersList.addItem(userlist[0], userlist[0]);
+			//usersList.addItem(userlist[1], userlist[1]);
+			
+			/////
+			//for (var i=0; i<userlist.length; i++) {
+			//	chatScreen.mainChatView.rightBar.usersList.addItem(userlist[i], userlist[i]);
+			//}
+			]]>					
+		</method>
+		<!--adds the given username to the userlist-->
+		<method name="updateUserlist" args="username">
+			//chatScreen.mainChatView.rightBar.usersList.addItem(username, username);	
+		</method>
+		
+		<!--removes the given username from the userlist-->
+		<method name="removeFromUserlist" args="username">
+			//Debug.write("removing %w from the userlist ",username);
+			/*if the client is the first user for the app., manually removing username from the userlist*/
+			/*if (chatScreen.isFirstUser) {
+				chatScreen.soChat.send("writeInfo", username+" was the first user");
+				chatScreen.mainChatView.rightBar.usersList.removeItem(username);
+				chatScreen.soChat.send("writeInfo", loginScreen.getUsername()
+										+ " logged out");
+				return;
+			}*/
+			//chatScreen.mainChatView.rightBar.usersList.removeItem(username);
+		</method>			
+	</class>
+	
+	
+</library>

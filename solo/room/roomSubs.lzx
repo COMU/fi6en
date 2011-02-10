@@ -1,0 +1,53 @@
+<library>
+	<class name="roomSubs" extends="view">
+		<attribute name="align" value="center"/>
+		<attribute name="title"/>
+		<handler name="ondestroy">
+			this.main.main2.body.mySub.closeStream();
+		</handler>
+		<view name="main" height="100%" width="100%" bgcolor="black">
+			<view name="main2" height="${parent.height-2}" width="${parent.width-2}" align="center" valign="middle" bgcolor="lightblue">
+				<view name="head" height="20" width="${parent.width}" bgcolor="white">
+					<text name="username" x="4" valign="middle" text="${classroot.title}"></text>
+					<image name="fullscreen" src="resources/icons/fullscreen1.png" valign="middle" clickable="true" x="${parent.close.x-20}">
+						<handler name="onclick">
+							if (this.src == "resources/icons/fullscreen1.png") {
+								this.setAttribute("src", "resources/icons/fullscreen2.png");
+								classroot.setAttribute("width", classroot.width*2);
+								classroot.setAttribute("height", classroot.height*2);
+							}
+							else {
+								this.setAttribute("src", "resources/icons/fullscreen1.png");
+								classroot.setAttribute("width", classroot.width/2);
+								classroot.setAttribute("height", classroot.height/2);
+							}
+						</handler>
+					</image>
+					<image name="close" src="resources/icons/close_video.png" align="right" valign="middle" clickable="true">
+						<handler name="onclick">
+							classroot.destroy();
+						</handler>
+					</image>
+				</view>
+				<view name="hr" height="1" width="${parent.width}" bgcolor="black"/>
+				<view name="body" height="${classroot.height-21}" width="${parent.width}">
+					<myRoomSubscriber name="mySub" width="100%" height="100%">
+					</myRoomSubscriber>
+					<image name="muteImg" src="resources/icons/sound.png" align="right" valign="bottom" clickable="true">
+						<handler name="onclick">
+							if (this.src == "resources/icons/sound.png") {
+								this.setAttribute("src", "resources/icons/mute.png");
+								parent.mySub.muteOn();
+							}
+							else {
+								this.setAttribute("src", "resources/icons/sound.png");
+								parent.mySub.muteOff();
+							}
+						</handler>
+					</image>
+				</view>
+				<simplelayout axis="y"></simplelayout>
+			</view>
+		</view>
+	</class>
+</library>

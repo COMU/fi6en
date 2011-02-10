@@ -1,0 +1,29 @@
+<library>
+	<class name="roomInviteDialog">
+		<attribute name="roomname" type="string" value="room"/>
+		<attribute name="align" value="center"/>
+		<attribute name="valign" value="middle"/>
+		<modaldialog name="main" height="160" width="300" title="Invitation">
+			<view name="main" width="250">
+				<simplelayout axis="y" spacing="20"/>
+				<view name="texts">
+				<simplelayout axis="y" spacing="2"/>
+					<text text="${classroot.roomname}" width="240" multiline="true"></text>
+					<text width="240" multiline="true" datapath="dsetLang:/language/string[@id='78']" text="$path{'value/text()'}"></text>	
+				</view>
+				<view name="buttons">
+					<simplelayout axis="x" spacing="10"/>
+					<button text="Evet" onclick="classroot.gotoroom()"></button>
+					<button text="Hayır" onclick="parent.parent.parent.close()"></button>
+				</view>
+			</view>
+		</modaldialog>
+		<method name="gotoroom">
+			roomListView.enter(this.roomname);
+			this.main.close();
+		</method>
+		<method name="open">
+			this.main.open();
+		</method>
+	</class>
+</library>

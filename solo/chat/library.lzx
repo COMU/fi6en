@@ -1,0 +1,5 @@
+<library>
+	<include href="chatView.lzx" />
+	<include href="sharedObjectChat.lzx"/>
+	<include href="myUserList.lzx"/>
+</library>

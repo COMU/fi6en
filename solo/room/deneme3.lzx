@@ -1,0 +1,8 @@
+<canvas debug="true">
+	<include href="deneme2.lzx"/>
+	<button>
+		<handler name="onclick">
+			var i = new lz.roomWhiteBoard(canvas);
+		</handler>
+	</button>
+</canvas>

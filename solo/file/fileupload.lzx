@@ -1,0 +1,209 @@
+<library>
+
+<switch>
+
+  <when property="$as3"><!-- SWF9/SWF10 -->
+
+    <!---
+    CLASS: <fileuploadhelper>
+    EXTENDS: <node> (lz.node)
+
+    DESCRIPTION:
+
+    This is the ActionScript3 (AS3) (SWF9/SWF8) version of the Flash file
+    upload object.
+
+    This allows users to upload files when compiled to a Flash Version that
+    uses ActionScript3 such as Flash 9 or Flash 10.
+    -->
+    <class name="fileUploader" extends="node">
+
+      <!---
+      @param string uploadurl: (optional) default upload url to use if none
+                               passed to this.upload()
+      -->
+      <attribute name="uploadurl" type="string" />
+
+      <!-- @keywords private -->
+      <!--- @param flash.net.FileReference file_reference: Flash file reference object -->
+      <attribute name="file_reference" type="expression" value="null" />
+
+      <!-- Imports Required for SWF9/SWF10 -->
+
+      <passthrough>
+        import flash.net.FileReference;
+        import flash.events.Event;
+        import flash.events.ProgressEvent;
+        import flash.events.IOErrorEvent;
+        import flash.events.SecurityErrorEvent;
+        import flash.net.URLRequest;
+      </passthrough>
+
+      <!-- *** METHODS *** -->
+
+      <handler name="oninit">
+      <![CDATA[
+
+	    #passthrough  {
+		   this.file_reference = new FileReference();
+
+		   file_reference.addEventListener(Event.SELECT,this.onSelect);
+		   file_reference.addEventListener(Event.COMPLETE, this.onComplete);
+		   file_reference.addEventListener(ProgressEvent.PROGRESS, this.progressHandler);
+		   file_reference.addEventListener(IOErrorEvent.IO_ERROR, this.ioErrorHandler);
+		   file_reference.addEventListener(SecurityErrorEvent.SECURITY_ERROR, this.securityErrorHandler);
+
+        }#
+
+      ]]>
+      </handler>
+
+      <!---
+      Displays file browsing window and allows the user to select a file (or
+      cancel to close the window).
+      -->
+      <method name="browse">
+      <![CDATA[
+			file_reference.browse();
+
+      ]]>
+      </method>
+
+      <!---
+      Return name of selected file
+
+      @returns string: the filename of the selected file
+      -->
+      <method name="getName">
+        return this.file_reference.name;
+      </method>
+
+      <!--- @keywords private -->
+      <!---
+      @param string submit_url: SWF9/10 #passthrough{...} requires URL to be
+                                referenced in an attribute rather than a
+                                locally defined OpenLaszlo variable or
+                                a compilation error occurs.
+      -->
+      <attribute name="submit_url" type="string" />
+
+      <!---
+      Uploads the currently selected file.
+
+      @param string strURL: (optional) If defined upload the file to this
+                            URL, otherwise upload to this.uploadurl
+
+                            Note: required if this.uploadurl is not defined.
+      -->
+      <method name="upload" args="strURL = false">
+      <![CDATA[
+
+        if (strURL === false)
+          var strURL = this.uploadurl; // workaround for SWF9/10 compatibility
+
+        this.setAttribute('submit_url', strURL);
+
+	    #passthrough  {
+	       var request:URLRequest = new URLRequest(submit_url);
+		   file_reference.upload(request);
+	    }#
+
+      ]]>
+      </method>
+
+
+      <!-- * ABSTRACT handlers: Override to do something useful in instance * -->
+
+
+      <!--- @keywords abstract -->
+      <!---
+      ABSTRACT METHOD: OVERRIDE IN YOUR APPLICATION TO DO SOMETHING USEFUL
+
+      Called when user selects a file.
+
+      @param flash.events.Event ev: the select event
+      -->
+      <method name="onSelect" args="ev=null">
+	  </method>
+
+      <!--- @keywords abstract -->
+      <!---
+      ABSTRACT METHOD: OVERRIDE IN YOUR APPLICATION TO DO SOMETHING USEFUL
+
+      Called when progress event is captured.
+
+      @param {anything} objDummy: SWF8 requires file_reference object here, does nothing in SWF9/10
+      @param number bytesLoaded: the number of bytes of the file uploaded
+      @param number bytesTotal: the number of total bytes of the file to be uploaded
+      -->
+      <method name="onProgress" args="objDummy, bytesLoaded, bytesTotal">
+        if ($debug) Debug.info('as3 (SWF9/10): fileuploadhelper.onProgress(): WARNING: This is an abstract method that should be overridden in your application to do something useful...');
+      </method>
+
+      <!--- @keywords abstract -->
+      <!---
+      ABSTRACT METHOD: OVERRIDE IN YOUR APPLICATION TO DO SOMETHING USEFUL
+
+      Called when a file upload is complete.
+
+      @param flash.events.Event ev: the complete event
+      -->
+      <method name="onComplete" args="ev=null">
+        if ($debug) Debug.info('as3 (SWF9/10): fileuploadhelper.onComplete(): WARNING: This is an abstract method that should be overridden in your application to do something useful...');
+	  </method>
+
+      <!--- @keywords abstract -->
+      <!---
+      ABSTRACT METHOD: OVERRIDE IN YOUR APPLICATION TO DO SOMETHING USEFUL
+
+      Called when the file upload fails.
+
+      @param flash.events.IOErrorEvent/flash.events.securityErrorEvent ev: the Flash Error Event
+      -->
+      <method name="onError" args="ev=null">
+        if ($debug) Debug.info('as3 (SWF9/10): fileuploadhelper.onError(): WARNING: This is an abstract method that should be overridden in your application to do something useful...');
+      </method>
+
+
+      <!-- * Internal Private Handlers * -->
+
+
+      <!--- @keywords private -->
+      <!---
+      This will pass the progress values to method this.onProgress()
+
+      @param flash.events.ProgressEvent ev: the Flash Progress Event
+      -->
+	  <method name="progressHandler" args="ev=null">
+	    this.onProgress(false, ev.bytesLoaded, ev.bytesTotal);
+	  </method>
+
+      <!--- @keywords private -->
+      <!---
+      This will catch an ioError and call method this.onError()
+
+      @param flash.events.IOErrorEvent ev: the Flash Error Event
+      -->
+	  <method name="ioErrorHandler" args="ev=null">
+	    if ($debug) Debug.error('as3 (SWF9/10): fileuploadhelper.ioErrorHandler(): ERROR: ioError detected, could not upload file.');
+	    this.onError(ev);
+	  </method>
+
+      <!--- @keywords private -->
+      <!---
+      This will catch a securityError and call method this.onError()
+
+      @param flash.events.securityErrorEvent ev: the Flash Error Event
+      -->
+	  <method name="securityErrorHandler" args="ev=null">
+	    if ($debug) Debug.error('as3 (SWF9/10): fileuploadhelper.securityErrorHandler(): ERROR: securityError detected. Are you sure you are uploading to same domian as this application is being served from?');
+	    this.onError(ev);
+	  </method>
+
+    </class>
+
+  </when>
+
+</switch>
+
+</library>

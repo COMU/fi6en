@@ -1,0 +1,221 @@
+<library>
+	<include href="../remote/connection.lzx"></include>
+	<script src="../services/userservice/auth/md5.js"/>	
+	<class name="adminUserList">
+		<dataset name="dset" src="http://localhost:5080/fi6en/allusers" request="true" type="http">
+		</dataset>
+		<dataset name="dset2" src="http://localhost:5080/fi6en/getuser" request="true" type="http" />
+		<simplelayout axis="x" spacing="40"/>
+		<view name="left">
+			<grid name="table_users" datapath="local:classroot.dset:/users" height="400" width="250" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">
+				<gridcolumn name="column_empty" width="42" resizable="false" sortable="true" clickable="true">
+					<image prefix="resources/icons/" datapath="micon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<gridcolumn name="column_username" width="150" resizable="false" sortable="true" clickable="true">
+					<text datapath="username/text()" valign="middle" align="left" maxlength="20" />
+				</gridcolumn>
+				<gridcolumn name="column_icon" width="32" resizable="false" sortable="true">
+					<image prefix="resources/icons/" datapath="icon/text()" valign="middle" clickable="true"></image>
+				</gridcolumn>
+				<handler name="onselect">
+					classroot.right_new.setAttribute("visible", false);
+					classroot.right_update.setAttribute("visible", true);
+					classroot.dset2.setQueryParam("username", classroot.getSelectionName());
+					classroot.dset2.doRequest();
+				</handler>
+			</grid>
+		</view>
+		<view name="right_update" visible="false">
+			<simplelayout axis="y" spacing="10" />
+			<view name="buttons">
+				<simplelayout axis="x" spacing="2"/>
+				<button height="32" width="32">
+					<image src="resources/icons/save.png"></image>
+					<handler name="onclick">
+						classroot.updateUser();
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="resources/icons/add.png"></image>
+					<handler name="onclick">
+						classroot.right_update.setAttribute("visible", false);
+						classroot.right_new.setAttribute("visible", true);
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="resources/icons/refresh.png"></image>
+					<handler name="onclick">
+						classroot.refreshList();
+					</handler>
+				</button>
+				<button height="32" width="32">
+					<image src="resources/icons/delete.png"></image>
+					<handler name="onclick">
+						classroot.deleteUser();
+					</handler>
+				</button>
+			</view>
+			<view name="title">
+				<text fontsize="16" fontstyle="bold" datapath="dsetLang:/language/string[@id='52']" text="$path{'value/text()'}"></text>
+			</view>
+			<view name="information">
+				<simplelayout axis="x" spacing="5" />
+				<view name="attributes">
+					<simplelayout axis="y" spacing="13"/>
+					<text>ID:</text>
+					<text datapath="dsetLang:/language/string[@id='53']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='54']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='55']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='56']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='57']" text="$path{'value/text()'}"></text>
+				</view>
+				<view name="edittexts" datapath="local:classroot.dset2:/user">
+					<simplelayout axis="y" spacing="5"></simplelayout>
+					<edittext name="userid" enabled="false" datapath="id/text()"></edittext>
+					<edittext name="username" enabled="false" datapath="username/text()"></edittext>
+					<edittext name="email" datapath="email/text()"></edittext>
+					<edittext name="firstname" datapath="firstname/text()"></edittext>
+					<edittext name="lastname" datapath="lastname/text()"></edittext>
+					<edittext name="location" datapath="location/text()"></edittext>
+				</view>
+			</view>
+			<view name="pass">
+				<simplelayout axis="y" spacing="5"/>
+				<text fontsize="16" fontstyle="bold" datapath="dsetLang:/language/string[@id='47']" text="$path{'value/text()'}"></text>
+				<edittext name="pass1" password="true"></edittext>
+				<text datapath="dsetLang:/language/string[@id='48']" text="$path{'value/text()'}"></text>
+				<edittext name="pass2" password="true"></edittext>
+				<button datapath="dsetLang:/language/string[@id='49']" text="$path{'value/text()'}">
+					<handler name="onclick">
+						classroot.changePassword();
+					</handler>
+				</button>
+			</view>
+		</view>
+		<view name="right_new">
+			<simplelayout axis="y" spacing="10" />
+			<view name="buttons">
+				<simplelayout axis="x" spacing="2"/>
+				<button height="32" width="32">
+					<image src="resources/icons/add.png"></image>
+				</button>
+				<button height="32" width="32">
+					<image src="resources/icons/refresh.png"></image>
+					<handler name="onclick">
+						classroot.refreshList();
+					</handler>
+				</button>
+			</view>
+			<view name="title">
+				<text fontsize="16" fontstyle="bold" datapath="dsetLang:/language/string[@id='58']" text="$path{'value/text()'}">Add New User</text>
+			</view>
+			<view name="information">
+				<simplelayout axis="x" spacing="5" />
+				<view name="attributes">
+					<simplelayout axis="y" spacing="13"/>
+					<text>ID:</text>
+					<text datapath="dsetLang:/language/string[@id='53']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='54']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='55']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='56']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='57']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='51']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='48']" text="$path{'value/text()'}"></text>
+					<button datapath="dsetLang:/language/string[@id='49']" text="$path{'value/text()'}">
+						<handler name="onclick">
+							classroot.addNewUser();
+						</handler>
+					</button>
+				</view>
+				<view name="edittexts">
+					<simplelayout axis="y" spacing="5"></simplelayout>
+					<edittext name="userid" enabled="false"></edittext>
+					<edittext name="username"></edittext>
+					<edittext name="email"></edittext>
+					<edittext name="firstname"></edittext>
+					<edittext name="lastname"></edittext>
+					<edittext name="location"></edittext>
+					<edittext name="pass1" password="true"></edittext>
+					<edittext name="pass2" password="true"></edittext>
+				</view>
+			</view>
+		</view>
+		<method name="refreshList">
+			lz.Timer.addTimer( new LzDelegate( this, "refreshTimer" ), 500 );
+		</method>
+		<method name="refreshTimer" args="msg">
+			dset.doRequest();
+		</method>
+		<method name="addNewUser">
+			var username = right_new.information.edittexts.username.text;
+			var email = right_new.information.edittexts.email.text;
+			var firstname = right_new.information.edittexts.firstname.text;
+			var lastname = right_new.information.edittexts.lastname.text;
+			var location = right_new.information.edittexts.location.text;
+			var pass1 = right_new.information.edittexts.pass1.text;
+			var pass2 = right_new.information.edittexts.pass2.text;
+			if (pass1 != pass2) {
+				return false;
+			}
+			else {
+				var hash = hex_md5(pass1);
+				var user = [username, hash, firstname, lastname, email, location]
+				conn._nc.call("databaseservice.saveToDatabase", null, user);
+			}
+			reset();
+			refreshList();
+		</method>
+		<method name="updateUser">
+			var email = right_update.information.edittexts.email.text;
+			var username = right_update.information.edittexts.username.text;
+			var firstname = right_update.information.edittexts.firstname.text;
+			var lastname = right_update.information.edittexts.lastname.text;
+			var location = right_update.information.edittexts.location.text;
+			var form = new Object;
+			form["firstname"] = firstname;
+			form["lastname"] = lastname;
+			form["location"] = location;
+			form["email"] = email;
+			conn._nc.call("databaseservice.updateUser", null, username, form);
+			refreshList();
+		</method>
+		<method name="changePassword">
+			var username = right_update.information.edittexts.username.text;
+			var pass1 = right_update.pass.pass1.text;
+			var pass2 = right_update.pass.pass2.text;
+			if (pass1 != pass2) {
+				return false;
+			}
+			else {
+				var hash = hex_md5(pass1);
+				conn._nc.call("databaseservice.changePassword", null, username, hash);
+			}
+			reset();
+		</method>
+		<method name="deleteUser">
+			var username = right_update.information.edittexts.username.text;
+			conn._nc.call("databaseservice.deleteUser", null, username);
+			refreshList();
+			right_update.setAttribute("visible", false);
+			right_new.setAttribute("visible", true);
+		</method>
+		<method name="getSelectionName">
+			var username = "";
+			var sel = left.table_users.getSelection();
+			var dp = sel[0];
+			var username = dp.xpathQuery("username/text()");
+			return username;
+		</method>
+		<method name="reset">
+			right_new.information.edittexts.username.setAttribute("text", "");
+			right_new.information.edittexts.email.setAttribute("text", "");
+			right_new.information.edittexts.firstname.setAttribute("text", "");
+			right_new.information.edittexts.lastname.setAttribute("text", "");
+			right_new.information.edittexts.location.setAttribute("text", "");
+			right_new.information.edittexts.pass1.setAttribute("text", "");
+			right_new.information.edittexts.pass2.setAttribute("text", "");
+			right_update.pass.pass1.setAttribute("text", "");
+			right_update.pass.pass2.setAttribute("text", "");
+		</method>
+	</class>
+</library>

@@ -1,0 +1,20 @@
+<library>
+	<class name="printView">
+		<window name="windowPrint" height="300" width="300" resizable="true" closeable="true" clickable="false" >
+			<text name="textPrint" multiline="true" height="${parent.height-80}" width="${parent.width-50}" bgcolor="red" align="center" valign="middle" />
+		<handler name="onclick">
+			textPrint.setSelection(0, textPrint, textPrint.getText().length);
+		</handler>
+		</window>
+		<method name="setText" args="text">
+			windowPrint.textPrint.setAttribute("text", text);
+		</method>
+		<method name="setSize" args="h, w">
+			windowPrint.setAttribute("height", h);
+			windowPrint.setAttribute("width", w);
+		</method>
+		<method name="setTitle" args="text">
+			windowPrint.setAttribute("title", text);
+		</method>
+	</class>
+</library>

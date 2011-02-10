@@ -1,0 +1,70 @@
+<library>	
+	<class name="rooms" extends="view">
+		<view name="main" height="200">
+			<simplelayout axis="y" spacing="5"></simplelayout>
+			<button name="create" datapath="dsetLang:/language/string[@id='26']" text="$path{'value/text()'}" width="200">
+				<handler name="onclick">
+					classroot.main.windowCreate.animate("visible", true, 1000);
+					classroot.main.create.setAttribute("enabled", false);
+					roomListView.setAttribute("visible", false);
+					lz.Focus.setFocus(classroot.main.windowCreate.roomname);
+				</handler>
+			</button>
+			<view name="windowCreate" visible="false">
+				<simplelayout axis="y" spacing="5"></simplelayout>
+				<text datapath="dsetLang:/language/string[@id='41']" text="$path{'value/text()'}"></text>
+				<edittext name="roomname" ></edittext>
+				<checkbox name="is_public" datapath="dsetLang:/language/string[@id='45']" text="$path{'value/text()'}" value="true"></checkbox>
+				<text datapath="dsetLang:/language/string[@id='51']" text="$path{'value/text()'}" visible="${!parent.is_public.value}"></text>
+				<edittext name="password" password="true" visible="${!parent.is_public.value}"></edittext>
+				<view name="buttons">
+					<simplelayout axis="x" spacing="2" />
+					<button name="buttonCreate" datapath="dsetLang:/language/string[@id='76']" text="$path{'value/text()'}">
+						<handler name="onclick">
+							classroot.main.windowCreate.animate("visible", false, 10);
+							classroot.main.create.setAttribute("enabled", true);
+							//Roomservice..
+							var isPublic = classroot.main.windowCreate.is_public.value;
+							var roomname = classroot.main.windowCreate.roomname.value;
+							var password = "";
+							var hashpasswd = "";
+							//Private room password and hash..
+							if (isPublic == false) {
+								password = classroot.main.windowCreate.password.value;
+								hashpasswd = hex_md5(password);
+							}
+							conn._nc.call("roomservice.addRoom", conn.responder, roomname, hashpasswd, isPublic);
+							
+							
+							
+							roomListView.setAttribute("visible", true);
+							//reset edittexts..
+							classroot.main.windowCreate.roomname.clearText();
+							classroot.main.windowCreate.password.clearText();
+							classroot.main.windowCreate.is_public.setValue("true");
+						</handler>
+					</button>
+					<button name="buttonClose" text="X">
+						<handler name="onclick">
+							classroot.main.windowCreate.animate("visible", false, 10);
+							classroot.main.create.setAttribute("enabled", true);
+							roomListView.setAttribute("visible", true);
+							//reset edittexts..
+							classroot.main.windowCreate.roomname.clearText();
+							classroot.main.windowCreate.password.clearText();
+							classroot.main.windowCreate.is_public.setValue("true");
+						</handler>
+					</button>
+				</view>
+			</view>
+			<roomList id="roomListView"></roomList>
+			<planMeetingView id="planMeetingView" visible="false"></planMeetingView>
+		</view>
+		<command name="esc" key="['ESC']" active="${classroot.main.windowCreate.visible}">
+			<handler name="onselect">
+				classroot.main.windowCreate.buttons.buttonClose.doEnterDown();
+				classroot.main.windowCreate.buttons.buttonClose.doEnterUp();
+			</handler>  
+		</command>
+	</class>
+</library>

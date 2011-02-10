@@ -1,0 +1,206 @@
+<library>
+	<script src="md5.js" />
+	<class name="registerNewUser" extends="window" datapath="dsetLang:/language/string[@id='3']" title="$path{'value/text()'}">
+		<switch>
+			<when property="$as3">
+				<passthrough>
+					import flash.net.*;
+				</passthrough>
+			</when>
+		</switch>
+		<attribute name="hash" type="string"/>
+		<attribute name="width" value="300"/>
+		<attribute name="responder" /><!--responder for the server side-->
+		<validation name="validation" />
+		<!--attribute represents the availability of the requested username -->
+		<attribute name="availableUsername" type="boolean" value="false"/>
+		<attribute name="user" value="null" />
+		<attribute name="registerAlert" value="null"/>
+		<attribute name="error" type="string" value="null"/>
+		<text name="duplicateUsername" datapath="dsetLang:/language/string[@id='24']" text="$path{'value/text()'}"  
+			visible="false"/>
+		
+		<simplelayout spacing="20" />
+		<view name="registerAttributes">
+			<simplelayout spacing="15" axis="x"/>
+			<view layout="axis:y; spacing:15" yoffset="-5" xoffset="-5">
+				<text datapath="dsetLang:/language/string[@id='6']" text="$path{'value/text()'}" />
+				<text datapath="dsetLang:/language/string[@id='4']" text="$path{'value/text()'}" />		
+				<text datapath="dsetLang:/language/string[@id='5']" text="$path{'value/text()'}" />
+				<text datapath="dsetLang:/language/string[@id='7']" text="$path{'value/text()'}" />
+				<text datapath="dsetLang:/language/string[@id='8']" text="$path{'value/text()'}" />
+				<text datapath="dsetLang:/language/string[@id='9']" text="$path{'value/text()'}" />		
+				<text datapath="dsetLang:/language/string[@id='10']" text="$path{'value/text()'}" />
+				<text datapath="dsetLang:/language/string[@id='11']" text="$path{'value/text()'}" />	
+			</view>		
+			<view name="registerValuesView" layout="axis:y; spacing:6" yoffset="-5" >
+				<attribute name="elementsWidth" value="150"/>
+				<!--combobox for the language selection
+					through this combobox implementation application text is being changed dynamically 
+					usage : setting the text property of button with the text of "value" node, which one's id="2" (login) 
+					<button name="myButton" datapath="dsetLang:/language/string[@id='2']" text="$path{'value/text()'}">
+					-->
+				<languageSelector id="registerLanguage" width="${parent.elementsWidth}" 
+					onselect="langSelector.select(this.getSelection());"/>
+				<edittext name="username" width="${parent.elementsWidth}" />
+				<edittext name="password" width="${parent.elementsWidth}"  password="true"/>
+				<edittext name="passwordRe" width="${parent.elementsWidth}" password="true"/>
+				<edittext name="firstName" width="${parent.elementsWidth}" />
+				<edittext name="lastName" width="${parent.elementsWidth}" />		
+				<edittext name="email" width="${parent.elementsWidth}" />
+				<combobox name="location" y="${this.y+5}" width="${parent.elementsWidth}" editable="false">
+					<textlistitem text="Turkey" />
+					<textlistitem text="England" />
+					<textlistitem text="Germany" />
+					<textlistitem text="ABD" />
+				</combobox>			
+			</view>
+		</view>
+		
+		<!---button view of the register window-->
+		<view layout="axis:x; spacing:20" align="center">
+			<button name="registerButton" datapath="dsetLang:/language/string[@id='3']" text="$path{'value/text()'}">
+				<handler name="onclick">
+					classroot.registerOperation();
+				</handler>
+			</button>
+			
+			<button name="cancelButton" datapath="dsetLang:/language/string[@id='12']" text="$path{'value/text()'}">
+				<handler name="onclick">
+					classroot.cancel();
+				</handler>			
+			</button>
+		</view>		
+		
+		<method name="registerOperation">
+			var username = this.getUsername();
+			var password = this.getPassword();
+			var passwordRe = this.getPasswordRe();
+			var firstname = this.getFirstname();
+			var lastname = this.getLastname();
+			var email = this.getMail();
+			var location = this.getLocation();
+			//var form = [username, password, passwordRe, firstname, lastname,
+			//		email];					
+			var form= new Object;
+			form['username']= username;
+			form['firstname']= firstname;
+			form['lastname']= lastname;
+			form['password']= password;
+			form['passwordRe']= passwordRe;
+			form['email']= email;
+			form['location']= location;
+			if (conn.connected) {
+				if (this.validation.validate(form)) {
+					/*Debug.info('Username : %w', username);
+					Debug.info('Firstname : %w', firstname);
+					Debug.info('Lastname : %w', lastname);
+					Debug.info('Email : %w', email);
+					Debug.info('Location : %w', location);*/
+					//md5 hash of the password that will be saved to the database like that form
+					hash = hex_md5(this.getPassword());
+					user = [username, hash, firstname, lastname, email,
+							location];
+					//Debug.debug("md5  %w : %w", password, hash);
+					this.checkUserAvailability(username);
+				}
+			}
+			else {
+				Debug.warn("Check the connection with the server application!");
+				notificationWindow.addMessage("warn","Check the connection with the server application!");
+			}
+		</method>
+		
+		<!--getters-->
+		<method name="getUsername">
+			return registerAttributes.registerValuesView.username.text;
+		</method>
+		
+		<method name="getPassword">
+			return registerAttributes.registerValuesView.password.text;
+		</method>
+		
+		<method name="getPasswordRe">
+			return registerAttributes.registerValuesView.passwordRe.text;
+		</method>
+		
+		<method name="getFirstname">
+			return registerAttributes.registerValuesView.firstName.text;
+		</method>
+		
+		<method name="getLastname">
+			return registerAttributes.registerValuesView.lastName.text;
+		</method>
+		
+		<method name="getMail">
+			return registerAttributes.registerValuesView.email.text;
+		</method>
+		
+		<method name="getLocation">
+			return registerAttributes.registerValuesView.location.text;
+		</method>
+		<!--method that can be overriden by other classes when the Cancel button is clicked-->
+		<method name="cancel" /> 
+		<handler name="ondestroy">
+			//Debug.info("destroy handler for register window");
+		</handler>
+		
+		<!--listening connected attribute of the connection-->
+		<handler name="onstage" reference="conn">
+			if (conn.stage == 2) {
+				responder = new Responder(this.responderResult,
+						this.responderStatus);
+			}
+		</handler>		
+		
+		<method name="responderResult" args="returnvalue">
+			/**
+			 * @param returnvalue indicates duplicate username
+			 * @return boolean  true: duplicate username , false: available username 
+			 */
+			
+			if (returnvalue) {
+				Debug.error("username is in use");
+				notificationWindow.addMessage("error","username is in use");
+				this.setAttribute('availableUsername', false);
+				error = duplicateUsername.text;
+				var registerAlert = new lz.alert(canvas, {
+							text : error,
+							stretches : 'both'
+						});
+				registerAlert.open();
+				return;
+				//enterConference();
+			} else if (!returnvalue) {
+				Debug.info("username is available");
+				notificationWindow.addMessage("info","username is available");
+				Debug.info("saving user informations to the database...");
+				notificationWindow.addMessage("info","saving user informations to the database...");
+				this.setAttribute('availableUsername', true);
+				this.saveToDatabase();
+			}
+		</method>
+		
+		<method name="responderStatus" args="returnvalue">
+			Debug.write("onStatus:" + returnvalue.toString);
+			notificationWindow.addMessage("info",returnvalue);
+		</method>
+		
+		<!--check database whether the requested username is available to use-->
+		<method name="checkUserAvailability" args="username">
+			conn._nc.call("databaseservice.checkDuplicateUser", this.responder,
+					username);
+		</method>
+
+		<method name="saveToDatabase">
+			var user2 = [this.getUsername(), hash, this.getFirstname(), this.getLastname(), this.getMail(), this.getLocation()];
+			conn._nc.call("databaseservice.saveToDatabase", null, user2);
+			var username = this.getUsername();
+			var password = this.getPassword();
+			//setting login windows fields with the typed username and password 
+			usernameLogin.setAttribute('text', username);
+			passwordLogin.setAttribute('text', password);
+		</method>
+		
+	</class>	
+</library>

@@ -1,0 +1,28 @@
+<library>
+	<include href="roomSubs.lzx"/>
+
+	<class name="roomSubscribers" extends="view">
+		<view name="main" width="100%" height="100%" clip="true">
+			<scrollbar/>
+			
+			<view id="allsubs" name="subscribers" align="center" >
+				<attribute name="mylist"/>
+				<handler name="oninit">
+					this.mylist = new Array();
+				</handler>
+				<wrappinglayout name="myLayout" axis="x" spacing="4"/>
+				<view name="hr" width="${classroot.main.width}" height="1"></view>
+			</view>
+			
+		</view>
+		<method name="createSubs" args="name">
+			var s = new lz.roomSubs(main.subscribers, {
+						"height" : 152,
+						"width" : 130,
+						"title" : name
+					});
+			s.main.main2.body.mySub.playStream(name);
+			allsubs.mylist.push(s);
+		</method>
+	</class>
+</library>

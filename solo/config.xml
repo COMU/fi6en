@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!--
+	type of the connection protocol
+	Acceptable types: rtmp, rtmpt and rtmps
+	-->
+	<connectiontype>rtmp</connectiontype>
+	<!--
+	host name/ip for fi6en server application.
+	client application attempts to connect the server application on this host
+	example: 
+	127.0.0.1 or localhost
+	-->
+	<host>localhost</host>
+	<!--
+	fi6en red5 application rtmp port
+	see: $RED5_HOME/conf/red5.properties  
+	-->
+	<rtmpport>1935</rtmpport>
+	<!--
+	fi6en red5 application rtmpt port
+	see: $RED5_HOME/conf/red5.properties  
+	-->
+	<rtmptport>8088</rtmptport>
+	<!--
+	fi6en red5 application rtmpt port
+	see: $RED5_HOME/conf/red5.properties  
+	-->
+	<rtmpsport>8443</rtmpsport>
+	<!--
+	fi6en red5 application http port
+	see: $RED5_HOME/conf/red5.properties
+	-->
+	<httpport>5080</httpport>
+	<!--
+	webAppRootKey for the server application
+	-->
+	<webapprootkey>fi6en</webapprootkey>
+	<!--
+	Url where Fi6en client application locates:
+	example:
+	http://fi6en.comu.edu.tr/fi6en
+	http://localhost:8080/lps-4.7.2/client/videoconference.lzx?lzr=swf10
+	-->
+	<appurl>http://localhost:8080/lps-4.8.0/workspace_laszlo/client/videoconference.lzx?lzr=swf10</appurl>
+	<roomlist>http://localhost:5080/fi6en/roomlist</roomlist>
+	<roomprofile>http://localhost:5080/fi6en/getuser</roomprofile>
+	<roominvite>http://localhost:5080/fi6en/userlist</roominvite>
+	<filelist>http://localhost:5080/fi6en/FileListServlet</filelist>
+	<fileupload>http://localhost:5080/fi6en/MyServlet?roomname=</fileupload>
+	<filebase>http://localhost:5080/fi6en/</filebase>
+	<roomuserlist>http://localhost:5080/fi6en/userlist</roomuserlist>
+	<chatuserlist>http://localhost:5080/fi6en/userlist</chatuserlist>
+	<deskshare>http://localhost:5080/fi6en/jnlp</deskshare>
+	<adminroomlist>http://localhost:5080/fi6en/roomlist</adminroomlist>
+	<adminroomget>http://localhost:5080/fi6en/getroom</adminroomget>
+	<adminuserlist>http://localhost:5080/fi6en/allusers</adminuserlist>
+	<adminuserget>http://localhost:5080/fi6en/getuser</adminuserget>
+</config>

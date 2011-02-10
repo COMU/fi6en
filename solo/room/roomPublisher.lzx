@@ -1,0 +1,82 @@
+<library>
+	<include href="../remote/netStream.lzx" />
+	<!--class for a publisher view : publishing video and recording-->
+	<class name="roomPublisher" extends="view">
+		<attribute name="align" value="center"/>
+		<attribute name="valign" value="middle"/>
+		<microphone name="micc" capturing="true" silencelevel="30" gain="40"/>
+		<camera name="camm" capturing="false" />	
+		<!--netStream object for publish operation-->
+		<netStream name="streamPublish" type="rtmp" rtmp="${conn}"/>
+		
+		<!--view for video and recording-->
+		<view name="broadcastView" height="${classroot.height}" width="${classroot.width}">			
+			<simplelayout spacing="10" />
+			<videoview name="broadcasting" width="256" height="256" type="rtmp"> 
+				<camera name="mycam" />
+			</videoview>
+			<button id="stopbutton" name="stopbutton" datapath="dsetLang:/language/string[@id='80']" text="$path{'value/text()'}" width="256" height="32" visible="false" onclick="classroot.stopPublishing()">
+				<image src="resources/icons/broadcast.png"></image>
+				<image src="resources/icons/stop.png" align="right" valign="middle"></image>
+			</button>
+			<button name="button_desktop" height="32" width="256" datapath="dsetLang:/language/string[@id='81']" text="$path{'value/text()'}" visible="false">
+							<image src="resources/icons/desktop.png"></image>
+							<image src="resources/icons/play.png" align="right" valign="middle"></image>
+							<handler name="onclick">
+								<![CDATA[
+								var datapntr = dsetConf.getPointer();
+								
+								var url = datapntr.xpathQuery('config/deskshare/text()');
+								var host = datapntr.xpathQuery('config/host/text()');
+								var name = "deskshare-" + loginScreen.getUsername();
+								var scope = "fi6en/" + roomScreen2.getRoomName();
+								url = url + "?url=" + host;
+								url = url + "&name=" +name;
+								url = url + "&scope=" + scope;
+								lz.Browser.loadURL(url, '_blank');
+								]]>
+							</handler>
+				</button>
+		</view>	
+			
+		<!--publish video-->
+		<method name="publish" args="streamName">			
+			streamPublish.setAttribute("url", streamName);
+			streamPublish.setAttribute("mic", micc);
+			streamPublish.setAttribute("cam", camm);
+			camm.setMode(256, 256, 15, false);
+			camm.setQuality(32768, 0);
+			micc.setAttribute("silencelevel",5);
+			broadcastView.broadcasting.mycam.setAttribute("show",true);
+			broadcastView.broadcasting.setAttribute("visible", true);
+			broadcastView.stopbutton.setAttribute("visible", true);
+			broadcastView.button_desktop.setAttribute("visible", true);
+			myShareEnter.setAttribute("visible", false);
+			streamPublish.broadcast();
+			Debug.info("started broadcasting:", streamPublish.url);
+			chatScreen.soChat.send("writeInfo",loginScreen.getUsername()+" started broadcasting");
+			conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), true);
+		</method>
+		<!--stops publishing video-->
+		<method name="stopPublishing">
+			streamPublish._flashstream.close();
+			streamPublish.stop();
+			//streamPublish.setAttribute('publishing', false);
+			broadcastView.broadcasting.mycam.setAttribute('show', false);
+			broadcastView.broadcasting.setAttribute("visible", false);
+			broadcastView.stopbutton.setAttribute("visible", false);
+			broadcastView.button_desktop.setAttribute("visible", false);
+			myShareEnter.setAttribute("visible", true);
+			conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), false);
+		</method>
+		<method name="reset">
+			broadcastView.broadcasting.mycam.setAttribute('show', false);
+			broadcastView.broadcasting.setAttribute("visible", false);
+			broadcastView.stopbutton.setAttribute("visible", false);
+			broadcastView.button_desktop.setAttribute("visible", false);
+			myShareEnter.setAttribute("visible", true);
+			conn._nc.call("roomservice.setUserBroadcast", conn.responder, loginScreen.getUsername(), false);
+		</method>
+	</class>
+	
+</library>

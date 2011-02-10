@@ -1,0 +1,283 @@
+<language>
+	<string id="1" name="submit">
+		<value>Gönder</value>
+	</string>
+	<string id="2" name="login">
+		<value>Giriş</value>
+	</string>
+	<string id="3" name="register">
+		<value>Kaydol</value>
+	</string>
+	<string id="4" name="username">
+		<value>Kullanıcı Adı</value>
+	</string>	
+	<string id="5" name="password">
+		<value>Parola</value>
+	</string>
+	<string id="6" name="language">
+		<value>Dil</value>
+	</string>
+	<string id="7" name="passwordRE">
+		<value>Parola (Tekrar)</value>
+	</string>
+	<string id="8" name="firstname">
+		<value>İsim</value>
+	</string>
+	<string id="9" name="lastname">
+		<value>Soyisim</value>
+	</string>
+	<string id="10" name="email">
+		<value>E-posta</value>
+	</string>
+	<string id="11" name="location">
+		<value>Yerleşim</value>
+	</string>
+	<string id="12" name="cancel">
+		<value>İptal</value>
+	</string>
+	
+	<string id="13" name="cancel">
+		<value>Lütfen tüm alanları doldurunuz ! </value>
+	</string>
+	<string id="14" name="cancel">
+		<value>Parolalar eşleşmiyor ! </value>
+	</string>
+	<string id="15" name="cancel">
+		<value>Geçersiz E-posta adresi ! </value>
+	</string>
+	<string id="16" name="show_my_cam">
+		<value>Kameramı Göster</value>
+	</string>
+	<string id="17" name="show_user_cam">
+		<value>Yayını İzle</value>
+	</string>
+	<string id="18" name="send">
+		<value>Gönder</value>
+	</string>
+	<string id="19" name="clear">
+		<value>Temizle</value>
+	</string>
+	<string id="20" name="clear_message_history">
+		<value>Konuşma Geçmişini Temizle</value>
+	</string>
+	<string id="21" name="logout">
+		<value>Oturumu Kapat</value>
+	</string>
+	<string id="22" name="users">
+		<value>KULLANICILAR</value>
+	</string>		
+	<string id="23" name="incorrect_user_pass">
+		<value>Yanlış Kullanıcı Adı veya Parola ! </value>
+	</string>			
+	<string id="24" name="duplicate_username">
+		<value>Kullanıcı adı başka biri tarafından kullanılıyor ! </value>
+	</string>	
+	<string id="25" name="stop_my_cam">
+		<value>Kameramı Durdur</value>
+	</string>
+	<string id="26" name="create_room">
+		<value>Oda Oluştur</value>
+	</string>
+	<string id="27" name="back_to_lobby">
+		<value>Lobiye Dön</value>
+	</string>
+	<string id="28" name="start_recording">
+		<value>Kayıt</value>
+	</string>
+	<string id="29" name="stop_recording">
+		<value>Kaydı Durdur</value>
+	</string>
+	<string id="30" name="play">
+		<value>Oynat</value>
+	</string>
+	<string id="31" name="pause">
+		<value>Durdur</value>
+	</string>
+	<string id="32" name="stop">
+		<value>Durdur</value>
+	</string>
+	<string id="33" name="welcome">
+		<value>Hoşgeldiniz</value>
+	</string>
+	<string id="34" name="stop_playing">
+		<value>Oynatmayı Durdur</value>
+	</string>	
+	<string id="35" name="lobby">
+		<value>Lobi</value>
+	</string>
+	<string id="36" name="rooms">
+		<value>Konferans Planla</value>
+	</string>
+	<string id="37" name="records">
+		<value>Kayıtlar</value>
+	</string>
+	<string id="38" name="profile">
+		<value>Profil</value>
+	</string>
+	<string id="39" name="notification_window">
+		<value>Bildirim Penceresi</value>
+	</string>
+	<string id="40">
+		<value>Odayı Güncelle</value>
+	</string>
+	<string id="41">
+		<value>Oda Adı:</value>
+	</string>
+	<string id="42">
+		<value>Açıklama:</value>
+	</string>
+	<string id="43">
+		<value>Açılış Saati:</value>
+	</string>
+	<string id="44">
+		<value>Kapanış Saati:</value>
+	</string>
+	<string id="45">
+		<value>Korumasız:</value>
+	</string>
+	<string id="46">
+		<value>Açık:</value>
+	</string>
+	<string id="47">
+		<value>Parolayı Değiştir:</value>
+	</string>
+	<string id="48">
+		<value>Yeniden Gir:</value>
+	</string>
+	<string id="49">
+		<value>Kaydet</value>
+	</string>
+	<string id="50">
+		<value>Yeni Oda Ekle</value>
+	</string>
+	<string id="51">
+		<value>Parola:</value>
+	</string>
+	<string id="52">
+		<value>Kullanıcıyı Güncelle</value>
+	</string>
+	<string id="53">
+		<value>Kullanıcı Adı:</value>
+	</string>
+	<string id="54">
+		<value>E-Posta:</value>
+	</string>
+	<string id="55">
+		<value>İsim:</value>
+	</string>
+	<string id="56">
+		<value>Soyisim:</value>
+	</string>
+	<string id="57">
+		<value>Yerleşim:</value>
+	</string>
+	<string id="58">
+		<value>Yeni Kullanıcı Ekle</value>
+	</string>
+	<string id="59">
+		<value>Kullanıcılar</value>
+	</string>
+	<string id="60">
+		<value>Odalar</value>
+	</string>
+	<string id="61">
+		<value>Çıkış</value>
+	</string>
+	<string id="62">
+		<value>Yayını İzle</value>
+	</string>
+	<string id="63">
+		<value>Dosya Yükle</value>
+	</string>
+	<string id="64">
+		<value>Dosya Tipi</value>
+	</string>
+	<string id="65">
+		<value>Göster</value>
+	</string>
+	<string id="66">
+		<value>Yükle</value>
+	</string>
+	<string id="67">
+		<value>Dosya Seç. (Maks 2MB)</value>
+	</string>
+	<string id="68">
+		<value>Yükleniyor...</value>
+	</string>
+	<string id="69">
+		<value>Dosyalar</value>
+	</string>
+	<string id="70">
+		<value>Profil</value>
+	</string>
+	<string id="71">
+		<value>Kamera ve Ekran Paylaşımı</value>
+	</string>
+	<string id="72">
+		<value>Yayınlar</value>
+	</string>
+	<string id="73">
+		<value>Not Al</value>
+	</string>
+	<string id="74">
+		<value>Çizim Yap</value>
+	</string>
+	<string id="75">
+		<value>Tarih:</value>
+	</string>
+	<string id="76">
+		<value>Oluştur</value>
+	</string>
+	<string id="77">
+		<value>Gönder</value>
+	</string>
+	<string id="78">
+		<value>İsimli odadan davet edildiniz. Girmek İstiyormusunuz?</value>
+	</string>
+	<string id="79">
+		<value>Yanlış Parola.</value>
+	</string>
+	<string id="80">
+		<value>Yayını Durdur</value>
+	</string>
+	<string id="81">
+		<value>Ekran Paylaşımını Başlat</value>
+	</string>
+	<string id="82">
+		<value>Kamera Seç:</value>
+	</string>
+	<string id="83">
+		<value>Mikrofon Seç:</value>
+	</string>
+	<string id="84">
+		<value>Yayını Başlat</value>
+	</string>
+	<string id="85">
+		<value>Yayını İzle</value>
+	</string>
+	<string id="86">
+		<value>Ekran Paylaşımını İzle</value>
+	</string>
+	<string id="87">
+		<value>Kullanıcıyı Odadan At</value>
+	</string>
+	<string id="88">
+		<value>Kullanıcıyı Moderator Yap</value>
+	</string>
+	<string id="89">
+		<value>Davet</value>
+	</string>
+	<string id="90">
+		<value>Kullanıcıyı Davet Et</value>
+	</string>
+	<string id="91">
+		<value>Moderator tarafından odadan atıldınız.</value>
+	</string>
+	<string id="92">
+		<value>Notlar</value>
+	</string>
+	<string id="93">
+		<value>Beyaz Tahta</value>
+	</string>
+			
+</language>
