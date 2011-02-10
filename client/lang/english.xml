@@ -242,5 +242,15 @@
 	<string id="81">
 		<value>Start Screen Sharing</value>
 	</string>
+	<string id="82">
+		<value>Choose Webcam:</value>
+	</string>
+	<string id="83">
+		<value>Choose Microphone</value>
+	</string>
+	<string id="84">
+		<value>Start Broadcast</value>
+	</string>
+	
 	
 </language>

@@ -243,5 +243,14 @@
 	<string id="81">
 		<value>Ekran Paylaşımını Başlat</value>
 	</string>
+	<string id="82">
+		<value>Kamera Seç:</value>
+	</string>
+	<string id="83">
+		<value>Mikrofon Seç:</value>
+	</string>
+	<string id="84">
+		<value>Yayına Başla</value>
+	</string>
 			
 </language>
