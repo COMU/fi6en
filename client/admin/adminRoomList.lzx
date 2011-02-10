@@ -129,7 +129,7 @@
 					<text datapath="dsetLang:/language/string[@id='42']" text="$path{'value/text()'}"></text>
 					<text visible="false">Public:</text>
 					<text visible="false">Open:</text>
-					<text datapath="dsetLang:/language/string[@id='42']" text="$path{'value/text()'}"></text>
+					<text datapath="dsetLang:/language/string[@id='51']" text="$path{'value/text()'}"></text>
 					<text datapath="dsetLang:/language/string[@id='48']" text="$path{'value/text()'}">Re-Type:</text>
 					<button datapath="dsetLang:/language/string[@id='49']" text="$path{'value/text()'}">
 						<handler name="onclick">
