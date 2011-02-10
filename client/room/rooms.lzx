@@ -2,7 +2,7 @@
 	<class name="rooms" extends="view">
 		<view name="main" height="200">
 			<simplelayout axis="y" spacing="5"></simplelayout>
-			<button name="create" text="Oda Oluştur" width="200">
+			<button name="create" datapath="dsetLang:/language/string[@id='26']" text="$path{'value/text()'}" width="200">
 				<handler name="onclick">
 					classroot.main.windowCreate.animate("visible", true, 1000);
 					classroot.main.create.setAttribute("enabled", false);
@@ -12,14 +12,14 @@
 			</button>
 			<view name="windowCreate" visible="false">
 				<simplelayout axis="y" spacing="5"></simplelayout>
-				<text text="Oda Adı:"></text>
+				<text datapath="dsetLang:/language/string[@id='41']" text="$path{'value/text()'}"></text>
 				<edittext name="roomname" ></edittext>
-				<checkbox name="is_public" text="Public" value="true"></checkbox>
-				<text text="Parola:" visible="${!parent.is_public.value}"></text>
+				<checkbox name="is_public" datapath="dsetLang:/language/string[@id='45']" text="$path{'value/text()'}" value="true"></checkbox>
+				<text datapath="dsetLang:/language/string[@id='51']" text="$path{'value/text()'}" visible="${!parent.is_public.value}"></text>
 				<edittext name="password" password="true" visible="${!parent.is_public.value}"></edittext>
 				<view name="buttons">
 					<simplelayout axis="x" spacing="2" />
-					<button name="buttonCreate" text="Oluştur">
+					<button name="buttonCreate" datapath="dsetLang:/language/string[@id='76']" text="$path{'value/text()'}">
 						<handler name="onclick">
 							classroot.main.windowCreate.animate("visible", false, 10);
 							classroot.main.create.setAttribute("enabled", true);
