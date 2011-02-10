@@ -10,19 +10,19 @@
 		<simplelayout axis="y" spacing="2"></simplelayout>
 		<menubar name="mymenubar" width="100%">
 			<menu name="menu" text="Menu">
-				<menuitem text="Users">
+				<menuitem datapath="dsetLang:/language/string[@id='59']" text="$path{'value/text()'}">
 					<handler name="onselect">
 						adminUserMenu.setAttribute("visible", true);
 						adminRoomMenu.setAttribute("visible", false);
 					</handler>
 				</menuitem>
-				<menuitem text="Rooms">
+				<menuitem datapath="dsetLang:/language/string[@id='60']" text="$path{'value/text()'}">
 					<handler name="onselect">
 						adminUserMenu.setAttribute("visible", false);
 						adminRoomMenu.setAttribute("visible", true);
 					</handler>
 				</menuitem>
-				<menuitem text="Exit">
+				<menuitem datapath="dsetLang:/language/string[@id='61']" text="$path{'value/text()'}">
 					<handler name="onselect">
 					<![CDATA[
 						var location = dsetConf.getPointer()
