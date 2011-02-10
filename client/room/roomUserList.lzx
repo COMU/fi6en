@@ -16,6 +16,7 @@
 							var isb = roomUserList.isUserBroadcast(username);
 							if (isb) {
 								myRoomSubs.createSubs(username);
+								center_tabslider.tab_streams.setAttribute("selected", true);
 							}
 						</handler>
 					</menuitem>

@@ -1,7 +1,6 @@
 <!--main application-->
-<canvas width="100%" height="100%" title="Fi6en" debug="true">
-	<include href="library.lzx"/>	
-	<debug width="400" height="230" align="right" valign="bottom"/>
+<canvas width="100%" height="100%" title="Fi6en" debug="false">
+	<include href="library.lzx"/>
 	<debuggerWindow id="notificationWindow" width="350" height="120" 
 					align="right" valign="bottom" closeable="true"/>
 	<font name="mainFi6enFont" src="./fonts/Clerica.ttf"/>

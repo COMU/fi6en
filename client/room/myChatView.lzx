@@ -54,7 +54,7 @@
 					<image src="resources/icons/user_normal.png" height="24" width="24" align="right" valign="middle"></image>
 					<text name="username2" align="right" y="5" text="1232321"></text>
 				</view>
-				<tabslider name="center_tabslider" height="100%" width="100%" y="28">
+				<tabslider id="center_tabslider" name="center_tabslider" height="100%" width="100%" y="28">
 					<tabelement name="tab_broadcast" datapath="dsetLang:/language/string[@id='71']" text="$path{'value/text()'}" height="300"  selected="true">
 						<simplelayout axis="y" spacing="5"></simplelayout>
 						<roomSharingEnter id="myShareEnter" height="100%" width="100%"></roomSharingEnter>
