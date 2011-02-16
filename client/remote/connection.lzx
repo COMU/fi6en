@@ -17,7 +17,7 @@
 		</switch>
 		<attribute name="connected" type="boolean" value="false"/>
 		<attribute name="responder" /><!--responder for the server side-->
-		
+		<attribute name="counter" type="number" value="0"/>
 		<attribute name="type" type="text"/>
 		<attribute name="host" type="text"/>
 		<attribute name="port" type="text"/>
@@ -47,11 +47,17 @@
 		</handler>
 		<!--here is handling the rtmp connection-->		
 		<handler name="onstage" reference="this">
+			<![CDATA[
 			switch (this.stage) {
 				case 0 : 
 					Debug.info("Disconnected server application.");
 					notificationWindow.addMessage("info","Disconnected server application.");
-					this.connect();
+					
+					if (this.counter < 10) {
+						this.connect();
+						this.counter++;
+					}
+					
 					break;
 				case 1 : 
 					Debug.info("Connecting to the server application...");
@@ -63,6 +69,7 @@
 					this.setAttribute('connected',true);
 					break;
 			}
+			]]>
 		</handler>
 		
 		<!--closing the netconnection and shared objects-->
