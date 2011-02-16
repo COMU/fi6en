@@ -2,9 +2,20 @@
 	<include href="../remote/connection.lzx"></include>
 	<script src="../services/userservice/auth/md5.js"/>	
 	<class name="adminUserList">
-		<dataset name="dset" src="http://localhost:5080/fi6en/allusers" request="true" type="http">
+		<dataset name="dset" request="true" type="http">
+			<handler name="oninit">
+				var datapntr = dsetConf.getPointer();
+				this.setAttribute("src", datapntr
+								.xpathQuery('config/adminuserlist/text()'));
+			</handler>
 		</dataset>
-		<dataset name="dset2" src="http://localhost:5080/fi6en/getuser" request="true" type="http" />
+		<dataset name="dset2"  request="true" type="http" >
+			<handler name="oninit">
+				var datapntr = dsetConf.getPointer();
+				this.setAttribute("src", datapntr
+								.xpathQuery('config/adminuserget/text()'));
+			</handler>
+		</dataset>
 		<simplelayout axis="x" spacing="40"/>
 		<view name="left">
 			<grid name="table_users" datapath="local:classroot.dset:/users" height="400" width="250" contentdatapath="user" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">

@@ -134,6 +134,8 @@
 			var un = getUsername();
 			if (un == "admin") {
 				if (returnvalue) {
+					adminUserMenu.refreshList();
+					adminRoomMenu.refreshList();
 					adminView.setAttribute("visible", true);
 					return;
 				}

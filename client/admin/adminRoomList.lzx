@@ -3,8 +3,18 @@
 	<include href="planMeetingView.lzx"/>
 	<script src="../services/userservice/auth/md5.js"/>	
 	<class name="adminRoomList">
-		<dataset name="dset" src="http://localhost:5080/fi6en/roomlist" request="true" type="http" />
-		<dataset name="dset2" src="http://localhost:5080/fi6en/getroom" request="true" type="http" />
+		<dataset name="dset" request="true" type="http" >
+			<handler name="oninit">
+				var datapntr = dsetConf.getPointer();
+				this.setAttribute("src", datapntr.xpathQuery('config/adminroomlist/text()'));
+			</handler>
+		</dataset>
+		<dataset name="dset2" request="true" type="http" >
+			<handler name="oninit">
+				var datapntr2 = dsetConf.getPointer();
+				this.setAttribute("src", datapntr2.xpathQuery('config/adminroomget/text()'));
+			</handler>
+		</dataset>
 		<simplelayout axis="x" spacing="40"/>
 		<view name="left">
 			<grid name="table_users" datapath="local:classroot.dset:/rooms" height="400" width="250" contentdatapath="room" rowheight="32" layout="spacing:2;" showhscroll="false" bgcolor="white">

@@ -51,6 +51,7 @@
 				case 0 : 
 					Debug.info("Disconnected server application.");
 					notificationWindow.addMessage("info","Disconnected server application.");
+					this.connect();
 					break;
 				case 1 : 
 					Debug.info("Connecting to the server application...");
