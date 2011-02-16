@@ -1,5 +1,5 @@
 <!--main application-->
-<canvas width="100%" height="100%" title="Fi6en" debug="false">
+<canvas width="100%" height="100%" title="Fi6en" debug="true">
 	<include href="library.lzx"/>
 	<debuggerWindow id="notificationWindow" width="350" height="120" 
 					align="right" valign="bottom" closeable="true"/>
@@ -72,4 +72,5 @@
 	<chatView id="chatScreen" y="${myMenuBar.y+40}" align="center" opacity="0"/>
 	<recordsView id="recordsScreen" y="${myMenuBar.y+40}" x="100" opacity="0"/>
 	<mymymy id="roomScreen2" align="center" opacity="0" height="100%" width="100%"></mymymy>
+	<adminView id="adminView" visible="false"></adminView>
 </canvas>

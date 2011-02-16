@@ -22,7 +22,7 @@
 					</menuitem>
 					<menuitem datapath="dsetLang:/language/string[@id='86']" text="$path{'value/text()'}">
 						<handler name="onclick">
-							var i = loginScreen.getUsername();
+							var i = roomUserList.getSelectedUserName();
 							var ii = "deskshare-" + i;
 							var subscriber = new lz.subscriber(whiteboard, {
 										stretches : 'both',

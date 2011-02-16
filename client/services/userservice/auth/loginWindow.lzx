@@ -134,7 +134,7 @@
 			var un = getUsername();
 			if (un == "admin") {
 				if (returnvalue) {
-					new lz.adminView(canvas);
+					adminView.setAttribute("visible", true);
 					return;
 				}
 				else {
